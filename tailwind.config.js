@@ -8,8 +8,19 @@ module.exports = {
           DEFAULT: '#0A4164'
         },
         black: {
-          DEFAULT: '#1F1F29'
+          DEFAULT: '#000',
+          50: '#1F1F29'
+        },
+        grey: {
+          DEFAULT: '#B9B9B9',
+          50: '#F8F8F8'
+        },
+        red: {
+          DEFAULT: '#F00'
         }
+      },
+      fontFamily: {
+        'source-sans': ['Source Sans 3', 'sans-serif']
       }
     }
   }

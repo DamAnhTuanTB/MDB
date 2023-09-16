@@ -7,9 +7,6 @@ import { RecoilRoot } from 'recoil'
 
 import Meta from '@/components/common/meta'
 import Layout from '@/components/layouts'
-
-import 'react-toastify/dist/ReactToastify.css'
-
 import Root from '@/components/root'
 import '@/styles/global.scss'
 

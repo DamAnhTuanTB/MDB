@@ -9,6 +9,5 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
 
-  // font-family: 'Ubuntu', sans-serif;
-  @apply font-normal text-[14px] text-black;
+  @apply font-normal font-source-sans text-[14px] text-black-50;
 }

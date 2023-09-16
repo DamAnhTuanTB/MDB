@@ -4,11 +4,10 @@ import classNames from 'classnames'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { SelectOption } from '@/models'
+import styles from '@/styles/modules/form.module.scss'
 import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from '@/components/form/error-message'
-
-import styles from '@/styles/modules/form-input.module.scss'
 
 type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   name: string
@@ -19,7 +18,7 @@ type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   inputClassName?: string
 }
 
-const CustomSelect = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, ...others }: Props) => {
+const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, ...others }: Props) => {
   const { control, formState } = useFormContext()
   const hasError = handleInputError(name, formState.errors)
 
@@ -35,17 +34,17 @@ const CustomSelect = ({ name, label, showErrorMessage = true, placeholder, defau
   }, [options])
 
   return (
-    <div className={classNames(styles.formInput, className)}>
-      {label && <span className={styles.formInput__label}>{label}</span>}
+    <div className={classNames(styles.input, className)}>
+      {label && <span className={styles.input__label}>{label}</span>}
       <div className="relative w-full">
         <Controller
           name={name}
           control={control}
           defaultValue={defaultValue}
           render={({ field: { value, onChange, onBlur, ...otherProps } }) => (
-            <div className={styles.formInput__input__boundary}>
+            <div className={classNames(styles.input__boundary, '!bg-grey-50')}>
               <select
-                className={classNames(styles.formInput__input, { hasError: hasError }, inputClassName)}
+                className={classNames(styles.input__field, { hasError: hasError }, inputClassName)}
                 placeholder={placeholder}
                 onBlur={onBlur}
                 onChange={(e) => {
@@ -60,10 +59,15 @@ const CustomSelect = ({ name, label, showErrorMessage = true, placeholder, defau
             </div>
           )}
         />
-        <svg className={styles.formInput__expend} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="Expand_down">
-            <path id="Vector 9" d="M16.6641 6.66634L9.9974 13.333L3.33073 6.66634" stroke="#111111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg className={styles.input__expend} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <g clip-path="url(#clip0_608_6976)">
+            <path d="M7.41 8.59009L12 13.1701L16.59 8.59009L18 10.0001L12 16.0001L6 10.0001L7.41 8.59009Z" fill="#1F1F29" />
           </g>
+          <defs>
+            <clipPath id="clip0_608_6976">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
         </svg>
       </div>
       {showErrorMessage && <ErrorMessage name={name} formState={formState} />}
@@ -71,4 +75,4 @@ const CustomSelect = ({ name, label, showErrorMessage = true, placeholder, defau
   )
 }
 
-export default CustomSelect
+export default SelectField

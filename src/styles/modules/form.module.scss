@@ -1,0 +1,29 @@
+.input {
+  & + .input {
+    @apply mt-[15px];
+  }
+
+  &__label {
+    @apply text-base mb-2;
+  }
+
+  &__field {
+    @apply text-sm py-[10px] px-2 rounded outline-none w-full;
+  }
+
+  &__boundary {
+    @apply rounded bg-white border border-grey;
+  }
+
+  &__expend {
+    @apply w-5 h-5 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none;
+  }
+
+  select {
+    -moz-appearance: none; /* Firefox */
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
+
+    @apply pr-10 bg-transparent;
+  }
+}

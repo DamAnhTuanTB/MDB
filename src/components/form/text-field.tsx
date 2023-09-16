@@ -1,33 +1,29 @@
 import classNames from 'classnames'
 import { Controller, useFormContext } from 'react-hook-form'
 
+import styles from '@/styles/modules/form.module.scss'
 import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from './error-message'
 
-import styles from '@/styles/modules/form-input.module.scss'
-
 type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
   name: string
   label?: string
-  icon?: React.ReactNode
+  required?: boolean
   showErrorMessage?: boolean
   className?: string
   inputClassName?: string
   inptuId?: string
   inputRef?: any
   isError?: boolean
-  sizes?: 'small' | 'medium' | 'large'
   onInputChange?: (value: string) => void
 }
 
-const TextInput = ({
+const TextField = ({
   name,
   label,
-  icon,
-  showErrorMessage = true,
+  showErrorMessage = false,
   placeholder,
-  sizes = 'medium',
   type = 'text',
   defaultValue,
   isError = false,
@@ -35,6 +31,7 @@ const TextInput = ({
   inputClassName,
   inptuId,
   inputRef,
+  required,
   onInputChange,
   ...otherProps
 }: Props) => {
@@ -42,18 +39,22 @@ const TextInput = ({
   const hasError = handleInputError(name, formState.errors)
 
   return (
-    <div className={classNames(styles.formInput, className)}>
-      {label && <span className={classNames(styles.formInput__label, { [styles['error']]: hasError })}>{label}</span>}
-      {icon && <div className={classNames(styles.formInput__icon, { [styles['error']]: hasError })}>{icon}</div>}
+    <div className={classNames(styles.input, className)}>
+      {label && (
+        <p className={classNames(styles.input__label, { [styles['error']]: hasError })}>
+          {label}
+          {required && <span className="text-red">*</span>}
+        </p>
+      )}
       <Controller
         name={name}
         control={control}
         defaultValue={defaultValue}
         render={({ field: { value, onChange, onBlur, ...fields } }) => (
-          <div className={styles.formInput__input__boundary}>
+          <div className={styles.input__boundary}>
             <input
               id={inptuId}
-              className={classNames(styles.formInput__input, styles[sizes], { [styles['error']]: hasError || isError }, inputClassName)}
+              className={classNames(styles.input__field, { [styles['error']]: hasError || isError }, inputClassName)}
               type={type}
               placeholder={placeholder}
               onBlur={onBlur}
@@ -74,4 +75,4 @@ const TextInput = ({
   )
 }
 
-export default TextInput
+export default TextField
