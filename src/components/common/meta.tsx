@@ -28,12 +28,12 @@ const Meta: NextPage<Props> = ({ title, description, image, ogType, url, ogSiteN
 
       <meta name="description" content={description || config.description} />
 
-      <meta name="og:title" content={title || config.title} />
-      <meta name="og:description" content={description || config.description} />
-      <meta name="og:image" content={ogpImage} />
-      <meta name="og:image" content={ogType || 'website'} />
-      <meta name="og:image" content={url || config.url} />
-      <meta name="og:site_name" content={ogSiteName || config.title} />
+      <meta property="og:title" content={title || config.title} />
+      <meta property="og:description" content={description || config.description} />
+      <meta property="og:image" content={ogpImage} />
+      <meta property="og:image" content={ogType || 'website'} />
+      <meta property="og:image" content={url || config.url} />
+      <meta property="og:site_name" content={ogSiteName || config.title} />
 
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
