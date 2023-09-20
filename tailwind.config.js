@@ -38,7 +38,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        'source-sans': ['Source Sans 3', 'sans-serif']
+        montserrat: ['Montserrat', 'sans-serif']
       }
     }
   }

@@ -1,3 +1,9 @@
+import TopHead from './top-head'
+
 export default function Header() {
-  return <header>Header</header>
+  return (
+    <header>
+      <TopHead />
+    </header>
+  )
 }

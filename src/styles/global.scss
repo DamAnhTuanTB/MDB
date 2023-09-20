@@ -2,12 +2,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-:root {
-}
-
 body {
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
 
-  @apply font-normal font-source-sans text-[14px] text-black-50;
+  @apply font-normal font-montserrat text-[14px] text-black-50;
 }
