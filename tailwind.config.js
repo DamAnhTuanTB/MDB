@@ -38,11 +38,12 @@ module.exports = {
         },
         white: {
           DEFAULT: '#fff',
-          50: '#F5F5FA'
+          50: '#F5F5FA',
+          100: '#E3E3E3'
         }
       },
       fontFamily: {
-        'source-san': ['Source Sans 3', 'sans-serif']
+        'source-san': ['"Source Sans 3"', 'sans-serif']
       }
     }
   }
