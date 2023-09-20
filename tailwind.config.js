@@ -35,6 +35,10 @@ module.exports = {
         },
         red: {
           DEFAULT: '#F00'
+        },
+        white: {
+          DEFAULT: '#fff',
+          50: '#F5F5FA'
         }
       },
       fontFamily: {

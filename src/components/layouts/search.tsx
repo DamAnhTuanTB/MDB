@@ -19,7 +19,7 @@ export default function Search({ className }: Props) {
           <div className={styles.search__input__icon}>
             <Image src={'/images/icons/search.svg'} width={16} height={16} alt="My Dermbox" />
           </div>
-          <TextField width={'100%'} name="keyword" placeholder="Search for a product, brand, or keyword" inputClassName=" h-[32px] border-none pl-0" boundaryClassName="rounded-[8px]" />
+          <TextField width={'100%'} name="keyword" placeholder="Search for a product, brand, or keyword" inputClassName="h-[32px] lg:h-10 border-none pl-0" boundaryClassName="rounded-[8px]" />
         </div>
       </CustomForm>
     </div>

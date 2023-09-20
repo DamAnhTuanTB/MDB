@@ -18,7 +18,7 @@
 
   &__nav {
     @apply flex flex-row flex-nowrap items-center gap-4 mt-[6px];
-    @apply lg:mt-[17px] md:gap-6;
+    @apply lg:mt-[13px] md:gap-6;
 
     &__item {
       @apply w-4;
@@ -38,6 +38,7 @@
 
       img {
         @apply min-w-[16px];
+        @apply lg:min-w-[24px];
       }
     }
   }

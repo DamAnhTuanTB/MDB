@@ -25,7 +25,7 @@ export default function Header() {
         </Link>
 
         <div className={styles.content__nav}>
-          <Search className="hidden lg:block w-[440px]" />
+          <Search className="hidden lg:block w-[472px] mr-6" />
           <div className={styles.content__nav__item}>
             <Image src={'/images/icons/user.svg'} width={24} height={24} alt="My Dermbox" />
           </div>

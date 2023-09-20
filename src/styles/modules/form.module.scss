@@ -17,7 +17,7 @@
     @apply rounded bg-white overflow-hidden;
 
     input {
-      @apply border border-grey;
+      @apply border border-grey min-h-[32px];
     }
   }
 
