@@ -1,4 +1,6 @@
 .input {
+  @apply w-full;
+
   & + .input {
     @apply mt-[15px];
   }
@@ -8,11 +10,15 @@
   }
 
   &__field {
-    @apply text-sm py-[10px] px-2 rounded outline-none w-full;
+    @apply text-sm px-2 rounded outline-none w-full;
   }
 
   &__boundary {
-    @apply rounded bg-white border border-grey;
+    @apply rounded bg-white overflow-hidden;
+
+    input {
+      @apply border border-grey;
+    }
   }
 
   &__expend {

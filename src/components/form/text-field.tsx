@@ -13,6 +13,7 @@ type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
   showErrorMessage?: boolean
   className?: string
   inputClassName?: string
+  boundaryClassName?: string
   inptuId?: string
   inputRef?: any
   isError?: boolean
@@ -29,6 +30,7 @@ const TextField = ({
   isError = false,
   className,
   inputClassName,
+  boundaryClassName,
   inptuId,
   inputRef,
   required,
@@ -51,7 +53,7 @@ const TextField = ({
         control={control}
         defaultValue={defaultValue}
         render={({ field: { value, onChange, onBlur, ...fields } }) => (
-          <div className={styles.input__boundary}>
+          <div className={classNames(styles.input__boundary, boundaryClassName)}>
             <input
               id={inptuId}
               className={classNames(styles.input__field, { [styles['error']]: hasError || isError }, inputClassName)}
