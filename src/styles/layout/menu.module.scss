@@ -1,0 +1,37 @@
+.wrapper {
+  @apply fixed top-0 left-0 w-screen h-screen bg-transparent z-[99];
+  @apply transition-transform duration-300 transform -translate-x-full;
+
+  &.active {
+    @apply translate-x-0;
+  }
+
+  .close {
+    @apply absolute top-4 left-[272px] w-6 h-6 bg-[url(/images/icons/close.svg)] bg-contain bg-no-repeat z-10;
+  }
+
+  .content {
+    @apply relative w-full h-full max-w-[312px] pt-[65px] pb-10 px-6 bg-white overflow-auto;
+
+    &__nav {
+      @apply w-full;
+
+      &__item {
+        @apply text-[20px] font-semibold;
+
+        & + .content__nav__item {
+          @apply mt-6;
+        }
+      }
+    }
+  }
+}
+
+.overlay {
+  @apply pointer-events-none opacity-0 transition-opacity duration-200;
+  @apply md:hidden;
+
+  &.active {
+    @apply fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-40 pointer-events-none opacity-100;
+  }
+}
