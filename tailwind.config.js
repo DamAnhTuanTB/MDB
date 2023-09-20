@@ -35,10 +35,14 @@ module.exports = {
         },
         red: {
           DEFAULT: '#F00'
+        },
+        white: {
+          DEFAULT: '#fff',
+          50: '#F5F5FA'
         }
       },
       fontFamily: {
-        'source-sans': ['Source Sans 3', 'sans-serif']
+        'source-san': ['Source Sans 3', 'sans-serif']
       }
     }
   }

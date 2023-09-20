@@ -1,0 +1,37 @@
+.wrapper {
+  @apply bg-blue h-12 flex justify-between items-center py-3 pl-2 pr-4 text-white max-w-full overflow-hidden tracking-[-0.5px];
+  @apply md:px-6 md:py-3;
+}
+
+.language {
+  @apply hidden md:flex flex-row items-center text-white font-semibold text-base whitespace-nowrap;
+
+  &__icon {
+    @apply rounded-full w-[25px] h-[25px] mr-2;
+  }
+}
+
+.promotion {
+  @apply flex-1;
+
+  .swiper-slide {
+    @apply md:before:content-[''] md:before:h-[100%] md:before:w-0 md:before:border md:before:border-white;
+  }
+}
+
+.link {
+  @apply font-bold text-base whitespace-nowrap;
+
+  &__sp {
+    @apply block md:hidden text-xs relative pl-4;
+
+    &::before {
+      @apply content-[""] w-0 h-[24px] border-[0.5px] border-white absolute top-[-4px] left-0;
+      @apply md:content-none;
+    }
+  }
+
+  &__pc {
+    @apply hidden md:block;
+  }
+}

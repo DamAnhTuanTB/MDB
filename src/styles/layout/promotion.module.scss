@@ -1,0 +1,39 @@
+.wrapper {
+  @apply relative overflow-hidden;
+}
+
+.carousel {
+  @apply w-[230px] md:w-[350px] lg:w-[470px] mx-auto overflow-hidden;
+
+  &__slide {
+    @apply relative text-center lg:text-left text-xs whitespace-nowrap;
+    @apply md:text-base;
+
+    &::after {
+      @apply lg:content-[''] lg:absolute lg:right-[-10px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none;
+    }
+  }
+
+  &__next {
+    @apply right-[5px];
+
+    &::before {
+      @apply content-[""] w-6 h-6 bg-[url(/images/icons/arrow.svg)] after:content-none bg-[length:24px_24px] -rotate-90 bg-no-repeat;
+    }
+    &::after {
+      @apply content-none;
+    }
+  }
+
+  &__prev {
+    @apply left-[2px];
+
+    &::before {
+      @apply content-[''] w-6 h-6 bg-[url(/images/icons/arrow.svg)] after:content-none bg-[length:24px_24px] rotate-90 bg-no-repeat;
+    }
+
+    &::after {
+      @apply content-none;
+    }
+  }
+}
