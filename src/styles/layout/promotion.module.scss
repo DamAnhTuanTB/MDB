@@ -3,7 +3,7 @@
 }
 
 .carousel {
-  @apply w-[230px] md:w-[350px] lg:w-[455px] mx-auto overflow-hidden;
+  @apply w-[230px] md:w-[350px] lg:w-[470px] mx-auto overflow-hidden;
 
   &__slide {
     @apply relative text-center lg:text-left text-xs whitespace-nowrap;

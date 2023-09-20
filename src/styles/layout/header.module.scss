@@ -5,7 +5,7 @@
 
 .content {
   @apply flex flex-row justify-between items-start p-4 relative h-[75px];
-  @apply lg:px-10 lg:pt-[30px] lg:h-auto;
+  @apply lg:px-10 lg:pt-[30px] lg:h-auto lg:pb-0;
 
   &__hamburger {
     @apply lg:hidden;

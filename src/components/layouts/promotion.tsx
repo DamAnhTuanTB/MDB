@@ -16,6 +16,9 @@ export default function Promotion() {
       spaceBetween: 0,
       slidesPerView: 1,
       centerSlides: true,
+      autoplay: {
+        delay: 3000
+      },
       breakpoints: {
         1024: {
           slidesPerView: 2,
