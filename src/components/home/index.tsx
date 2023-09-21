@@ -1,6 +1,7 @@
 import styles from '@/styles/modules/home/index.module.scss'
 
 import KvCarousel, { HomeCarouselType } from './carousel'
+import Clients from './clients'
 
 export default function HomeComponent() {
   const slideList: HomeCarouselType[] = [
@@ -30,6 +31,7 @@ export default function HomeComponent() {
   return (
     <div className={styles.wrapper}>
       <KvCarousel slides={slideList} />
+      <Clients />
     </div>
   )
 }
