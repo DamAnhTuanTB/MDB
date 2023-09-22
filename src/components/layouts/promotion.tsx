@@ -1,21 +1,16 @@
 import { useEffect } from 'react'
 
 import classNames from 'classnames'
-import Swiper, { Autoplay, Navigation } from 'swiper'
 
-Swiper.use([Autoplay, Navigation])
-
-import 'swiper/css'
-import 'swiper/css/navigation'
+import initCarousel, { Options } from '@/services/carousel'
 
 import styles from '@/styles/layout/promotion.module.scss'
 
 export default function Promotion() {
   useEffect(() => {
-    const options = {
+    const options: Options = {
       spaceBetween: 0,
       slidesPerView: 1,
-      centerSlides: true,
       autoplay: {
         delay: 3000
       },
@@ -31,7 +26,9 @@ export default function Promotion() {
       }
     }
 
-    const swiper = new Swiper('#promotionSwipper', options)
+    const carousel = initCarousel('#promotionSwipper', options)
+
+    return () => carousel.destroy()
   }, [])
 
   return (

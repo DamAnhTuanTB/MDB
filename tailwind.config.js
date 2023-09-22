@@ -31,19 +31,22 @@ module.exports = {
         },
         grey: {
           DEFAULT: '#B9B9B9',
-          50: '#F8F8F8'
+          50: '#F8F8F8',
+          100: '#F4F6F6'
         },
         red: {
           DEFAULT: '#F00'
         },
         white: {
           DEFAULT: '#fff',
-          50: '#F5F5FA'
+          50: '#F5F5FA',
+          100: '#E3E3E3'
         }
       },
       fontFamily: {
-        'source-san': ['Source Sans 3', 'sans-serif']
+        'source-san': ['"Source Sans 3"', 'sans-serif']
       }
     }
-  }
+  },
+  plugins: [require('@tailwindcss/line-clamp')]
 }

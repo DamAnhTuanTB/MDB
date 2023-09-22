@@ -1,0 +1,12 @@
+.wrapper {
+  @apply bg-grey-100;
+
+  .content {
+    @apply py-10 px-[35px] grid grid-cols-2 gap-x-20 justify-center;
+    @apply lg:pt-[30px] lg:px-[180px] lg:pb-20 lg:grid-cols-5 lg:gap-x-0 lg:gap-y-5 lg:items-center;
+
+    img {
+      @apply block mx-auto;
+    }
+  }
+}

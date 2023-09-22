@@ -1,0 +1,59 @@
+.wrapepr {
+}
+.carousel {
+  @apply relative h-[360px];
+  @apply lg:h-[422px];
+
+  &__slide {
+    @apply relative h-full py-10 px-6;
+    @apply lg:py-20 lg:pl-[116px];
+
+    &__bg {
+      @apply absolute top-0 left-0 w-full h-full z-0;
+    }
+
+    &__text {
+      @apply z-10 relative w-full h-full bg-white bg-opacity-75 rounded-lg p-4 overflow-auto;
+      @apply lg:max-w-[854px] lg:w-full;
+
+      h3 {
+        @apply text-2xl font-bold;
+      }
+    }
+
+    &__button {
+      @apply text-base font-bold text-white pt-[8px] pb-[10px] px-[30px] bg-blue rounded-[4px] inline-block mx-auto whitespace-nowrap mt-6;
+      @apply lg:absolute lg:bottom-2 lg:right-4 lg:py-[19px] lg:px-[50px] lg:text-[26px];
+    }
+
+    &__note {
+      @apply text-sm mt-6;
+    }
+  }
+
+  &__navigation {
+    @apply w-[50px] h-[50px] hidden lg:flex;
+    @apply bg-[url(/images/home/navigation.svg)] bg-contain bg-no-repeat;
+
+    &::after {
+      @apply content-none;
+    }
+
+    &__next {
+      @apply right-10;
+    }
+
+    &__prev {
+      @apply left-10 rotate-180;
+    }
+  }
+
+  &__pagination {
+    @apply absolute bottom-4 gap-x-4;
+
+    > span {
+      @apply w-3 h-3 bg-white-100 border-[0.5px] border-blue;
+      margin: 0 8px !important;
+    }
+  }
+}

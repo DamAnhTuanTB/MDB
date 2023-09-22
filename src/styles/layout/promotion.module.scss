@@ -10,7 +10,7 @@
     @apply md:text-base;
 
     &::after {
-      @apply lg:content-[''] lg:absolute lg:right-[-10px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none;
+      @apply lg:content-[''] lg:absolute lg:right-[-6px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none;
     }
   }
 
