@@ -31,27 +31,20 @@
     }
   }
 
-  &__next {
-    @apply right-10 w-[50px] h-[50px] hidden lg:flex;
-
-    &::before {
-      @apply content-[""] w-[50px] h-[50px] bg-[url(/images/home/navigation.svg)] after:content-none bg-contain bg-no-repeat;
-    }
+  &__navigation {
+    @apply w-[50px] h-[50px] hidden lg:flex;
+    @apply bg-[url(/images/home/navigation.svg)] bg-contain bg-no-repeat;
 
     &::after {
       @apply content-none;
     }
-  }
 
-  &__prev {
-    @apply left-10 w-[50px] h-[50px] hidden lg:flex;
-
-    &::before {
-      @apply content-[''] w-[50px] h-[50px] bg-[url(/images/home/navigation.svg)] after:content-none bg-contain rotate-180 bg-no-repeat;
+    &__next {
+      @apply right-10;
     }
 
-    &::after {
-      @apply content-none;
+    &__prev {
+      @apply left-10 rotate-180;
     }
   }
 

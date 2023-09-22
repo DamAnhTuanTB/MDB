@@ -1,4 +1,3 @@
-
 import { FieldErrors } from 'react-hook-form/dist/types'
 import { ZodIssueOptionalMessage } from 'zod'
 
@@ -101,26 +100,6 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
   //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
   //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 })
-
-/**
- * Debounces a function to prevent it from being called multiple times within a specified delay.
- *
- * @param {Function} func - The function to be debounced.
- * @param {number} delay - The delay in milliseconds.
- * @return {Function} - The debounced function.
- */
-export const debounce = (func: Function, delay: number) => {
-  let timeoutId: number
-
-  return (...args: any) => {
-    clearTimeout(timeoutId)
-    //@ts-ignore
-    timeoutId = setTimeout(() => {
-      // eslint-disable-next-line prefer-spread
-      func.apply(null, args)
-    }, delay)
-  }
-}
 
 /**
  * Capitalizes the first letter of a string.

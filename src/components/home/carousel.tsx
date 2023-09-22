@@ -1,13 +1,8 @@
 import { useEffect, useMemo } from 'react'
 
 import classNames from 'classnames'
-import Swiper, { Autoplay, Navigation, Pagination } from 'swiper'
 
-Swiper.use([Autoplay, Navigation, Pagination])
-
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
+import initCarousel, { Options } from '@/services/carousel'
 
 import styles from '@/styles/modules/home/carousel.module.scss'
 
@@ -29,14 +24,13 @@ type Props = {
 
 export default function KvCarousel({ slides }: Props) {
   useEffect(() => {
-    const options = {
+    const options: Options = {
       spaceBetween: 0,
       slidesPerView: 1,
-      centerSlides: true,
       loop: true,
-      // autoplay: {
-      //   delay: 3000
-      // },
+      autoplay: {
+        delay: 5000
+      },
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
@@ -47,7 +41,9 @@ export default function KvCarousel({ slides }: Props) {
       }
     }
 
-    const swiper = new Swiper('#kvSwipper', options)
+    const carousel = initCarousel('#kvSwipper', options)
+
+    return () => carousel.destroy()
   }, [])
 
   const slideElements = useMemo(
@@ -76,8 +72,8 @@ export default function KvCarousel({ slides }: Props) {
       <div id="kvSwipper" className={styles.carousel}>
         <div className="swiper-wrapper">{slideElements}</div>
 
-        <div className={classNames('swiper-button-next', styles.carousel__next)} />
-        <div className={classNames('swiper-button-prev', styles.carousel__prev)} />
+        <div className={classNames('swiper-button-next', styles.carousel__navigation, styles.carousel__navigation__next)} />
+        <div className={classNames('swiper-button-prev', styles.carousel__navigation, styles.carousel__navigation__prev)} />
 
         <div className={classNames('swiper-pagination', styles.carousel__pagination)} />
       </div>

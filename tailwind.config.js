@@ -47,5 +47,6 @@ module.exports = {
         'source-san': ['"Source Sans 3"', 'sans-serif']
       }
     }
-  }
+  },
+  plugins: [require('@tailwindcss/line-clamp')]
 }

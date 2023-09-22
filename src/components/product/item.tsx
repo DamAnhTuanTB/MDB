@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
-import routes from '@/routes'
 import styles from '@/styles/modules/product.module.scss'
 
 import Button from '../common/button'
@@ -20,17 +19,18 @@ export type ProductType = {
 
 type Props = {
   product: ProductType
+  className?: string
 }
 
-export default function ProductItem({ product }: Props) {
+export default function ProductItem({ product, className }: Props) {
   const ratingScore = useMemo(() => Math.ceil(product.rating), [product.rating])
 
   const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
 
   return (
-    <div className={styles.item}>
+    <div className={classNames(styles.item, className)}>
       <div className={classNames(styles.item__favorite, { [styles['active']]: product.isFavorite })} />
-      <Link href={routes.productDetailPage(product.slug)} title={product.name}>
+      <Link href={'/'} title={product.name}>
         <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }} />
         <h3 className={styles.item__name}>{product.name}</h3>
       </Link>
