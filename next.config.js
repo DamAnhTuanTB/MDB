@@ -25,13 +25,11 @@ const nextConfig = {
       ]
     })
     if (process.env.NEXT_PUBLIC_ENV && process.env.NEXT_PUBLIC_ENV === 'production') {
-      const isDisableConsole = process.env.NEXT_PUBLIC_ENV === 'production'
-
       config.optimization.minimize = true
       config.optimization.minimizer = [
         new TerserPlugin({
           terserOptions: {
-            compress: { drop_console: isDisableConsole }
+            compress: { drop_console: true }
           },
           extractComments: /^\**!|@preserve|@license|@cc_on/i
         })
