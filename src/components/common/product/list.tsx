@@ -6,7 +6,7 @@ import Swiper from 'swiper'
 
 import initCarousel, { Options } from '@/services/carousel'
 
-import styles from '@/styles/modules/product.module.scss'
+import styles from '@/styles/modules/product/index.module.scss'
 
 import ProductItem, { ProductType } from './item'
 
@@ -62,13 +62,11 @@ export default function ProductList({ products, title }: Props) {
 
   return (
     <div className={styles.list}>
-      <div className="container mx-auto">
-        {title && <h3 className={styles.list__title}>{title}</h3>}
-        <div id="productList" className={styles.list__products}>
-          <div className={classNames('swiper-wrapper', styles.list__wrapper)}>{productElements}</div>
-          <div className={classNames('swiper-button-next', styles.list__navigation, styles.list__navigation__next)} />
-          <div className={classNames('swiper-button-prev', styles.list__navigation, styles.list__navigation__prev)} />
-        </div>
+      {title && <h3 className={styles.list__title}>{title}</h3>}
+      <div id="productList" className={styles.list__products}>
+        <div className={classNames('swiper-wrapper', styles.list__wrapper)}>{productElements}</div>
+        <div className={classNames('swiper-button-next', styles.list__navigation, styles.list__navigation__next)} />
+        <div className={classNames('swiper-button-prev', styles.list__navigation, styles.list__navigation__prev)} />
       </div>
     </div>
   )

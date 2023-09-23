@@ -1,7 +1,7 @@
 import styles from '@/styles/modules/home/index.module.scss'
 
-import { ProductType } from '../product/item'
-import ProductList from '../product/list'
+import { ProductType } from '../common/product/item'
+import ProductList from '../common/product/list'
 
 import KvCarousel, { HomeCarouselType } from './carousel'
 import Clients from './clients'
@@ -15,8 +15,10 @@ export default function HomeComponent({ slides, products }: Props) {
   return (
     <div className={styles.wrapper}>
       <KvCarousel slides={slides} />
-      <div className={styles.list}>
-        <ProductList products={products} title="July 4th Selections" />
+      <div className="container mx-auto">
+        <div className={styles.list}>
+          <ProductList products={products} title="July 4th Selections" />
+        </div>
       </div>
       <Clients />
     </div>

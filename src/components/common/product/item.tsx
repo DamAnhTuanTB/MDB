@@ -4,9 +4,9 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
-import styles from '@/styles/modules/product.module.scss'
+import styles from '@/styles/modules/product/index.module.scss'
 
-import Button from '../common/button'
+import Button from '../button'
 
 export type ProductType = {
   slug: string

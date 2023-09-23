@@ -1,0 +1,27 @@
+.wrapper {
+  @apply w-[242px] min-w-[242px] bg-grey-100 pt-[30px] pb-10 px-6;
+}
+
+.heading {
+  @apply flex flex-row flex-nowrap justify-between text-base pb-4 border-b border-grey;
+
+  &__title {
+    @apply font-semibold;
+  }
+
+  &__clear {
+    @apply cursor-pointer;
+  }
+}
+
+.group {
+  @apply mt-6;
+
+  &__title {
+    @apply text-base font-semibold mb-3;
+  }
+
+  &__value {
+    @apply mt-3 pl-6;
+  }
+}

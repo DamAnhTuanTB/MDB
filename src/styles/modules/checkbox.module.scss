@@ -1,0 +1,15 @@
+.wrapper {
+  @apply flex flex-row flex-nowrap items-center mt-2;
+}
+
+.input {
+  @apply w-4 h-4 bg-[url(/images/icons/checkbox_empty.svg)] bg-contain bg-no-repeat mr-4;
+
+  &.checked {
+    @apply bg-[url(/images/icons/checkbox_checked.svg)];
+  }
+}
+
+.label {
+  @apply text-base;
+}

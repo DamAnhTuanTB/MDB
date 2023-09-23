@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex flex-row flex-nowrap border-t-[0.5px] border-grey pb-10 h-full;
+}
+
+.sidebar {
+  @apply w-[242px] min-w-[242px] h-full bg-grey-100;
+}
+
+.content {
+  @apply flex-1 pl-8;
+}
