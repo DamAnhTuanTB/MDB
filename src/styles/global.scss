@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@layer components {
+  .container {
+    @apply max-w-[1280px] w-full;
+  }
+}
+
 html {
   overflow-x: hidden;
 }

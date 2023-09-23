@@ -1,4 +1,5 @@
 import Breadcrumb, { BreadcrumbItem } from '../common/breadcrumb'
+import Pagination from '../common/pagination'
 import { ProductType } from '../common/product/item'
 import ProductList from '../common/product/list'
 
@@ -17,6 +18,7 @@ export default function ProductComponent({ products }: Props) {
     <Layout sidebar={<Filter onFilter={handleFilter} />}>
       <Breadcrumb items={breadcrumbItems} />
       <ProductList products={products} title="Sunscreen Products" />
+      <Pagination itemsPerPage={10} totalCount={100} />
     </Layout>
   )
 }
