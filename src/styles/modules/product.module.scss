@@ -47,7 +47,7 @@
   }
 
   &__image {
-    @apply mx-auto w-full pb-[100%] bg-cover;
+    @apply relative mx-auto w-full pb-[100%] bg-cover;
   }
 
   &__name {
@@ -72,5 +72,14 @@
 
   &__button {
     @apply mt-4;
+  }
+
+  &__detail {
+    @apply absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 px-4 opacity-0 transition-opacity duration-300;
+    @apply hover:opacity-100;
+  }
+
+  &__link {
+    @apply w-full;
   }
 }

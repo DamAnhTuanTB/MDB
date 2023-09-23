@@ -23,7 +23,8 @@ module.exports = {
     extend: {
       colors: {
         blue: {
-          DEFAULT: '#0A4164'
+          DEFAULT: '#0A4164',
+          50: '#0472AF'
         },
         black: {
           DEFAULT: '#000',
@@ -41,6 +42,9 @@ module.exports = {
           DEFAULT: '#fff',
           50: '#F5F5FA',
           100: '#E3E3E3'
+        },
+        teal: {
+          DEFAULT: '#E1F1F4'
         }
       },
       fontFamily: {

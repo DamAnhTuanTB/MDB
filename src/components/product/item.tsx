@@ -30,10 +30,15 @@ export default function ProductItem({ product, className }: Props) {
   return (
     <div className={classNames(styles.item, className)}>
       <div className={classNames(styles.item__favorite, { [styles['active']]: product.isFavorite })} />
-      <Link href={'/'} title={product.name}>
-        <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }} />
-        <h3 className={styles.item__name}>{product.name}</h3>
-      </Link>
+      <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }}>
+        <div className={styles.item__detail}>
+          <Button variant="ocean">Quick Preview</Button>
+          <Link className={styles.item__link} href={product.slug}>
+            <Button variant="teal">Product Details</Button>
+          </Link>
+        </div>
+      </div>
+      <h3 className={styles.item__name}>{product.name}</h3>
       <div className={styles.item__rating}>{ratingElements}</div>
       <p className={styles.item__price}>{product.price}</p>
       <Button className={styles.item__button}>Add to cart</Button>
