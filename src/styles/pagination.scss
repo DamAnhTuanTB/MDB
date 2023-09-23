@@ -2,7 +2,7 @@
   @apply flex justify-center;
 }
 .pagination {
-  @apply flex flex-row flex-nowrap items-center mt-20 rounded-lg bg-grey-50 border border-white-100 gap-x-1 mx-auto;
+  @apply flex flex-row flex-nowrap items-center mt-10 lg:mt-20 rounded-lg bg-grey-50 border border-white-100 gap-x-1 mx-auto;
 
   li {
     @apply text-sm text-black-50 cursor-pointer px-1;

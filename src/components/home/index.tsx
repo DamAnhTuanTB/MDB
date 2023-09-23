@@ -17,7 +17,7 @@ export default function HomeComponent({ slides, products }: Props) {
       <KvCarousel slides={slides} />
       <div className="container mx-auto">
         <div className={styles.list}>
-          <ProductList products={products} title="July 4th Selections" />
+          <ProductList products={products} spCarousel title="July 4th Selections" />
         </div>
       </div>
       <Clients />

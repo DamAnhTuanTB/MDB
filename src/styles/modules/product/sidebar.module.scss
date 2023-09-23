@@ -3,7 +3,7 @@
 }
 
 .heading {
-  @apply flex flex-row flex-nowrap justify-between text-base pb-4 border-b border-grey;
+  @apply flex flex-row flex-nowrap justify-between text-base pb-4 border-b border-grey mb-8;
 
   &__title {
     @apply font-semibold;
@@ -22,7 +22,7 @@
   }
 
   &__value {
-    @apply mt-3 pl-6;
+    @apply mt-6 pl-6;
 
     &.range {
       @apply pl-0;

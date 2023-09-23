@@ -6,10 +6,10 @@ module.exports = {
       sm: '640px',
       // => @media (min-width: 640px) { ... }
 
-      md: '769px',
+      md: '768px',
       // => @media (min-width: 769px) { ... }
 
-      lg: '1025px',
+      lg: '1024px',
       // => @media (min-width: 1025px) { ... }
 
       xl: '1280px',
@@ -49,6 +49,16 @@ module.exports = {
       },
       fontFamily: {
         'source-san': ['"Source Sans 3"', 'sans-serif']
+      },
+      fontSize: {
+        xs: ['12px', '1.25'],
+        sm: ['14px', '1.25'],
+        base: ['16px', '1.25'],
+        lg: ['20px', '1.25'],
+        xl: ['24px', '1.25']
+      },
+      lineHeight: {
+        base: '1.25'
       }
     }
   },

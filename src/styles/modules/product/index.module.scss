@@ -2,7 +2,7 @@
   @apply w-full relative;
 
   &__title {
-    @apply text-[32px] font-semibold text-center sm:text-left;
+    @apply text-[32px] font-semibold text-center md:text-left;
   }
 
   &__products {
@@ -10,11 +10,21 @@
   }
 
   &__wrapper {
-    @apply sm:grid sm:gap-x-10 sm:gap-y-16 sm:grid-cols-2 lg:grid-cols-4;
+    &.normal {
+      @apply grid gap-x-4 gap-y-20 xl:gap-x-10 md:gap-y-16 grid-cols-2 lg:grid-cols-4;
+
+      &__navigation {
+        @apply hidden;
+      }
+    }
+
+    &.carousel {
+      @apply sm:grid sm:gap-x-10 sm:gap-y-16 sm:grid-cols-2 lg:grid-cols-4;
+    }
   }
 
   &__navigation {
-    @apply block sm:hidden w-10 h-10 top-[65%];
+    @apply block sm:hidden w-10 h-10 top-[60%];
     @apply bg-[url(/images/home/navigation.svg)] bg-contain bg-no-repeat;
 
     &::after {
@@ -32,7 +42,7 @@
 }
 
 .item {
-  @apply relative pt-[14px] px-6;
+  @apply relative pt-[14px];
 
   &__favorite {
     @apply absolute top-0 right-0 w-10 h-10 bg-[url(/images/icons/favorite.svg)] bg-contain bg-no-repeat;
@@ -47,11 +57,11 @@
   }
 
   &__image {
-    @apply relative mx-auto w-full pb-[100%] bg-cover;
+    @apply relative mx-auto w-[193px] pb-[193px] bg-cover bg-center;
   }
 
   &__name {
-    @apply text-center text-base mt-6 line-clamp-2;
+    @apply text-center text-base mt-4 line-clamp-2;
   }
 
   &__rating {
@@ -75,11 +85,23 @@
   }
 
   &__detail {
-    @apply absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-y-4 px-4 opacity-0 transition-opacity duration-300;
-    @apply hover:opacity-100;
+    @apply absolute top-0 left-1/2 transform -translate-x-1/2 w-full max-w-[200px] mx-auto h-[60%] flex flex-col justify-start items-center gap-y-4 px-4 transition-opacity duration-300 pt-[58px] pointer-events-none opacity-0;
+    @apply hover:opacity-100 pointer-events-auto;
   }
 
   &__link {
     @apply w-full;
+  }
+
+  &.small {
+    @apply pt-0;
+
+    .item__image {
+      @apply relative mx-auto w-[150px] pb-[150px] bg-cover bg-center;
+    }
+
+    .item__detail {
+      @apply pt-12;
+    }
   }
 }
