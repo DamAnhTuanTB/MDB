@@ -1,4 +1,12 @@
 .button {
-  @apply w-full text-base font-bold py-3 px-10 rounded-lg;
+  @apply w-full text-base font-bold py-[10px] px-10 rounded-lg cursor-pointer;
   @apply bg-blue text-white;
+
+  &.ocean {
+    @apply bg-blue-50 text-white;
+  }
+
+  &.teal {
+    @apply bg-teal text-black;
+  }
 }
