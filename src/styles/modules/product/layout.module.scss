@@ -1,5 +1,5 @@
 .wrapper {
-  @apply flex flex-row flex-nowrap border-t-[0.5px] border-grey pb-10 h-full;
+  @apply flex flex-row flex-nowrap border-t-[0.5px] border-grey h-full;
 }
 
 .sidebar {
@@ -7,5 +7,5 @@
 }
 
 .content {
-  @apply flex-1 pl-8;
+  @apply flex-1 pl-8 pb-10;
 }

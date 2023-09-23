@@ -8,6 +8,8 @@ import initCarousel, { Options } from '@/services/carousel'
 
 import styles from '@/styles/modules/product/index.module.scss'
 
+import Pagination from '../pagination'
+
 import ProductItem, { ProductType } from './item'
 
 type Props = {
@@ -68,6 +70,7 @@ export default function ProductList({ products, title }: Props) {
         <div className={classNames('swiper-button-next', styles.list__navigation, styles.list__navigation__next)} />
         <div className={classNames('swiper-button-prev', styles.list__navigation, styles.list__navigation__prev)} />
       </div>
+      <Pagination itemsPerPage={10} totalCount={100} />
     </div>
   )
 }

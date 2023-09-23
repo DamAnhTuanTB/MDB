@@ -10,6 +10,7 @@ import Layout from '@/components/layouts'
 import Root from '@/components/root'
 
 import '@/styles/global.scss'
+import '@/styles/pagination.scss'
 import '@/styles/slider.scss'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
