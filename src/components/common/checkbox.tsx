@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import styles from '@/styles/modules/checkbox.module.scss'
 
 type Props = {
-  label: string
+  label: React.ReactNode
   defaultValue?: boolean
   onChange?: (value: boolean) => void
 }

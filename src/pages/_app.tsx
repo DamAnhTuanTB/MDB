@@ -8,7 +8,9 @@ import { RecoilRoot } from 'recoil'
 import Meta from '@/components/common/meta'
 import Layout from '@/components/layouts'
 import Root from '@/components/root'
+
 import '@/styles/global.scss'
+import '@/styles/slider.scss'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

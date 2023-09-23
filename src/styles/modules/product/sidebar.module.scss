@@ -23,5 +23,17 @@
 
   &__value {
     @apply mt-3 pl-6;
+
+    &.range {
+      @apply pl-0;
+    }
+  }
+
+  &__more {
+    @apply flex flex-row flex-nowrap items-center mt-3 pl-6 text-base font-semibold text-blue-50;
+
+    > img {
+      @apply -ml-[5px] mr-4;
+    }
   }
 }

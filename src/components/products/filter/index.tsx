@@ -3,7 +3,9 @@ import { useMemo } from 'react'
 import { filterList } from '@/configs/product-filter'
 import styles from '@/styles/modules/product/sidebar.module.scss'
 
-import Checkbox from '../common/checkbox'
+import CheckList from './check-list'
+import Rating from './rating'
+import Slider from './slider'
 
 export type Filter = {
   key: string
@@ -27,14 +29,16 @@ export default function Filter({}: Props) {
     () =>
       filterList &&
       filterList.map((filter, index) => {
-        const inputElements = filter.checkList && filter.checkList.map((item, index) => <Checkbox key={index} label={item.label} onChange={(checked) => console.log(item.key, checked)} />)
-
-        return (
-          <div key={index} className={styles.group}>
-            <div className={styles.group__title}>SPF Rating</div>
-            <div className={styles.group__value}>{inputElements}</div>
-          </div>
-        )
+        switch (filter.type) {
+          case 'checkList':
+            return <CheckList key={index} value={filter} />
+          case 'range':
+            return <Slider key={index} title={filter.title} />
+          case 'rating':
+            return <Rating key={index} title={filter.title} />
+          default:
+            return
+        }
       }),
     []
   )

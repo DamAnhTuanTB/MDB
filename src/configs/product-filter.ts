@@ -85,6 +85,8 @@ export const filterList: FilterGroup[] = [
       { label: 'Discoloration', key: 'Discoloration' },
       { label: 'Redness', key: 'Redness' },
       { label: 'Sensitive Skin', key: 'Sensitive Skin' },
+      { label: 'Dry Skin', key: 'Dry Skin' },
+      { label: 'Dry Skin', key: 'Dry Skin' },
       { label: 'Dry Skin', key: 'Dry Skin' }
     ]
   },
@@ -124,6 +126,9 @@ export const filterList: FilterGroup[] = [
       { label: 'Azalaic Acid', key: 'Azalaic Acid' },
       { label: 'Bakuchiol', key: 'Bakuchiol' },
       { label: 'Caffeine', key: 'Caffeine' },
+      { label: 'Ceramides', key: 'Ceramides' },
+      { label: 'Ceramides', key: 'Ceramides' },
+      { label: 'Ceramides', key: 'Ceramides' },
       { label: 'Ceramides', key: 'Ceramides' }
     ]
   }

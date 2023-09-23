@@ -44,7 +44,8 @@ module.exports = {
           100: '#E3E3E3'
         },
         teal: {
-          DEFAULT: '#E1F1F4'
+          DEFAULT: '#E1F1F4',
+          50: '#60B0C4'
         }
       },
       fontFamily: {
