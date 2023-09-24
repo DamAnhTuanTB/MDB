@@ -1,0 +1,15 @@
+.wrapper {
+  @apply w-full my-6 flex gap-x-[22px];
+}
+
+.item {
+  @apply relative text-sm;
+
+  &::after {
+    @apply content-[''] bg-[url(/images/icons/slash.svg)] bg-contain bg-no-repeat absolute top-[5px] right-[-14px] w-[6px] h-[9px];
+  }
+
+  &:last-child {
+    @apply after:hidden;
+  }
+}

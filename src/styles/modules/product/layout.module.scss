@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex flex-row flex-nowrap border-t-[0.5px] border-grey h-full;
+}
+
+.sidebar {
+  @apply hidden md:block w-[242px] min-w-[242px] h-full bg-grey-100;
+}
+
+.content {
+  @apply flex-1 px-4 lg:px-8 pb-10;
+}

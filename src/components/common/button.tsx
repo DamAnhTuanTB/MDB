@@ -7,7 +7,7 @@ import styles from '@/styles/modules/button.module.scss'
 type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
   children: React.ReactNode
   className?: string
-  variant?: 'blue' | 'ocean' | 'teal'
+  variant?: 'blue' | 'ocean' | 'teal' | 'outlined'
 }
 
 export default function Button({ children, className, type, variant = 'blue', ...otherProps }: Props) {

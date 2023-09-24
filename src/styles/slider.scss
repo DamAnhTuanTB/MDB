@@ -1,0 +1,31 @@
+.slider {
+  @apply h-[50px] w-full relative;
+
+  &__thumb {
+    @apply w-4 h-4 outline-none bg-white rounded-full shadow-sm absolute top-0;
+
+    &-1 {
+      @apply ml-[4.5px];
+    }
+
+    &__value {
+      @apply absolute -bottom-8 transform -translate-x-1/4 text-xs p-1 border border-blue rounded;
+    }
+  }
+
+  &__track {
+    @apply h-[6px]  absolute top-2 transform -translate-y-1/2;
+
+    &-0 {
+      @apply bg-grey ml-[2px];
+    }
+
+    &-1 {
+      @apply bg-teal-50 ml-[2px];
+    }
+
+    &-2 {
+      @apply bg-grey ml-2;
+    }
+  }
+}

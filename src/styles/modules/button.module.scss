@@ -1,5 +1,5 @@
 .button {
-  @apply w-full text-base font-bold py-[10px] px-10 rounded-lg cursor-pointer;
+  @apply w-full text-base font-bold py-[10px] px-3 rounded-lg cursor-pointer;
   @apply bg-blue text-white;
 
   &.ocean {
@@ -8,5 +8,9 @@
 
   &.teal {
     @apply bg-teal text-black;
+  }
+
+  &.outlined {
+    @apply text-black-50 border border-blue bg-grey-100;
   }
 }

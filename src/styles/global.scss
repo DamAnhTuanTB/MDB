@@ -2,6 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@layer components {
+  .container {
+    @apply max-w-[1440px] w-full;
+  }
+}
+
 html {
   overflow-x: hidden;
 }
@@ -10,5 +16,5 @@ body {
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
 
-  @apply font-normal font-source-san text-[14px] text-black-50 overflow-x-hidden;
+  @apply font-normal font-source-san text-[14px] text-black-50 overflow-x-hidden leading-[1.25];
 }
