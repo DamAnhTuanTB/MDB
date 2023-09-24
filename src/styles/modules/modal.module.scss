@@ -1,0 +1,20 @@
+.wrapper {
+  @apply fixed w-full h-screen top-0 left-0 z-[99] pointer-events-none opacity-0 transition-opacity duration-300;
+  @apply flex justify-center items-center;
+
+  &.open {
+    @apply pointer-events-auto opacity-100;
+  }
+}
+
+.overlay {
+  @apply fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40 z-0;
+}
+
+.body {
+  @apply relative z-10 p-6 bg-white max-w-[770px] w-[calc(100%-48px)] rounded-lg;
+
+  &__close {
+    @apply absolute top-5 right-4 w-6 h-6 bg-[url(/images/icons/close.svg)];
+  }
+}

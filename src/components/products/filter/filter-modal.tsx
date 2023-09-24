@@ -5,7 +5,7 @@ import Image from 'next/image'
 import classNames from 'classnames'
 
 import { filterList } from '@/configs/product-filter'
-import styles from '@/styles/modules/product/modal.module.scss'
+import styles from '@/styles/modules/product/filter-modal.module.scss'
 
 import Button from '@/components/common/button'
 

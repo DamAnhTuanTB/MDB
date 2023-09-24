@@ -17,7 +17,7 @@ export default function ProductComponent({ products }: Props) {
   return (
     <Layout sidebar={<Filter onFilter={handleFilter} />}>
       <Breadcrumb items={breadcrumbItems} />
-      <ProductList isShowSort products={products} title="Sunscreen Products" page="products" />
+      <ProductList isShowSort isShowFilter products={products} title="Sunscreen Products" page="products" />
       <Pagination itemsPerPage={10} totalCount={100} />
     </Layout>
   )
