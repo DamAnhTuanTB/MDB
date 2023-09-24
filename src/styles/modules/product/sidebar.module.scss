@@ -22,9 +22,13 @@
   }
 
   &__value {
-    @apply mt-6 pl-6;
+    @apply mt-[14px] pl-6;
 
     &.range {
+      @apply pl-0;
+    }
+
+    &.rating {
       @apply pl-0;
     }
   }

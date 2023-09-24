@@ -9,4 +9,8 @@
   &.teal {
     @apply bg-teal text-black;
   }
+
+  &.outlined {
+    @apply text-black-50 border border-blue bg-grey-100;
+  }
 }

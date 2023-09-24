@@ -3,11 +3,15 @@ import { useMemo } from 'react'
 import classNames from 'classnames'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { SelectOption } from '@/models'
 import styles from '@/styles/modules/form.module.scss'
 import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from '@/components/form/error-message'
+
+export type SelectOption = {
+  label: string
+  value: string
+}
 
 type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   name: string

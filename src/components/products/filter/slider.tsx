@@ -5,12 +5,13 @@ import styles from '@/styles/modules/product/sidebar.module.scss'
 
 type Props = {
   title: string
+  withTitle?: boolean
 }
 
-export default function Slider({ title }: Props) {
+export default function Slider({ title, withTitle = true }: Props) {
   return (
-    <div className={styles.group}>
-      <div className={styles.group__title}>{title}</div>
+    <div className={classNames(styles.group, { '!mt-0': !withTitle })}>
+      {withTitle && <div className={styles.group__title}>{title}</div>}
       <div className={classNames(styles.group__value, [styles['range']])}>
         <ReactSlider
           className="slider"

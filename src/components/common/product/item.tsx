@@ -20,16 +20,16 @@ export type ProductType = {
 type Props = {
   product: ProductType
   className?: string
-  size?: 'small' | 'large'
+  page?: string
 }
 
-export default function ProductItem({ product, className, size = 'large' }: Props) {
+export default function ProductItem({ product, className, page = '' }: Props) {
   const ratingScore = useMemo(() => Math.ceil(product.rating), [product.rating])
 
   const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
 
   return (
-    <div className={classNames(styles.item, [styles[size]], className)}>
+    <div className={classNames(styles.item, [styles[page]], className)}>
       <div className={classNames(styles.item__favorite, { [styles['active']]: product.isFavorite })} />
       <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }} />
       <div className={styles.item__detail}>
