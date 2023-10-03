@@ -1,0 +1,24 @@
+.wrapper {
+  @apply w-full flex flex-row flex-nowrap items-center justify-center px-4 bg-grey-50 rounded-lg border border-grey;
+
+  .button {
+    @apply w-10 h-10 min-w-[16px] bg-center bg-no-repeat;
+    background-size: 16px 16px;
+
+    &.add {
+      @apply bg-[url(/images/icons/add.svg)];
+    }
+
+    &.minus {
+      @apply bg-[url(/images/icons/minus.svg)];
+    }
+
+    &.disabled {
+      @apply opacity-50 pointer-events-none;
+    }
+  }
+
+  input {
+    @apply bg-transparent outline-none text-center w-10;
+  }
+}
