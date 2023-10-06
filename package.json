@@ -5,12 +5,18 @@
   "scripts": {
     "dev": "npm run set-env:dev && env-cmd -f .env.development next dev",
     "set-env:dev": "yenv print environment.yml development dotenv -f -r > .env.development",
+    "set-env:stage": "yenv print environment.yml stage dotenv -f -r > .env.stage",
     "set-env:prod": "yenv print environment.yml production dotenv -f -r > .env.production",
     "build:dev": "npm run set-env:dev && env-cmd -f .env.development next build",
+    "build:stage": "npm run set-env:stage && env-cmd -f .env.stage next build",
     "build:prod": "npm run set-env:prod && env-cmd -f .env.production next build",
     "start": "next start",
-    "lint": "next lint --quiet",
-    "lint:src": "prettier --write ./src"
+    "lint:js": "next lint && tsc --noEmit",
+    "lint:format": "prettier --check src",
+    "lint": "npm run lint:js && npm run lint:format",
+    "format": "prettier --write --list-different src",
+    "lint:fix:js": "next lint --fix",
+    "lint:fix": "npm run lint:fix:js && npm run format"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
