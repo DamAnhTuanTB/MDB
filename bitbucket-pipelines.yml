@@ -1,0 +1,57 @@
+image: 'node:18-alpine'
+definitions:
+  services:
+    docker:
+      memory: 1024
+    docker-with-more-memory:
+      memory: 2048
+      type: docker
+    docker-with-large-memory:
+      memory: 5120
+      type: docker
+
+pipelines:
+  branches:
+    Dev:
+      - step:
+          name: Deployment
+          image: 'google/cloud-sdk:latest'
+          size: 2x
+          services: [docker-with-large-memory]
+          caches:
+            - docker
+          script:
+            # - echo $BITBUCKET_BRANCH-$PROJECT_NAME
+            - echo "FAILED" > deployment_status.txt
+            - >-
+              echo $GCLOUD_SERVICE_ACCOUNT_KEY | base64 --decode
+              --ignore-garbage | gcloud auth activate-service-account
+              --key-file=-
+            - gcloud config set project $GCLOUD_PROJECT_ID
+            - gcloud config set compute/zone $GCLOUD_COMPUTE_ZONE
+            - gcloud auth configure-docker ${GCLOUD_REGION}-docker.pkg.dev
+            - export DOCKER_BUILDKIT=0
+            - >
+              if docker build -t
+              ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest .
+              && \
+                  docker push ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest && \
+                  gcloud run deploy ${BITBUCKET_BRANCH}-${PROJECT_NAME} --image ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest --platform managed --region $GCLOUD_REGION --allow-unauthenticated --set-env-vars=NODE_ENV='development'; then
+
+                    echo "SUCCESSED" > deployment_status.txt
+              fi
+          artifacts:
+            - deployment_status.txt
+      - step:
+          name: Message to Slack
+          script:
+            - export DEPLOYMENT_STATUS=$(cat deployment_status.txt)
+            - pipe: 'atlassian/slack-notify:2.2.0'
+              variables:
+                WEBHOOK_URL: $SLACK_WEBHOOK_URL
+                MESSAGE: >-
+                  Project: $PROJECT_NAME - Commit: $(git log
+                  --format=%B -n 1 $BITBUCKET_COMMIT) - Branch:
+                  $BITBUCKET_BRANCH - build has exited with status: $DEPLOYMENT_STATUS.
+options:
+  docker: true
