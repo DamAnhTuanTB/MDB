@@ -12,7 +12,7 @@ definitions:
 
 pipelines:
   branches:
-    Dev:
+    Stage:
       - step:
           name: Deployment
           image: 'google/cloud-sdk:latest'
