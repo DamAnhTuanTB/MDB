@@ -64,7 +64,7 @@ const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaul
           )}
         />
         <svg className={styles.input__expend} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <g clip-path="url(#clip0_608_6976)">
+          <g clipPath="url(#clip0_608_6976)">
             <path d="M7.41 8.59009L12 13.1701L16.59 8.59009L18 10.0001L12 16.0001L6 10.0001L7.41 8.59009Z" fill="#1F1F29" />
           </g>
           <defs>
