@@ -6,6 +6,11 @@
   .container {
     @apply max-w-[1440px] w-full;
   }
+  .page-container {
+    @apply bg-gray-100 py-10;
+    @apply md:mx-10;
+    @apply lg:mx-20 lg:my-10;
+  }
 }
 
 html {

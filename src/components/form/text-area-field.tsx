@@ -6,7 +6,7 @@ import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from './error-message'
 
-type Props = Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>> & {
+export type Props = Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>> & {
   name: string
   label?: string
   required?: boolean
@@ -53,7 +53,7 @@ const TextAreaField = ({
           <div className={styles.input__boundary}>
             <textarea
               id={inptuId}
-              className={classNames(styles.input__field, { [styles['error']]: hasError || isError }, 'resize-none', inputClassName)}
+              className={classNames(styles.input__field, styles.input__textarea, { [styles['error']]: hasError || isError }, 'resize-none', inputClassName)}
               placeholder={placeholder}
               onBlur={onBlur}
               onChange={(e) => {

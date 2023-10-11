@@ -11,14 +11,21 @@
 
   &__field {
     @apply text-sm px-2 rounded outline-none w-full;
+
+    &.error {
+      @apply border-red;
+    }
   }
 
   &__boundary {
-    @apply rounded bg-white overflow-hidden;
+    @apply rounded overflow-hidden;
 
-    input,
-    select {
+    input {
       @apply border border-grey min-h-[32px];
+    }
+
+    textarea {
+      @apply border border-gray-300 min-h-[145px];
     }
   }
 
@@ -32,5 +39,13 @@
     appearance: none;
 
     @apply pr-10 bg-transparent;
+  }
+
+  &__textarea {
+    @apply w-full h-full;
+  }
+
+  &__error {
+    @apply mt-1 text-red;
   }
 }
