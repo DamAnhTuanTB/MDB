@@ -144,5 +144,3 @@ return (
 | `name`             | `required`, use for input name and register to react hook form                                                                                                       | `string`  |
 | `showErrorMessage` | `optional`, if `true` error message will be show under the input if it's not valid, if `false` not show error message, input only has red border when it's not valid | `boolean` |
 | ... input props    | `optional`, all MUI material input field props                                                                                                                       |           |
-
-Demo all fields [here](../src/pages/form-demo.tsx)

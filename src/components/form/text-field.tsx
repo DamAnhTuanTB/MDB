@@ -6,7 +6,7 @@ import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from './error-message'
 
-type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
+export type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
   name: string
   label?: string
   required?: boolean

@@ -8,12 +8,12 @@ import { handleInputError } from '@/utils/helper'
 
 import ErrorMessage from '@/components/form/error-message'
 
-export type SelectOption = {
+export type SelectOption<T = string> = {
   label: string
-  value: string
+  value: string | T
 }
 
-type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
+export type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   name: string
   label?: string
   showErrorMessage?: boolean
