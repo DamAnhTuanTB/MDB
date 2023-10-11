@@ -59,7 +59,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
         carousel.current = initCarousel('#productList', options)
       } else {
         if (carousel.current) {
-          carousel.current.destroy()
+          carousel.current?.destroy()
         }
       }
     }

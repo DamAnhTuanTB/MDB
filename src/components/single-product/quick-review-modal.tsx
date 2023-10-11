@@ -1,9 +1,9 @@
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
 
-import Button from '../button'
-import HtmlRender from '../html-render'
-import Modal from '../modal'
-import RatingCommon from '../rating'
+import Button from '../common/button'
+import HtmlRender from '../common/html-render'
+import Modal from '../common/modal'
+import RatingCommon from '../common/rating'
 
 import { ProductType } from './item'
 

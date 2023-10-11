@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/index.module.scss'
 
-import Button from '../button'
+import Button from '../common/button'
 
 export type ProductType = {
   slug: string
