@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
+import routes from '@/routes'
 import styles from '@/styles/layout/footer.module.scss'
 
 import Social from './social'
@@ -18,7 +19,7 @@ export default function Footer() {
                 <h3>Customer Service</h3>
                 <ul>
                   <li>
-                    <Link href={'/'}>FAQs</Link>
+                    <Link href={routes.faqPage()}>FAQs</Link>
                   </li>
                   <li>
                     <Link href={'/'}>Track My Order</Link>
