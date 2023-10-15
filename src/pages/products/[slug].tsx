@@ -11,7 +11,9 @@ export default function ProductDetailPage() {
 
   return (
     <div className={classNames(styles.wrapper, 'container mx-auto')}>
-      <Breadcrumb items={breadCrumb} />
+      <div className={styles.breadcrumb}>
+        <Breadcrumb items={breadCrumb} />
+      </div>
       <ProductDetailComponent />
     </div>
   )

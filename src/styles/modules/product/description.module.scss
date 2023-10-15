@@ -1,6 +1,6 @@
 .tabs {
-  @apply mt-0;
-  @apply lg:mt-[117px];
+  @apply mt-0 hidden;
+  @apply lg:mt-[117px] lg:block lg:px-[70px];
 
   &__wrapper {
     @apply border-b border-white-100;
@@ -11,8 +11,14 @@
   }
 }
 
+.collapse {
+  @apply block mt-10 border-t border-grey;
+  @apply lg:hidden;
+}
+
 .content_wrapper {
-  @apply pt-6 pb-5 px-5;
+  @apply pt-6 pb-5 px-2;
+  @apply lg:px-5;
 
   h3 {
     @apply text-base;
@@ -34,7 +40,7 @@
   }
 
   .icons {
-    @apply flex flex-row gap-4;
+    @apply flex flex-row gap-4 flex-wrap;
 
     > img {
       @apply w-[100px] h-[100px];
@@ -43,5 +49,6 @@
 }
 
 .table {
-  @apply flex flex-row gap-8;
+  @apply flex flex-col gap-8;
+  @apply lg:flex-row;
 }

@@ -17,6 +17,11 @@
       @apply flex flex-row flex-nowrap overflow-auto;
     }
 
+    &__content {
+      @apply pr-[66px];
+      @apply lg:pr-[120px];
+    }
+
     &__label {
       @apply text-base pb-[6px] px-1 mr-2 last:mr-0 cursor-pointer text-grey whitespace-nowrap;
       @apply lg:text-2xl lg:mr-12 lg:pb-[4px] lg:px-4;

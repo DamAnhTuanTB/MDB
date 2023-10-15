@@ -11,7 +11,7 @@ import SelectField from '@/components/form/select-field'
 
 export default function Information() {
   return (
-    <>
+    <div className={styles.container}>
       <h1 className={styles.content__title}>EltaMD UV Lotion Broad-Spectrum SP 30+</h1>
       <div className={styles.detail}>
         <div className={styles.detail__images}>
@@ -50,6 +50,6 @@ export default function Information() {
           </CustomForm>
         </div>
       </div>
-    </>
+    </div>
   )
 }

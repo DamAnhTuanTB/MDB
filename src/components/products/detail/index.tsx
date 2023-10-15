@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import styles from '@/styles/modules/product/detail.module.scss'
 
 import { ProductType } from '@/components/common/product/item'
@@ -69,8 +71,10 @@ export default function ProductDetail() {
         <Information />
         <Description />
       </div>
-      <hr className={styles.hr} />
-      <RelatedProduct products={prodcuts} title="You May Also Like" />
+      <hr className={classNames(styles.hr, 'hidden lg:block')} />
+      <div className={styles.related}>
+        <RelatedProduct products={prodcuts} title="You May Also Like" />
+      </div>
       <Reviews />
     </>
   )

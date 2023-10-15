@@ -1,6 +1,11 @@
 .wrapper {
-  @apply px-6 pb-6;
-  @apply md:py-10 md:px-[60px];
+  @apply pb-6;
+  @apply md:py-10;
+
+  .breadcrumb {
+    @apply px-6;
+    @apply lg:px-[60px];
+  }
 
   .content {
     &__title {
@@ -93,8 +98,19 @@
       }
     }
   }
+
+  .related {
+    @apply px-4 mt-10;
+    @apply lg:px-[75px] lg:mt-0;
+  }
+}
+
+.container {
+  @apply px-6;
+  @apply md:px-[60px];
 }
 
 .hr {
   @apply bg-white-100 mt-5 mb-6;
+  @apply px-6 lg:mx-[70px];
 }

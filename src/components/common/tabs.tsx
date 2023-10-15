@@ -11,13 +11,14 @@ export type TabItem = {
 type Props = {
   tabs: TabItem[]
   children: React.ReactNode[]
+  className?: string
   wrapperClassName?: string
   headingClassName?: string
   contentClassName?: string
   labelClassName?: string
 }
 
-export default function Tabs({ tabs, children, wrapperClassName, headingClassName, contentClassName, labelClassName }: Props) {
+export default function Tabs({ tabs, children, className, wrapperClassName, headingClassName, contentClassName, labelClassName }: Props) {
   const [activeTab, setActiveTab] = useState(0)
 
   const handleTabClick = (index: number) => {
@@ -35,7 +36,7 @@ export default function Tabs({ tabs, children, wrapperClassName, headingClassNam
   )
 
   return (
-    <div className={styles.tab}>
+    <div className={classNames(styles.tab, className)}>
       <div className={classNames(styles.tab__wrapper, wrapperClassName)}>
         <div className={classNames(styles.tab__heading, headingClassName)}>{tabElements}</div>
       </div>

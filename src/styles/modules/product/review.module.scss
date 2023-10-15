@@ -1,6 +1,10 @@
 .review {
+  @apply px-6 border-t border-grey mt-10;
+  @apply lg:px-[60px] lg:mt-0 lg:border-none;
+
   &__group {
-    @apply flex flex-row items-end mt-20;
+    @apply flex flex-col;
+    @apply lg:flex-row lg:mt-20 lg:items-end;
   }
 }
 
@@ -8,7 +12,8 @@
   @apply mt-5;
 
   &__filter {
-    @apply flex flex-row items-center gap-5 pb-4 border-b border-white-100;
+    @apply flex flex-col gap-6 pb-4 border-b border-white-100;
+    @apply lg:flex-row lg:items-center lg:gap-5;
 
     > span {
       @apply whitespace-nowrap font-semibold text-base;
@@ -16,26 +21,32 @@
   }
 
   &__form {
-    @apply flex flex-row items-center justify-between;
+    @apply flex flex-row justify-center gap-4;
+    @apply items-center lg:justify-between;
   }
 
   &__list {
-    @apply mt-6 gap-y-10 flex flex-col pb-6 border-b border-white-100;
+    @apply flex flex-col pb-6 border-b border-white-100;
+    @apply lg:gap-y-10 lg:mt-6;
 
     &__viewall {
-      @apply text-base font-semibold text-center text-blue cursor-pointer;
+      @apply text-base font-semibold text-center text-blue cursor-pointer mt-6;
+      @apply lg:mt-0;
     }
   }
 
   &__item {
-    @apply flex flex-row text-sm;
+    @apply flex flex-row text-sm py-6 border-b border-grey;
+    @apply lg:border-none lg:py-0;
 
     &__left {
+      @apply hidden lg:block;
       @apply w-[300px] min-w-[300px] px-4;
     }
 
     &__buttons {
-      @apply flex flex-row items-center gap-4 mt-4;
+      @apply flex flex-row items-center mt-6 gap-4;
+      @apply lg:mt-4;
 
       &__divider {
         @apply h-full w-0;
@@ -77,10 +88,12 @@
     @apply flex flex-col gap-4 mt-4;
 
     &__item {
-      @apply flex flex-row gap-x-6 items-center;
+      @apply flex flex-row gap-x-4;
+      @apply lg:gap-x-6 items-center text-base whitespace-nowrap;
 
       &__percent {
-        @apply w-[295px] h-[20px] bg-grey-150 rounded-lg overflow-hidden;
+        @apply w-[225px];
+        @apply lg:w-[295px] h-[20px] bg-grey-150 rounded-lg overflow-hidden;
 
         > div {
           @apply w-full h-full bg-blue;
@@ -91,14 +104,17 @@
 }
 
 .images {
-  @apply max-w-[450px] mx-auto;
+  @apply mt-8 mx-auto;
+  @apply lg:max-w-[450px] lg:mt-0;
 
   &__title {
-    @apply text-xl font-semibold text-center mb-5;
+    @apply text-lg font-semibold mb-6;
+    @apply lg:text-xl lg:text-center lg:mb-5;
   }
 
   &__wrapper {
-    @apply grid grid-cols-4 gap-4;
+    @apply grid grid-cols-3 gap-4;
+    @apply lg:grid-cols-4;
 
     > img {
       @apply w-[100px];
