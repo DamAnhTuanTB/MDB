@@ -2,14 +2,16 @@ import { useState } from 'react'
 
 import Image from 'next/image'
 
+import classNames from 'classnames'
 import ReactPaginate from 'react-paginate'
 
 type Props = {
-  itemsPerPage: number
   totalCount: number
+  itemsPerPage?: number
+  className?: string
 }
 
-export default function Pagination({ itemsPerPage, totalCount }: Props) {
+export default function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
   const [itemOffset, setItemOffset] = useState(0)
   const endOffset = itemOffset + itemsPerPage
   console.log(`Loading items from ${itemOffset} to ${endOffset}`)
@@ -21,7 +23,7 @@ export default function Pagination({ itemsPerPage, totalCount }: Props) {
   }
 
   return (
-    <div className="pagination-wrapper">
+    <div className={classNames('pagination-wrapper', className)}>
       <ReactPaginate
         className="pagination"
         breakLabel="..."

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import classNames from 'classnames'
 
 import { tabs } from '@/constants/faq'
-import styles from '@/styles/modules/faq/index.module.scss'
+import styles from '@/styles/modules/faq.module.scss'
 
 import Tabs, { TabItem } from '@/components/common/tabs'
 
@@ -29,7 +29,9 @@ export default function FrequentlyAskedQuestions() {
     <div className="container mx-auto">
       <div className={classNames(styles.wrapper, 'page-container')}>
         <PageTitle title="Frequently Asked Questions" />
-        <Tabs tabs={tabItems}>{renderCollapseItems}</Tabs>
+        <Tabs tabs={tabItems} wrapperClassName={styles.tabs__wrapper} headingClassName={styles.tabs__heading} contentClassName={styles.tabs__content} labelClassName={styles.tabs__label}>
+          {renderCollapseItems}
+        </Tabs>
       </div>
     </div>
   )

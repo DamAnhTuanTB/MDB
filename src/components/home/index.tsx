@@ -1,7 +1,7 @@
 import styles from '@/styles/modules/home/index.module.scss'
 
-import { ProductType } from '../single-product/item'
-import ProductList from '../single-product/list'
+import { ProductType } from '../common/product/item'
+import ProductList from '../common/product/list'
 
 import KvCarousel, { HomeCarouselType } from './carousel'
 import Clients from './clients'

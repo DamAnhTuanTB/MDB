@@ -11,9 +11,13 @@ export type TabItem = {
 type Props = {
   tabs: TabItem[]
   children: React.ReactNode[]
+  wrapperClassName?: string
+  headingClassName?: string
+  contentClassName?: string
+  labelClassName?: string
 }
 
-export default function Tabs({ tabs, children }: Props) {
+export default function Tabs({ tabs, children, wrapperClassName, headingClassName, contentClassName, labelClassName }: Props) {
   const [activeTab, setActiveTab] = useState(0)
 
   const handleTabClick = (index: number) => {
@@ -23,7 +27,7 @@ export default function Tabs({ tabs, children }: Props) {
   const tabElements = useMemo(
     () =>
       tabs.map((tab, index) => (
-        <span key={index} onClick={() => handleTabClick(index)} className={classNames(styles.tab__label, { [styles.active]: index === activeTab })}>
+        <span key={index} onClick={() => handleTabClick(index)} className={classNames(styles.tab__label, labelClassName, { [styles.active]: index === activeTab })}>
           {tab.label}
         </span>
       )),
@@ -32,10 +36,10 @@ export default function Tabs({ tabs, children }: Props) {
 
   return (
     <div className={styles.tab}>
-      <div className={styles.tab__wrapper}>
-        <div className={styles.tab__heading}>{tabElements}</div>
+      <div className={classNames(styles.tab__wrapper, wrapperClassName)}>
+        <div className={classNames(styles.tab__heading, headingClassName)}>{tabElements}</div>
       </div>
-      <div className={styles.tab__content}>{children[activeTab]}</div>
+      <div className={classNames(styles.tab__content, contentClassName)}>{children[activeTab]}</div>
     </div>
   )
 }

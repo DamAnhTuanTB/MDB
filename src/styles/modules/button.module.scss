@@ -13,4 +13,8 @@
   &.outlined {
     @apply text-black-50 border border-blue bg-grey-100;
   }
+
+  &.filled {
+    @apply bg-grey-50 text-black font-normal border border-grey;
+  }
 }

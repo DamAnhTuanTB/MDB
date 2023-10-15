@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/index.module.scss'
 
-import Button from '../common/button'
+import Button from '../button'
 
 export type ProductType = {
   slug: string
@@ -26,7 +26,7 @@ type Props = {
   product: ProductType
   className?: string
   page?: string
-  onQuickReview: (product: ProductType) => void
+  onQuickReview?: (product: ProductType) => void
 }
 
 export default function ProductItem({ product, className, page = '', onQuickReview }: Props) {
@@ -39,7 +39,7 @@ export default function ProductItem({ product, className, page = '', onQuickRevi
       <div className={classNames(styles.item__favorite, { [styles['active']]: product.isFavorite })} />
       <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }} />
       <div className={styles.item__detail}>
-        <Button variant="ocean" onClick={() => onQuickReview(product)}>
+        <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
           Quick Preview
         </Button>
         <Link className={styles.item__link} href={product.slug}>

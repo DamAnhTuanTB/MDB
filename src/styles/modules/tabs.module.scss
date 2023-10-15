@@ -1,8 +1,5 @@
 .tab {
   &__wrapper {
-    @apply text-center px-4 pt-10 pb-[6px] border-b border-grey border-solid;
-    @apply flex flex-row flex-nowrap overflow-auto;
-
     .active {
       @apply text-blue-50 relative font-semibold;
 
@@ -17,7 +14,6 @@
   }
 
   &__label {
-    @apply text-base pb-[6px] px-1 mr-2 last:mr-0 cursor-pointer text-grey whitespace-nowrap;
-    @apply lg:text-2xl lg:mr-12 lg:pb-[4px] lg:px-4;
+    @apply text-base font-semibold leading-none whitespace-nowrap cursor-pointer;
   }
 }

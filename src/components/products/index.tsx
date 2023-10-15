@@ -1,7 +1,7 @@
 import Breadcrumb, { BreadcrumbItem } from '../common/breadcrumb'
 import Pagination from '../common/pagination'
-import { ProductType } from '../single-product/item'
-import ProductList from '../single-product/list'
+import { ProductType } from '../common/product/item'
+import ProductList from '../common/product/list'
 
 import Filter from './filter'
 import Layout from './layout'

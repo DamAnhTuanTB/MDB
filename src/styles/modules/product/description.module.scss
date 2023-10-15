@@ -1,0 +1,47 @@
+.tabs {
+  @apply mt-0;
+  @apply lg:mt-[117px];
+
+  &__wrapper {
+    @apply border-b border-white-100;
+  }
+
+  &__label {
+    @apply pb-4 px-5;
+  }
+}
+
+.content_wrapper {
+  @apply pt-6 pb-5 px-5;
+
+  h3 {
+    @apply text-base;
+    @apply lg:text-lg lg:font-semibold lg:mb-3;
+  }
+
+  h4 {
+    @apply font-semibold;
+  }
+
+  h4,
+  p {
+    @apply text-sm mt-2;
+    @apply lg:text-base;
+  }
+
+  hr {
+    @apply h-0 mt-5 mb-6 border-white-100 w-[calc(100%+40px)] -ml-5;
+  }
+
+  .icons {
+    @apply flex flex-row gap-4;
+
+    > img {
+      @apply w-[100px] h-[100px];
+    }
+  }
+}
+
+.table {
+  @apply flex flex-row gap-8;
+}

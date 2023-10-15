@@ -1,7 +1,7 @@
 import Meta from '@/components/common/meta'
+import { ProductType } from '@/components/common/product/item'
 import HomeComponent from '@/components/home'
 import { HomeCarouselType } from '@/components/home/carousel'
-import { ProductType } from '@/components/single-product/item'
 
 const slides: HomeCarouselType[] = [
   {
