@@ -1,0 +1,30 @@
+.wrapper {
+  @apply lg:pb-[232px];
+
+  h1 {
+    @apply pl-10 text-left;
+    @apply sm:text-center sm:pl-0;
+  }
+
+  .collapse {
+    @apply first:mt-2;
+    @apply lg:first:mt-0;
+  }
+
+  .tabs {
+    &__wrapper {
+      @apply text-center px-4 pt-10 pb-[6px] border-b border-grey border-solid;
+      @apply flex flex-row flex-nowrap overflow-auto;
+    }
+
+    &__content {
+      @apply pr-[66px];
+      @apply lg:pr-[120px];
+    }
+
+    &__label {
+      @apply text-base pb-[6px] px-1 mr-2 last:mr-0 cursor-pointer text-grey whitespace-nowrap;
+      @apply lg:text-2xl lg:mr-12 lg:pb-[4px] lg:px-4;
+    }
+  }
+}

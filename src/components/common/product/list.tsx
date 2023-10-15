@@ -13,9 +13,10 @@ import styles from '@/styles/modules/product/index.module.scss'
 
 import CustomForm from '@/components/form'
 import SelectField, { SelectOption } from '@/components/form/select-field'
-import FilterModal from '@/components/products/filter/modal'
+import FilterModal from '@/components/products/filter/filter-modal'
 
 import ProductItem, { ProductType } from './item'
+import QuickReviewModal from './quick-review-modal'
 
 type Props = {
   title?: string
@@ -29,6 +30,8 @@ type Props = {
 export default function ProductList({ products, title, spCarousel = false, isShowSort = false, isShowFilter = false, page = '' }: Props) {
   const carousel = useRef<Swiper>()
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
+  const [quickReviewData, setQuickReviewData] = useState<ProductType>()
 
   const sortOptions: SelectOption[] = [{ label: 'Sort', value: '' }]
 
@@ -38,9 +41,9 @@ export default function ProductList({ products, title, spCarousel = false, isSho
       slidesPerView: 1,
       centeredSlides: true,
       loop: true,
-      // autoplay: {
-      //   delay: 3000
-      // },
+      autoplay: {
+        delay: 5000
+      },
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
@@ -56,7 +59,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
         carousel.current = initCarousel('#productList', options)
       } else {
         if (carousel.current) {
-          carousel.current.destroy()
+          carousel.current?.destroy()
         }
       }
     }
@@ -67,11 +70,16 @@ export default function ProductList({ products, title, spCarousel = false, isSho
     }
   }, [])
 
+  const handleQuickReview = (product: ProductType) => {
+    setQuickReviewData(product)
+    setOpenQuickReview(true)
+  }
+
   const productElements = useMemo(
     () =>
       products &&
       products.map((product, index) => {
-        return <ProductItem className="swiper-slide" key={index} product={product} page={page} />
+        return <ProductItem className="swiper-slide" key={index} product={product} page={page} onQuickReview={handleQuickReview} />
       }),
     []
   )
@@ -107,6 +115,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
         )}
       </div>
       <FilterModal open={openModal} onClose={() => setOpenModal(false)} />
+      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
     </div>
   )
 }

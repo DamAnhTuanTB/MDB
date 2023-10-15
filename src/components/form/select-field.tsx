@@ -51,9 +51,7 @@ const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaul
                 className={classNames(styles.input__field, { hasError: hasError }, inputClassName)}
                 placeholder={placeholder}
                 onBlur={onBlur}
-                onChange={(e) => {
-                  onChange(e)
-                }}
+                onChange={onChange}
                 value={value || ''}
                 {...otherProps}
                 {...others}

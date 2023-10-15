@@ -29,7 +29,7 @@ export default function Menu({ open, onClose }: Props) {
               <Link href={routes.homePage()}>Browse By</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Featured Products</Link>
+              <Link href={routes.productPage()}>Featured Products</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
               <Link href={routes.homePage()}>New Arrivals</Link>

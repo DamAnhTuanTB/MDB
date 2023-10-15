@@ -15,15 +15,21 @@ export type ProductType = {
   isFavorite: boolean
   rating: number
   price: string
+  brand?: string
+  sku?: string
+  reviewCount?: number
+  isInStock?: boolean
+  description?: string
 }
 
 type Props = {
   product: ProductType
   className?: string
   page?: string
+  onQuickReview?: (product: ProductType) => void
 }
 
-export default function ProductItem({ product, className, page = '' }: Props) {
+export default function ProductItem({ product, className, page = '', onQuickReview }: Props) {
   const ratingScore = useMemo(() => Math.ceil(product.rating), [product.rating])
 
   const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
@@ -33,7 +39,9 @@ export default function ProductItem({ product, className, page = '' }: Props) {
       <div className={classNames(styles.item__favorite, { [styles['active']]: product.isFavorite })} />
       <div className={styles.item__image} style={{ backgroundImage: `url(${product.img})` }} />
       <div className={styles.item__detail}>
-        <Button variant="ocean">Quick Preview</Button>
+        <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
+          Quick Preview
+        </Button>
         <Link className={styles.item__link} href={product.slug}>
           <Button variant="teal">Product Details</Button>
         </Link>

@@ -1,0 +1,65 @@
+.body {
+  @apply pt-4 text-sm font-normal;
+  @apply md:pt-0 md:flex md:pb-4;
+  @apply xl:px-2;
+}
+
+.image {
+  @apply md:w-[257px] md:h-[257px] md:min-w-[257px] bg-center bg-no-repeat bg-cover;
+
+  &__sp {
+    @apply w-[100px] h-[100px] mx-auto bg-center bg-no-repeat bg-cover;
+    @apply md:hidden;
+  }
+}
+
+.content {
+  @apply md:pl-7 md:flex-1;
+
+  &__group {
+    @apply flex flex-row gap-x-[10px] items-center mt-4;
+
+    span {
+      @apply inline-block mx-2;
+    }
+  }
+
+  h4 {
+    @apply font-semibold;
+  }
+
+  &__name {
+    @apply text-base font-semibold mt-6;
+  }
+
+  &__brand {
+    @apply mt-4;
+  }
+
+  &__description {
+    @apply mt-4;
+
+    &__title {
+      @apply mt-6 text-base font-semibold;
+    }
+  }
+
+  &__viewmore {
+    @apply hidden mx-auto max-w-[194px];
+    @apply md:block;
+
+    &__sp {
+      @apply whitespace-nowrap block;
+      @apply md:hidden;
+    }
+  }
+
+  &__addtocart {
+    @apply md:max-w-[250px];
+  }
+}
+
+.pc {
+  @apply hidden;
+  @apply md:flex md:flex-col md:justify-between;
+}

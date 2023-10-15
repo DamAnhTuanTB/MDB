@@ -1,16 +1,12 @@
 .input {
   @apply w-full;
 
-  & + .input {
-    @apply mt-[15px];
-  }
-
   &__label {
     @apply text-base mb-2;
   }
 
   &__field {
-    @apply text-sm px-2 rounded outline-none w-full;
+    @apply text-sm px-2 rounded outline-none w-full h-10;
 
     &.error {
       @apply border-red;
