@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 
 import { defaultFilterGroup } from '@/constants/product-filter'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
@@ -15,6 +15,8 @@ type Props = {
 
 const Filter = ({ attributes }: Props) => {
   const { updateQueryParams } = useRouterWithQueryParams()
+  const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
+
   const filterElements = useMemo(
     () =>
       defaultFilterGroup.map((item) => {
@@ -34,18 +36,19 @@ const Filter = ({ attributes }: Props) => {
       filterElements.map((attr, index) => {
         switch (attr.type) {
           case 'rating':
-            return <Rating key={index} title="Rating" />
+            return <Rating key={index} clearFilter={clearAllFilter} title="Rating" />
           case 'slider':
-            return <Slider key={index} title="Price" />
+            return <Slider key={index} clearFilter={clearAllFilter} title="Price" />
           default:
-            return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} />
+            return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} clearFilter={clearAllFilter} />
         }
       }),
-    [filterElements]
+    [clearAllFilter, filterElements]
   )
 
   const handleClearAllFilter = () => {
     updateQueryParams(undefined)
+    setClearAllFilter(true)
   }
 
   return (

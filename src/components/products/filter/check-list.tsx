@@ -14,24 +14,21 @@ import Checkbox from '../../common/checkbox'
 type Props = {
   attributes: ProductAttribute[]
   title?: string
+  clearFilter?: boolean
 }
 
-function CheckList({ attributes, title }: Props) {
+function CheckList({ attributes, title, clearFilter = false }: Props) {
   const [listRenderItem, setListRenderItem] = useState(attributes.slice(0, productConfigs.filterMaxItem))
   const { query, updateQueryParams } = useRouterWithQueryParams()
-  const [selectedId, setSelectedId] = useState<string[]>(query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : [])
+  const [selectedId, setSelectedId] = useState<string[]>(typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds || [])
+
+  useEffect(() => {
+    if (clearFilter) setSelectedId([])
+  }, [clearFilter])
 
   useEffect(() => {
     updateQueryParams({ ...query, attributeIds: selectedId })
   }, [selectedId])
-
-  // useEffect(() => {
-  //   console.log(query.attributeIds)
-
-  //   if (!query.attributeIds) {
-  //     setSelectedId([])
-  //   }
-  // }, [query])
 
   const handleSeeAll = () => {
     if (attributes.length > productConfigs.filterMaxItem) {
@@ -41,7 +38,7 @@ function CheckList({ attributes, title }: Props) {
 
   const toggleCheckbox = (checked: boolean, id: string) => {
     if (checked) setSelectedId((preValue) => [...preValue, id])
-    else setSelectedId((preValue) => preValue.filter((item) => item !== id))
+    else setSelectedId(selectedId.filter((item) => item !== id))
   }
 
   const checkListElement = useMemo(

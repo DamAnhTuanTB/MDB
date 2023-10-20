@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 import ReactSlider from 'react-slider'
@@ -9,12 +9,16 @@ import { debounce } from '@/utils/helper'
 
 type Props = {
   title?: string
-  onChange?: (value: number[]) => void
+  clearFilter?: boolean
 }
 
-export default function Slider({ title, onChange }: Props) {
+export default function Slider({ title, clearFilter = false }: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
   const [defaultValue, setDefaultValue] = useState<number[]>([Number(query.minPrice || 0), Number(query.maxPrice || 100)])
+
+  useEffect(() => {
+    if (clearFilter) setDefaultValue([0, 100]) // TODO: update default value
+  }, [clearFilter])
 
   const handleChangeValue = (value: number[]) => {
     debounce(300)(() => {

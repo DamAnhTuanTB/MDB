@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -10,17 +10,24 @@ import RatingCommon from '@/components/common/rating'
 
 type Props = {
   title?: string
+  clearFilter?: boolean
 }
 
-export default function Rating({ title }: Props) {
+export default function Rating({ title, clearFilter = false }: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
   const [rating, setRating] = useState<number | undefined>(Number(query.maxRating))
 
+  useEffect(() => {
+    if (clearFilter) setRating(0)
+  }, [clearFilter])
+
+  useEffect(() => {
+    updateQueryParams({ ...query, maxRating: rating || '' })
+  }, [rating])
+
   const toggleCheckbox = (checked: boolean, value: number) => {
     if (checked) setRating(value)
-    else setRating(undefined)
-
-    updateQueryParams({ ...query, minRating: 0, maxRating: value || '' })
+    else setRating(0)
   }
 
   const ratingElements = useMemo(
