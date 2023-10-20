@@ -1,12 +1,16 @@
-import { ProductParams } from './../../types/product'
+import { ListProductAttributeResponse } from '@/types/product/attribute'
+
+import { ListProductResponse, ProductParams } from '../../types/product'
 
 import { apiBase, paramToQueryString } from '.'
 
 export const productApi = {
-  getList(params: ProductParams) {
+  getListProducts(params: ProductParams) {
     const queryString = paramToQueryString(params)
-    console.log(queryString)
+    return apiBase.get<ListProductResponse>(`/products?${queryString}`)
+  },
 
-    return apiBase.get(`/products${queryString}`)
+  getAttributes() {
+    return apiBase.get<ListProductAttributeResponse>('/attribute-groups?noPagination=true')
   }
 }

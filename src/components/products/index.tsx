@@ -1,21 +1,24 @@
+import routes from '@/routes'
+import { Product } from '@/types/product'
+import { ProductAttributeItem } from '@/types/product/attribute'
+
 import Breadcrumb, { BreadcrumbItem } from '../common/breadcrumb'
 import Pagination from '../common/pagination'
-import { ProductType } from '../common/product/item'
 import ProductList from '../common/product/list'
 
 import Filter from './filter'
 import Layout from './layout'
 
 type Props = {
-  products: ProductType[]
+  products: Product[]
+  attributes: ProductAttributeItem[]
 }
 
-export default function ProductComponent({ products }: Props) {
-  const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: '/' }, { label: 'Sunscreen' }]
-  const handleFilter = () => {}
+export default function ProductComponent({ products, attributes }: Props) {
+  const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: routes.homePage() }, { label: 'Sunscreen' }]
 
   return (
-    <Layout sidebar={<Filter onFilter={handleFilter} />}>
+    <Layout sidebar={<Filter attributes={attributes} />}>
       <Breadcrumb items={breadcrumbItems} />
       <ProductList isShowSort isShowFilter products={products} title="Sunscreen Products" page="products" />
       <Pagination itemsPerPage={10} totalCount={100} />

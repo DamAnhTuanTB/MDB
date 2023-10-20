@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
 
 import styles from '@/styles/modules/product/related.module.scss'
+import { Product } from '@/types/product'
 
-import ProductItem, { ProductType } from './item'
+import ProductItem from './item'
 
 type Props = {
   title?: string
-  products: ProductType[]
+  products: Product[]
 }
 
 export default function RelatedProduct({ title, products }: Props) {

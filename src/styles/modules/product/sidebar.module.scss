@@ -34,7 +34,7 @@
   }
 
   &__more {
-    @apply flex flex-row flex-nowrap items-center mt-3 pl-6 text-base font-semibold text-blue-50;
+    @apply flex flex-row flex-nowrap items-center mt-3 pl-6 text-base font-semibold text-blue-50 cursor-pointer;
 
     > img {
       @apply -ml-[5px] mr-4;

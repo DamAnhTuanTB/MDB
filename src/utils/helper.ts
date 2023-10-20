@@ -1,6 +1,8 @@
 import { FieldErrors } from 'react-hook-form/dist/types'
 import { ZodIssueOptionalMessage } from 'zod'
 
+let debounceTimeout: NodeJS.Timeout
+
 /**
  * Checks if the given string matches the specified regular expression pattern.
  *
@@ -133,3 +135,21 @@ export async function shareFile(files: any[]) {
     console.log("Your system doesn't support sharing these files.")
   }
 }
+
+/**
+ * Creates a debounced version of a callback function that will only be called
+ * after a specified amount of time has passed since the last time it was invoked.
+ *
+ * @param {number} time - The number of milliseconds to wait before invoking the callback.
+ * @param {Function} callback - The callback function to be debounced.
+ * @param {...any} value - The arguments to be passed to the callback function.
+ * @return {void}
+ */
+export const debounce =
+  (time = 300) =>
+  (callback: Function, ...value: any[]) => {
+    clearTimeout(debounceTimeout)
+    debounceTimeout = setTimeout(() => {
+      callback(...value)
+    }, time)
+  }

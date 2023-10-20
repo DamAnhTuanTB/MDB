@@ -73,7 +73,7 @@ export default function ProductDetail() {
       </div>
       <hr className={classNames(styles.hr, 'hidden lg:block')} />
       <div className={styles.related}>
-        <RelatedProduct products={prodcuts} title="You May Also Like" />
+        <RelatedProduct products={[]} title="You May Also Like" />
       </div>
       <Reviews />
     </>

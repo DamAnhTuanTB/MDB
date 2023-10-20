@@ -1,3 +1,5 @@
+import { ListResponse } from '..'
+
 export type Image = {
   key: string
   url: string
@@ -39,6 +41,8 @@ export type ProductFilter = {
   maxSpf?: number
   minPrice?: number
   maxPrice?: number
+  minRating?: number
+  maxRating?: number
   attributeIds?: string[]
   ingredientIds?: string[]
 }
@@ -46,14 +50,9 @@ export type ProductFilter = {
 export type ProductParams = {
   page: number
   limit: number
-  search: string
+  search?: string
   sort?: ProductSort
   where?: ProductFilter
 }
 
-export type ProductResponse = {
-  next: string | null
-  preprevious: string | null
-  count: number
-  results: Product[]
-}
+export type ListProductResponse = ListResponse<Product>

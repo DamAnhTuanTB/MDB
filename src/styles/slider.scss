@@ -9,7 +9,7 @@
     }
 
     &__value {
-      @apply absolute -bottom-8 transform -translate-x-1/4 text-xs p-1 border border-blue rounded;
+      @apply absolute -bottom-8 transform -translate-x-1/4 text-xs p-1 border border-blue rounded cursor-pointer;
     }
   }
 

@@ -10,17 +10,16 @@ import initCarousel, { Options } from '@/services/carousel'
 
 import configs from '@/configs'
 import styles from '@/styles/modules/product/index.module.scss'
+import { Product } from '@/types/product'
 
 import CustomForm from '@/components/form'
 import SelectField, { SelectOption } from '@/components/form/select-field'
-import FilterModal from '@/components/products/filter/filter-modal'
 
-import ProductItem, { ProductType } from './item'
-import QuickReviewModal from './quick-review-modal'
+import ProductItem from './item'
 
 type Props = {
   title?: string
-  products: ProductType[]
+  products: Product[]
   spCarousel?: boolean
   page?: string
   isShowSort?: boolean
@@ -31,9 +30,9 @@ export default function ProductList({ products, title, spCarousel = false, isSho
   const carousel = useRef<Swiper>()
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
-  const [quickReviewData, setQuickReviewData] = useState<ProductType>()
+  const [quickReviewData, setQuickReviewData] = useState<Product>()
 
-  const sortOptions: SelectOption[] = [{ label: 'Sort', value: '' }]
+  const sortOptions: SelectOption[] = useMemo(() => [{ label: 'Sort', value: '' }], [])
 
   useEffect(() => {
     const options: Options = {
@@ -70,7 +69,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
     }
   }, [])
 
-  const handleQuickReview = (product: ProductType) => {
+  const handleQuickReview = (product: Product) => {
     setQuickReviewData(product)
     setOpenQuickReview(true)
   }
@@ -81,7 +80,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
       products.map((product, index) => {
         return <ProductItem className="swiper-slide" key={index} product={product} page={page} onQuickReview={handleQuickReview} />
       }),
-    []
+    [page, products]
   )
 
   const sortElement = useMemo(() => {
@@ -90,7 +89,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
         <SelectField name="sort" options={sortOptions} inputClassName="h-10" />
       </CustomForm>
     )
-  }, [])
+  }, [sortOptions])
 
   return (
     <div className={classNames(styles.list, [styles[page]])}>
@@ -114,8 +113,8 @@ export default function ProductList({ products, title, spCarousel = false, isSho
           </>
         )}
       </div>
-      <FilterModal open={openModal} onClose={() => setOpenModal(false)} />
-      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
+      {/* <FilterModal open={openModal} onClose={() => setOpenModal(false)} /> */}
+      {/* <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} /> */}
     </div>
   )
 }

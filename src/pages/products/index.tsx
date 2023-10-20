@@ -1,3 +1,14 @@
+import { useEffect, useState } from 'react'
+
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+
+import { productApi } from '@/services/api/product'
+
+import { useProduct } from '@/hooks/pages/use-product'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { Product, ProductFilter } from '@/types/product'
+import { ProductAttributeItem } from '@/types/product/attribute'
+
 import Meta from '@/components/common/meta'
 import { ProductType } from '@/components/common/product/item'
 import ProductComponent from '@/components/products'
@@ -161,11 +172,38 @@ const prodcuts: ProductType[] = [
   }
 ]
 
-export default function ProductPage() {
+export const getServerSideProps = (async () => {
+  const response = await productApi.getAttributes()
+
+  return { props: { productAttributes: response.data.results || [] } }
+}) satisfies GetServerSideProps<{
+  productAttributes: ProductAttributeItem[]
+}>
+
+export default function ProductPage({ productAttributes }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { getProductList, productList } = useProduct()
+  const [products, setProducts] = useState<Product[]>(productList?.results || [])
+  const [filterParams, setFilterParams] = useState<ProductFilter>({} as ProductFilter)
+  const { query, updateQueryParams } = useRouterWithQueryParams()
+
+  useEffect(() => {
+    setFilterParams({ ...query })
+  }, [])
+
+  console.log(filterParams)
+
+  const handleFilter = (value: ProductFilter) => {
+    console.log('handleFilter')
+    console.log(value)
+
+    setFilterParams(value)
+    updateQueryParams(value)
+  }
+
   return (
     <>
       <Meta title="Products" />
-      <ProductComponent products={prodcuts} />
+      <ProductComponent products={products} attributes={productAttributes} />
     </>
   )
 }

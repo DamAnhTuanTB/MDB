@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 import Image from 'next/image'
 
@@ -11,7 +11,7 @@ type Props = {
   className?: string
 }
 
-export default function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
+function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
   const [itemOffset, setItemOffset] = useState(0)
   const endOffset = itemOffset + itemsPerPage
   console.log(`Loading items from ${itemOffset} to ${endOffset}`)
@@ -45,3 +45,5 @@ export default function Pagination({ itemsPerPage = 10, totalCount, className }:
     </div>
   )
 }
+
+export default memo(Pagination)
