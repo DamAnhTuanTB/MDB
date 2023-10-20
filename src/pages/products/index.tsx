@@ -4,10 +4,12 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 import { productApi } from '@/services/api/product'
 
+import { productConfigs } from '@/configs/product'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import { Product, ProductFilter } from '@/types/product'
+import { ProductParams } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
+import { debounce } from '@/utils/helper'
 
 import Meta from '@/components/common/meta'
 import { ProductType } from '@/components/common/product/item'
@@ -182,18 +184,24 @@ export const getServerSideProps = (async () => {
 
 export default function ProductPage({ productAttributes }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { getProductList, productList } = useProduct()
-  const [products, setProducts] = useState<Product[]>(productList?.results || [])
   const { query, updateQueryParams } = useRouterWithQueryParams()
-  const [filterParams, setFilterParams] = useState<ProductFilter>(query)
+
+  const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
-    console.log(filterParams)
+    debounce(1000)(getProductList, {
+      page,
+      limit: productConfigs.limit,
+      where: {
+        ...query
+      }
+    } as ProductParams)
   }, [query])
 
   return (
     <>
       <Meta title="Products" />
-      <ProductComponent products={products} attributes={productAttributes} />
+      <ProductComponent products={productList?.results || []} attributes={productAttributes} />
     </>
   )
 }

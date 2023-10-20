@@ -1,6 +1,5 @@
 import type { AxiosPromise, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
-import queryString from 'query-string'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -23,8 +22,20 @@ const apiBase = {
   delete: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => instance.delete(url, config)
 }
 
-export const paramToQueryString = (params: Object) => {
-  return queryString.stringify(params)
+export function paramToQueryString<T extends Object>(paramsObj: T) {
+  const params = new URLSearchParams()
+
+  Object.entries(paramsObj).forEach(([key, value]) => {
+    if (typeof value === 'object' && value !== null) {
+      Object.entries(value).forEach(([subKey, subValue]) => {
+        params.append(`${key}[${subKey}]`, subValue as string)
+      })
+    } else {
+      params.set(key, value)
+    }
+  })
+
+  return params.toString()
 }
 
 const handleApiError = (error: any) => {

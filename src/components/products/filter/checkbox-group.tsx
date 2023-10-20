@@ -26,7 +26,11 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   const [maxSpf, setMaxSpf] = useState<number | null>(query.maxSpf === '' ? null : Number(query.maxSpf) || null)
 
   useEffect(() => {
-    if (clearFilter) setSelectedId([])
+    if (clearFilter) {
+      setSelectedId([])
+      setMinSpf(null)
+      setMaxSpf(null)
+    }
   }, [clearFilter])
 
   useEffect(() => {
@@ -34,7 +38,7 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   }, [selectedId])
 
   useEffect(() => {
-    updateQueryParams({ ...query, minSpf: minSpf !== null ? minSpf : '', maxSpf: maxSpf !== null ? maxSpf : '' })
+    if (minSpf !== null && maxSpf !== null) updateQueryParams({ ...query, minSpf: minSpf !== null ? minSpf : '', maxSpf: maxSpf !== null ? maxSpf : '' })
   }, [maxSpf, minSpf])
 
   const handleSeeAll = () => {
