@@ -10,7 +10,7 @@ export function useRouterWithQueryParams() {
         query: params ? { ...router.query, ...params } : {}
       },
       undefined,
-      { scroll: false } // Prevent scroll to top if query changes
+      { scroll: false, shallow: true } // scroll: Prevent scroll to top if query changes
     )
   }
 

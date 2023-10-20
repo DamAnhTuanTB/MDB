@@ -3,9 +3,9 @@ import { memo, useMemo, useState } from 'react'
 import { defaultFilterGroup } from '@/constants/product-filter'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/sidebar.module.scss'
-import { ProductAttributeItem } from '@/types/product/attribute'
+import { ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
 
-import CheckList from './check-list'
+import CheckList from './checkbox-group'
 import Rating from './rating'
 import Slider from './slider'
 
@@ -40,7 +40,7 @@ const Filter = ({ attributes }: Props) => {
           case 'slider':
             return <Slider key={index} clearFilter={clearAllFilter} title="Price" />
           default:
-            return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} clearFilter={clearAllFilter} />
+            return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} isSPF={attr.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
         }
       }),
     [clearAllFilter, filterElements]

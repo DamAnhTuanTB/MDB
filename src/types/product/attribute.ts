@@ -22,8 +22,8 @@ export type ProductAttributeParams = {
 export type ProductAttribute = {
   id: string
   value: string
-  min: number | null
-  max: number | null
+  minValue: number | null
+  maxValue: number | null
 }
 
 export type ProductAttributeItem = {

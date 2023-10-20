@@ -18,7 +18,7 @@ export default function Rating({ title, clearFilter = false }: Props) {
   const [rating, setRating] = useState<number | undefined>(Number(query.maxRating))
 
   useEffect(() => {
-    if (clearFilter) setRating(0)
+    if (clearFilter) setRating(undefined)
   }, [clearFilter])
 
   useEffect(() => {

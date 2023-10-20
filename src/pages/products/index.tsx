@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
@@ -183,18 +183,12 @@ export const getServerSideProps = (async () => {
 export default function ProductPage({ productAttributes }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { getProductList, productList } = useProduct()
   const [products, setProducts] = useState<Product[]>(productList?.results || [])
-  const [filterParams, setFilterParams] = useState<ProductFilter>({} as ProductFilter)
   const { query, updateQueryParams } = useRouterWithQueryParams()
+  const [filterParams, setFilterParams] = useState<ProductFilter>(query)
 
-  console.log(filterParams)
-
-  const handleFilter = (value: ProductFilter) => {
-    console.log('handleFilter')
-    console.log(value)
-
-    setFilterParams(value)
-    updateQueryParams(value)
-  }
+  useEffect(() => {
+    console.log(filterParams)
+  }, [query])
 
   return (
     <>
