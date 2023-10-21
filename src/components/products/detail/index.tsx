@@ -1,75 +1,24 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
+import { ProductDetail } from '@/types/product/detail'
 
-import { ProductType } from '@/components/common/product/item'
 import RelatedProduct from '@/components/common/product/related'
 
 import Description from './description'
 import Information from './information'
 import Reviews from './review'
 
-const prodcuts: ProductType[] = [
-  {
-    slug: '/products/eltamd-uv-clear-broad-spectrum-spf-46',
-    img: '/images/product.png',
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    isFavorite: true,
-    rating: 4,
-    price: '$44',
-    brand: 'EltaMD',
-    reviewCount: 75,
-    isInStock: true,
-    sku: '02287',
-    description: '<p>Have your fun in the sun—but play it safe. This sunscreen is great for swimmers, skiers, runners, golfers and other athletes.</p>'
-  },
-  {
-    slug: '/products/eltamd-uv-clear-broad-spectrum-spf-46',
-    img: '/images/product.png',
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    isFavorite: true,
-    rating: 5,
-    price: '$44',
-    brand: 'EltaMD',
-    reviewCount: 75,
-    isInStock: true,
-    sku: '02287',
-    description: '<p>Have your fun in the sun—but play it safe. This sunscreen is great for swimmers, skiers, runners, golfers and other athletes.</p>'
-  },
-  {
-    slug: '/products/eltamd-uv-clear-broad-spectrum-spf-46',
-    img: '/images/product.png',
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    isFavorite: true,
-    rating: 1,
-    price: '$44',
-    brand: 'EltaMD',
-    reviewCount: 75,
-    isInStock: true,
-    sku: '02287',
-    description: '<p>Have your fun in the sun—but play it safe. This sunscreen is great for swimmers, skiers, runners, golfers and other athletes.</p>'
-  },
-  {
-    slug: '/products/eltamd-uv-clear-broad-spectrum-spf-46',
-    img: '/images/product.png',
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    isFavorite: true,
-    rating: 3,
-    price: '$44',
-    brand: 'EltaMD',
-    reviewCount: 75,
-    isInStock: true,
-    sku: '02287',
-    description: '<p>Have your fun in the sun—but play it safe. This sunscreen is great for swimmers, skiers, runners, golfers and other athletes.</p>'
-  }
-]
+type Props = {
+  data: ProductDetail
+}
 
-export default function ProductDetail() {
+export default function ProductDetailComponent({ data }: Props) {
   return (
     <>
       <div className={styles.content}>
-        <Information />
-        <Description />
+        <Information data={data} />
+        <Description data={data} />
       </div>
       <hr className={classNames(styles.hr, 'hidden lg:block')} />
       <div className={styles.related}>

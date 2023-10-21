@@ -1,20 +1,26 @@
 import { useMemo } from 'react'
 
 import styles from '@/styles/modules/product/description.module.scss'
+import { ProductDetail } from '@/types/product/detail'
 
 import CollapseItem from '@/components/common/collapse'
 import Tabs, { TabItem } from '@/components/common/tabs'
 
 import DescriptionDetail from './detail'
+import HowToUse from './how-to-use'
 
-export default function Description() {
+type Props = {
+  data: ProductDetail
+}
+
+export default function Description({ data }: Props) {
   const tabs: TabItem[] = [{ label: 'Details' }, { label: 'How to Use' }, { label: 'Shipping & Returns' }, { label: 'Q&A' }]
 
   const collapseElements = useMemo(
     () =>
       tabs.map((tab, index) => (
         <CollapseItem key={index} title={tab.label}>
-          <DescriptionDetail />
+          <DescriptionDetail data={data} />
         </CollapseItem>
       )),
     []
@@ -24,8 +30,8 @@ export default function Description() {
     <>
       <div className={styles.tabs}>
         <Tabs tabs={tabs} wrapperClassName={styles.tabs__wrapper} labelClassName={styles.tabs__label}>
-          <DescriptionDetail />
-          <div>tab2</div>
+          <DescriptionDetail data={data} />
+          <HowToUse text={data.howToUse} />
           <div>tab4</div>
         </Tabs>
       </div>

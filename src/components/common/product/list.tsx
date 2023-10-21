@@ -98,11 +98,13 @@ export default function ProductList({
   }, [clearFilter])
 
   useEffect(() => {
-    updateQueryParams({
-      ...query,
-      sort: sortValue,
-      page: 1
-    })
+    const params: any = {
+      ...query
+    }
+    if (isShowSort) params.sort = sortValue
+    if (query.hasOwnProperty('page') && query.page) params.page = 1
+
+    updateQueryParams(params)
   }, [sortValue])
 
   const handleQuickReview = (product: Product) => {

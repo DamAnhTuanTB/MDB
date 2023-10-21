@@ -22,22 +22,6 @@ const apiBase = {
   delete: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => instance.delete(url, config)
 }
 
-export function paramToQueryString<T extends Object>(paramsObj: T) {
-  const params = new URLSearchParams()
-
-  Object.entries(paramsObj).forEach(([key, value]) => {
-    if (typeof value === 'object' && value !== null) {
-      Object.entries(value).forEach(([subKey, subValue]) => {
-        params.append(`${key}[${subKey}]`, subValue as string)
-      })
-    } else {
-      params.set(key, value)
-    }
-  })
-
-  return params.toString()
-}
-
 const handleApiError = (error: any) => {
   if (axios.isAxiosError(error) && error.response) {
     return error.response?.data

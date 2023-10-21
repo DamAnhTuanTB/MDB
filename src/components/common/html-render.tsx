@@ -1,6 +1,7 @@
 type Props = {
   htmlString: string
+  className?: string
 }
-export default function HtmlRender({ htmlString }: Props) {
-  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+export default function HtmlRender({ htmlString, className }: Props) {
+  return <div className={className} dangerouslySetInnerHTML={{ __html: htmlString }} />
 }
