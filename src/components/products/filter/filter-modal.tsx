@@ -20,10 +20,10 @@ const defaultTitle = 'Filter'
 type Props = {
   open: boolean
   attributes: ProductAttributeItem[]
-  defaultFilterData: DefaultFilterData
+  defaultFilterData?: DefaultFilterData
   clearAllFilter?: boolean
-  onClearFilter: () => void
-  onClose: () => void
+  onClearFilter?: () => void
+  onClose?: () => void
 }
 
 export default function FilterModal({ open, attributes, defaultFilterData, clearAllFilter = false, onClose, onClearFilter }: Props) {
@@ -37,7 +37,7 @@ export default function FilterModal({ open, attributes, defaultFilterData, clear
 
   const closeModal = () => {
     setModalTitle(defaultTitle)
-    onClose()
+    onClose && onClose()
   }
 
   const resetFilter = () => {
@@ -48,7 +48,7 @@ export default function FilterModal({ open, attributes, defaultFilterData, clear
   }
 
   const handleClearFilter = () => {
-    onClearFilter()
+    onClearFilter && onClearFilter()
     closeModal()
   }
 

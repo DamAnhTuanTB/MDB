@@ -34,9 +34,9 @@ type Props = {
   isShowSort?: boolean
   isShowFilter?: boolean
   clearFilter?: boolean
-  attributes: ProductAttributeItem[]
-  defaultFilterData: DefaultFilterData
-  onClearFilter: () => void
+  attributes?: ProductAttributeItem[]
+  defaultFilterData?: DefaultFilterData
+  onClearFilter?: () => void
 }
 
 export default function ProductList({
@@ -153,7 +153,7 @@ export default function ProductList({
           </>
         )}
       </div>
-      <FilterModal open={openModal} attributes={attributes} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
+      <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
       {/* <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} /> */}
     </div>
   )
