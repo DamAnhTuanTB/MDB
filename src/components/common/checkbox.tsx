@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,12 +6,17 @@ import styles from '@/styles/modules/checkbox.module.scss'
 
 type Props = {
   label: React.ReactNode
-  defaultValue?: boolean
+  checked?: boolean
   onChange?: (value: boolean) => void
 }
 
-export default function Checkbox({ label, defaultValue = false, onChange }: Props) {
-  const [isChecked, setIsChecked] = useState<boolean>(defaultValue)
+export default function Checkbox({ label, checked = false, onChange }: Props) {
+  const [isChecked, setIsChecked] = useState<boolean>(checked)
+
+  useEffect(() => {
+    setIsChecked(checked)
+  }, [checked])
+
   const handleClick = () => {
     setIsChecked(!isChecked)
     onChange && onChange(!isChecked)

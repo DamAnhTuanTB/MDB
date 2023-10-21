@@ -3,18 +3,29 @@
   @apply lg:mt-20;
 }
 .pagination {
-  @apply flex flex-row flex-nowrap items-center rounded-lg bg-grey-50 border border-white-100 gap-x-1 mx-auto;
+  @apply flex flex-row flex-nowrap items-center rounded-lg bg-grey-50 border border-white-100 gap-x-4 mx-auto;
 
   li {
-    @apply text-sm text-black-50 cursor-pointer px-[2px] md:px-1;
+    @apply text-sm text-black-50 cursor-pointer;
 
     &.selected {
       @apply text-teal-50;
+    }
+
+    &:nth-child(2) {
+      @apply ml-[10px];
+    }
+
+    &:nth-last-child(2) {
+      @apply mr-[10px];
     }
   }
 
   .button {
     @apply flex flex-row flex-nowrap items-center px-3 py-[9px];
+
+    &__next {
+    }
   }
 
   .next {

@@ -1,6 +1,8 @@
 import { FieldErrors } from 'react-hook-form/dist/types'
 import { ZodIssueOptionalMessage } from 'zod'
 
+let debounceTimeout: NodeJS.Timeout
+
 /**
  * Checks if the given string matches the specified regular expression pattern.
  *
@@ -132,4 +134,48 @@ export async function shareFile(files: any[]) {
   } else {
     console.log("Your system doesn't support sharing these files.")
   }
+}
+
+/**
+ * Creates a debounced version of a callback function that will only be called
+ * after a specified amount of time has passed since the last time it was invoked.
+ *
+ * @param {number} time - The number of milliseconds to wait before invoking the callback.
+ * @param {Function} callback - The callback function to be debounced.
+ * @param {...any} value - The arguments to be passed to the callback function.
+ * @return {void}
+ */
+export const debounce =
+  (time = 300) =>
+  (callback: Function, ...value: any[]) => {
+    clearTimeout(debounceTimeout)
+    debounceTimeout = setTimeout(() => {
+      callback(...value)
+    }, time)
+  }
+
+/**
+ * Generates a query string from an object of parameters.
+ *
+ * @param {T} paramsObj - The object containing the parameters.
+ * @return {string} The generated query string.
+ */
+export function paramToQueryString<T extends Object>(paramsObj: T) {
+  const params = new URLSearchParams()
+
+  Object.entries(paramsObj).forEach(([key, value]) => {
+    if (typeof value === 'object' && value !== null) {
+      Object.entries(value).forEach(([subKey, subValue]) => {
+        if (Array.isArray(subValue)) {
+          if (subValue && subValue.length > 0) params.append(`${[key]}[${subKey}][]`, JSON.stringify(subValue))
+        } else {
+          if (subValue) params.append(`${key}[${subKey}]`, subValue as string)
+        }
+      })
+    } else {
+      params.set(key, value)
+    }
+  })
+
+  return params.toString()
 }

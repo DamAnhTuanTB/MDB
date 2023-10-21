@@ -4,12 +4,12 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat g++ make build-base cmake
 
 WORKDIR /app
-COPY package.json ./
-RUN yarn
+# COPY package.json ./
+# RUN yarn
 
 # If using npm with a `package-lock.json` comment out above and use below instead
-# COPY package.json package-lock.json ./
-# RUN npm ci
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM node:18-alpine AS builder

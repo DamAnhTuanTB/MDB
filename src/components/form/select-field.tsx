@@ -20,9 +20,10 @@ export type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   options?: SelectOption[]
   className?: string
   inputClassName?: string
+  onInputChange?: (value: string) => void
 }
 
-const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, ...others }: Props) => {
+const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, onInputChange, ...others }: Props) => {
   const { control, formState } = useFormContext()
   const hasError = handleInputError(name, formState.errors)
 
@@ -44,14 +45,17 @@ const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaul
         <Controller
           name={name}
           control={control}
-          defaultValue={defaultValue}
+          defaultValue={defaultValue || ''}
           render={({ field: { value, onChange, onBlur, ...otherProps } }) => (
             <div className={classNames(styles.input__boundary, '!bg-grey-50')}>
               <select
                 className={classNames(styles.input__field, { hasError: hasError }, inputClassName)}
                 placeholder={placeholder}
                 onBlur={onBlur}
-                onChange={onChange}
+                onChange={(e) => {
+                  onChange(e)
+                  onInputChange && onInputChange(e.target.value)
+                }}
                 value={value || ''}
                 {...otherProps}
                 {...others}

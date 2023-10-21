@@ -139,7 +139,7 @@ export default function HomePage() {
   return (
     <>
       <Meta title="Home page" />
-      <HomeComponent slides={slides} products={prodcuts} />
+      <HomeComponent slides={slides} products={[]} />
     </>
   )
 }

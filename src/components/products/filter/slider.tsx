@@ -1,26 +1,47 @@
+import { useEffect, useState } from 'react'
+
 import classNames from 'classnames'
 import ReactSlider from 'react-slider'
 
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/sidebar.module.scss'
+import { debounce } from '@/utils/helper'
 
 type Props = {
-  title: string
-  withTitle?: boolean
+  min: number
+  max: number
+  title?: string
+  clearFilter?: boolean
 }
 
-export default function Slider({ title, withTitle = true }: Props) {
+export default function Slider({ title, clearFilter = false, min, max }: Props) {
+  const { query, updateQueryParams } = useRouterWithQueryParams()
+  const [defaultValue, setDefaultValue] = useState<number[]>([Number(query.minPrice || min), Number(query.maxPrice || max)])
+
+  useEffect(() => {
+    if (clearFilter) setDefaultValue([0, 100]) // TODO: update default value
+  }, [clearFilter])
+
+  const handleChangeValue = (value: number[]) => {
+    debounce(300)(() => {
+      setDefaultValue(value)
+      updateQueryParams({ ...query, page: 1, minPrice: value[0], maxPrice: value[1] })
+    }, value)
+  }
+
   return (
-    <div className={classNames(styles.group, { '!mt-0': !withTitle })}>
-      {withTitle && <div className={styles.group__title}>{title}</div>}
+    <div className={classNames(styles.group, { '!mt-0': !title })}>
+      {title && <div className={styles.group__title}>{title}</div>}
       <div className={classNames(styles.group__value, [styles['range']])}>
         <ReactSlider
           className="slider"
           thumbClassName="slider__thumb"
           trackClassName="slider__track"
-          defaultValue={[0, 100]}
+          defaultValue={defaultValue}
           ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
           pearling
           minDistance={10}
+          onChange={handleChangeValue}
           renderThumb={(
             {
               className,
@@ -32,6 +53,7 @@ export default function Slider({ title, withTitle = true }: Props) {
               'aria-disabled': areaDisabled,
               'aria-valuetext': ariaValueText,
               ref,
+              key,
               onFocus,
               onMouseDown,
               onTouchStart
@@ -43,7 +65,7 @@ export default function Slider({ title, withTitle = true }: Props) {
               className={className}
               style={style}
               role={role}
-              key={`key${new Date().getTime()}`}
+              key={key || `key${new Date().getTime()}`}
               aria-orientation={'horizontal'}
               aria-valuenow={ariaValueNow}
               aria-valuemin={ariaValueMin}

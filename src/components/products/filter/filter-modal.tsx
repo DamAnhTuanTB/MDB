@@ -4,30 +4,34 @@ import Image from 'next/image'
 
 import classNames from 'classnames'
 
-import { filterList } from '@/configs/product-filter'
+import { defaultFilterGroup } from '@/constants/product'
 import styles from '@/styles/modules/product/filter-modal.module.scss'
+import { DefaultFilterData } from '@/types/product'
+import { AttributeFilterItem, ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
 
 import Button from '@/components/common/button'
 
-import CheckList from './check-list'
+import CheckListGroup from './checkbox-group'
 import Rating from './rating'
 import Slider from './slider'
-
-import { FilterGroup } from '.'
 
 const defaultTitle = 'Filter'
 
 type Props = {
   open: boolean
+  attributes: ProductAttributeItem[]
+  defaultFilterData?: DefaultFilterData
+  clearAllFilter?: boolean
+  onClearFilter?: () => void
   onClose?: () => void
 }
 
-export default function FilterModal({ open, onClose }: Props) {
+export default function FilterModal({ open, attributes, defaultFilterData, clearAllFilter = false, onClose, onClearFilter }: Props) {
   const [modalTitle, setModalTitle] = useState<string>(defaultTitle)
-  const [detailFilter, setDetailFilter] = useState<FilterGroup>()
+  const [detailFilter, setDetailFilter] = useState<AttributeFilterItem>()
 
-  const handleFilterDetail = (filter: FilterGroup) => {
-    setModalTitle(filter.title)
+  const handleFilterDetail = (filter: AttributeFilterItem) => {
+    setModalTitle(filter.name)
     setDetailFilter(filter)
   }
 
@@ -43,11 +47,30 @@ export default function FilterModal({ open, onClose }: Props) {
     setDetailFilter(undefined)
   }
 
+  const handleClearFilter = () => {
+    onClearFilter && onClearFilter()
+    closeModal()
+  }
+
+  const filterElements = useMemo(
+    () =>
+      defaultFilterGroup.map((item) => {
+        const attribute = attributes?.find((attr) => attr.key === item.key)
+        if (!attribute) return item
+
+        return {
+          ...item,
+          attributes: attribute.attributes
+        }
+      }),
+    [attributes]
+  )
+
   const groupItemElements = useMemo(
     () =>
-      filterList.map((filter, index) => (
+      filterElements.map((filter, index) => (
         <div key={index} className={styles.content__title} onClick={() => handleFilterDetail(filter)}>
-          {filter.title}
+          {filter.name}
           <Image className="-rotate-90" src={'/images/icons/arrow_blue.svg'} width={24} height={24} alt="filter" />
         </div>
       )),
@@ -56,16 +79,14 @@ export default function FilterModal({ open, onClose }: Props) {
 
   const detailElement = useMemo(() => {
     switch (detailFilter?.type) {
-      case 'checkList':
-        return <CheckList withTitle={false} value={detailFilter} />
-      case 'range':
-        return <Slider withTitle={false} title={detailFilter.title} />
+      case 'slider':
+        return <Slider clearFilter={clearAllFilter} title="Price" min={defaultFilterData?.price.min || 0} max={defaultFilterData?.price.max || 1000} />
       case 'rating':
-        return <Rating withTitle={false} title={detailFilter.title} />
+        return <Rating clearFilter={clearAllFilter} title="Rating" />
       default:
-        return
+        return <CheckListGroup attributes={detailFilter?.attributes || []} title={detailFilter?.name} isSPF={detailFilter?.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
     }
-  }, [detailFilter])
+  }, [clearAllFilter, defaultFilterData, detailFilter])
 
   return (
     <div className={classNames(styles.wrapper, { [styles['open']]: open })}>
@@ -78,7 +99,7 @@ export default function FilterModal({ open, onClose }: Props) {
       </div>
       <div className={styles.content}>{modalTitle === defaultTitle ? groupItemElements : detailElement}</div>
       <div className={styles.footer}>
-        <Button variant="outlined" onClick={closeModal}>
+        <Button variant="outlined" onClick={handleClearFilter}>
           Clear
         </Button>
         <Button onClick={closeModal}>Apply</Button>

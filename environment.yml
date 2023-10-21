@@ -1,12 +1,12 @@
 development:
   NEXT_PUBLIC_ENV: 'development'
   RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED: false
-  NEXT_PUBLIC_API_BASE_URL: 'https://dev.domain.com/api'
+  NEXT_PUBLIC_API_BASE_URL: 'https://dev-my-dermbox-api-ajco4dbywq-ue.a.run.app/v1'
 
 stage:
   NEXT_PUBLIC_ENV: 'stage'
   RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED: false
-  NEXT_PUBLIC_API_BASE_URL: 'https://domain.com/api'
+  NEXT_PUBLIC_API_BASE_URL: 'https://stage-my-dermbox-api-65oroll6za-ue.a.run.app/v1'
 
 production:
   NEXT_PUBLIC_ENV: 'production'
