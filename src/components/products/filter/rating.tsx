@@ -22,7 +22,9 @@ export default function Rating({ title, clearFilter = false }: Props) {
   }, [clearFilter])
 
   useEffect(() => {
-    updateQueryParams({ ...query, page: 1, maxRating: rating || '' })
+    const params: any = { ...query, maxRating: rating || '' }
+    if (query.hasOwnProperty('page') && query.page) params.page = 1
+    updateQueryParams(params)
   }, [rating])
 
   const toggleCheckbox = (checked: boolean, value: number) => {

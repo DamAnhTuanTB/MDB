@@ -34,7 +34,9 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   }, [clearFilter])
 
   useEffect(() => {
-    updateQueryParams({ ...query, attributeIds: selectedId, page: 1 })
+    const params: any = { ...query, attributeIds: selectedId }
+    if (query.hasOwnProperty('page') && query.page) params.page = 1
+    updateQueryParams(params)
   }, [selectedId])
 
   useEffect(() => {

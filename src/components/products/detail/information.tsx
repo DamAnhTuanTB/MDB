@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
+import { ProductDetail } from '@/types/product/detail'
+import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
 import HtmlRender from '@/components/common/html-render'
@@ -9,28 +11,35 @@ import RatingCommon from '@/components/common/rating'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 
-export default function Information() {
+type Props = {
+  data: ProductDetail
+}
+
+export default function Information({ data }: Props) {
   return (
     <div className={styles.container}>
-      <h1 className={styles.content__title}>EltaMD UV Lotion Broad-Spectrum SP 30+</h1>
+      <h1 className={styles.content__title}>{data?.name}</h1>
       <div className={styles.detail}>
         <div className={styles.detail__images}>
           <div className={styles.detail__images__target} style={{ backgroundImage: 'url(/images/product.png)' }}></div>
           <div className={styles.detail__images__carousel}></div>
         </div>
         <div className={styles.detail__information}>
-          <h1 className={classNames(styles.content__title, styles['pc'])}>EltaMD UV Lotion Broad-Spectrum SP 30+</h1>
+          <h1 className={classNames(styles.content__title, styles['pc'])}>{data?.name}</h1>
           <div className={styles.detail__group}>
-            <RatingCommon score={4} /> <span className={styles.detail__rating}>4.0 (175 reviews)</span>
+            <RatingCommon score={data?.averageRating} />{' '}
+            <span className={styles.detail__rating}>
+              {data?.averageRating + '.0'} ({data?.totalReviews} reviews)
+            </span>
           </div>
           <div className={styles.detail__group}>
             <h4 className={styles.detail__stock}>
-              $55.00 <span> | </span> In Stock <span> | </span> SKU: 02287
+              {currencyFormatter.format(data?.price)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <div className={styles.detail__description}>
             <h4 className={styles.detail__description__title}>Product Description</h4>
-            <HtmlRender htmlString={'Have your fun in the sun—but play it safe. This sunscreen is great for swimmers, skiers, runners, golfers and other athletes.'} />
+            <HtmlRender htmlString={data?.description} />
           </div>
           <CustomForm>
             <div className={styles.detail__form}>

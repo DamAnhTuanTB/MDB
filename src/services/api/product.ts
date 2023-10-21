@@ -1,4 +1,5 @@
 import { ListProductAttributeResponse } from '@/types/product/attribute'
+import { ProductDetail } from '@/types/product/detail'
 import { paramToQueryString } from '@/utils/helper'
 
 import { DefaultFilterData, ListProductResponse, ProductParams } from '../../types/product'
@@ -17,5 +18,9 @@ export const productApi = {
 
   getAttributes() {
     return apiBase.get<ListProductAttributeResponse>('/attribute-groups?noPagination=true')
+  },
+
+  getDetail(slug: string) {
+    return apiBase.get<ProductDetail>(`/products/${slug}`)
   }
 }

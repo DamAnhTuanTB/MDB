@@ -17,8 +17,8 @@
 }
 
 .content_wrapper {
-  @apply pt-6 pb-5 px-2;
-  @apply lg:px-5;
+  @apply pt-6 pb-5 px-2 text-sm mt-2;
+  @apply lg:px-5 lg:text-base;
 
   h3 {
     @apply text-base;

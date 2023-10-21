@@ -25,7 +25,10 @@ export default function Slider({ title, clearFilter = false, min, max }: Props) 
   const handleChangeValue = (value: number[]) => {
     debounce(300)(() => {
       setDefaultValue(value)
-      updateQueryParams({ ...query, page: 1, minPrice: value[0], maxPrice: value[1] })
+
+      const params: any = { ...query, minPrice: value[0], maxPrice: value[1] }
+      if (query.hasOwnProperty('page') && query.page) params.page = 1
+      updateQueryParams(params)
     }, value)
   }
 
