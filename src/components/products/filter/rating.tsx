@@ -22,7 +22,7 @@ export default function Rating({ title, clearFilter = false }: Props) {
   }, [clearFilter])
 
   useEffect(() => {
-    updateQueryParams({ ...query, maxRating: rating || '' })
+    updateQueryParams({ ...query, page: 1, maxRating: rating || '' })
   }, [rating])
 
   const toggleCheckbox = (checked: boolean, value: number) => {

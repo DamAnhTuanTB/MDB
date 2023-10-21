@@ -186,23 +186,30 @@ export default function ProductPage({ productAttributes }: InferGetServerSidePro
   const { getProductList, productList } = useProduct()
   const { query, updateQueryParams } = useRouterWithQueryParams()
 
-  const [page, setPage] = useState<number>(1)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  // useEffect(() => {
+  //   updateQueryParams({ ...query, page: currentPage })
+  // }, [currentPage])
 
   useEffect(() => {
+    const { page, limit, ...otherQuery } = query
+    // if (Number(page) === currentPage && Number(page) !== 1) setCurrentPage(1)
+    // else setCurrentPage(Number(page))
+
     debounce(1000)(getProductList, {
-      page,
-      limit: productConfigs.limit,
+      page: Number(page) || 1,
+      limit: limit || productConfigs.limit,
       where: {
-        ...query,
+        ...otherQuery,
         attributeIds: query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : []
       }
     } as ProductParams)
-  }, [page, query])
+  }, [query])
 
   return (
     <>
       <Meta title="Products" />
-      <ProductComponent products={productList?.results || []} attributes={productAttributes} />
+      <ProductComponent products={productList?.results || []} totalCount={productList?.count} attributes={productAttributes} />
     </>
   )
 }

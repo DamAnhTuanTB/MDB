@@ -23,7 +23,7 @@ export default function Slider({ title, clearFilter = false }: Props) {
   const handleChangeValue = (value: number[]) => {
     debounce(300)(() => {
       setDefaultValue(value)
-      updateQueryParams({ ...query, minPrice: value[0], maxPrice: value[1] })
+      updateQueryParams({ ...query, page: 1, minPrice: value[0], maxPrice: value[1] })
     }, value)
   }
 
