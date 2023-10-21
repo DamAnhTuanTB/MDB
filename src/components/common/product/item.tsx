@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
+import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 
@@ -46,7 +47,7 @@ export default function ProductItem({ product, className, page = '', onQuickRevi
         <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
           Quick Preview
         </Button>
-        <Link className={styles.item__link} href={product.slug}>
+        <Link className={styles.item__link} href={routes.productDetailPage(product.slug)}>
           <Button variant="teal">Product Details</Button>
         </Link>
       </div>

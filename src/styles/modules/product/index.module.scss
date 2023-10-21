@@ -103,7 +103,6 @@
 
   &__name {
     @apply text-center text-base mt-4 line-clamp-2 min-h-[40px];
-    @apply md:min-h-[unset];
   }
 
   &__rating {
