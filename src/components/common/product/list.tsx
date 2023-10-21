@@ -13,10 +13,12 @@ import configs from '@/configs'
 import { sortOptions } from '@/constants/product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/index.module.scss'
-import { Product } from '@/types/product'
+import { DefaultFilterData, Product } from '@/types/product'
+import { ProductAttributeItem } from '@/types/product/attribute'
 
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
+import FilterModal from '@/components/products/filter/filter-modal'
 
 import ProductItem from './item'
 
@@ -32,9 +34,23 @@ type Props = {
   isShowSort?: boolean
   isShowFilter?: boolean
   clearFilter?: boolean
+  attributes: ProductAttributeItem[]
+  defaultFilterData: DefaultFilterData
+  onClearFilter: () => void
 }
 
-export default function ProductList({ products, title, spCarousel = false, isShowSort = false, isShowFilter = false, page = '', clearFilter = false }: Props) {
+export default function ProductList({
+  products,
+  title,
+  spCarousel = false,
+  isShowSort = false,
+  isShowFilter = false,
+  page = '',
+  clearFilter = false,
+  attributes,
+  defaultFilterData,
+  onClearFilter
+}: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
   const carousel = useRef<Swiper>()
   const [openModal, setOpenModal] = useState<boolean>(false)
@@ -137,7 +153,7 @@ export default function ProductList({ products, title, spCarousel = false, isSho
           </>
         )}
       </div>
-      {/* <FilterModal open={openModal} onClose={() => setOpenModal(false)} /> */}
+      <FilterModal open={openModal} attributes={attributes} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
       {/* <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} /> */}
     </div>
   )

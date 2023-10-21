@@ -86,7 +86,7 @@
   }
 
   &__favorite {
-    @apply absolute top-0 right-0 w-10 h-10 bg-[url(/images/icons/favorite.svg)] bg-contain bg-no-repeat;
+    @apply absolute top-0 right-0 w-10 h-10 bg-[url(/images/icons/favorite.svg)] bg-contain bg-no-repeat z-10;
 
     &.active {
       @apply bg-[url(/images/icons/favorite_filled.svg)];
@@ -102,7 +102,8 @@
   }
 
   &__name {
-    @apply text-center text-base mt-4 line-clamp-2;
+    @apply text-center text-base mt-4 line-clamp-2 min-h-[40px];
+    @apply md:min-h-[unset];
   }
 
   &__rating {

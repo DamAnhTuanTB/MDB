@@ -40,17 +40,19 @@ function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
           className="pagination"
           breakLabel="..."
           nextLabel={
-            <div className="button">
-              Next <Image src={'/images/icons/arrow_dark_blue.svg'} width={24} height={24} alt="next" />
+            <div className="button button__next">
+              <span className="block mt-[2px]">Next</span>
+              <Image src={'/images/icons/arrow_dark_blue.svg'} width={24} height={24} alt="next" />
             </div>
           }
-          pageRangeDisplayed={5}
+          pageRangeDisplayed={4}
           onPageChange={handlePageClick}
           initialPage={page - 1}
           pageCount={pageCount}
           previousLabel={
-            <div className="button">
-              <Image src={'/images/icons/arrow_dark_blue.svg'} width={24} height={24} alt="next" /> Previous
+            <div className="button prev">
+              <Image src={'/images/icons/arrow_dark_blue.svg'} width={24} height={24} alt="next" />
+              <span className="block mt-[2px]">Previous</span>
             </div>
           }
           renderOnZeroPageCount={null}

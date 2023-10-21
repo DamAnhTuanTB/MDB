@@ -1,24 +1,24 @@
-import { memo, useMemo, useState } from 'react'
+import { memo, useMemo } from 'react'
 
 import { defaultFilterGroup } from '@/constants/product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import routes from '@/routes'
 import styles from '@/styles/modules/product/sidebar.module.scss'
 import { DefaultFilterData } from '@/types/product'
 import { ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
 
-import CheckList from './checkbox-group'
+import CheckListGroup from './checkbox-group'
 import Rating from './rating'
 import Slider from './slider'
 
 type Props = {
   attributes: ProductAttributeItem[]
   defaultData: DefaultFilterData
+  clearAllFilter?: boolean
+  onClearFilter: () => void
 }
 
-const Filter = ({ attributes, defaultData }: Props) => {
+const Filter = ({ attributes, defaultData, clearAllFilter = false, onClearFilter }: Props) => {
   const { push } = useRouterWithQueryParams()
-  const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
   const filterElements = useMemo(
     () =>
@@ -43,22 +43,17 @@ const Filter = ({ attributes, defaultData }: Props) => {
           case 'slider':
             return <Slider key={index} clearFilter={clearAllFilter} title="Price" min={defaultData?.price.min || 0} max={defaultData?.price.max || 1000} />
           default:
-            return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} isSPF={attr.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
+            return <CheckListGroup key={index} attributes={attr.attributes || []} title={attr.name} isSPF={attr.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
         }
       }),
     [clearAllFilter, filterElements, defaultData]
   )
 
-  const handleClearAllFilter = () => {
-    push(routes.productPage())
-    setClearAllFilter(true)
-  }
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.heading}>
         <div className={styles.heading__title}>Filter</div>
-        <div className={styles.heading__clear} onClick={handleClearAllFilter}>
+        <div className={styles.heading__clear} onClick={onClearFilter}>
           Clear All
         </div>
       </div>

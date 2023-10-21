@@ -7,7 +7,7 @@ export function useRouterWithQueryParams() {
     router.push(
       {
         pathname: router.pathname,
-        query: params ? { ...router.query, ...params } : {}
+        query: params ? { ...router.query, ...params } : ''
       },
       undefined,
       { scroll: false, shallow: true } // scroll: Prevent scroll to top if query changes
