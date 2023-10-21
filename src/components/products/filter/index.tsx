@@ -1,7 +1,8 @@
 import { memo, useMemo, useState } from 'react'
 
-import { defaultFilterGroup } from '@/constants/product-filter'
+import { defaultFilterGroup } from '@/constants/product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import routes from '@/routes'
 import styles from '@/styles/modules/product/sidebar.module.scss'
 import { ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
 
@@ -14,7 +15,7 @@ type Props = {
 }
 
 const Filter = ({ attributes }: Props) => {
-  const { updateQueryParams } = useRouterWithQueryParams()
+  const { push } = useRouterWithQueryParams()
   const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
   const filterElements = useMemo(
@@ -47,7 +48,7 @@ const Filter = ({ attributes }: Props) => {
   )
 
   const handleClearAllFilter = () => {
-    updateQueryParams(undefined)
+    push(routes.productPage())
     setClearAllFilter(true)
   }
 

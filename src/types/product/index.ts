@@ -44,6 +44,7 @@ export type ProductFilter = {
   minRating?: number
   maxRating?: number
   attributeIds?: string[]
+  relatedProductIds?: string[]
   ingredientIds?: string[]
 }
 

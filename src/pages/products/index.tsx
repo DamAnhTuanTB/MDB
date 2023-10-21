@@ -192,18 +192,24 @@ export default function ProductPage({ productAttributes }: InferGetServerSidePro
   // }, [currentPage])
 
   useEffect(() => {
-    const { page, limit, ...otherQuery } = query
+    const { page, limit, sort, ...otherQuery } = query
     // if (Number(page) === currentPage && Number(page) !== 1) setCurrentPage(1)
     // else setCurrentPage(Number(page))
 
-    debounce(1000)(getProductList, {
+    const params = {
       page: Number(page) || 1,
       limit: limit || productConfigs.limit,
+      sort: {
+        [sort as string]: 'desc'
+      },
       where: {
         ...otherQuery,
         attributeIds: query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : []
       }
-    } as ProductParams)
+    }
+
+    // get products if query change after 1000ms
+    debounce(1000)(getProductList, params as ProductParams)
   }, [query])
 
   return (

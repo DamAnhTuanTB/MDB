@@ -1,5 +1,7 @@
 import { AttributeFilterItem, productAttributeGroup } from '@/types/product/attribute'
 
+import { SelectOption } from '@/components/form/select-field'
+
 export const defaultFilterGroup: AttributeFilterItem[] = [
   { key: productAttributeGroup.SPF, type: 'checkbox', name: 'SPF Rating' },
   { key: productAttributeGroup.SUNSCREEN_TYPE, type: 'checkbox', name: 'Sunscreen Type' },
@@ -13,4 +15,11 @@ export const defaultFilterGroup: AttributeFilterItem[] = [
   { key: productAttributeGroup.PRODUCT_FORM, type: 'checkbox', name: 'Product Form' },
   { key: productAttributeGroup.PREFERENCES, type: 'checkbox', name: 'Preferences' }
   // { key: productAttributeGroup.in, type: 'checkbox', name: 'Special Ingredients' }
+]
+
+export const sortOptions: SelectOption[] = [
+  { label: 'Price', value: 'price' },
+  { label: 'Spf', value: 'spf' },
+  { label: 'Average Rating', value: 'averageRating' },
+  { label: 'Products Sold', value: 'productsSold' }
 ]

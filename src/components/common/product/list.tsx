@@ -5,17 +5,24 @@ import Image from 'next/image'
 import classNames from 'classnames'
 import { debounce } from 'lodash'
 import Swiper from 'swiper'
+import { z } from 'zod'
 
 import initCarousel, { Options } from '@/services/carousel'
 
 import configs from '@/configs'
+import { sortOptions } from '@/constants/product'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 
 import CustomForm from '@/components/form'
-import SelectField, { SelectOption } from '@/components/form/select-field'
+import SelectField from '@/components/form/select-field'
 
 import ProductItem from './item'
+
+const sortSchema = z.object({
+  sort: z.string().optional()
+})
 
 type Props = {
   title?: string
@@ -24,54 +31,70 @@ type Props = {
   page?: string
   isShowSort?: boolean
   isShowFilter?: boolean
+  clearFilter?: boolean
 }
 
-export default function ProductList({ products, title, spCarousel = false, isShowSort = false, isShowFilter = false, page = '' }: Props) {
+export default function ProductList({ products, title, spCarousel = false, isShowSort = false, isShowFilter = false, page = '', clearFilter = false }: Props) {
+  const { query, updateQueryParams } = useRouterWithQueryParams()
   const carousel = useRef<Swiper>()
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-
-  const sortOptions: SelectOption[] = useMemo(() => [{ label: 'Sort', value: '' }], [])
+  const [sortValue, setSortValue] = useState<string>((query.sort as string) || 'price')
 
   useEffect(() => {
-    const options: Options = {
-      spaceBetween: 16,
-      slidesPerView: 1,
-      centeredSlides: true,
-      loop: true,
-      autoplay: {
-        delay: 5000
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev'
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      }
-    }
-
-    const init = () => {
-      if (window.innerWidth < configs.breakpointSp) {
-        carousel.current = initCarousel('#productList', options)
-      } else {
-        if (carousel.current) {
-          carousel.current?.destroy()
+    if (spCarousel) {
+      const options: Options = {
+        spaceBetween: 16,
+        slidesPerView: 1,
+        centeredSlides: true,
+        loop: true,
+        autoplay: {
+          delay: 5000
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
         }
       }
-    }
 
-    if (spCarousel) {
+      const init = () => {
+        if (window.innerWidth < configs.breakpointSp) {
+          carousel.current = initCarousel('#productList', options)
+        } else {
+          if (carousel.current) {
+            carousel.current?.destroy()
+          }
+        }
+      }
+
       init()
       window.addEventListener('resize', debounce(init, 30))
     }
-  }, [])
+  }, [spCarousel])
+
+  useEffect(() => {
+    if (clearFilter) setSortValue('')
+  }, [clearFilter])
+
+  useEffect(() => {
+    updateQueryParams({
+      ...query,
+      sort: sortValue
+    })
+  }, [sortValue])
 
   const handleQuickReview = (product: Product) => {
     setQuickReviewData(product)
     setOpenQuickReview(true)
+  }
+
+  const handleSort = (value: string) => {
+    setSortValue(value)
   }
 
   const productElements = useMemo(
@@ -85,11 +108,11 @@ export default function ProductList({ products, title, spCarousel = false, isSho
 
   const sortElement = useMemo(() => {
     return (
-      <CustomForm>
-        <SelectField name="sort" options={sortOptions} inputClassName="h-10" />
+      <CustomForm schema={sortSchema}>
+        <SelectField name="sort" options={sortOptions} defaultValue={sortValue} inputClassName="h-10" showErrorMessage={false} onInputChange={handleSort} />
       </CustomForm>
     )
-  }, [sortOptions])
+  }, [])
 
   return (
     <div className={classNames(styles.list, [styles[page]])}>

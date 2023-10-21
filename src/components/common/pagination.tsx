@@ -16,10 +16,9 @@ type Props = {
 function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
   const [page, setPage] = useState<number>(Number(query.page) || 1)
-  const [itemOffset, setItemOffset] = useState(0)
-  const endOffset = itemOffset + itemsPerPage
+  // const [itemOffset, setItemOffset] = useState(0)
+  // const endOffset = itemOffset + itemsPerPage
   const pageCount = Math.ceil(totalCount / itemsPerPage)
-  console.log(page)
 
   useEffect(() => {
     setPage(Number(query.page) || 1)
