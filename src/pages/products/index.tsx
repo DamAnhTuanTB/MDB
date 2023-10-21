@@ -193,10 +193,11 @@ export default function ProductPage({ productAttributes }: InferGetServerSidePro
       page,
       limit: productConfigs.limit,
       where: {
-        ...query
+        ...query,
+        attributeIds: query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : []
       }
     } as ProductParams)
-  }, [query])
+  }, [page, query])
 
   return (
     <>

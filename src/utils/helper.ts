@@ -153,3 +153,29 @@ export const debounce =
       callback(...value)
     }, time)
   }
+
+/**
+ * Generates a query string from an object of parameters.
+ *
+ * @param {T} paramsObj - The object containing the parameters.
+ * @return {string} The generated query string.
+ */
+export function paramToQueryString<T extends Object>(paramsObj: T) {
+  const params = new URLSearchParams()
+
+  Object.entries(paramsObj).forEach(([key, value]) => {
+    if (typeof value === 'object' && value !== null) {
+      Object.entries(value).forEach(([subKey, subValue]) => {
+        if (Array.isArray(subValue)) {
+          if (subValue && subValue.length > 0) params.append(`${[key]}[${subKey}][]`, JSON.stringify(subValue))
+        } else {
+          if (subValue) params.append(`${key}[${subKey}]`, subValue as string)
+        }
+      })
+    } else {
+      params.set(key, value)
+    }
+  })
+
+  return params.toString()
+}

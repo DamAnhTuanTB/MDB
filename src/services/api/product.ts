@@ -1,8 +1,9 @@
 import { ListProductAttributeResponse } from '@/types/product/attribute'
+import { paramToQueryString } from '@/utils/helper'
 
 import { ListProductResponse, ProductParams } from '../../types/product'
 
-import { apiBase, paramToQueryString } from '.'
+import { apiBase } from '.'
 
 export const productApi = {
   getListProducts(params: ProductParams) {
