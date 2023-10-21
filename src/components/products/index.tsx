@@ -1,6 +1,6 @@
 import { productConfigs } from '@/configs/product'
 import routes from '@/routes'
-import { Product } from '@/types/product'
+import { DefaultFilterData, Product } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
 
 import Breadcrumb, { BreadcrumbItem } from '../common/breadcrumb'
@@ -14,13 +14,14 @@ type Props = {
   products: Product[]
   totalCount?: number
   attributes: ProductAttributeItem[]
+  defaultFilterData: DefaultFilterData
 }
 
-export default function ProductComponent({ products, attributes, totalCount = 0 }: Props) {
+export default function ProductComponent({ products, attributes, totalCount = 0, defaultFilterData }: Props) {
   const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: routes.homePage() }, { label: 'Sunscreen' }]
 
   return (
-    <Layout sidebar={<Filter attributes={attributes} />}>
+    <Layout sidebar={<Filter attributes={attributes} defaultData={defaultFilterData} />}>
       <Breadcrumb items={breadcrumbItems} />
       <ProductList isShowSort isShowFilter products={products} title="Sunscreen Products" page="products" />
       <Pagination itemsPerPage={productConfigs.limit} totalCount={totalCount} />

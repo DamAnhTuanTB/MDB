@@ -4,6 +4,7 @@ import { defaultFilterGroup } from '@/constants/product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/sidebar.module.scss'
+import { DefaultFilterData } from '@/types/product'
 import { ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
 
 import CheckList from './checkbox-group'
@@ -12,9 +13,10 @@ import Slider from './slider'
 
 type Props = {
   attributes: ProductAttributeItem[]
+  defaultData: DefaultFilterData
 }
 
-const Filter = ({ attributes }: Props) => {
+const Filter = ({ attributes, defaultData }: Props) => {
   const { push } = useRouterWithQueryParams()
   const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
@@ -39,12 +41,12 @@ const Filter = ({ attributes }: Props) => {
           case 'rating':
             return <Rating key={index} clearFilter={clearAllFilter} title="Rating" />
           case 'slider':
-            return <Slider key={index} clearFilter={clearAllFilter} title="Price" />
+            return <Slider key={index} clearFilter={clearAllFilter} title="Price" min={defaultData?.price.min || 0} max={defaultData?.price.max || 1000} />
           default:
             return <CheckList key={index} attributes={attr.attributes || []} title={attr.name} isSPF={attr.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
         }
       }),
-    [clearAllFilter, filterElements]
+    [clearAllFilter, filterElements, defaultData]
   )
 
   const handleClearAllFilter = () => {

@@ -84,7 +84,8 @@ export default function ProductList({ products, title, spCarousel = false, isSho
   useEffect(() => {
     updateQueryParams({
       ...query,
-      sort: sortValue
+      sort: sortValue,
+      page: 1
     })
   }, [sortValue])
 

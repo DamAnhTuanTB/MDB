@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import { InferGetServerSidePropsType } from 'next'
 
 import { productApi } from '@/services/api/product'
 
@@ -8,7 +8,6 @@ import { productConfigs } from '@/configs/product'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { ProductParams } from '@/types/product'
-import { ProductAttributeItem } from '@/types/product/attribute'
 import { debounce } from '@/utils/helper'
 
 import Meta from '@/components/common/meta'
@@ -174,33 +173,29 @@ const prodcuts: ProductType[] = [
   }
 ]
 
-export const getServerSideProps = (async () => {
-  const response = await productApi.getAttributes()
+export const getServerSideProps = async () => {
+  const [productAttributes, filterData] = await Promise.all([productApi.getAttributes(), productApi.getDefaultFilterData()])
 
-  return { props: { productAttributes: response.data.results || [] } }
-}) satisfies GetServerSideProps<{
-  productAttributes: ProductAttributeItem[]
-}>
+  return {
+    props: {
+      productAttributes: productAttributes.data.results || [],
+      defaultFilterData: filterData.data || {}
+    }
+  }
+}
 
-export default function ProductPage({ productAttributes }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function ProductPage({ productAttributes, defaultFilterData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { getProductList, productList } = useProduct()
-  const { query, updateQueryParams } = useRouterWithQueryParams()
-
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  // useEffect(() => {
-  //   updateQueryParams({ ...query, page: currentPage })
-  // }, [currentPage])
+  const { query } = useRouterWithQueryParams()
 
   useEffect(() => {
     const { page, limit, sort, ...otherQuery } = query
-    // if (Number(page) === currentPage && Number(page) !== 1) setCurrentPage(1)
-    // else setCurrentPage(Number(page))
 
     const params = {
       page: Number(page) || 1,
       limit: limit || productConfigs.limit,
       sort: {
-        [sort as string]: 'desc'
+        [(sort as string) || 'price']: 'desc'
       },
       where: {
         ...otherQuery,
@@ -215,7 +210,7 @@ export default function ProductPage({ productAttributes }: InferGetServerSidePro
   return (
     <>
       <Meta title="Products" />
-      <ProductComponent products={productList?.results || []} totalCount={productList?.count} attributes={productAttributes} />
+      <ProductComponent products={productList?.results || []} totalCount={productList?.count} attributes={productAttributes} defaultFilterData={defaultFilterData} />
     </>
   )
 }

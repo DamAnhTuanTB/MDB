@@ -8,13 +8,15 @@ import styles from '@/styles/modules/product/sidebar.module.scss'
 import { debounce } from '@/utils/helper'
 
 type Props = {
+  min: number
+  max: number
   title?: string
   clearFilter?: boolean
 }
 
-export default function Slider({ title, clearFilter = false }: Props) {
+export default function Slider({ title, clearFilter = false, min, max }: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
-  const [defaultValue, setDefaultValue] = useState<number[]>([Number(query.minPrice || 0), Number(query.maxPrice || 100)])
+  const [defaultValue, setDefaultValue] = useState<number[]>([Number(query.minPrice || min), Number(query.maxPrice || max)])
 
   useEffect(() => {
     if (clearFilter) setDefaultValue([0, 100]) // TODO: update default value

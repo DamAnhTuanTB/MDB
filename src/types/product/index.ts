@@ -57,3 +57,13 @@ export type ProductParams = {
 }
 
 export type ListProductResponse = ListResponse<Product>
+
+export type DefaultFilterDataItem = {
+  min: number
+  max: number
+}
+export type DefaultFilterData = {
+  price: DefaultFilterDataItem
+  wholesale: DefaultFilterDataItem
+  quantity: DefaultFilterDataItem
+}
