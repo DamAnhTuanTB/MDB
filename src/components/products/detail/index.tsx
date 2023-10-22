@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
-import { ProductDetail } from '@/types/product/detail'
+import { Product } from '@/types/product'
 
 import RelatedProduct from '@/components/common/product/related'
 
@@ -10,10 +10,11 @@ import Information from './information'
 import Reviews from './review'
 
 type Props = {
-  data: ProductDetail
+  data: Product
+  relatedProducts: Product[]
 }
 
-export default function ProductDetailComponent({ data }: Props) {
+export default function ProductDetailComponent({ data, relatedProducts }: Props) {
   return (
     <>
       <div className={styles.content}>
@@ -22,7 +23,7 @@ export default function ProductDetailComponent({ data }: Props) {
       </div>
       <hr className={classNames(styles.hr, 'hidden lg:block')} />
       <div className={styles.related}>
-        <RelatedProduct products={[]} title="You May Also Like" />
+        <RelatedProduct products={relatedProducts} title="You May Also Like" />
       </div>
       <Reviews />
     </>

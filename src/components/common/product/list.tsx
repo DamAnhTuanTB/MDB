@@ -15,6 +15,7 @@ import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/index.module.scss'
 import { DefaultFilterData, Product } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
+import { ProductCategory } from '@/types/product/category'
 
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
@@ -29,6 +30,7 @@ const sortSchema = z.object({
 type Props = {
   title?: string
   products: Product[]
+  category?: ProductCategory
   spCarousel?: boolean
   page?: string
   isShowSort?: boolean
@@ -41,6 +43,7 @@ type Props = {
 
 export default function ProductList({
   products,
+  category,
   title,
   spCarousel = false,
   isShowSort = false,
@@ -56,7 +59,7 @@ export default function ProductList({
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-  const [sortValue, setSortValue] = useState<string>((query.sort as string) || 'price')
+  const [sortValue, setSortValue] = useState<string>((query.sort as string) || '')
 
   useEffect(() => {
     if (spCarousel) {
@@ -120,9 +123,9 @@ export default function ProductList({
     () =>
       products &&
       products.map((product, index) => {
-        return <ProductItem className="swiper-slide" key={index} product={product} page={page} onQuickReview={handleQuickReview} />
+        return <ProductItem className="swiper-slide" key={index} product={product || {}} page={page} category={category} onQuickReview={handleQuickReview} />
       }),
-    [page, products]
+    [category, page, products]
   )
 
   const sortElement = useMemo(() => {

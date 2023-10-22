@@ -11,7 +11,7 @@ function urlWithQuery(path: string, params: Params) {
 
 export default {
   homePage: () => '/',
-  productPage: () => '/products',
-  productDetailPage: (slug: string) => `/products/${slug}`,
+  productPage: (category: string) => `/products/${category}`,
+  productDetailPage: (category: string, slug: string) => `/products/${category}/${slug}`,
   faqPage: () => '/faq'
 }

@@ -1,18 +1,25 @@
 import { useRouter } from 'next/router'
 
+import debounce from 'lodash/debounce'
+
 export function useRouterWithQueryParams() {
   const router = useRouter()
 
-  const updateQueryParams = (params: { [key: string]: string | number | string[] | number[] } | undefined) => {
+  const resetQueryParams = (pathname?: string) => {
+    const reset = debounce(() => router.push({ pathname: pathname || router.pathname }), 500)
+    reset()
+  }
+
+  const updateQueryParams = (params: { [key: string]: string | number | string[] | number[] }) => {
     router.push(
       {
         pathname: router.pathname,
-        query: params ? { ...router.query, ...params } : ''
+        query: { ...router.query, ...params }
       },
       undefined,
       { scroll: false, shallow: true } // scroll: Prevent scroll to top if query changes
     )
   }
 
-  return { ...router, updateQueryParams }
+  return { ...router, updateQueryParams, resetQueryParams }
 }

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
-import { ProductDetail } from '@/types/product/detail'
+import { Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
@@ -11,8 +11,10 @@ import RatingCommon from '@/components/common/rating'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 
+import ImageCarousel from './image-carousel'
+
 type Props = {
-  data: ProductDetail
+  data: Product
 }
 
 export default function Information({ data }: Props) {
@@ -21,8 +23,7 @@ export default function Information({ data }: Props) {
       <h1 className={styles.content__title}>{data?.name}</h1>
       <div className={styles.detail}>
         <div className={styles.detail__images}>
-          <div className={styles.detail__images__target} style={{ backgroundImage: 'url(/images/product.png)' }}></div>
-          <div className={styles.detail__images__carousel}></div>
+          <ImageCarousel images={data.images} />
         </div>
         <div className={styles.detail__information}>
           <h1 className={classNames(styles.content__title, styles['pc'])}>{data?.name}</h1>

@@ -26,12 +26,11 @@ function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
 
   useEffect(() => {
     const params: any = { ...query }
-    if (page && page > 1) params.page = page
+    if (query.hasOwnProperty('page') && query.page) params.page = page
     updateQueryParams(params)
   }, [page])
 
   const handlePageClick = (event: any) => {
-    // const newOffset = (event.selected * itemsPerPage) % totalCount
     setPage(event.selected + 1)
   }
 

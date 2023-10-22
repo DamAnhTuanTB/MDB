@@ -4,33 +4,29 @@ import classNames from 'classnames'
 
 import initCarousel, { Options } from '@/services/carousel'
 
+import { useGlobalSettingStore } from '@/recoil/global'
 import styles from '@/styles/modules/home/carousel.module.scss'
+import { Banner } from '@/types/home/banner'
 
 import HtmlRender from '../common/html-render'
 
-export type HomeCarouselType = {
-  img: string
-  description?: string
-  link?: {
-    label: string
-    href: string
-  }
-  note?: string
-}
-
 type Props = {
-  slides: HomeCarouselType[]
+  slides: Banner[]
 }
 
 export default function KvCarousel({ slides }: Props) {
+  const { isBannerAutoScroll } = useGlobalSettingStore()
+
   useEffect(() => {
     const options: Options = {
       spaceBetween: 0,
       slidesPerView: 1,
       loop: true,
-      autoplay: {
-        delay: 5000
-      },
+      autoplay: isBannerAutoScroll
+        ? {
+            delay: 5000
+          }
+        : false,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
@@ -50,18 +46,19 @@ export default function KvCarousel({ slides }: Props) {
     () =>
       slides.map((slide, index) => (
         <div key={index} className={classNames('swiper-slide', styles.carousel__slide)}>
-          <div className={styles.carousel__slide__bg} style={{ backgroundImage: `url(${slide.img})`, backgroundSize: 'cover', backgroundPosition: 'center center' }} />
-          <div className={styles.carousel__slide__text}>
-            <HtmlRender htmlString={slide.description || ''} />
-            {slide.link && (
-              <div className="text-center">
-                <a className={styles.carousel__slide__button} href={slide.link?.href}>
-                  {slide.link?.label}
-                </a>
-              </div>
-            )}
-            {slide.note && <p className={styles.carousel__slide__note}>{slide.note}</p>}
-          </div>
+          <div className={styles.carousel__slide__bg} style={{ backgroundImage: `url(${slide.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center center' }} />
+          {slide.description && (
+            <div className={styles.carousel__slide__text}>
+              <HtmlRender htmlString={slide.description || ''} />
+              {slide.redirectUrl && slide.redirectButton && (
+                <div className="text-center lg:text-right">
+                  <a className={styles.carousel__slide__button} href={slide.redirectUrl}>
+                    {slide.redirectButton}
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )),
     [slides]

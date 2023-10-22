@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 
@@ -12,6 +13,7 @@ import TopHead from './top-head'
 
 export default function Header() {
   const [openMenu, setOpenMenu] = useState<boolean>(false)
+  const { globalSettingStore } = useGlobalSettingStore()
 
   return (
     <header className={styles.wrapper}>
@@ -21,7 +23,7 @@ export default function Header() {
           <Image src={'/images/icons/hamburger.svg'} width={24} height={24} alt="My Dermbox" />
         </div>
         <Link className={styles.content__logo} href={routes.homePage()}>
-          <Image src={'/images/logo.svg'} width={296} height={99} alt="My Dermbox" />
+          <Image loading="eager" src={globalSettingStore.logo?.value} width={296} height={99} alt="My Dermbox" />
         </Link>
 
         <div className={styles.content__nav}>

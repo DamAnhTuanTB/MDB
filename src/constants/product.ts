@@ -18,8 +18,11 @@ export const defaultFilterGroup: AttributeFilterItem[] = [
 ]
 
 export const sortOptions: SelectOption[] = [
-  { label: 'Price', value: 'price' },
-  { label: 'Spf', value: 'spf' },
-  { label: 'Average Rating', value: 'averageRating' },
-  { label: 'Products Sold', value: 'productsSold' }
+  { label: 'Sort', value: '' },
+  { label: 'Best Sellers', value: 'productsSold:desc' },
+  { label: 'Top rated', value: 'averageRating:desc' },
+  { label: 'Name: A-Z', value: 'name:desc' },
+  { label: 'Name: Z-A', value: 'name:asc' },
+  { label: 'Price: Low to High', value: 'price:asc' },
+  { label: 'Price: High to Low', value: 'price:desc' }
 ]

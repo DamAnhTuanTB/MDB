@@ -29,7 +29,7 @@ export default function Menu({ open, onClose }: Props) {
               <Link href={routes.homePage()}>Browse By</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.productPage()}>Featured Products</Link>
+              <Link href={routes.homePage()}>Featured Products</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
               <Link href={routes.homePage()}>New Arrivals</Link>
@@ -38,7 +38,7 @@ export default function Menu({ open, onClose }: Props) {
               <Link href={routes.homePage()}>Skin Care</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Hair Care</Link>
+              <Link href={routes.productPage('hair-care')}>Hair Care</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
               <Link href={routes.homePage()}>Best Sellers</Link>

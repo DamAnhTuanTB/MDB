@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import styles from '@/styles/modules/product/description.module.scss'
-import { ProductDetail } from '@/types/product/detail'
+import { Product } from '@/types/product'
 
 import CollapseItem from '@/components/common/collapse'
 import Tabs, { TabItem } from '@/components/common/tabs'
@@ -10,7 +10,7 @@ import DescriptionDetail from './detail'
 import HowToUse from './how-to-use'
 
 type Props = {
-  data: ProductDetail
+  data: Product
 }
 
 export default function Description({ data }: Props) {

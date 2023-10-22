@@ -1,7 +1,6 @@
 import { memo, useMemo } from 'react'
 
 import { defaultFilterGroup } from '@/constants/product'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/sidebar.module.scss'
 import { DefaultFilterData } from '@/types/product'
 import { ProductAttributeItem, productAttributeGroup } from '@/types/product/attribute'
@@ -18,8 +17,6 @@ type Props = {
 }
 
 const Filter = ({ attributes, defaultData, clearAllFilter = false, onClearFilter }: Props) => {
-  const { push } = useRouterWithQueryParams()
-
   const filterElements = useMemo(
     () =>
       defaultFilterGroup.map((item) => {
