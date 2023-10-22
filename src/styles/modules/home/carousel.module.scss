@@ -5,7 +5,7 @@
   @apply lg:h-[422px];
 
   &__slide {
-    @apply relative h-full py-10 px-6;
+    @apply relative h-full py-10 px-6 flex items-center;
     @apply lg:py-20 lg:pl-[116px];
 
     &__bg {
@@ -13,7 +13,7 @@
     }
 
     &__text {
-      @apply z-10 relative w-full h-full bg-white bg-opacity-75 rounded-lg p-4 overflow-auto;
+      @apply z-10 relative w-full h-auto min-h-[100px] bg-white bg-opacity-75 rounded-lg p-4 overflow-auto;
       @apply lg:max-w-[854px] lg:w-full;
 
       h3 {
@@ -23,7 +23,7 @@
 
     &__button {
       @apply text-base font-bold text-white pt-[8px] pb-[10px] px-[30px] bg-blue rounded-[4px] inline-block mx-auto whitespace-nowrap mt-6;
-      @apply lg:absolute lg:bottom-2 lg:right-4 lg:py-[19px] lg:px-[50px] lg:text-[26px];
+      @apply lg:bottom-2 lg:right-4 lg:py-[19px] lg:px-[50px] lg:text-[26px];
     }
 
     &__note {
