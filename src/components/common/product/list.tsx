@@ -56,7 +56,7 @@ export default function ProductList({
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-  const [sortValue, setSortValue] = useState<string>((query.sort as string) || 'price')
+  const [sortValue, setSortValue] = useState<string>((query.sort as string) || '')
 
   useEffect(() => {
     if (spCarousel) {

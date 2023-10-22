@@ -31,15 +31,19 @@ export default function ProductPage({ productAttributes, defaultFilterData }: In
   useEffect(() => {
     const { page, limit, sort, ...otherQuery } = query
 
-    const params = {
+    const params: any = {
       page: Number(page) || 1,
       limit: limit || productConfigs.limit,
-      sort: {
-        [(sort as string) || 'price']: 'desc'
-      },
       where: {
         ...otherQuery,
         attributeIds: query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : []
+      }
+    }
+
+    if (query.hasOwnProperty('sort') && query.sort) {
+      const [key, value] = (query.sort as string).split(':')
+      params.sort = {
+        [key]: value
       }
     }
 
