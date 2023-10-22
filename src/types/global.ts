@@ -17,5 +17,5 @@ export type SettingItem = {
 export type GlobalSetting = {
   logo: SettingItem
   favicon: SettingItem
-  bannerAutoScroll: boolean
+  bannerAutoScroll: SettingItem
 }
