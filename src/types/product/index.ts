@@ -1,5 +1,7 @@
 import { ListResponse } from '..'
 
+import { ProductCategory } from './category'
+
 export type ProductImage = {
   key: string
   url: string
@@ -47,6 +49,7 @@ export type Product = {
   ingredients: ProductIngredient[]
   averageRating: number
   totalReviews: number
+  categories: ProductCategory[]
 }
 
 export type ProductSort = {

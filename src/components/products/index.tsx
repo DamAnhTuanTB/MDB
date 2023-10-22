@@ -5,6 +5,7 @@ import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import { DefaultFilterData, Product } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
+import { ProductCategory } from '@/types/product/category'
 
 import Breadcrumb, { BreadcrumbItem } from '../common/breadcrumb'
 import Pagination from '../common/pagination'
@@ -18,17 +19,18 @@ type Props = {
   totalCount?: number
   attributes: ProductAttributeItem[]
   defaultFilterData: DefaultFilterData
+  category: ProductCategory
 }
 
-export default function ProductComponent({ products, attributes, totalCount = 0, defaultFilterData }: Props) {
-  const { push, updateQueryParams } = useRouterWithQueryParams()
+export default function ProductComponent({ products, attributes, totalCount = 0, defaultFilterData, category }: Props) {
+  const { resetQueryParams } = useRouterWithQueryParams()
   const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
-  const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: routes.homePage() }, { label: 'Sunscreen' }]
+  const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: routes.homePage() }, { label: category?.name }]
+
   const handleClearAllFilter = () => {
-    updateQueryParams(undefined)
-    push(routes.productPage())
     setClearAllFilter(true)
+    resetQueryParams(routes.productPage(category.slug))
   }
 
   return (
@@ -40,7 +42,7 @@ export default function ProductComponent({ products, attributes, totalCount = 0,
         products={products}
         attributes={attributes}
         defaultFilterData={defaultFilterData}
-        title="Sunscreen Products"
+        title={`${category?.name} Products`}
         page="products"
         onClearFilter={handleClearAllFilter}
       />

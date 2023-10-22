@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
 import { homeApi } from '@/services/api/home'
@@ -24,7 +22,5 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 }
 
 export default function HomePage({ banners, featuredProducts }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const products = useMemo(() => featuredProducts.map((item) => item.product), [featuredProducts])
-
-  return <HomeComponent banners={banners || []} products={products} />
+  return <HomeComponent banners={banners || []} products={featuredProducts || []} />
 }
