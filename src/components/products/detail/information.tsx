@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
-import { ProductDetail } from '@/types/product/detail'
+import { Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
@@ -12,7 +12,7 @@ import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 
 type Props = {
-  data: ProductDetail
+  data: Product
 }
 
 export default function Information({ data }: Props) {

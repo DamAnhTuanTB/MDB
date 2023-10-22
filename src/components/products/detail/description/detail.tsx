@@ -3,12 +3,12 @@ import { useMemo } from 'react'
 import Image from 'next/image'
 
 import styles from '@/styles/modules/product/description.module.scss'
-import { ProductDetail } from '@/types/product/detail'
+import { Product } from '@/types/product/'
 
 import HtmlRender from '@/components/common/html-render'
 
 type Props = {
-  data: ProductDetail
+  data: Product
 }
 
 export default function DescriptionDetail({ data }: Props) {

@@ -1,9 +1,22 @@
 import { ListResponse } from '..'
 
-export type Image = {
+export type ProductImage = {
   key: string
   url: string
   isDefault: boolean
+}
+
+export type ProductIcon = {
+  id: string
+  name: string
+  url: string
+  key: string
+  ordering: number
+}
+
+export type ProductIngredient = {
+  id: string
+  name: string
 }
 
 export type Product = {
@@ -13,27 +26,31 @@ export type Product = {
   identifier: string
   sku: string
   quantity: number
+  inStock: boolean
   size: number
   price: number
   wholesale: number
   discount: number
   saleYN: boolean
-  spf: string
+  spf: number
   description: string
   features: string
   awards: string
   activeIngredients: string
+  inactiveIngredients: string
   howToUse: string
-  images: Image[]
+  images: ProductImage[]
   createdAt: string
   updatedAt: string
-  deletedAt: string | null
+  deletedAt: string
+  icons: ProductIcon[]
+  ingredients: ProductIngredient[]
   averageRating: number
   totalReviews: number
 }
 
 export type ProductSort = {
-  name: string
+  [key: string]: string | string[]
 }
 
 export type ProductFilter = {
@@ -46,6 +63,7 @@ export type ProductFilter = {
   attributeIds?: string[]
   relatedProductIds?: string[]
   ingredientIds?: string[]
+  [key: string]: string | string[] | undefined | number
 }
 
 export type ProductParams = {
