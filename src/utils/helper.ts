@@ -179,3 +179,15 @@ export function paramToQueryString<T extends Object>(paramsObj: T) {
 
   return params.toString()
 }
+
+/**
+ * Finds an object in an array by searching for a specific value in a specific property.
+ *
+ * @param {T[]} array - The array to search in.
+ * @param {keyof T} propertyName - The name of the property to search for the value in.
+ * @param {T[keyof T]} name - The value to search for in the property.
+ * @return {T | undefined} - The found object, or undefined if no match was found.
+ */
+export function findObjectByName<T>(array: T[], propertyName: keyof T, name: T[keyof T]): T | undefined {
+  return array.find((item) => item[propertyName] === name)
+}

@@ -15,7 +15,5 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 }
 
 export default function HomePage({ banners }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log(banners)
-
   return <HomeComponent banners={banners || []} products={[]} />
 }
