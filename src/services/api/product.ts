@@ -1,4 +1,5 @@
 import { ListProductAttributeResponse } from '@/types/product/attribute'
+import { ListFeaturedProductResponse } from '@/types/product/featured'
 import { paramToQueryString } from '@/utils/helper'
 
 import { DefaultFilterData, ListProductResponse, Product, ProductParams } from '../../types/product'
@@ -23,8 +24,8 @@ export const productApi = {
     return apiBase.get<Product>(`/products/${slug}`)
   },
 
-  getPrelatedProduct(params: ProductParams) {
+  getFeaturedProducts(params: ProductParams) {
     const queryString = paramToQueryString(params)
-    return apiBase.get<ListProductResponse>(`products?${queryString}`)
+    return apiBase.get<ListFeaturedProductResponse>(`/featured-products?${queryString}`)
   }
 }

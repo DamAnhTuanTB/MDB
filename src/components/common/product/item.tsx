@@ -39,7 +39,7 @@ export default function ProductItem({ product, className, page = '', onQuickRevi
   const featuredImage = useMemo(() => product.images.find((img) => img.isDefault), [product.images])
 
   return (
-    <div className={classNames(styles.item, [styles[page]], className)}>
+    <div className={classNames(styles.item, [styles[page]], className)} data-id={product.id}>
       {/* TODO: handle favorite */}
       <div className={classNames(styles.item__favorite, { [styles['active']]: true })} />
       {featuredImage && <div className={styles.item__image} style={{ backgroundImage: `url(${featuredImage.url})` }} />}

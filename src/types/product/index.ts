@@ -63,13 +63,15 @@ export type ProductFilter = {
   attributeIds?: string[]
   relatedProductIds?: string[]
   ingredientIds?: string[]
+  userId?: string
   [key: string]: string | string[] | undefined | number
 }
 
 export type ProductParams = {
-  page: number
-  limit: number
+  page?: number
+  limit?: number
   search?: string
+  noPagination?: boolean
   sort?: ProductSort
   where?: ProductFilter
 }
@@ -80,6 +82,7 @@ export type DefaultFilterDataItem = {
   min: number
   max: number
 }
+
 export type DefaultFilterData = {
   price: DefaultFilterDataItem
   wholesale: DefaultFilterDataItem
