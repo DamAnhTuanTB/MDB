@@ -23,7 +23,7 @@ export default function Header() {
           <Image src={'/images/icons/hamburger.svg'} width={24} height={24} alt="My Dermbox" />
         </div>
         <Link className={styles.content__logo} href={routes.homePage()}>
-          <Image src={globalSettingStore.logo?.value} width={296} height={99} alt="My Dermbox" />
+          <Image loading="eager" src={globalSettingStore.logo?.value} width={296} height={99} alt="My Dermbox" />
         </Link>
 
         <div className={styles.content__nav}>

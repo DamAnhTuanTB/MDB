@@ -1,7 +1,7 @@
-import Swiper, { Autoplay, Navigation, Pagination } from 'swiper'
+import Swiper, { Autoplay, Navigation, Pagination, Thumbs } from 'swiper'
 import { SwiperOptions } from 'swiper/types'
 
-Swiper.use([Autoplay, Navigation, Pagination])
+Swiper.use([Autoplay, Navigation, Pagination, Thumbs])
 
 import 'swiper/css'
 import 'swiper/css/navigation'
