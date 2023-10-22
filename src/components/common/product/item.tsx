@@ -11,34 +11,21 @@ import { ProductCategory } from '@/types/product/category'
 
 import Button from '../button'
 
-export type ProductType = {
-  slug: string
-  img: string
-  name: string
-  isFavorite: boolean
-  rating: number
-  price: string
-  brand?: string
-  sku?: string
-  reviewCount?: number
-  isInStock?: boolean
-  description?: string
-}
-
 type Props = {
   product: Product
+  category?: ProductCategory
   className?: string
   page?: string
   onQuickReview?: (product: Product) => void
 }
 
-export default function ProductItem({ product, className, page = '', onQuickReview }: Props) {
+export default function ProductItem({ product, category, className, page = '', onQuickReview }: Props) {
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
 
   const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
 
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
-  const category = product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
+  const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
 
   return (
     <div className={classNames(styles.item, [styles[page]], className)} data-id={product?.id}>
@@ -49,7 +36,7 @@ export default function ProductItem({ product, className, page = '', onQuickRevi
         <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
           Quick Preview
         </Button>
-        <Link className={styles.item__link} href={routes.productDetailPage(category.slug, product?.slug)}>
+        <Link className={styles.item__link} href={routes.productDetailPage(currentCategory?.slug, product?.slug)}>
           <Button variant="teal">Product Details</Button>
         </Link>
       </div>

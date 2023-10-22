@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
+import debounce from 'lodash/debounce'
 import ReactSlider from 'react-slider'
 
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/sidebar.module.scss'
-import { debounce } from '@/utils/helper'
 
 type Props = {
   min: number
@@ -23,13 +23,15 @@ export default function Slider({ title, clearFilter = false, min, max }: Props) 
   }, [clearFilter])
 
   const handleChangeValue = (value: number[]) => {
-    debounce(300)(() => {
+    const changeValue = debounce(() => {
       setDefaultValue(value)
 
       const params: any = { ...query, minPrice: value[0], maxPrice: value[1] }
       if (query.hasOwnProperty('page') && query.page) params.page = 1
       updateQueryParams(params)
-    }, value)
+    }, 300)
+
+    changeValue()
   }
 
   return (

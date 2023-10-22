@@ -123,9 +123,9 @@ export default function ProductList({
     () =>
       products &&
       products.map((product, index) => {
-        return <ProductItem className="swiper-slide" key={index} product={product || {}} page={page} onQuickReview={handleQuickReview} />
+        return <ProductItem className="swiper-slide" key={index} product={product || {}} page={page} category={category} onQuickReview={handleQuickReview} />
       }),
-    [page, products]
+    [category, page, products]
   )
 
   const sortElement = useMemo(() => {

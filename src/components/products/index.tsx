@@ -40,6 +40,7 @@ export default function ProductComponent({ products, attributes, totalCount = 0,
         isShowSort
         isShowFilter
         products={products}
+        category={category}
         attributes={attributes}
         defaultFilterData={defaultFilterData}
         title={`${category?.name} Products`}
