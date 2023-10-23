@@ -22,6 +22,7 @@ import SelectField from '@/components/form/select-field'
 import FilterModal from '@/components/products/filter/filter-modal'
 
 import ProductItem from './item'
+import QuickReviewModal from './quick-review-modal'
 
 const sortSchema = z.object({
   sort: z.string().optional()
@@ -159,7 +160,7 @@ export default function ProductList({
         )}
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
-      {/* <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} /> */}
+      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
     </div>
   )
 }

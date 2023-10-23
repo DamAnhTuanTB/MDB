@@ -4,10 +4,12 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
+import { currencyFormatter } from '@/utils/helper'
 
 import Button from '../button'
 
@@ -20,6 +22,8 @@ type Props = {
 }
 
 export default function ProductItem({ product, category, className, page = '', onQuickReview }: Props) {
+  const { query } = useRouterWithQueryParams()
+
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
 
   const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
@@ -36,13 +40,13 @@ export default function ProductItem({ product, category, className, page = '', o
         <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
           Quick Preview
         </Button>
-        <Link className={styles.item__link} href={routes.productDetailPage(currentCategory?.slug, product?.slug)}>
+        <Link className={styles.item__link} href={routes.productDetailPage(currentCategory?.slug, product?.slug, query.affiliate as string)}>
           <Button variant="teal">Product Details</Button>
         </Link>
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
       <div className={styles.item__rating}>{ratingElements}</div>
-      <p className={styles.item__price}>{product?.price}</p>
+      <p className={styles.item__price}>{currencyFormatter.format(product?.price)}</p>
       <Button className={styles.item__button}>Add to cart</Button>
     </div>
   )

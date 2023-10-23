@@ -14,7 +14,8 @@ type Props = {
 }
 
 export default function Description({ data }: Props) {
-  const tabs: TabItem[] = [{ label: 'Details' }, { label: 'How to Use' }, { label: 'Shipping & Returns' }, { label: 'Q&A' }]
+  const tabs: TabItem[] = [{ label: 'Details' }, { label: 'How to Use' }]
+  // { label: 'Shipping & Returns' }, { label: 'Q&A' }
 
   const collapseElements = useMemo(
     () =>
@@ -32,7 +33,6 @@ export default function Description({ data }: Props) {
         <Tabs tabs={tabs} wrapperClassName={styles.tabs__wrapper} labelClassName={styles.tabs__label}>
           <DescriptionDetail data={data} />
           <HowToUse text={data.howToUse} />
-          <div>tab4</div>
         </Tabs>
       </div>
       <div className={styles.collapse}>{collapseElements}</div>

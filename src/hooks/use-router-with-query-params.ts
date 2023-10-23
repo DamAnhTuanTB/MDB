@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 
-import debounce from 'lodash/debounce'
+import { debounce } from '@/utils/helper'
 
 export function useRouterWithQueryParams() {
   const router = useRouter()
 
   const resetQueryParams = (pathname?: string) => {
-    const reset = debounce(() => router.push({ pathname: pathname || router.pathname }), 500)
+    const reset = debounce(() => router.push({ pathname: pathname || router.pathname }), 300)
     reset()
   }
 

@@ -96,7 +96,8 @@ export function setLocalStorage<T>(key: string, value: any) {
 
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD'
+  currency: 'USD',
+  maximumSignificantDigits: 1
 
   // These options are needed to round to whole numbers if that's what you want.
   //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
@@ -172,4 +173,23 @@ export function paramToQueryString<T extends Object>(paramsObj: T) {
  */
 export function findObjectByName<T>(array: T[], propertyName: keyof T, name: T[keyof T]): T | undefined {
   return array.find((item) => item[propertyName] === name)
+}
+
+/**
+ * Executes a function after a specified wait time, and debounces subsequent calls.
+ *
+ * @param {Function} func - The function to be executed.
+ * @param {number} wait - The wait time in milliseconds (default is 20).
+ * @return {Function} - The debounced function.
+ */
+export function debounce(func: Function, wait: number = 20) {
+  let timeout: any
+  return function executedFunction(...args: any) {
+    const later = () => {
+      timeout = null
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
 }

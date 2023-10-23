@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
-import debounce from 'lodash/debounce'
 import ReactSlider from 'react-slider'
 
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/sidebar.module.scss'
+import { debounce } from '@/utils/helper'
 
 type Props = {
   min: number
@@ -22,17 +22,12 @@ export default function Slider({ title, clearFilter = false, min, max }: Props) 
     if (clearFilter) setDefaultValue([0, 100]) // TODO: update default value
   }, [clearFilter])
 
-  const handleChangeValue = (value: number[]) => {
-    const changeValue = debounce(() => {
-      setDefaultValue(value)
-
-      const params: any = { ...query, minPrice: value[0], maxPrice: value[1] }
-      if (query.hasOwnProperty('page') && query.page) params.page = 1
-      updateQueryParams(params)
-    }, 300)
-
-    changeValue()
-  }
+  const handleChangeValue = debounce((value: number[]) => {
+    const params: any = { ...query, minPrice: value[0], maxPrice: value[1] }
+    if (query.hasOwnProperty('page') && query.page) params.page = 1
+    setDefaultValue(value)
+    updateQueryParams(params)
+  }, 300)
 
   return (
     <div className={classNames(styles.group, { '!mt-0': !title })}>
@@ -46,7 +41,7 @@ export default function Slider({ title, clearFilter = false, min, max }: Props) 
           ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
           pearling
           minDistance={10}
-          onChange={handleChangeValue}
+          onChange={(value) => handleChangeValue(value)}
           renderThumb={(
             {
               className,

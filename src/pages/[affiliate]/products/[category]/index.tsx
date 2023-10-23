@@ -17,7 +17,7 @@ import Meta from '@/components/common/meta'
 import ProductComponent from '@/components/products'
 
 const getQuery = (query: ParsedUrlQuery) => {
-  const { page, limit, sort, category, ...otherQuery } = query
+  const { page, limit, sort, affiliate, category, ...otherQuery } = query
 
   const params: any = {
     page: Number(page) || 1,
@@ -25,7 +25,8 @@ const getQuery = (query: ParsedUrlQuery) => {
     where: {
       ...otherQuery,
       attributeIds: query.attributeIds ? (typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds) : [],
-      categorySlug: category
+      categorySlug: category,
+      userId: affiliate
     }
   }
 

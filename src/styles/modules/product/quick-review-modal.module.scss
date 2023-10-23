@@ -5,7 +5,8 @@
 }
 
 .image {
-  @apply md:w-[257px] md:h-[257px] md:min-w-[257px] bg-center bg-no-repeat bg-cover;
+  @apply bg-center bg-no-repeat bg-cover;
+  @apply md:w-[257px] md:h-[257px] md:min-w-[257px] md:mb-10;
 
   &__sp {
     @apply w-[100px] h-[100px] mx-auto bg-center bg-no-repeat bg-cover;

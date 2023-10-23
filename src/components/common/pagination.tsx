@@ -25,8 +25,7 @@ function Pagination({ itemsPerPage = 10, totalCount, className }: Props) {
   }, [query])
 
   useEffect(() => {
-    const params: any = { ...query }
-    if (query.hasOwnProperty('page') && query.page) params.page = page
+    const params: any = { ...query, page }
     updateQueryParams(params)
   }, [page])
 
