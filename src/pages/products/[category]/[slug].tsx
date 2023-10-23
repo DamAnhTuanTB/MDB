@@ -60,7 +60,7 @@ export default function ProductDetailPage({ productDetail, category }: InferGetS
 
   return (
     <>
-      <Meta />
+      <Meta title={productDetail.name} />
       <div className={classNames(styles.wrapper, 'container mx-auto')}>
         <div className={styles.breadcrumb}>
           <Breadcrumb items={breadCrumb} />
