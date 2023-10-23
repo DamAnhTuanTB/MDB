@@ -35,7 +35,7 @@ export default function Menu({ open, onClose }: Props) {
               <Link href={routes.homePage()}>New Arrivals</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Skin Care</Link>
+              <Link href={routes.productPage('skin-care')}>Skin Care</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
               <Link href={routes.productPage('hair-care')}>Hair Care</Link>

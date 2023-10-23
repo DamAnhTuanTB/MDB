@@ -15,17 +15,17 @@ export default function Social({ className }: Props) {
       <ul>
         <li>
           <a href="">
-            <Image src={'images/icons/facebook.svg'} width={32} height={32} alt="facebook" />
+            <Image src={'/images/icons/facebook.svg'} width={32} height={32} alt="facebook" />
           </a>
         </li>
         <li>
           <a href="">
-            <Image src={'images/icons/instagram.svg'} width={32} height={32} alt="instagram" />
+            <Image src={'/images/icons/instagram.svg'} width={32} height={32} alt="instagram" />
           </a>
         </li>
         <li>
           <a href="">
-            <Image src={'images/icons/linkedin.svg'} width={32} height={32} alt="linkedin" />
+            <Image src={'/images/icons/linkedin.svg'} width={32} height={32} alt="linkedin" />
           </a>
         </li>
       </ul>

@@ -2,8 +2,6 @@ import { useMemo } from 'react'
 
 import styles from '@/styles/modules/product/review.module.scss'
 
-import Pagination from '@/components/common/pagination'
-
 import Filter from './filter'
 import CommentItem, { ReviewItemType } from './item'
 
@@ -21,7 +19,6 @@ export default function ReviewComment({ comments }: Props) {
         {commentElements}
         <p className={styles.comment__list__viewall}>View All Reviews</p>
       </div>
-      <Pagination totalCount={50} className="!mt-10" />
     </div>
   )
 }

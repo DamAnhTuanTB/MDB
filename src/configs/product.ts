@@ -1,4 +1,4 @@
 export const productConfigs = {
   filterMaxItem: 7,
-  limit: 2
+  limit: 24
 }
