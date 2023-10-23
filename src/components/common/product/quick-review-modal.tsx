@@ -1,3 +1,4 @@
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
 import { Product } from '@/types/product'
@@ -15,6 +16,8 @@ type Props = {
 }
 
 export default function QuickReviewModal({ open, data, onClose }: Props) {
+  const { query } = useRouterWithQueryParams()
+
   const image = data?.images && data?.images?.find((item) => item.isDefault)
 
   return (
@@ -22,7 +25,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
       <div className={styles.body}>
         <div className={styles.pc}>
           <div className={styles.image} style={{ backgroundImage: `url(${image?.url})` }}></div>
-          <a href={routes.productDetailPage(data?.categories[0]?.slug || '', data?.slug || '')}>
+          <a href={routes.productDetailPage(data?.categories[0]?.slug || '', data?.slug || '', query.affiliate as string)}>
             <Button variant="outlined" className={styles.content__viewmore}>
               View More Details
             </Button>
@@ -45,7 +48,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
             <HtmlRender htmlString={data?.description || ''} />
           </div>
           <div className={styles.content__group}>
-            <a href={routes.productDetailPage(data?.categories[0]?.slug || '', data?.slug || '')}>
+            <a href={routes.productDetailPage(data?.categories[0]?.slug || '', data?.slug || '', query.affiliate as string)}>
               <Button variant="outlined" className={styles.content__viewmore__sp}>
                 View More Details
               </Button>

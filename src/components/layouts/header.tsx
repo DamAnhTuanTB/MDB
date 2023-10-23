@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
@@ -12,6 +13,7 @@ import Search from './search'
 import TopHead from './top-head'
 
 export default function Header() {
+  const { query } = useRouterWithQueryParams()
   const [openMenu, setOpenMenu] = useState<boolean>(false)
   const { globalSettingStore } = useGlobalSettingStore()
 
@@ -22,7 +24,7 @@ export default function Header() {
         <div className={styles.content__hamburger} onClick={() => setOpenMenu(true)}>
           <Image src={'/images/icons/hamburger.svg'} width={24} height={24} alt="My Dermbox" />
         </div>
-        <Link className={styles.content__logo} href={routes.homePage()}>
+        <Link className={styles.content__logo} href={routes.homePage(query.affiliate as string)}>
           <Image loading="eager" src={globalSettingStore.logo?.value} width={296} height={99} alt="My Dermbox" />
         </Link>
 

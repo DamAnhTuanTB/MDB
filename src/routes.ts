@@ -1,17 +1,14 @@
-import queryString from 'query-string'
-
 type Params = {
   [key: string]: string | undefined
 }
 
-function urlWithQuery(path: string, params: Params) {
-  const query = queryString.stringify(params, { skipEmptyString: true, skipNull: true })
-  return `/${path}${query ? '?' : ''}${query}`
+const generateUrl = (url: string, affiliateId?: string) => {
+  return affiliateId ? `/${affiliateId}${url}` : url
 }
 
 export default {
-  homePage: () => '/',
-  productPage: (category: string) => `/products/${category}`,
-  productDetailPage: (category: string, slug: string) => `/products/${category}/${slug}`,
+  homePage: (affiliateId?: string) => generateUrl('/', affiliateId),
+  productPage: (category: string, affiliateId?: string) => generateUrl(`/products/${category}`, affiliateId),
+  productDetailPage: (category: string, slug: string, affiliateId?: string) => generateUrl(`/products/${category}/${slug}`, affiliateId),
   faqPage: () => '/faq'
 }

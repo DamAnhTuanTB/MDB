@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/layout/menu.module.scss'
 
@@ -11,6 +12,8 @@ type Props = {
 }
 
 export default function Menu({ open, onClose }: Props) {
+  const { query } = useRouterWithQueryParams()
+
   const handleClickMenuItem = () => {
     onClose()
   }
@@ -23,28 +26,28 @@ export default function Menu({ open, onClose }: Props) {
         <div className={styles.content}>
           <ul className={styles.content__nav}>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Brands</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>Brands</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Browse By</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>Browse By</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Featured Products</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>Featured Products</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>New Arrivals</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>New Arrivals</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.productPage('skin-care')}>Skin Care</Link>
+              <Link href={routes.productPage('skin-care', query.affiliate as string)}>Skin Care</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.productPage('hair-care')}>Hair Care</Link>
+              <Link href={routes.productPage('hair-care', query.affiliate as string)}>Hair Care</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Best Sellers</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>Best Sellers</Link>
             </li>
             <li className={styles.content__nav__item} onClick={handleClickMenuItem}>
-              <Link href={routes.homePage()}>Special Deals</Link>
+              <Link href={routes.homePage(query.affiliate as string)}>Special Deals</Link>
             </li>
           </ul>
         </div>

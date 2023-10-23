@@ -23,6 +23,7 @@ type Props = {
 }
 
 export default function ProductComponent({ products, attributes, totalCount = 0, defaultFilterData, category }: Props) {
+  const { query } = useRouterWithQueryParams()
   const { resetQueryParams } = useRouterWithQueryParams()
   const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
@@ -30,7 +31,7 @@ export default function ProductComponent({ products, attributes, totalCount = 0,
 
   const handleClearAllFilter = () => {
     setClearAllFilter(true)
-    resetQueryParams(routes.productPage(category.slug))
+    resetQueryParams(routes.productPage(category.slug, query.affiliate as string))
   }
 
   return (
