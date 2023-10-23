@@ -174,3 +174,22 @@ export function paramToQueryString<T extends Object>(paramsObj: T) {
 export function findObjectByName<T>(array: T[], propertyName: keyof T, name: T[keyof T]): T | undefined {
   return array.find((item) => item[propertyName] === name)
 }
+
+/**
+ * Executes a function after a specified wait time, and debounces subsequent calls.
+ *
+ * @param {Function} func - The function to be executed.
+ * @param {number} wait - The wait time in milliseconds (default is 20).
+ * @return {Function} - The debounced function.
+ */
+export function debounce(func: Function, wait: number = 20) {
+  let timeout: any
+  return function executedFunction(...args: any) {
+    const later = () => {
+      timeout = null
+      func(...args)
+    }
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+  }
+}

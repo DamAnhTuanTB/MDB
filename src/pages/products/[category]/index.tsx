@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
-import debounce from 'lodash/debounce'
-
 import { categoryApi } from '@/services/api/category'
 import { productApi } from '@/services/api/product'
 
@@ -13,6 +11,7 @@ import { productConfigs } from '@/configs/product'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { Product } from '@/types/product'
+import { debounce } from '@/utils/helper'
 
 import Meta from '@/components/common/meta'
 import ProductComponent from '@/components/products'
