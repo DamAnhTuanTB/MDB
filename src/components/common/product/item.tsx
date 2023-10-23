@@ -8,6 +8,7 @@ import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
+import { currencyFormatter } from '@/utils/helper'
 
 import Button from '../button'
 
@@ -42,7 +43,7 @@ export default function ProductItem({ product, category, className, page = '', o
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
       <div className={styles.item__rating}>{ratingElements}</div>
-      <p className={styles.item__price}>{product?.price}</p>
+      <p className={styles.item__price}>{currencyFormatter.format(product?.price)}</p>
       <Button className={styles.item__button}>Add to cart</Button>
     </div>
   )
