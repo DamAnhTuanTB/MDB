@@ -14,6 +14,12 @@ type Props = {
 }
 
 export default function ImageCarousel({ images }: Props) {
+  const defaultIndex = images && images.findIndex((img) => img.isDefault)
+  if (defaultIndex !== -1) {
+    const defaultImage = images.splice(defaultIndex, 1)[0]
+    images.unshift(defaultImage)
+  }
+
   useEffect(() => {
     const thumbOptions: Options = {
       spaceBetween: 12,
