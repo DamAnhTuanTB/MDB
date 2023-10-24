@@ -9,7 +9,6 @@ import HtmlRender from '@/components/common/html-render'
 import Quantity from '@/components/common/quantity'
 import RatingCommon from '@/components/common/rating'
 import CustomForm from '@/components/form'
-import SelectField from '@/components/form/select-field'
 
 import ImageCarousel from './image-carousel'
 
@@ -45,13 +44,13 @@ export default function Information({ data }: Props) {
           <CustomForm>
             <div className={styles.detail__form}>
               <div className={classNames(styles.detail__group, styles['size'], 'justify-between')}>
-                <span className={styles.detail__form__label}>Size: 1.7 oz</span>
-                <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} />
+                <span className={styles.detail__form__label}>Size: {data?.size} </span>
+                {/* <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} /> */}
               </div>
               <div className={classNames(styles.detail__group, styles['quantity'], 'justify-between mt-2')}>
-                <span className={styles.detail__form__label}>Qty: 10</span>
+                <span className={styles.detail__form__label}>Qty: {data?.quantity}</span>
                 <div className="flex">
-                  <Quantity className={styles.detail__form__input} name="quantity" min={0} max={100} defaultValue={10} />
+                  <Quantity className={styles.detail__form__input} name="quantity" min={0} defaultValue={1} />
                   <Button className={classNames(styles.detail__form__button, styles['pc'])}>Add to cart</Button>
                 </div>
               </div>

@@ -58,6 +58,51 @@
   &__addtocart {
     @apply md:max-w-[250px];
   }
+
+  &__form {
+    @apply mt-6;
+
+    &__label {
+      @apply text-base;
+      @apply lg:mb-2 lg:mx-0;
+    }
+
+    &__input {
+      @apply max-w-[102px] h-[40px];
+      @apply lg:max-w-[117px] lg:mt-1;
+    }
+
+    &__select {
+      @apply max-w-[102px] h-[40px];
+      @apply lg:max-w-[242px] lg:mt-1;
+    }
+
+    &__button {
+      @apply mt-6 items-center;
+
+      &.sp {
+        @apply block lg:hidden;
+      }
+
+      &.pc {
+        @apply hidden lg:block;
+        @apply mt-0 ml-4 min-w-[250px];
+      }
+    }
+  }
+
+  &__group {
+    @apply flex gap-x-4 items-center;
+
+    &.size,
+    &.quantity {
+      @apply lg:flex-col lg:items-start;
+    }
+
+    &.quantity {
+      @apply mt-2 lg:mt-4;
+    }
+  }
 }
 
 .pc {

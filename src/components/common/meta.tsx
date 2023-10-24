@@ -25,6 +25,7 @@ const Meta: NextPage<Props> = ({ title, description, favicon, ogImage, ogType, u
 
       <link rel="icon" href={favicon || '/favicon.ico'} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+
       <link rel="canonical" href={config.url + router.asPath} />
 
       <meta name="description" content={description || config.description} />

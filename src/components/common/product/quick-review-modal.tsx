@@ -1,12 +1,18 @@
+import classNames from 'classnames'
+
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
 import { Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
+import CustomForm from '@/components/form'
+import SelectField from '@/components/form/select-field'
+
 import Button from '../button'
 import HtmlRender from '../html-render'
 import Modal from '../modal'
+import Quantity from '../quantity'
 import RatingCommon from '../rating'
 
 type Props = {
@@ -47,14 +53,30 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
           <div className={styles.content__description}>
             <HtmlRender htmlString={data?.description || ''} />
           </div>
-          <div className={styles.content__group}>
+          <CustomForm>
+            <div className={styles.content__form}>
+              <div className={classNames(styles.content__group, styles['size'], 'justify-between')}>
+                <p className={styles.content__form__label}>Size </p>
+                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} />
+              </div>
+              <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
+                <p className={styles.content__form__label}>Qty: {data?.quantity}</p>
+                <div className="flex">
+                  <Quantity className={styles.content__form__input} name="quantity" min={0} defaultValue={1} />
+                  <Button className={classNames(styles.content__form__button, styles['pc'])}>Add to cart</Button>
+                </div>
+              </div>
+              <Button className={classNames(styles.content__form__button, styles['sp'])}>Add to cart</Button>
+            </div>
+          </CustomForm>
+          {/* <div className={styles.content__group}>
             <a href={routes.productDetailPage(data?.categories[0]?.slug || '', data?.slug || '', query.affiliate as string)}>
               <Button variant="outlined" className={styles.content__viewmore__sp}>
                 View More Details
               </Button>
             </a>
             <Button className={styles.content__addtocart}>Add to cart</Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </Modal>
