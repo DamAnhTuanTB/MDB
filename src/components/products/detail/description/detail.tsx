@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function DescriptionDetail({ data }: Props) {
-  const iconElements = useMemo(() => data?.icons?.map((item) => <Image key={item.id} src={'/images/products/icon.png'} width={100} height={100} alt="icon" />), [data?.icons])
+  const iconElements = useMemo(() => data?.icons?.map((item) => <Image key={item.id} src={item.url} width={100} height={100} alt="icon" />), [data?.icons])
 
   return (
     <div className={styles.content_wrapper}>
