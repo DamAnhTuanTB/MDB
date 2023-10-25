@@ -65,6 +65,5 @@ module.exports = {
         loose: '1.43'
       }
     }
-  },
-  plugins: [require('@tailwindcss/line-clamp')]
+  }
 }
