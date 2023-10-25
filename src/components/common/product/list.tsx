@@ -3,19 +3,19 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 
 import classNames from 'classnames'
-import { debounce } from 'lodash'
 import Swiper from 'swiper'
 import { z } from 'zod'
 
 import initCarousel, { Options } from '@/services/carousel'
 
-import configs from '@/configs'
 import { sortOptions } from '@/constants/product'
+import useDevice from '@/hooks/use-device'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import styles from '@/styles/modules/product/index.module.scss'
 import { DefaultFilterData, Product } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
 import { ProductCategory } from '@/types/product/category'
+import { debounce } from '@/utils/helper'
 
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
@@ -62,6 +62,8 @@ export default function ProductList({
   const [quickReviewData, setQuickReviewData] = useState<Product>()
   const [sortValue, setSortValue] = useState<string>((query.sort as string) || '')
 
+  const { isMobile } = useDevice()
+
   useEffect(() => {
     if (spCarousel) {
       const options: Options = {
@@ -81,9 +83,8 @@ export default function ProductList({
           clickable: true
         }
       }
-
       const init = () => {
-        if (window.innerWidth < configs.breakpointSp) {
+        if (isMobile) {
           carousel.current = initCarousel('#productList', options)
         } else {
           if (carousel.current) {
@@ -95,7 +96,7 @@ export default function ProductList({
       init()
       window.addEventListener('resize', debounce(init, 30))
     }
-  }, [spCarousel])
+  }, [isMobile, spCarousel])
 
   useEffect(() => {
     if (clearFilter) setSortValue('')
