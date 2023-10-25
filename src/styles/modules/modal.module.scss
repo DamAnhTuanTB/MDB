@@ -1,5 +1,5 @@
 .wrapper {
-  @apply fixed w-full h-screen top-0 left-0 z-[99] pointer-events-none opacity-0 transition-opacity duration-300;
+  @apply fixed w-full h-screen top-0 left-0 z-[100] pointer-events-none opacity-0 transition-opacity duration-300;
   @apply flex justify-center items-center;
 
   &.open {

@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react'
 
-import Link from 'next/link'
-
 import classNames from 'classnames'
 
 import { menuItems } from '@/constants/menu'
@@ -10,6 +8,8 @@ import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/menu/index.module.scss'
 import { MenuItem } from '@/types/menu'
+
+import Link from '@/components/common/custom-link'
 
 import SubMenu from './sub-menu'
 import SubMenuDesktop from './sub-menu-desktop'

@@ -1,6 +1,6 @@
 .wrapper {
   @apply block;
-  
+
   .sub__menu__item {
     @apply text-left max-w-full;
 
@@ -16,7 +16,5 @@
     a {
       @apply text-hover;
     }
-
   }
-
 }

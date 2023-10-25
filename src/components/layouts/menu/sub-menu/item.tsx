@@ -1,12 +1,11 @@
 import { useMemo } from 'react'
 
-import Link from 'next/link'
-
 import routes from '@/routes'
 import styles from '@/styles/layout/menu/sub-menu/item.module.scss'
 import { MenuItem } from '@/types/menu'
 
 import CollapseItem from '@/components/common/collapse'
+import Link from '@/components/common/custom-link'
 
 export type Props = {
   item: MenuItem

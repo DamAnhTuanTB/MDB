@@ -60,9 +60,21 @@ export default function ProductList({
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-  const [sortValue, setSortValue] = useState<string>((query.sort as string) || '')
+  const [sortValue, setSortValue] = useState<string>(() => {
+    if (!query.sort) {
+      delete query.sort
+      return ''
+    }
+    return query.sort as string
+  })
 
   const { isMobile } = useDevice()
+
+  useEffect(() => {
+    // if (!query.sort) setSortValue('')
+    // delete query.sort
+    // updateQueryParams({ ...(query as any) })
+  }, [query])
 
   useEffect(() => {
     if (spCarousel) {
@@ -133,10 +145,10 @@ export default function ProductList({
   const sortElement = useMemo(() => {
     return (
       <CustomForm schema={sortSchema}>
-        <SelectField name="sort" options={sortOptions} defaultValue={sortValue} inputClassName="h-10" showErrorMessage={false} onInputChange={handleSort} />
+        <SelectField name="sort" options={sortOptions} value={sortValue} inputClassName="h-10" showErrorMessage={false} onInputChange={handleSort} />
       </CustomForm>
     )
-  }, [])
+  }, [sortValue])
 
   return (
     <div className={classNames(styles.list, [styles[page]])}>

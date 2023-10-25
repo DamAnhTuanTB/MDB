@@ -1,10 +1,9 @@
 import { useMemo } from 'react'
 
-import Link from 'next/link'
-
 import styles from '@/styles/layout/menu/sub-menu-desktop/item.module.scss'
 import { MenuLink } from '@/types/menu'
 
+import Link from '@/components/common/custom-link'
 import { Props as SubMenuProps } from '@/components/layouts/menu/sub-menu/item'
 
 export default function SubMenuDesktopItem({ item, onClick }: SubMenuProps) {

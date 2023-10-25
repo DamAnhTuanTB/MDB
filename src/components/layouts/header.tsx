@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import { debounce } from '@/utils/helper'
+
+import Link from '@/components/common/custom-link'
 
 import Menu from './menu'
 import Search from './search'
