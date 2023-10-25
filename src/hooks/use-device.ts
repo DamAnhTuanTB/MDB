@@ -11,11 +11,11 @@ export default function useDevice() {
   useEffect(() => {
     const handleResize = debounce(() => {
       const { sp, tablet } = configs.breakpoints
-      if (window.innerWidth < tablet && window.innerWidth > sp) {
+      if (window.innerWidth <= tablet && window.innerWidth > sp) {
         setIsTablet(true)
         setIsPc(false)
         setIsMobile(false)
-      } else if (window.innerWidth < sp) {
+      } else if (window.innerWidth <= sp) {
         setIsTablet(false)
         setIsPc(false)
         setIsMobile(true)

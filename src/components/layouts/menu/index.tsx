@@ -4,12 +4,12 @@ import Link from 'next/link'
 
 import classNames from 'classnames'
 
-import { menu } from '@/constants/menu'
+import { menuItems } from '@/constants/menu'
+import useDevice from '@/hooks/use-device'
+import styles from '@/styles/layout/menu/index.module.scss'
 
 import SubMenu from './sub-menu'
 import SubMenuDesktop from './sub-menu-desktop'
-
-import styles from '@/styles/layout/menu/index.module.scss'
 
 type Props = {
   open: boolean
@@ -21,8 +21,11 @@ export default function Menu({ open, onClose }: Props) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
   const [menuListVisible, setMenuListVisible] = useState<boolean>(true)
 
+  const { isPc } = useDevice()
+
   const handleOpenSubMenu = (index: number) => {
-    if (window.innerWidth > 1023) return
+    if (isPc) return
+
     setActiveMenu(index)
     setMenuListVisible(false)
   }
@@ -33,7 +36,7 @@ export default function Menu({ open, onClose }: Props) {
   }
 
   const handleMouseEnterNavItem = (index: number) => {
-    if (window.innerWidth > 1023) setHoveredItem(index)
+    if (isPc) setHoveredItem(index)
   }
 
   const handleCloseSubMenuDesktop = () => {
@@ -42,7 +45,8 @@ export default function Menu({ open, onClose }: Props) {
 
   const menuElements = useMemo(
     () =>
-      menu.map((item, index) => (
+      menuItems &&
+      menuItems.map((item, index) => (
         <div
           key={index}
           className={classNames(styles.content__nav__item, {
@@ -54,11 +58,9 @@ export default function Menu({ open, onClose }: Props) {
           {item.links && item.links?.length > 0 ? (
             <span onClick={() => handleOpenSubMenu(index)}>{item.title}</span>
           ) : item.href ? (
-            <Link href={item.href || '/'} onClick={onClose}>
-              {item.title}
-            </Link>
+            <Link href={item.href || '/'}>{item.title}</Link>
           ) : (
-            <span onClick={onClose}>{item.title}</span>
+            <span>{item.title}</span>
           )}
           {item.links && item.links?.length > 0 && <SubMenuDesktop onClose={handleCloseSubMenuDesktop} className={styles.submenu__desktop} items={item.links} />}
         </div>
@@ -68,7 +70,7 @@ export default function Menu({ open, onClose }: Props) {
 
   const subMenuElement = useMemo(() => {
     if (!activeMenu) return null
-    return <SubMenu items={menu[activeMenu].links || []} onClick={onClose} />
+    return <SubMenu items={menuItems[activeMenu].links || []} onClick={onClose} />
   }, [activeMenu])
 
   return (

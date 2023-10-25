@@ -13,7 +13,7 @@
     @apply lg:pt-[10px] lg:pb-0 lg:max-w-full lg:px-0;
 
     &__nav {
-      @apply w-full transition-opacity opacity-0 duration-300;
+      @apply w-full transition-opacity opacity-0 duration-300 relative;
       @apply lg:flex lg:flex-row lg:gap-8 justify-center lg:opacity-100;
       @apply xl:gap-10;
 
@@ -31,18 +31,20 @@
           @apply lg:mt-0;
         }
 
-        > span, a {
+        > span,
+        a {
           @apply cursor-pointer;
         }
 
         &.hovered {
           &:hover {
-            > span, > a {
+            > span,
+            > a {
               @apply text-hover;
             }
 
             .submenu__desktop {
-              @apply hidden translate-y-0 opacity-100 pointer-events-auto;
+              @apply hidden translate-y-0 opacity-100 pointer-events-auto w-fit;
               @apply lg:flex;
             }
           }

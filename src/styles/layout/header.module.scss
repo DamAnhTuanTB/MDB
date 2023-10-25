@@ -1,6 +1,6 @@
 .wrapper {
   @apply bg-white pb-6;
-  @apply md:pb-7;
+  @apply md:border md:border-white-100 md:pb-0;
 }
 
 .content {
