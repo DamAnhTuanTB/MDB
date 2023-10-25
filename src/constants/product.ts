@@ -21,8 +21,8 @@ export const sortOptions: SelectOption[] = [
   { label: 'Sort', value: '' },
   { label: 'Best Sellers', value: 'productsSold:desc' },
   { label: 'Top rated', value: 'averageRating:desc' },
-  { label: 'Name: A-Z', value: 'name:desc' },
-  { label: 'Name: Z-A', value: 'name:asc' },
+  { label: 'Name: A-Z', value: 'name:asc' },
+  { label: 'Name: Z-A', value: 'name:desc' },
   { label: 'Price: Low to High', value: 'price:asc' },
   { label: 'Price: High to Low', value: 'price:desc' }
 ]

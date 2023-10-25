@@ -1,0 +1,22 @@
+@import '../../../layer';
+
+.wrapper {
+  @apply block;
+
+  .sub__menu__item {
+    @apply text-left max-w-full;
+
+    .label {
+      @apply text-base font-normal whitespace-nowrap mb-4 last:mb-0;
+      @apply text-hover;
+    }
+  }
+
+  .title {
+    @apply font-semibold text-lg mb-6 whitespace-nowrap;
+
+    a {
+      @apply text-hover;
+    }
+  }
+}

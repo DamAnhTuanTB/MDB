@@ -12,4 +12,17 @@ export type ProductCategory = {
   childCategories: ProductCategory[]
 }
 
+export type ProductCategoryParams = {
+  noPagination?: boolean
+  search?: string
+  includeChildren?: boolean
+  isPinned?: boolean
+  where?: {
+    [x: string]: string
+  }
+  sort?: {
+    [x: string]: string
+  }
+}
+
 export type ListProductCategoryResponse = ListResponse<ProductCategory>

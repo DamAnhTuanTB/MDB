@@ -1,7 +1,5 @@
 import { useMemo } from 'react'
 
-import Link from 'next/link'
-
 import classNames from 'classnames'
 
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
@@ -10,6 +8,8 @@ import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
+
+import Link from '@/components/common/custom-link'
 
 import Button from '../button'
 

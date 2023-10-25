@@ -6,10 +6,12 @@ import type { NextPage } from 'next/types'
 
 import { RecoilRoot } from 'recoil'
 
+import { categoryApi } from '@/services/api/category'
 import { globalApi } from '@/services/api/global'
 
-import { globalSettingState } from '@/recoil/global'
+import { globalSettingState, menuCategorieStage } from '@/recoil/global'
 import { GlobalSetting, settingIconKey } from '@/types/global'
+import { ProductCategory } from '@/types/product/category'
 import { findObjectByName } from '@/utils/helper'
 
 import Meta from '@/components/common/meta'
@@ -20,17 +22,22 @@ import '@/styles/global.scss'
 import '@/styles/pagination.scss'
 import '@/styles/slider.scss'
 
+type GlobalProps = {
+  globalSetting: GlobalSetting
+  categories: ProductCategory[]
+}
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
 
-const MyDermboxApp = ({ Component, pageProps }: AppProps<{ globalSetting: GlobalSetting }>) => {
-  const { globalSetting } = pageProps
+const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
+  const { globalSetting, categories } = pageProps
 
   return (
     <RecoilRoot
       initializeState={({ set }) => {
-        set(globalSettingState, pageProps?.globalSetting)
+        set(globalSettingState, globalSetting), set(menuCategorieStage, categories)
       }}
     >
       <Root>
@@ -46,16 +53,17 @@ const MyDermboxApp = ({ Component, pageProps }: AppProps<{ globalSetting: Global
 MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
   const appProps = await App.getInitialProps(ctx)
 
-  const { data } = await globalApi.getSettings()
+  const [settings, categories] = await Promise.all([globalApi.getSettings(), categoryApi.getCategories({ noPagination: true, includeChildren: true, isPinned: true })])
 
   return {
     ...appProps,
     pageProps: {
       globalSetting: {
-        logo: findObjectByName([...data] || [], 'key', settingIconKey.logo) || {},
-        favicon: findObjectByName(data || [], 'key', settingIconKey.favicon) || {},
-        bannerAutoScroll: findObjectByName(data || [], 'key', settingIconKey.bannerAutoScroll) || {}
-      } as GlobalSetting
+        logo: findObjectByName([...settings?.data] || [], 'key', settingIconKey.logo) || {},
+        favicon: findObjectByName(settings?.data || [], 'key', settingIconKey.favicon) || {},
+        bannerAutoScroll: findObjectByName(settings?.data || [], 'key', settingIconKey.bannerAutoScroll) || {}
+      } as GlobalSetting,
+      categories: categories?.data?.results || []
     }
   }
 }

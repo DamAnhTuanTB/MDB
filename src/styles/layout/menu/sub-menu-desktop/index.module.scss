@@ -1,0 +1,5 @@
+.wrapper {
+  @apply flex flex-nowrap shadow-md gap-10 rounded-b-lg absolute bg-white py-10 px-20 z-20 max-w-full w-fit overflow-auto top-[calc(100%+1px)];
+
+  @apply transition-all duration-200 transform -translate-y-[30px] left-1/2 -translate-x-1/2 opacity-0 pointer-events-none;
+}

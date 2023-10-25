@@ -5,5 +5,8 @@ export default {
   name: 'My dermbox',
   shortName: 'My dermbox',
   url: 'https://mydermbox.com',
-  breakpointSp: 640
+  breakpoints: {
+    sp: 640,
+    tablet: 1024
+  }
 }

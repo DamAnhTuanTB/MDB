@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 import styles from '@/styles/layout/top-head.module.scss'
+
+import Link from '@/components/common/custom-link'
 
 import Promotion from './promotion'
 

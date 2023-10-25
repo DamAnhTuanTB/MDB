@@ -1,17 +1,8 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@layer components {
-  .container {
-    @apply max-w-[1440px] w-full;
-  }
-  .page-container {
-    @apply bg-gray-100 py-10;
-    @apply md:mx-10;
-    @apply lg:mx-20 lg:my-10;
-  }
-}
+@import './layer';
 
 html {
   overflow-x: hidden;

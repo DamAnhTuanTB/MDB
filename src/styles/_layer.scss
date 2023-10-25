@@ -1,0 +1,47 @@
+@tailwind components;
+
+@layer components {
+  .container {
+    @apply max-w-[1440px] w-full;
+  }
+
+  .page-container {
+    @apply bg-gray-100 py-10;
+    @apply md:mx-10;
+    @apply lg:mx-20 lg:my-10;
+  }
+
+  .slide-in-left {
+    @apply transition-all duration-200 transform -translate-x-full opacity-0;
+    @apply lg:opacity-100;
+
+    &.active {
+      @apply translate-x-0 opacity-100;
+    }
+  }
+
+  .slide-in-top {
+    @apply transition-all duration-200 transform -translate-y-[30px] opacity-0;
+
+    &.active {
+      @apply translate-y-0 opacity-100;
+    }
+  }
+
+  .overlay-custom {
+    @apply pointer-events-none opacity-0 transition-opacity duration-200 z-[130];
+    @apply lg:hidden;
+
+    &.active {
+      @apply fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-40 pointer-events-none opacity-100;
+    }
+  }
+
+  .text-hover {
+    @apply transition-all duration-200 ease-linear;
+
+    &:hover {
+      @apply text-blue-100;
+    }
+  }
+}

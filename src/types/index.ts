@@ -1,3 +1,5 @@
+export type StringOrNull = string | null
+
 export type ApiResponse<T> = {
   success: boolean
   message?: string

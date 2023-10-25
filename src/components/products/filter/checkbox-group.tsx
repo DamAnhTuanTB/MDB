@@ -40,7 +40,7 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   }, [selectedId])
 
   useEffect(() => {
-    if (minSpf !== null && maxSpf !== null) updateQueryParams({ ...query, minSpf: minSpf !== null ? minSpf : '', maxSpf: maxSpf !== null ? maxSpf : '' })
+    updateQueryParams({ ...query, minSpf: minSpf !== null ? minSpf : '', maxSpf: maxSpf !== null ? maxSpf : '' })
   }, [maxSpf, minSpf])
 
   const handleSeeAll = () => {
