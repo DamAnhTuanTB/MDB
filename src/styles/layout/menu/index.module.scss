@@ -62,7 +62,7 @@
         @apply lg:hidden;
 
         &__icon {
-          @apply w-6 h-6 bg-[url(/images/icons/arrow_left.svg)] bg-contain bg-no-repeat;
+          @apply w-6 h-6 bg-[url(/images/icons/arrow_black.svg)] rotate-90 bg-contain bg-no-repeat;
         }
 
         span {

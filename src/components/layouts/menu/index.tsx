@@ -6,7 +6,9 @@ import classNames from 'classnames'
 
 import { menuItems } from '@/constants/menu'
 import useDevice from '@/hooks/use-device'
+import { useGlobalSettingStore } from '@/recoil/global'
 import styles from '@/styles/layout/menu/index.module.scss'
+import { MenuItem } from '@/types/menu'
 
 import SubMenu from './sub-menu'
 import SubMenuDesktop from './sub-menu-desktop'
@@ -22,6 +24,35 @@ export default function Menu({ open, onClose }: Props) {
   const [menuListVisible, setMenuListVisible] = useState<boolean>(true)
 
   const { isPc } = useDevice()
+
+  const { menuCategories } = useGlobalSettingStore()
+
+  const categoryMenuItems = useMemo(
+    () =>
+      menuCategories?.slice(0, 2).map((category) => {
+        const { name, slug, parentId, childCategories } = category
+
+        return {
+          title: name,
+          slug,
+          parentId,
+          links: childCategories
+            ? childCategories.map(
+                (child) =>
+                  ({
+                    title: child.name,
+                    slug: child.slug,
+                    parentId: child.parentId,
+                    links: child.childCategories ? child.childCategories.map((sub) => ({ title: sub.name, slug: sub.slug, parentId: sub.parentId }) as MenuItem) : []
+                  }) as MenuItem
+              )
+            : []
+        } as MenuItem
+      }) || [],
+    [menuCategories]
+  )
+
+  const displayMenuItems = useMemo(() => [...menuItems.slice(0, menuItems.length - 2), ...categoryMenuItems, ...menuItems.slice(menuItems.length - 2)], [categoryMenuItems])
 
   const handleOpenSubMenu = (index: number) => {
     if (isPc) return
@@ -45,8 +76,7 @@ export default function Menu({ open, onClose }: Props) {
 
   const menuElements = useMemo(
     () =>
-      menuItems &&
-      menuItems.map((item, index) => (
+      displayMenuItems?.map((item, index) => (
         <div
           key={index}
           className={classNames(styles.content__nav__item, {
