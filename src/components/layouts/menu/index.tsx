@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { menuItems } from '@/constants/menu'
 import useDevice from '@/hooks/use-device'
 import { useGlobalSettingStore } from '@/recoil/global'
+import routes from '@/routes'
 import styles from '@/styles/layout/menu/index.module.scss'
 import { MenuItem } from '@/types/menu'
 
@@ -34,16 +35,16 @@ export default function Menu({ open, onClose }: Props) {
 
         return {
           title: name,
-          slug,
+          href: routes.productPage(slug || ''),
           parentId,
           links: childCategories
             ? childCategories.map(
                 (child) =>
                   ({
                     title: child.name,
-                    slug: child.slug,
+                    href: routes.productPage(child.slug || ''),
                     parentId: child.parentId,
-                    links: child.childCategories ? child.childCategories.map((sub) => ({ title: sub.name, slug: sub.slug, parentId: sub.parentId }) as MenuItem) : []
+                    links: child.childCategories ? child.childCategories.map((sub) => ({ title: sub.name, href: routes.productPage(sub.slug || ''), parentId: sub.parentId }) as MenuItem) : []
                   }) as MenuItem
               )
             : []
@@ -74,6 +75,14 @@ export default function Menu({ open, onClose }: Props) {
     setHoveredItem(null)
   }
 
+  const handleClickMenuTitle = (item: MenuItem, index: number) => {
+    if (item.links && item.links.length > 0) {
+      handleOpenSubMenu(index)
+    } else {
+      onClose()
+    }
+  }
+
   const menuElements = useMemo(
     () =>
       displayMenuItems?.map((item, index) => (
@@ -85,21 +94,19 @@ export default function Menu({ open, onClose }: Props) {
           onMouseEnter={() => handleMouseEnterNavItem(index)}
           onMouseLeave={handleCloseSubMenuDesktop}
         >
-          {item.links && item.links?.length > 0 ? (
-            <span onClick={() => handleOpenSubMenu(index)}>{item.title}</span>
-          ) : item.href ? (
-            <Link href={item.href || '/'}>{item.title}</Link>
-          ) : (
-            <span>{item.title}</span>
-          )}
+          <Link href={item.href || ''} onClick={() => handleClickMenuTitle(item, index)}>
+            {item.title}
+          </Link>
+
           {item.links && item.links?.length > 0 && <SubMenuDesktop onClose={handleCloseSubMenuDesktop} className={styles.submenu__desktop} items={item.links} />}
         </div>
       )),
-    [hoveredItem]
+    [displayMenuItems, hoveredItem]
   )
 
   const subMenuElement = useMemo(() => {
-    if (!activeMenu) return null
+    if (!activeMenu) return
+
     return <SubMenu items={menuItems[activeMenu].links || []} onClick={onClose} />
   }, [activeMenu])
 

@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 
 import styles from '@/styles/layout/menu/sub-menu/index.module.scss'
-
-import { MenuItem } from '@/models/menu'
+import { MenuItem } from '@/types/menu'
 
 import SubMenuItem from './item'
 

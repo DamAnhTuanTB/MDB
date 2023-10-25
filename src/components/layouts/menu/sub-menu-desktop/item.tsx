@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 
 import Link from 'next/link'
 
-import routes from '@/routes'
 import styles from '@/styles/layout/menu/sub-menu-desktop/item.module.scss'
 import { MenuLink } from '@/types/menu'
 
@@ -14,11 +13,11 @@ export default function SubMenuDesktopItem({ item, onClick }: SubMenuProps) {
       return (
         <ul className={styles.sub__menu__item}>
           <h3 className={styles.title}>
-            <Link href={routes.productPage(item?.slug || '')}>{item?.title}</Link>
+            <Link href={item.href || ''}>{item?.title}</Link>
           </h3>
           {item?.links.map((link: MenuLink, index: number) => (
             <li className={styles.label} key={index} onClick={onClick}>
-              {link.slug ? <Link href={routes.productPage(link.slug || '')}>{link.title}</Link> : link.title}
+              {link.href ? <Link href={link.href || ''}>{link.title}</Link> : link.title}
             </li>
           ))}
         </ul>
@@ -27,7 +26,7 @@ export default function SubMenuDesktopItem({ item, onClick }: SubMenuProps) {
 
     return (
       <div className={styles.title} onClick={onClick}>
-        <Link href={routes.productPage(item?.slug || '')}>{item?.title}</Link>
+        <Link href={item.href || ''}>{item?.title}</Link>
       </div>
     )
   }, [item, onClick])

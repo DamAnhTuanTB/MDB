@@ -10,15 +10,16 @@ import Clients from './clients'
 type Props = {
   banners: Banner[]
   products: Product[]
+  featuredProductTitle: string
 }
 
-export default function HomeComponent({ banners, products }: Props) {
+export default function HomeComponent({ banners, products, featuredProductTitle }: Props) {
   return (
     <div className={styles.wrapper}>
       <KvCarousel slides={banners} />
       <div className="container mx-auto">
         <div className={styles.list}>
-          <ProductList products={products} page="home" spCarousel title="July 4th Selections" />
+          <ProductList products={products} page="home" spCarousel title={featuredProductTitle || ''} />
         </div>
       </div>
       <Clients />

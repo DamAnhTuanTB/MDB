@@ -18,11 +18,13 @@ export default function SubMenuItem({ item, onClick }: Props) {
     if (item?.links && item?.links.length > 0) {
       return (
         <CollapseItem className={styles.collapse} headingClassName={styles.collapse__heading} contentClassName={styles.collapse__content} title={item?.title}>
-          {item?.links.map((link: MenuItem, index: number) => (
-            <div className={styles.label} key={index} onClick={onClick}>
-              {link.slug ? <Link href={routes.productPage(link.slug)}>{link.title}</Link> : link.title}
-            </div>
-          ))}
+          {item?.links &&
+            item?.links.length > 0 &&
+            item?.links.map((link: MenuItem, index: number) => (
+              <div className={styles.label} key={index} onClick={onClick}>
+                <Link href={link.href || ''}>{link.title}</Link>
+              </div>
+            ))}
         </CollapseItem>
       )
     }
