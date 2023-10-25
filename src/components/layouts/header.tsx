@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,6 +7,7 @@ import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
+import { debounce } from '@/utils/helper'
 
 import Menu from './menu'
 import Search from './search'
@@ -14,8 +15,29 @@ import TopHead from './top-head'
 
 export default function Header() {
   const { query } = useRouterWithQueryParams()
-  const [openMenu, setOpenMenu] = useState<boolean>(false)
+  const [openMenu, setOpenMenu] = useState<boolean>(true)
+  const [dropdownHoverable, setDropdownHoverable] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
+
+  const handleCloseMenu = () => {
+    if (window.innerWidth > 1023) return
+    setOpenMenu(false)
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setOpenMenu(window.innerWidth > 1023)
+      setDropdownHoverable(window.innerWidth > 1023)
+    }
+
+    const debouncedHandleResize = debounce(handleResize, 30)
+    window.addEventListener('resize', debouncedHandleResize)
+
+    handleResize()
+    return () => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+  }, [])
 
   return (
     <header className={styles.wrapper}>

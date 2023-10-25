@@ -1,0 +1,76 @@
+.wrapper {
+  @apply fixed top-0 left-0 w-screen h-screen bg-transparent z-[110];
+  @apply lg:relative lg:translate-x-0 lg:w-full lg:h-auto lg:z-[100];
+  @apply slide-in-left;
+
+  .close {
+    @apply absolute top-4 left-[272px] w-6 h-6 bg-[url(/images/icons/close.svg)] bg-contain bg-no-repeat z-10;
+    @apply lg:hidden;
+  }
+
+  .content {
+    @apply relative w-full h-full max-w-[312px] pt-[65px] pb-10 pl-6 bg-white overflow-y-visible;
+    @apply lg:pt-[10px] lg:pb-0 lg:max-w-full lg:px-0;
+
+    &__nav {
+      @apply w-full transition-opacity opacity-0 duration-300;
+      @apply lg:flex lg:flex-row lg:gap-8 justify-center lg:opacity-100;
+      @apply xl:gap-10;
+
+      &.active {
+        @apply opacity-100;
+      }
+
+      &__item {
+        @apply text-[20px] font-semibold pr-6;
+        @apply lg:text-center lg:text-lg lg:pr-0 lg:pb-[38px];
+        @apply xl:text-xl;
+
+        & + .content__nav__item {
+          @apply mt-6;
+          @apply lg:mt-0;
+        }
+
+        > span, a {
+          @apply cursor-pointer;
+        }
+
+        &.hovered {
+          &:hover {
+            > span, > a {
+              @apply text-hover;
+            }
+
+            .submenu__desktop {
+              @apply hidden translate-y-0 opacity-100 pointer-events-auto;
+              @apply lg:flex;
+            }
+          }
+        }
+      }
+    }
+
+    .submenu {
+      @apply absolute bg-white h-full top-0 right-0 pl-6 mt-4 w-full outline-none;
+      @apply lg:hidden;
+      @apply slide-in-left;
+
+      .back {
+        @apply flex cursor-pointer items-center z-10 ml-[-16px] mb-6;
+        @apply lg:hidden;
+
+        &__icon {
+          @apply w-6 h-6 bg-[url(/images/icons/arrow_left.svg)] bg-contain bg-no-repeat;
+        }
+
+        span {
+          @apply text-lg ml-2 font-semibold;
+        }
+      }
+    }
+  }
+}
+
+.overlay {
+  @apply overlay-custom z-[110];
+}

@@ -1,0 +1,34 @@
+.wrapper {
+  @apply mb-6;
+
+  .collapse {
+    @apply border-0;
+
+    &__heading {
+      @apply p-0 transition-all duration-200 ease-linear;
+
+      &::after {
+        @apply mr-0 absolute scale-100 right-0 w-6 h-6;
+      }
+
+      h3 {
+        @apply text-lg font-semibold;
+      }
+    }
+
+    &__content {
+      @apply p-0 h-auto;
+
+      .label {
+        @apply pt-4 text-base font-normal cursor-pointer z-40 last:pb-4;
+        @apply text-hover;
+      }
+    }
+  }
+
+  .title {
+    @apply text-lg font-semibold;
+    @apply text-hover;
+
+  }
+}

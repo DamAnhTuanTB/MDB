@@ -1,0 +1,7 @@
+.wrapper {
+  @apply overflow-y-auto max-h-screen pr-6;
+
+  .sub__menu__list {
+    @apply list-none;
+  }
+}
