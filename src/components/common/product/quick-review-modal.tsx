@@ -60,7 +60,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
                 <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} />
               </div>
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
-                <p className={styles.content__form__label}>Qty: {data?.quantity}</p>
+                <p className={styles.content__form__label}>Qty: {data?.quantity || 0}</p>
                 <div className="flex">
                   <Quantity className={styles.content__form__input} name="quantity" min={0} defaultValue={1} />
                   <Button className={classNames(styles.content__form__button, styles['pc'])}>Add to cart</Button>
