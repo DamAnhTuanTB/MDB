@@ -1,34 +1,37 @@
+import { memo, useMemo } from 'react'
+
 import Image from 'next/image'
 
 import classNames from 'classnames'
 
 import styles from '@/styles/layout/social.module.scss'
+import { MediaIcon } from '@/types/footer'
 
 type Props = {
+  icons: MediaIcon[]
   className?: string
 }
 
-export default function Social({ className }: Props) {
+function Social({ icons, className }: Props) {
+  const iconElements = useMemo(
+    () =>
+      icons &&
+      icons.map((item) => (
+        <li key={item.id}>
+          <a href={item.urlLink} target="_blank">
+            <Image src={item.imageUrl} width={32} height={32} alt={item.name} />
+          </a>
+        </li>
+      )),
+    [icons]
+  )
+
   return (
     <div className={classNames(styles.wrapper, className)}>
       <h3>Follow us on</h3>
-      <ul>
-        <li>
-          <a href="">
-            <Image src={'/images/icons/facebook.svg'} width={32} height={32} alt="facebook" />
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <Image src={'/images/icons/instagram.svg'} width={32} height={32} alt="instagram" />
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <Image src={'/images/icons/linkedin.svg'} width={32} height={32} alt="linkedin" />
-          </a>
-        </li>
-      </ul>
+      <ul>{iconElements}</ul>
     </div>
   )
 }
+
+export default memo(Social)

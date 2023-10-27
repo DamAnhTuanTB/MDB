@@ -1,73 +1,51 @@
+import { memo, useMemo } from 'react'
+
 import classNames from 'classnames'
 
-import routes from '@/routes'
 import styles from '@/styles/layout/footer.module.scss'
+import { FooterContent, FooterMenuItem, MediaIcon } from '@/types/footer'
+import { CONTENT_OPTIONS_KEY } from '@/types/global'
 
 import Link from '@/components/common/custom-link'
+
+import HtmlRender from '../common/html-render'
 
 import Social from './social'
 import Subscribe from './subscribe'
 
-export default function Footer() {
+function getOptionByName<T>(content: FooterContent<T>[], key: keyof typeof CONTENT_OPTIONS_KEY): FooterContent<T> {
+  return (content && content.find((item) => item.name === key)) || ({} as FooterContent)
+}
+
+type Props = {
+  content: FooterContent[]
+}
+
+function Footer({ content }: Props) {
+  const menuItems = getOptionByName<FooterMenuItem[]>(content, CONTENT_OPTIONS_KEY.FOOTER_MENU_ITEMS)
+  const mediaIcons = getOptionByName<MediaIcon[]>(content, CONTENT_OPTIONS_KEY.SOCIAL_MEDIA_ICONS)
+  const description = getOptionByName(content, CONTENT_OPTIONS_KEY.FOOTER_DESCRIPTION)
+
+  const menuItemElements = useMemo(
+    () =>
+      menuItems.jsonValue &&
+      menuItems.jsonValue.length > 0 &&
+      menuItems.jsonValue.map((item) => (
+        <div key={item.id}>
+          <h3>{item.title}</h3>
+          <HtmlRender htmlString={item.description} />
+        </div>
+      )),
+    []
+  )
+
   return (
     <>
       <footer className={styles.footer}>
         <div className={styles.wrapper}>
           <div className={styles.content}>
-            <div className={styles.content__menu}>
-              <div>
-                <h3>Customer Service</h3>
-                <ul>
-                  <li>
-                    <Link href={routes.faqPage()}>FAQs</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Track My Order</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Shipping & Returns</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Contact Us</Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3>MyDermBox</h3>
-                <ul>
-                  <li>
-                    <Link href={'/'}>About Us</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Privacy Policy</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>News</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Sitemap</Link>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3>Legal</h3>
-                <ul>
-                  <li>
-                    <Link href={'/'}>Privacy Policy</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Terms & Conditions</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Product Recall</Link>
-                  </li>
-                  <li>
-                    <Link href={'/'}>Accessibility</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <Social className="lg:hidden" />
+            <div className={styles.content__menu}>{menuItemElements}</div>
+            <Social icons={mediaIcons.jsonValue || []} className="lg:hidden" />
             <p className={styles.link}>
               Are you an aesthetic professional?{' '}
               <Link className="font-bold" href={'/'}>
@@ -79,11 +57,8 @@ export default function Footer() {
             <Subscribe />
             <div className={styles.contact}>
               <h3>Contact Us</h3>
-              <ul>
-                <li>Email: support@mydermbox.com</li>
-                <li>1-800-918-2427</li>
-              </ul>
-              <Social className="hidden lg:block" />
+              <HtmlRender htmlString={description.value || ''} />
+              <Social icons={mediaIcons.jsonValue || []} className="hidden lg:block" />
             </div>
           </div>
         </div>
@@ -92,3 +67,5 @@ export default function Footer() {
     </>
   )
 }
+
+export default memo(Footer)
