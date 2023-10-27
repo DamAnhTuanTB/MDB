@@ -6,9 +6,13 @@ export const settingIconKey = {
   bannerAutoScroll: 'banner_auto_scroll'
 }
 
-export enum ContentOptionKey {
+export enum CONTENT_OPTIONS_KEY {
   HOMEPAGE = 'HOMEPAGE',
-  FEATURED_PRODUCT_TITLE = 'FEATURED_PRODUCT_TITLE'
+  FEATURED_PRODUCT_TITLE = 'FEATURED_PRODUCT_TITLE',
+  FOOTER = 'FOOTER',
+  SOCIAL_MEDIA_ICONS = 'SOCIAL_MEDIA_ICONS',
+  FOOTER_MENU_ITEMS = 'FOOTER_MENU_ITEMS',
+  FOOTER_DESCRIPTION = 'FOOTER_DESCRIPTION'
 }
 
 export type Metadata = {}
@@ -33,8 +37,8 @@ export type ContentOptions<T = Object> = {
   name: string
   value: StringOrNull
   jsonValue: T
-  createdAt: string
-  updatedAt: string
+  createdAt: StringOrNull
+  updatedAt: StringOrNull
 }
 
 export type ContentOptionParams = {

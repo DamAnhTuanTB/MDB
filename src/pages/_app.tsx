@@ -10,7 +10,8 @@ import { categoryApi } from '@/services/api/category'
 import { globalApi } from '@/services/api/global'
 
 import { globalSettingState, menuCategorieStage } from '@/recoil/global'
-import { GlobalSetting, settingIconKey } from '@/types/global'
+import { FooterContent } from '@/types/footer'
+import { CONTENT_OPTIONS_KEY, GlobalSetting, settingIconKey } from '@/types/global'
 import { ProductCategory } from '@/types/product/category'
 import { findObjectByName } from '@/utils/helper'
 
@@ -25,6 +26,7 @@ import '@/styles/slider.scss'
 type GlobalProps = {
   globalSetting: GlobalSetting
   categories: ProductCategory[]
+  footerContent: FooterContent[]
 }
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -32,7 +34,7 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 }
 
 const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
-  const { globalSetting, categories } = pageProps
+  const { globalSetting, categories, footerContent } = pageProps
 
   return (
     <RecoilRoot
@@ -42,7 +44,7 @@ const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
     >
       <Root>
         <Meta favicon={globalSetting?.favicon?.value} />
-        <Layout>
+        <Layout footerContent={footerContent}>
           <Component {...pageProps} />
         </Layout>
       </Root>
@@ -53,7 +55,11 @@ const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
 MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
   const appProps = await App.getInitialProps(ctx)
 
-  const [settings, categories] = await Promise.all([globalApi.getSettings(), categoryApi.getCategories({ noPagination: true, includeChildren: true, isPinned: true })])
+  const [settings, categories, footerContent] = await Promise.all([
+    globalApi.getSettings(),
+    categoryApi.getCategories({ noPagination: true, includeChildren: true, where: { isPinned: true } }),
+    globalApi.getContentOptions({ where: { groups: CONTENT_OPTIONS_KEY.FOOTER } })
+  ])
 
   return {
     ...appProps,
@@ -63,7 +69,8 @@ MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
         favicon: findObjectByName(settings?.data || [], 'key', settingIconKey.favicon) || {},
         bannerAutoScroll: findObjectByName(settings?.data || [], 'key', settingIconKey.bannerAutoScroll) || {}
       } as GlobalSetting,
-      categories: categories?.data?.results || []
+      categories: categories?.data?.results || [],
+      footerContent: footerContent?.data || []
     }
   }
 }

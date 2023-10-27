@@ -16,9 +16,8 @@ export type ProductCategoryParams = {
   noPagination?: boolean
   search?: string
   includeChildren?: boolean
-  isPinned?: boolean
   where?: {
-    [x: string]: string
+    [x: string]: any
   }
   sort?: {
     [x: string]: string
