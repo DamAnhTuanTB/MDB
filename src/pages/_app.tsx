@@ -53,7 +53,7 @@ const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
 MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
   const appProps = await App.getInitialProps(ctx)
 
-  const [settings, categories] = await Promise.all([globalApi.getSettings(), categoryApi.getCategories({ noPagination: true, includeChildren: true, isPinned: true })])
+  const [settings, categories] = await Promise.all([globalApi.getSettings(), categoryApi.getCategories({ noPagination: true, includeChildren: true, where: { isPinned: true } })])
 
   return {
     ...appProps,
