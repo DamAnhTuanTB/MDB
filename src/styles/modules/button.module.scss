@@ -1,6 +1,10 @@
 .button {
-  @apply w-full text-base font-bold py-[10px] px-3 rounded-lg cursor-pointer;
+  @apply w-full text-base font-bold py-[12px] px-3 rounded-lg cursor-pointer flex justify-center gap-x-4 items-center;
   @apply bg-blue text-white;
+
+  &.disabled {
+    @apply opacity-60 cursor-default;
+  }
 
   &.ocean {
     @apply bg-blue-50 text-white;

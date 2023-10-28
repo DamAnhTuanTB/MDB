@@ -17,6 +17,7 @@ export type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
   inptuId?: string
   inputRef?: any
   isError?: boolean
+  isLoading?: boolean
   onInputChange?: (value: string) => void
 }
 
@@ -34,6 +35,8 @@ const TextField = ({
   inptuId,
   inputRef,
   required,
+  isLoading = false,
+  disabled,
   onInputChange,
   ...otherProps
 }: Props) => {
@@ -55,6 +58,7 @@ const TextField = ({
         render={({ field: { value, onChange, onBlur, ...fields } }) => (
           <div className={classNames(styles.input__boundary, boundaryClassName)}>
             <input
+              {...fields}
               id={inptuId}
               className={classNames(styles.input__field, { [styles['error']]: hasError || isError }, inputClassName)}
               type={type}
@@ -65,9 +69,9 @@ const TextField = ({
                 onInputChange && onInputChange(e.target.value)
               }}
               value={value || ''}
-              {...fields}
-              {...otherProps}
+              disabled={isLoading || disabled}
               ref={inputRef}
+              {...otherProps}
             />
           </div>
         )}

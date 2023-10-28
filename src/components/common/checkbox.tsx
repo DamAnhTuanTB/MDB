@@ -7,10 +7,12 @@ import styles from '@/styles/modules/checkbox.module.scss'
 type Props = {
   label: React.ReactNode
   checked?: boolean
+  className?: string
+  labelClassName?: string
   onChange?: (value: boolean) => void
 }
 
-export default function Checkbox({ label, checked = false, onChange }: Props) {
+export default function Checkbox({ label, checked = false, className, labelClassName = '', onChange }: Props) {
   const [isChecked, setIsChecked] = useState<boolean>(checked)
 
   useEffect(() => {
@@ -23,9 +25,9 @@ export default function Checkbox({ label, checked = false, onChange }: Props) {
   }
 
   return (
-    <div className={styles.wrapper} onClick={handleClick}>
+    <div className={classNames(styles.wrapper, className)} onClick={handleClick}>
       <div className={classNames(styles.input, { [styles['checked']]: isChecked })} />
-      <div className={styles.label}>{label}</div>
+      <div className={classNames(styles.label, labelClassName)}>{label}</div>
     </div>
   )
 }
