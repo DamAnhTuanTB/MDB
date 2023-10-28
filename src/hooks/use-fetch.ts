@@ -2,38 +2,43 @@ import { useCallback, useState } from 'react'
 
 import type { AxiosResponse } from 'axios'
 
-import { ApiError } from '@/types'
+import { ApiError, MDBResult } from '@/types'
 
 type Props<T, P> = {
   fetcher: (params: P) => Promise<AxiosResponse<T>>
 }
-export const useFetch = <T, P>({ fetcher }: Props<T, P>) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<ApiError>()
-  const [data, setData] = useState<T>()
+export const useFetch = <T, P, E = any>({ fetcher }: Props<T, P>) => {
+  const [pageDataResult, setPageDataResult] = useState<MDBResult<T, E>>()
 
   const fetch = useCallback(async (params: P) => {
-    setIsLoading(true)
+    setPageDataResult({
+      isLoading: true,
+      data: undefined,
+      error: undefined
+    })
+
     try {
-      const response = await fetcher(params)
-      setData(response.data)
+      const { data, status } = await fetcher(params)
+
+      setPageDataResult({
+        isLoading: false,
+        data,
+        error: undefined
+      })
+
+      console.log('status', status)
+      console.log('data', data)
     } catch (error: any) {
-      setError(error)
-    } finally {
-      setIsLoading(false)
+      setPageDataResult({
+        isLoading: false,
+        data: undefined,
+        error: error as ApiError<E>
+      })
     }
   }, [])
 
-  const reset = useCallback(() => {
-    setData(undefined)
-    setError(undefined)
-  }, [])
-
   return {
-    isLoading,
-    error,
-    fetch,
-    data,
-    reset
+    pageDataResult,
+    fetch
   }
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 import { ZodType, z } from 'zod'
@@ -7,7 +7,7 @@ import { validates } from '@/configs/validate'
 import { useCustomerSignUp } from '@/hooks/pages/use-customer-signup'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
-import styles from '@/styles/modules/customer/signup/form.module.scss'
+import styles from '@/styles/modules/customer/form.module.scss'
 import { SignUpBody } from '@/types/customer'
 
 import Button from '@/components/common/button'
@@ -30,28 +30,28 @@ const schema = z
   }) satisfies ZodType<SignUpBody>
 
 export default function CreateAccountForm() {
-  const { fetch: postSignUp, isLoading } = useCustomerSignUp()
+  const { fetch: doSignUp, isLoading, errorMessage, data: signUpData } = useCustomerSignUp()
   const { push } = useRouterWithQueryParams()
   const [isAllowTerms, setIsAllowTerms] = useState<boolean>(false)
   const [isAllowEmail, setIsAllowEmail] = useState<boolean>(false)
-  const [hasError, setHasError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (signUpData) push(routes.loginPage())
+  }, [signUpData])
 
   const handleSubmitForm = (data: SignUpBody) => {
     const postData: SignUpBody = {
       ...data,
       allowPromotions: isAllowEmail
     }
-
-    postSignUp(postData)
-      .then(() => push(routes.loginPage()))
-      .catch(() => setHasError(true))
+    doSignUp(postData)
   }
 
   return (
     <div className={styles.wrapper}>
       <h4 className={styles.title}>Create Account</h4>
       <p className={styles.description}>Register now to check out faster, view orders, and get exclusive deals!</p>
-      {hasError && <p className={classNames(styles.description, 'text-red')}>Something when wrong, please try again later!</p>}
+      {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
       <CustomForm schema={schema} onSubmit={handleSubmitForm}>
         <div className={styles.form}>
           <div className={styles.form__group}>
@@ -59,7 +59,7 @@ export default function CreateAccountForm() {
               <TextField showErrorMessage required label="First Name" name="firstName" placeholder="First name" isLoading={isLoading} />
             </div>
             <div className={styles.form__field}>
-              <TextField showErrorMessage required label="Last Name" name="lastName" placeholder="Last name" />
+              <TextField showErrorMessage required label="Last Name" name="lastName" placeholder="Last name" isLoading={isLoading} />
             </div>
           </div>
           <div className={styles.form__field}>

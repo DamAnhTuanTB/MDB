@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 
 import { customerApi } from '@/services/api/customer'
 
-import { SignUpBody, SignUpResponse } from '@/types/customer'
+import { LoginBody, LoginError, LoginResponse } from '@/types/customer'
 
 import { useFetch } from '../use-fetch'
 
-export const useCustomerSignUp = () => {
-  const { fetch, pageDataResult } = useFetch<SignUpResponse, SignUpBody>({ fetcher: customerApi.signup })
+export const useCustomerLogin = () => {
+  const { fetch, pageDataResult } = useFetch<LoginResponse, LoginBody, LoginError>({ fetcher: customerApi.login })
 
   const [errorMessage, setErrorMessage] = useState<string>()
 
