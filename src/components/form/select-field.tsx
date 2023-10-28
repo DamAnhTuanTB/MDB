@@ -20,10 +20,11 @@ export type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   options?: SelectOption[]
   className?: string
   inputClassName?: string
+  isLoading?: boolean
   onInputChange?: (value: string) => void
 }
 
-const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, onInputChange, ...others }: Props) => {
+const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaultValue, options, className, inputClassName, isLoading = false, disabled, onInputChange, ...otherProps }: Props) => {
   const { control, formState } = useFormContext()
   const hasError = handleInputError(name, formState.errors)
 
@@ -46,9 +47,10 @@ const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaul
           name={name}
           control={control}
           defaultValue={defaultValue || ''}
-          render={({ field: { value, onChange, onBlur, ...otherProps } }) => (
+          render={({ field: { value, onChange, onBlur, ...others } }) => (
             <div className={classNames(styles.input__boundary, '!bg-grey-50')}>
               <select
+                {...others}
                 className={classNames(styles.input__field, { hasError: hasError }, inputClassName)}
                 placeholder={placeholder}
                 onBlur={onBlur}
@@ -57,8 +59,8 @@ const SelectField = ({ name, label, showErrorMessage = true, placeholder, defaul
                   onInputChange && onInputChange(e.target.value)
                 }}
                 value={value || ''}
+                disabled={isLoading || disabled}
                 {...otherProps}
-                {...others}
               >
                 {optionsElements}
               </select>

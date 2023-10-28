@@ -10,5 +10,7 @@ export default {
   homePage: (affiliateId?: string) => generateUrl('/', affiliateId),
   productPage: (category: string, affiliateId?: string) => generateUrl(`/products/${category}`, affiliateId),
   productDetailPage: (category: string, slug: string, affiliateId?: string) => generateUrl(`/products/${category}/${slug}`, affiliateId),
-  faqPage: () => '/faq'
+  faqPage: () => '/faq',
+  loginPage: () => '/customer/login',
+  signUpPage: () => '/customer/signup'
 }

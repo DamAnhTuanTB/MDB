@@ -16,6 +16,7 @@ export type Props = Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>> &
   inptuId?: string
   inputRef?: any
   isError?: boolean
+  isLoading?: boolean
   onInputChange?: (value: string) => void
 }
 
@@ -31,6 +32,8 @@ const TextAreaField = ({
   inptuId,
   inputRef,
   required,
+  isLoading = false,
+  disabled,
   onInputChange,
   ...otherProps
 }: Props) => {
@@ -52,6 +55,7 @@ const TextAreaField = ({
         render={({ field: { value, onChange, onBlur, ...fields } }) => (
           <div className={styles.input__boundary}>
             <textarea
+              {...fields}
               id={inptuId}
               className={classNames(styles.input__field, styles.input__textarea, { [styles['error']]: hasError || isError }, 'resize-none', inputClassName)}
               placeholder={placeholder}
@@ -61,9 +65,9 @@ const TextAreaField = ({
                 onInputChange && onInputChange(e.target.value)
               }}
               value={value || ''}
-              {...fields}
-              {...otherProps}
               ref={inputRef}
+              disabled={isLoading || disabled}
+              {...otherProps}
             />
           </div>
         )}

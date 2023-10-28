@@ -1,0 +1,46 @@
+.wrapper {
+  @apply p-10;
+  @apply lg:px-[98px];
+}
+
+.title {
+  @apply text-xl font-semibold mb-10;
+  @apply md:mb-0;
+}
+
+.description {
+  @apply hidden mt-[25px] text-base;
+  @apply md:block;
+}
+
+.form {
+  @apply mt-[45px];
+
+  &__group {
+    @apply flex gap-x-[16px];
+    @apply md:gap-x-[22px] md:flex-nowrap;
+  }
+
+  &__field {
+    @apply flex-1 mb-4;
+  }
+
+  &__input {
+    // @apply h-10 bg-grey-50 border-[0.5px] border-solid border-grey rounded-[8px];
+  }
+
+  &__button {
+    @apply mt-10;
+    @apply md:mt-8;
+  }
+
+  &__redirect {
+    @apply text-center mt-10 mb-0 text-base font-normal;
+    @apply md:mt-8;
+  }
+
+  &__checkbox {
+    @apply pt-4;
+    @apply sm:ml-[53px];
+  }
+}
