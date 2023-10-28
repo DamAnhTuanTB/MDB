@@ -30,23 +30,21 @@ const schema = z
   }) satisfies ZodType<SignUpBody>
 
 export default function CreateAccountForm() {
-  const { fetch: doSignUp, isLoading, error } = useCustomerSignUp()
+  const { fetch: doSignUp, isLoading, errorMessage, data: signUpData } = useCustomerSignUp()
   const { push } = useRouterWithQueryParams()
   const [isAllowTerms, setIsAllowTerms] = useState<boolean>(false)
   const [isAllowEmail, setIsAllowEmail] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string>()
 
   useEffect(() => {
-    setErrorMessage(error?.response?.data.message)
-  }, [error])
+    if (signUpData) push(routes.loginPage())
+  }, [signUpData])
 
   const handleSubmitForm = (data: SignUpBody) => {
     const postData: SignUpBody = {
       ...data,
       allowPromotions: isAllowEmail
     }
-
-    doSignUp(postData).then(() => push(routes.loginPage()))
+    doSignUp(postData)
   }
 
   return (
@@ -61,7 +59,7 @@ export default function CreateAccountForm() {
               <TextField showErrorMessage required label="First Name" name="firstName" placeholder="First name" isLoading={isLoading} />
             </div>
             <div className={styles.form__field}>
-              <TextField showErrorMessage required label="Last Name" name="lastName" placeholder="Last name" />
+              <TextField showErrorMessage required label="Last Name" name="lastName" placeholder="Last name" isLoading={isLoading} />
             </div>
           </div>
           <div className={styles.form__field}>

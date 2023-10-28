@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import classNames from 'classnames'
 import { ZodType, z } from 'zod'
@@ -21,19 +21,15 @@ const schema = z.object({
 }) satisfies ZodType<LoginBody>
 
 export default function LoginForm() {
-  const { fetch: doLogin, isLoading, error, data: loginData } = useCustomerLogin()
+  const { fetch: doLogin, isLoading, errorMessage, data: loginData } = useCustomerLogin()
   const { push } = useRouterWithQueryParams()
-  const [errorMessage, setErrorMessage] = useState<string>()
 
   useEffect(() => {
-    setErrorMessage(error?.response?.data.message)
-  }, [error])
+    if (loginData) push(routes.homePage())
+  }, [loginData])
 
-  const handleSubmitForm = async (data: LoginBody) => {
-    await doLogin(data)
-    console.log('error', error)
-    console.log('loginData', loginData)
-
+  const handleSubmitForm = (data: LoginBody) => {
+    doLogin(data)
     // TODO: handle login successfully
   }
 
