@@ -1,7 +1,7 @@
 import Meta from '@/components/common/meta'
 import LoginComponent from '@/components/customer/login'
 
-export default function RegisterPage() {
+export default function LoginPage() {
   return (
     <>
       <Meta title="Login" />
