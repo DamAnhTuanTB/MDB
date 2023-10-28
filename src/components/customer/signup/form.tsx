@@ -29,7 +29,7 @@ const schema = z
     path: ['confirmPassword']
   }) satisfies ZodType<SignUpBody>
 
-export default function CreateAccountForm() {
+export default function SignUpForm() {
   const { fetch: doSignUp, isLoading, errorMessage, data: signUpData } = useCustomerSignUp()
   const { push } = useRouterWithQueryParams()
   const [isAllowTerms, setIsAllowTerms] = useState<boolean>(false)

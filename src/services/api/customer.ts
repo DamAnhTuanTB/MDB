@@ -1,4 +1,4 @@
-import { LoginBody, LoginResponse, SignUpBody, SignUpResponse } from '@/types/customer'
+import { ForgotPasswordBody, ForgotPasswordResponse, LoginBody, LoginResponse, SignUpBody, SignUpResponse } from '@/types/customer'
 
 import { apiBase } from '.'
 
@@ -8,5 +8,8 @@ export const customerApi = {
   },
   login(body: LoginBody) {
     return apiBase.post<LoginBody, LoginResponse>('/general/auth/login', body)
+  },
+  forgotPassword(body: ForgotPasswordBody) {
+    return apiBase.post<ForgotPasswordBody, ForgotPasswordResponse>('/general/auth/forgot-password', body)
   }
 }

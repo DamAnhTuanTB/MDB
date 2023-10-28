@@ -1,11 +1,11 @@
 import Meta from '@/components/common/meta'
-import CreateAccountComponent from '@/components/customer/signup'
+import SignUpComponent from '@/components/customer/signup'
 
-export default function RegisterPage() {
+export default function SignUpPage() {
   return (
     <>
       <Meta title="Sign up" />
-      <CreateAccountComponent />
+      <SignUpComponent />
     </>
   )
 }

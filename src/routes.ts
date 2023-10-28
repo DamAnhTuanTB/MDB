@@ -12,5 +12,7 @@ export default {
   productDetailPage: (category: string, slug: string, affiliateId?: string) => generateUrl(`/products/${category}/${slug}`, affiliateId),
   faqPage: () => '/faq',
   loginPage: () => '/customer/login',
-  signUpPage: () => '/customer/signup'
+  signUpPage: () => '/customer/signup',
+  forgotPasswordPage: () => '/customer/forgot-password',
+  resetPasswordPage: () => '/customer/reset-password'
 }

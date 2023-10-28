@@ -48,12 +48,18 @@ export default function LoginForm() {
           <Button type="submit" className={styles.form__button} isLoading={isLoading}>
             Login
           </Button>
-          <p className={styles.form__redirect}>
-            Don't have an account?{' '}
-            <Link href={routes.signUpPage()} className="underline">
-              Sign up!
+          <div className={classNames(styles.form__redirect, 'flex flex-col items-start md:items-center md:flex-row md:justify-between')}>
+            <p>
+              Don't have an account?{' '}
+              <Link href={routes.signUpPage()} className="underline">
+                Sign up!
+              </Link>
+            </p>
+
+            <Link href={routes.forgotPasswordPage()} className="underline">
+              Forgot password
             </Link>
-          </p>
+          </div>
         </div>
       </CustomForm>
     </div>
