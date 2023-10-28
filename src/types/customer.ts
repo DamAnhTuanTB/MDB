@@ -45,3 +45,18 @@ export type ForgotPasswordError = {
   error?: string
   path?: string
 }
+
+// Reset password
+export type ResetPasswordBody = {
+  password: string
+  code: string
+}
+
+export type ResetPasswordResponse = {}
+
+export type ResetPasswordError = {
+  message?: string
+  messageCode?: string
+  error?: string
+  path?: string
+}
