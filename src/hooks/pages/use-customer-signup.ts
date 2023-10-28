@@ -5,12 +5,10 @@ import { SignUpBody, SignUpResponse } from '@/types/customer'
 import { useFetch } from '../use-fetch'
 
 export const useCustomerSignUp = () => {
-  const { fetch, data, isLoading, error } = useFetch<SignUpResponse, SignUpBody>({ fetcher: customerApi.signup })
+  const { fetch, pageDataResult } = useFetch<SignUpResponse, SignUpBody>({ fetcher: customerApi.signup })
 
   return {
-    isLoading,
-    error,
-    data,
+    ...pageDataResult,
     fetch
   }
 }
