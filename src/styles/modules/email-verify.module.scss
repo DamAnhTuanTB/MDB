@@ -1,0 +1,19 @@
+.wrapper {
+  @apply py-20;
+
+  .message {
+    @apply text-center text-base;
+
+    &.success {
+      @apply text-green-500;
+    }
+
+    &.error {
+      @apply text-red;
+    }
+  }
+
+  .button {
+    @apply max-w-[200px] mx-auto mt-10;
+  }
+}
