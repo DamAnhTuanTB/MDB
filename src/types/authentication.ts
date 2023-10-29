@@ -8,7 +8,10 @@ export type SignUpBody = {
   allowPromotions?: boolean
 }
 
-export type SignUpResponse = {}
+export type SignUpResponse = {
+  accessToken: string
+  refreshToken: string
+}
 
 export type SignUpError = {
   message?: string
@@ -23,7 +26,10 @@ export type LoginBody = {
   password: string
 }
 
-export type LoginResponse = {}
+export type LoginResponse = {
+  accessToken: string
+  refreshToken: string
+}
 
 export type LoginError = {
   message?: string

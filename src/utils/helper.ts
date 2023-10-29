@@ -94,6 +94,12 @@ export function setLocalStorage<T>(key: string, value: any) {
   }
 }
 
+export function removeLocalStorage<T>(key: string) {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(key)
+  }
+}
+
 export const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD'

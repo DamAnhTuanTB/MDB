@@ -8,7 +8,7 @@ import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
-import { LoginBody } from '@/types/customer'
+import { LoginBody } from '@/types/authentication'
 
 import Button from '@/components/common/button'
 import Link from '@/components/common/custom-link'
@@ -21,23 +21,18 @@ const schema = z.object({
 }) satisfies ZodType<LoginBody>
 
 export default function LoginForm() {
-  const { fetch: doLogin, isLoading, errorMessage, data: loginData } = useCustomerLogin()
+  const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
   const { push } = useRouterWithQueryParams()
 
   useEffect(() => {
     if (loginData) push(routes.homePage())
   }, [loginData])
 
-  const handleSubmitForm = (data: LoginBody) => {
-    doLogin(data)
-    // TODO: handle login successfully
-  }
-
   return (
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Login</h4>
       {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
-      <CustomForm schema={schema} onSubmit={handleSubmitForm}>
+      <CustomForm schema={schema} onSubmit={login}>
         <div className={styles.form}>
           <div className={styles.form__field}>
             <TextField showErrorMessage required label="Email" name="email" placeholder="example@email.com" type="email" isLoading={isLoading} isError={!!errorMessage} />
