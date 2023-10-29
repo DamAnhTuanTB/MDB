@@ -1,6 +1,6 @@
 import React from 'react'
 
-import styles from '@/styles/modules/profile/index.module.scss'
+import styles from '@/styles/modules/account/index.module.scss'
 
 import ProfileNavBar from './sidebar'
 

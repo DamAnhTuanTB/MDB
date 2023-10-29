@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import classNames from 'classnames'
 
 import { ProfileID, sidebarItems } from '@/constants/profile'
-import styles from '@/styles/modules/profile/layout.module.scss'
+import styles from '@/styles/modules/account/layout.module.scss'
 
 import Link from '../common/custom-link'
 

@@ -7,7 +7,7 @@ import { ApiError, MDBResult } from '@/types'
 type Props<T, P> = {
   fetcher: (params: P) => Promise<AxiosResponse<T>>
 }
-export const useFetch = <T, P, E = any>({ fetcher }: Props<T, P>) => {
+export const useFetch = <T, P = any, E = any>({ fetcher }: Props<T, P>) => {
   const [pageDataResult, setPageDataResult] = useState<MDBResult<T, E>>()
 
   const fetch = useCallback(async (params: P) => {

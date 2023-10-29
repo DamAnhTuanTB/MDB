@@ -1,6 +1,5 @@
 .layout {
-  @apply flex flex-row w-full h-full overflow-hidden;
-  @apply lg:rounded-lg;
+  @apply flex flex-row w-full h-full overflow-hidden rounded-none;
 
   &__sidebar {
     @apply h-full;

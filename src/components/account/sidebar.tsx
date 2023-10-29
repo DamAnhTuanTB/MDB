@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import { sidebarItems } from '@/constants/profile'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import styles from '@/styles/modules/profile/sidebar.module.scss'
+import styles from '@/styles/modules/account/sidebar.module.scss'
 
 import Link from '../common/custom-link'
 
