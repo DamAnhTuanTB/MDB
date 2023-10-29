@@ -1,0 +1,7 @@
+.layout {
+  @apply flex;
+
+  &__container {
+    @apply lg:py-10 lg:px-20;
+  }
+}
