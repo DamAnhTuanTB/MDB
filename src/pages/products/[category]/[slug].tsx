@@ -41,7 +41,7 @@ export const getServerSideProps = async ({ params }: GetServerSidePropsContext) 
 }
 
 export default function ProductDetailPage({ productDetail, category }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { productList, getProductList } = useProduct()
+  const { data: productList, getProductList } = useProduct()
   const { query } = useRouterWithQueryParams()
 
   const breadCrumb: BreadcrumbItem[] = [

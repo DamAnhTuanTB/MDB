@@ -72,7 +72,7 @@ export default function ProductPage({ productAttributes, defaultFilterData, cate
   const [totalCount, setTotalCount] = useState<number>(products?.count || 0)
   const [isInitialRender, setIsInitialRender] = useState(true)
 
-  const { getProductList, productList } = useProduct()
+  const { getProductList, data: productList } = useProduct()
   const { query } = useRouterWithQueryParams()
 
   useEffect(() => {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { customerApi } from '@/services/api/customer'
+import { customerApi } from '@/services/api/authentication'
 
-import { ForgotPasswordBody, ForgotPasswordError, ForgotPasswordResponse } from '@/types/customer'
+import { ForgotPasswordBody, ForgotPasswordError, ForgotPasswordResponse } from '@/types/authentication'
 
 import { useFetch } from '../use-fetch'
 

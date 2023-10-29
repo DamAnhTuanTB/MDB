@@ -8,7 +8,7 @@ import { useCustomerForgotPassword } from '@/hooks/pages/use-customer-forgot-pas
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
-import { ForgotPasswordBody } from '@/types/customer'
+import { ForgotPasswordBody } from '@/types/authentication'
 
 import Button from '@/components/common/button'
 import CustomForm from '@/components/form'
