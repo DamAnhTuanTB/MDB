@@ -1,6 +1,6 @@
-.navbar {
-  @apply pb-6 overflow-hidden pt-6 bg-grey-100 w-full h-auto border-b-[0.5px] border-grey;
-  @apply lg:pt-20 lg:w-[326px] lg:h-[684px] lg:border-0 lg:bg-black-50;
+.sidebar {
+  @apply hidden;
+  @apply lg:block overflow-hidden h-auto  py-20 w-[326px] bg-black-50;
 
   &__item {
     @apply hidden text-black-50 text-lg font-bold mb-8 ml-4;

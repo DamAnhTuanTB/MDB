@@ -1,18 +1,18 @@
 import React from 'react'
 
-import styles from '@/styles/modules/profile/layout.module.scss'
+import styles from '@/styles/modules/profile/index.module.scss'
 
-import ProfileNavBar from './navbar'
+import ProfileNavBar from './sidebar'
 
 type Props = {
   children: React.ReactNode
 }
 
-export default function ProfileLayout({ children }: Props) {
+export default function ProfileComponent({ children }: Props) {
   return (
     <div className="container mx-auto">
       <div className={styles.layout}>
-        <ProfileNavBar />
+        <ProfileNavBar className={styles.layout__sidebar} />
         <div className={styles.layout__container}>{children}</div>
       </div>
     </div>

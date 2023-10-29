@@ -1,0 +1,12 @@
+.layout {
+  @apply flex flex-row w-full h-full overflow-hidden;
+  @apply lg:rounded-lg;
+
+  &__sidebar {
+    @apply h-full;
+  }
+
+  &__container {
+    @apply lg:py-10 lg:px-20 flex-1;
+  }
+}
