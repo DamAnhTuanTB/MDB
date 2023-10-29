@@ -15,10 +15,10 @@ export default {
   signUpPage: () => '/customer/signup',
   forgotPasswordPage: () => '/customer/forgot-password',
   resetPasswordPage: () => '/customer/reset-password',
-  accountInformationPage: () => '/profile/account-information',
-  orderHistoryPage: () => '/profile/order-history',
-  addressPage: () => '/profile/address',
-  paymentMethodPage: () => '/profile/payment-method',
-  favoritePage: () => '/profile/favorite',
-  aestheticProviderPage: () => '/profile/aesthetic-provider'
+  accountInformationPage: () => '/account/information',
+  orderHistoryPage: () => '/account/order-history',
+  addressPage: () => '/account/address',
+  paymentMethodPage: () => '/account/payment-method',
+  favoritePage: () => '/account/favorite',
+  aestheticProviderPage: () => '/account/aesthetic-provider'
 }

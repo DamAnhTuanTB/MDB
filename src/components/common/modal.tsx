@@ -1,8 +1,4 @@
-import { useEffect } from 'react'
-
 import classNames from 'classnames'
-
-import { blockScroll, enableScroll } from '@/services/block-scroll'
 
 import styles from '@/styles/modules/modal.module.scss'
 
@@ -15,10 +11,10 @@ type Props = {
 }
 
 export default function Modal({ open, children, className, bodyClassName, onClose }: Props) {
-  useEffect(() => {
-    if (open) blockScroll(window.scrollY)
-    else enableScroll()
-  }, [open])
+  // useEffect(() => {
+  //   if (open) blockScroll(window.scrollY)
+  //   else enableScroll()
+  // }, [open])
 
   return (
     <div className={classNames(styles.wrapper, className, { [styles['open']]: open })}>
