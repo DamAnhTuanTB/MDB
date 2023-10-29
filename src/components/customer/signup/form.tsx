@@ -8,7 +8,7 @@ import { useCustomerSignUp } from '@/hooks/pages/use-customer-signup'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
-import { SignUpBody } from '@/types/customer'
+import { SignUpBody } from '@/types/authentication'
 
 import Button from '@/components/common/button'
 import Checkbox from '@/components/common/checkbox'
