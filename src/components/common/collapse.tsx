@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -11,20 +11,24 @@ export type Props = {
   className?: string
   headingClassName?: string
   contentClassName?: string
-  onToggle?: () => void
+  onToggle?: (value: boolean) => void
 }
 
-export default function CollapseItem({ title, isActive = false, children, className, headingClassName, contentClassName, onToggle }: Props) {
+export default function CollapseItem({ title, isActive = false, children, className = '', headingClassName = '', contentClassName = '', onToggle }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(isActive)
   const collapseBodyRef = useRef<HTMLDivElement>(null)
-  const [bodyHeight, setBodyHeight] = useState<number>(0)
+  const [bodyHeight, setBodyHeight] = useState<string>(isActive ? 'auto' : '0')
+  const [height, setHeight] = useState<number>(0)
+
+  useEffect(() => {
+    setHeight(collapseBodyRef.current?.clientHeight || 0)
+  }, [])
 
   const hanldeClickHeading = () => {
-    const height = collapseBodyRef.current?.clientHeight || 0
-    setBodyHeight(isOpen ? 0 : height)
+    setBodyHeight(isOpen ? '0' : height + 'px')
 
     setIsOpen(!isOpen)
-    onToggle && onToggle()
+    onToggle && onToggle(!isOpen)
   }
 
   return (
@@ -32,7 +36,7 @@ export default function CollapseItem({ title, isActive = false, children, classN
       <div className={classNames(styles.collapse__heading, headingClassName)} onClick={hanldeClickHeading}>
         <h3 className={styles.collapse__heading__title}>{title}</h3>
       </div>
-      <div className={styles.collapse__body} style={{ height: bodyHeight + 'px' }}>
+      <div className={styles.collapse__body} style={{ height: bodyHeight }}>
         <div ref={collapseBodyRef} className={classNames(styles.collapse__content, contentClassName)}>
           {children}
         </div>

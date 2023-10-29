@@ -1,0 +1,17 @@
+.wrapper {
+  @apply relative flex flex-col bg-grey-100;
+  @apply lg:pb-0 lg:rounded-lg;
+
+  .item {
+    @apply block;
+    @apply lg:hidden text-lg font-semibold px-4;
+
+    & + .item {
+      @apply mt-6;
+    }
+  }
+
+  &.show {
+    @apply pb-6;
+  }
+}

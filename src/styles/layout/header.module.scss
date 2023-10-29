@@ -1,6 +1,6 @@
 .wrapper {
   @apply bg-white pb-6;
-  @apply md:border md:border-white-100 md:pb-0;
+  @apply lg:border lg:border-white-100 lg:pb-0;
 }
 
 .content {
@@ -18,7 +18,7 @@
 
   &__nav {
     @apply flex flex-row flex-nowrap items-center gap-4 mt-[6px];
-    @apply lg:mt-[13px] md:gap-6;
+    @apply lg:mt-[13px] lg:gap-6;
 
     &__item {
       @apply w-4;

@@ -1,0 +1,13 @@
+.sidebar {
+  @apply hidden;
+  @apply lg:block overflow-hidden h-auto  py-20 w-[326px] bg-black-50;
+
+  &__item {
+    @apply hidden text-black-50 text-lg font-bold mb-8 ml-4;
+    @apply lg:block lg:text-grey-50 lg:text-xl lg:ml-[44.5px];
+
+    &.active {
+      @apply lg:text-teal-50;
+    }
+  }
+}

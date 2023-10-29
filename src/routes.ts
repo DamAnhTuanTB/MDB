@@ -14,5 +14,11 @@ export default {
   loginPage: () => '/customer/login',
   signUpPage: () => '/customer/signup',
   forgotPasswordPage: () => '/customer/forgot-password',
-  resetPasswordPage: () => '/customer/reset-password'
+  resetPasswordPage: () => '/customer/reset-password',
+  accountInformationPage: () => '/account/information',
+  orderHistoryPage: () => '/account/order-history',
+  addressPage: () => '/account/address',
+  paymentMethodPage: () => '/account/payment-method',
+  favoritePage: () => '/account/favorite',
+  aestheticProviderPage: () => '/account/aesthetic-provider'
 }

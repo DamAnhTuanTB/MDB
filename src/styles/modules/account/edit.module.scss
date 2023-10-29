@@ -1,0 +1,24 @@
+.wrapper {
+  @apply w-full;
+  max-width: 511px !important;
+
+  .title {
+    @apply text-center text-lg font-semibold mb-6;
+  }
+
+  .input {
+    @apply bg-grey-50;
+  }
+
+  .buttons {
+    @apply flex flex-row gap-x-[60px] mt-8 justify-center items-center mb-[26px];
+
+    &__cancel {
+      @apply w-fit text-base font-semibold text-blue;
+    }
+
+    &__submit {
+      @apply w-[114px];
+    }
+  }
+}
