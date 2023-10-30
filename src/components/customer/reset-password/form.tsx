@@ -29,7 +29,7 @@ export default function ResetPasswordForm() {
   const { push, query } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (!query.code) push(routes.homePage())
+    if (!query.code || !query.email) push(routes.homePage())
   }, [])
 
   useEffect(() => {
@@ -37,7 +37,8 @@ export default function ResetPasswordForm() {
   }, [data])
 
   const handleSubmitForm = (data: FieldValues) => {
-    fetch({ password: data.password, code: query.code as string })
+    const { code, email } = query
+    fetch({ password: data.password, code: code as string, email: email as string })
   }
 
   return (

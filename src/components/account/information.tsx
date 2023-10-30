@@ -20,7 +20,7 @@ export type EditData = {
 }
 
 type Props = {
-  profile: AccountInformation
+  profile?: AccountInformation
   onReset: () => void
 }
 
@@ -33,7 +33,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
     setShowMenu(!value)
   }
 
-  const handleEditInformation = (key: string, label: string, value: StringOrNull | boolean) => {
+  const handleEditInformation = (key: string, label: string, value: any) => {
     seteditData({ key, label, value })
     setShowEditModal(true)
   }
@@ -78,11 +78,11 @@ export default function AccountInformation({ profile, onReset }: Props) {
                 Edit
               </div>
             </div>
-            {/* <div className={styles.infor__item}>
+            <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Password</h4>
               <p className={styles.infor__item__text}>****************</p>
               <div className={styles.infor__item__edit}>Edit</div>
-            </div> */}
+            </div>
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Allow MyDermbox Email Promotions</h4>
               <CustomForm>
@@ -92,7 +92,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
                   inputClassName={styles.infor__item__select__input}
                   name="promotionEmail"
                   options={promotionEmailOptions}
-                  defaultValue={profile.allowPromotions ? '1' : '0'}
+                  defaultValue={profile?.allowPromotions ? '1' : '0'}
                 />
               </CustomForm>
               <div className={styles.infor__item__edit} onClick={() => handleEditInformation('allowPromotions', 'Allow MyDermbox Email Promotions', profile?.allowPromotions)}>
@@ -108,20 +108,21 @@ export default function AccountInformation({ profile, onReset }: Props) {
                   inputClassName={styles.infor__item__select__input}
                   name="promotionEmail"
                   options={promotionEmailOptions}
-                  defaultValue={profile.isEmailVerified ? '1' : '0'}
+                  defaultValue={profile?.isEmailVerified ? '1' : '0'}
                 />
               </CustomForm>
             </div>
           </div>
         </CollapseItem>
       </ProfileLayout>
+
       {editData && (
         <ModalEdit
           open={showEditModal}
-          onClose={() => {
+          onClose={(reset) => {
             setShowEditModal(false)
             seteditData(undefined)
-            onReset()
+            reset && onReset()
           }}
           data={editData}
         />

@@ -3,6 +3,10 @@
   @apply lg:rounded-lg overflow-hidden;
   border-bottom: 0 !important;
 
+  & + a {
+    margin-top: 0 !important;
+  }
+
   &__heading {
     @apply py-6;
     @apply lg:pointer-events-none lg:pt-10 lg:pb-6;

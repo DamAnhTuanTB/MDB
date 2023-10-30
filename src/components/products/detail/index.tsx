@@ -23,7 +23,7 @@ export default function ProductDetailComponent({ data, relatedProducts }: Props)
       </div>
       <hr className={classNames(styles.hr, 'hidden lg:block')} />
       <div className={styles.related}>
-        <RelatedProduct products={relatedProducts} title="You May Also Like" />
+        <RelatedProduct products={relatedProducts} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
       </div>
       <Reviews />
     </>

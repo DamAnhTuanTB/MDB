@@ -1,0 +1,39 @@
+.collapse {
+  @apply bg-gray-100;
+  @apply lg:rounded-lg overflow-hidden;
+  border-bottom: 0 !important;
+
+  & + a {
+    margin-top: 0 !important;
+  }
+
+  &__heading {
+    @apply py-6;
+    @apply lg:pointer-events-none lg:pt-10 lg:pb-6;
+
+    h3 {
+      @apply text-lg lg:text-xl;
+    }
+
+    &::after {
+      @apply lg:hidden;
+    }
+  }
+
+  &__content {
+    @apply px-4 pb-10 pt-0;
+    @apply lg:p-10 lg:pt-0  w-full rounded-lg;
+  }
+}
+
+.box {
+  @apply bg-grey-100 p-10 rounded-lg;
+
+  &__title {
+    @apply mb-6;
+  }
+
+  & + .box {
+    @apply mt-10;
+  }
+}

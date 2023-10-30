@@ -14,7 +14,7 @@
     @apply flex flex-row gap-x-[60px] mt-8 justify-center items-center mb-[26px];
 
     &__cancel {
-      @apply w-fit text-base font-semibold text-blue;
+      @apply w-fit text-base font-semibold text-blue cursor-pointer;
     }
 
     &__submit {

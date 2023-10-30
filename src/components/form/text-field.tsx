@@ -8,7 +8,7 @@ import ErrorMessage from './error-message'
 
 export type Props = Partial<React.InputHTMLAttributes<HTMLInputElement>> & {
   name: string
-  label?: string
+  label?: React.ReactNode
   required?: boolean
   showErrorMessage?: boolean
   className?: string

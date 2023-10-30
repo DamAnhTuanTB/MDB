@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { FieldValue } from 'react-hook-form'
 import { z } from 'zod'
@@ -26,14 +26,15 @@ const schema = z.object({
 type Props = {
   open: boolean
   data: EditData
-  onClose: () => void
+  onClose: (reset?: boolean) => void
 }
 
 export default function ModalEdit({ open, data, onClose }: Props) {
   const { updateProfile, profileUpdated } = useAccountInformation()
+  const [isUpdated, setIsUpdated] = useState<boolean>(false)
 
   useEffect(() => {
-    if (profileUpdated?.data) onClose()
+    if (profileUpdated?.data && isUpdated) onClose(true)
   }, [profileUpdated?.data])
 
   const handleSubmit = (value: Form) => {
@@ -41,12 +42,14 @@ export default function ModalEdit({ open, data, onClose }: Props) {
     const putData = { [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : value.editValue }
 
     updateProfile(putData)
+    setIsUpdated(true)
   }
 
   const inputElement = useMemo(() => {
     if (data.key === 'allowPromotions' || data.key === 'isEmailVerified') {
       return (
         <SelectField
+          label={<p className="mb-2">Edit your ${data?.label?.toLowerCase()} below</p>}
           className={styles.infor__item__select}
           inputClassName={styles.infor__item__select__input}
           name="editValue"
@@ -70,13 +73,13 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   }, [])
 
   return (
-    <Modal open={open} onClose={onClose} bodyClassName={styles.wrapper}>
+    <Modal open={open} onClose={() => onClose()} bodyClassName={styles.wrapper}>
       <h3 className={styles.title}>Change {data?.label}</h3>
       <CustomForm schema={schema} onSubmit={handleSubmit}>
         <>
           {inputElement}
           <div className={styles.buttons}>
-            <div className={styles.buttons__cancel} onClick={onClose}>
+            <div className={styles.buttons__cancel} onClick={() => onClose()}>
               Cancel
             </div>
             <Button type="submit" className={styles.buttons__submit} isLoading={profileUpdated?.isLoading}>
