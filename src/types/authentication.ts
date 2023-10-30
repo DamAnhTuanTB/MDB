@@ -56,6 +56,7 @@ export type ForgotPasswordError = {
 export type ResetPasswordBody = {
   password: string
   code: string
+  email: string
 }
 
 export type ResetPasswordResponse = {}

@@ -18,15 +18,19 @@ type Props = {
   category?: ProductCategory
   className?: string
   page?: string
+  type?: 'black' | 'blue'
   onQuickReview?: (product: Product) => void
 }
 
-export default function ProductItem({ product, category, className, page = '', onQuickReview }: Props) {
+export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
   const { query } = useRouterWithQueryParams()
 
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
 
-  const ratingElements = useMemo(() => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, { [styles['active']]: num <= ratingScore })}></div>), [ratingScore])
+  const ratingElements = useMemo(
+    () => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, styles[type], { [styles['active']]: num <= ratingScore })}></div>),
+    [ratingScore]
+  )
 
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)

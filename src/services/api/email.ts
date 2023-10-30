@@ -4,6 +4,6 @@ import { apiBase } from '.'
 
 export const emailApi = {
   verify(body: VerifyEmailBody) {
-    return apiBase.post<VerifyEmailBody, VerifyEmailRespones>('/', body)
+    return apiBase.post<VerifyEmailBody, VerifyEmailRespones>('/auth/verify', body)
   }
 }

@@ -26,7 +26,7 @@ export default function ProfileLayout({ children, activeId, isShow = false }: Pr
               </Link>
             )
       ),
-    [isShow]
+    [isShow, children, activeId]
   )
   return <div className={classNames(styles.wrapper, { [styles.show]: isShow })}>{linkElements}</div>
 }

@@ -15,7 +15,7 @@ export type SelectOption<T = string> = {
 
 export type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
   name: string
-  label?: string
+  label?: React.ReactNode
   showErrorMessage?: boolean
   options?: SelectOption[]
   className?: string

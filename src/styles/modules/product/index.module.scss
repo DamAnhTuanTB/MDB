@@ -114,6 +114,12 @@
       &.active {
         @apply bg-[url(/images/icons/star_filled.svg)];
       }
+
+      &.black {
+        &.active {
+          @apply bg-[url(/images/icons/star_black_filled.svg)];
+        }
+      }
     }
   }
 

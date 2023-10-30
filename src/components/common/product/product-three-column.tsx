@@ -15,9 +15,10 @@ type Props = {
   category?: ProductCategory
   className?: string
   listClassName?: string
+  titleClassName?: string
 }
 
-export default function RelatedProduct({ title, products, category, className, listClassName }: Props) {
+export default function ProductThreeColumn({ title, products, category, className, listClassName, titleClassName }: Props) {
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
 
@@ -30,15 +31,15 @@ export default function RelatedProduct({ title, products, category, className, l
     () =>
       products &&
       products.map((product, index) => {
-        return <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} />
+        return <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} type="black" />
       }),
     [products]
   )
 
   return (
     <div className={classNames(styles.wrapper, className)}>
-      <h3 className={styles.title}>{title}</h3>
-      <div className={classNames(styles.list, listClassName)}>{productElements}</div>
+      <h3 className={classNames(styles.title, titleClassName)}>{title}</h3>
+      <div className={classNames(styles.list, styles.list__three, listClassName)}>{productElements}</div>
       <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
     </div>
   )

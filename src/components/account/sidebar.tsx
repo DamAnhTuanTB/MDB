@@ -12,7 +12,7 @@ type Props = {
   className?: string
 }
 
-export default function ProfileNavBar({ className }: Props) {
+export default function AccountNavBar({ className }: Props) {
   const { pathname } = useRouterWithQueryParams()
 
   const navElements = useMemo(

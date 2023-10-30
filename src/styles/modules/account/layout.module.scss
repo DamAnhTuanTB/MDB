@@ -3,12 +3,8 @@
   @apply lg:pb-0 lg:rounded-lg;
 
   .item {
-    @apply block;
+    @apply block mt-6;
     @apply lg:hidden text-lg font-semibold px-4;
-
-    & + .item {
-      @apply mt-6;
-    }
   }
 
   &.show {

@@ -25,6 +25,7 @@ export default function CollapseItem({ title, isActive = false, children, classN
   }, [])
 
   const hanldeClickHeading = () => {
+    const height = collapseBodyRef.current?.clientHeight
     setBodyHeight(isOpen ? '0' : height + 'px')
 
     setIsOpen(!isOpen)

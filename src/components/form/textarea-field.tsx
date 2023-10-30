@@ -8,7 +8,7 @@ import ErrorMessage from './error-message'
 
 export type Props = Partial<React.TextareaHTMLAttributes<HTMLTextAreaElement>> & {
   name: string
-  label?: string
+  label?: React.ReactNode
   required?: boolean
   showErrorMessage?: boolean
   className?: string
