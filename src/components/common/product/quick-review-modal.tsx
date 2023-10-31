@@ -40,7 +40,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
         <div className={styles.content}>
           <div className={styles.image__sp} style={{ backgroundImage: `url(${image?.url})` }} />
           <h3 className={styles.content__name}>{data?.name}</h3>
-          {/* <p className={styles.content__brand}>{data?.}</p> */}
+          <p className={styles.content__brand}>{data?.brand}</p>
           <div className={styles.content__group}>
             <RatingCommon score={data?.averageRating || 0} /> <span>{data?.averageRating}.0</span> ({data?.totalReviews} reviews)
           </div>
