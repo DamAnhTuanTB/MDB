@@ -51,6 +51,7 @@ export default function ProductDetailPage({ productDetail, category }: InferGetS
   ]
 
   useEffect(() => {
+    // getting related products
     getProductList({
       where: {
         relatedProductIds: [productDetail?.id]
