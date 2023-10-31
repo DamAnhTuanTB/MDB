@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
-import { Product } from '@/types/product'
+import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const unit = data.attributeGroups.find((item) => item.key === 'UNIT')
+  const unit = data.attributeGroups?.find((item) => item.key === PRODUCT_ATTRIBUTE.UNIT)
 
   return (
     <div className={styles.container}>
