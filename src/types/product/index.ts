@@ -1,5 +1,6 @@
 import { ListResponse } from '..'
 
+import { ProductAttributeItem } from './attribute'
 import { ProductCategory } from './category'
 
 export type ProductImage = {
@@ -25,6 +26,7 @@ export type Product = {
   id: string
   name: string
   slug: string
+  brand: string
   identifier: string
   sku: string
   quantity: number
@@ -50,6 +52,7 @@ export type Product = {
   averageRating: number
   totalReviews: number
   categories: ProductCategory[]
+  attributeGroups: ProductAttributeItem[]
 }
 
 export type ProductSort = {

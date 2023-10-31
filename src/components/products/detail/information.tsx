@@ -17,6 +17,8 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
+  const unit = data.attributeGroups.find((item) => item.key === 'UNIT')
+
   return (
     <div className={styles.container}>
       <h1 className={styles.content__title}>{data?.name}</h1>
@@ -44,7 +46,10 @@ export default function Information({ data }: Props) {
           <CustomForm>
             <div className={styles.detail__form}>
               <div className={classNames(styles.detail__group, styles['size'], 'justify-between')}>
-                <span className={styles.detail__form__label}>Size: {data?.size} </span>
+                <span className={styles.detail__form__label}>
+                  Size: {data?.size}
+                  {unit?.attributes[0]?.value}{' '}
+                </span>
                 {/* <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} /> */}
               </div>
               <div className={classNames(styles.detail__group, styles['quantity'], 'justify-between mt-2')}>
