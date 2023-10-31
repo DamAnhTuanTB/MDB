@@ -47,8 +47,7 @@ export default function Information({ data }: Props) {
             <div className={styles.detail__form}>
               <div className={classNames(styles.detail__group, styles['size'], 'justify-between')}>
                 <span className={styles.detail__form__label}>
-                  Size: {data?.size}
-                  {unit?.attributes[0]?.value}{' '}
+                  Size: {data?.size} {unit?.attributes[0]?.value}
                 </span>
                 {/* <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} /> */}
               </div>
