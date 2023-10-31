@@ -9,6 +9,7 @@ import { AccountInformation } from '@/types/account/information'
 import CollapseItem from '../common/collapse'
 import CustomForm from '../form'
 import SelectField from '../form/select-field'
+import TelField from '../form/tel-field'
 
 import ModalEdit from './edit'
 import ProfileLayout from './layout'
@@ -73,10 +74,19 @@ export default function AccountInformation({ profile, onReset }: Props) {
             </div>
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Mobile Number</h4>
-              <p className={styles.infor__item__text}>{profile?.phone}</p>
               <div className={styles.infor__item__edit} onClick={() => handleEditInformation('phone', 'Mobile Number', profile?.phone)}>
                 Edit
               </div>
+              <CustomForm>
+                <TelField
+                  disabled
+                  defaultValue={profile?.phone || ''}
+                  name="tel"
+                  onUpdate={(value) => {
+                    console.log(value)
+                  }}
+                />
+              </CustomForm>
             </div>
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Password</h4>

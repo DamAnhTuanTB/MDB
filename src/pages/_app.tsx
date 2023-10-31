@@ -22,6 +22,7 @@ import Root from '@/components/root'
 import '@/styles/global.scss'
 import '@/styles/pagination.scss'
 import '@/styles/slider.scss'
+import 'intl-tel-input/build/css/intlTelInput.css'
 
 type GlobalProps = {
   globalSetting: GlobalSetting
