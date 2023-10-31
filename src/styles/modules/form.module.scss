@@ -14,7 +14,7 @@
   }
 
   &__boundary {
-    @apply rounded overflow-hidden;
+    @apply rounded;
 
     input {
       @apply border border-grey min-h-[32px];
