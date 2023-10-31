@@ -86,7 +86,9 @@ export default function AccountInformation({ profile, onReset }: Props) {
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Password</h4>
               <p className={styles.infor__item__text}>****************</p>
-              <div className={styles.infor__item__edit}>Edit</div>
+              <div className={styles.infor__item__edit} onClick={() => handleEditInformation('password', 'Password', '')}>
+                Edit
+              </div>
             </div>
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Allow MyDermbox Email Promotions</h4>

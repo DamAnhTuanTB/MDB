@@ -4,6 +4,7 @@ import type { PhoneNumber } from 'libphonenumber-js'
 import { FieldValue } from 'react-hook-form'
 import { z } from 'zod'
 
+import { validates } from '@/configs/validate'
 import { promotionEmailOptions } from '@/constants/account'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import styles from '@/styles/modules/account/edit.module.scss'
@@ -19,11 +20,20 @@ import { EditData } from './information'
 
 type Form = {
   editValue: string
+  password?: string
+  confirmPassword?: string
 }
 
-const schema = z.object({
-  editValue: z.string()
-}) satisfies FieldValue<Form>
+const schema = z
+  .object({
+    editValue: z.string(),
+    password: z.string().min(8).optional(),
+    confirmPassword: z.string().optional()
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: validates.confirmPassword.message,
+    path: ['confirmPassword']
+  }) satisfies FieldValue<Form>
 
 type Props = {
   open: boolean
@@ -42,7 +52,14 @@ export default function ModalEdit({ open, data, onClose }: Props) {
 
   const handleSubmit = (value: Form) => {
     if (value.editValue === data.value) return
-    const putData = { [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : data.key === 'phone' ? phoneNumber?.number : value.editValue }
+    const putData = {
+      [data.key]:
+        data.key === 'allowPromotions'
+          ? Boolean(Number(value.editValue))
+          : data.key === 'phone'
+          ? phoneNumber?.number
+          : value.editValue
+    }
 
     updateProfile(putData)
     setIsUpdated(true)
@@ -63,7 +80,49 @@ export default function ModalEdit({ open, data, onClose }: Props) {
         />
       )
     } else if (data.key === 'phone') {
-      return <TelField label={`Edit your ${data?.label?.toLowerCase()} below`} defaultValue={data.value as string} name="editValue" onUpdate={(phone) => setPhoneNumber(phone)} />
+      return (
+        <TelField
+          label={`Edit your ${data?.label?.toLowerCase()} below`}
+          defaultValue={data.value as string}
+          name="editValue"
+          disabled={profileUpdated?.isLoading}
+          onUpdate={(phone) => setPhoneNumber(phone)}
+        />
+      )
+    } else if (data.key === 'password') {
+      return (
+        <>
+          <TextField
+            showErrorMessage
+            required
+            label="Current password"
+            name="currentPassword"
+            placeholder="Current password"
+            type="password"
+            isLoading={profileUpdated?.isLoading}
+          />
+          <br />
+          <TextField
+            showErrorMessage
+            required
+            label="New password"
+            name="password"
+            placeholder="New password"
+            type="password"
+            isLoading={profileUpdated?.isLoading}
+          />
+          <br />
+          <TextField
+            showErrorMessage
+            required
+            label="Confirm new password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            type="password"
+            isLoading={profileUpdated?.isLoading}
+          />
+        </>
+      )
     }
     return (
       <TextField
@@ -87,7 +146,11 @@ export default function ModalEdit({ open, data, onClose }: Props) {
             <div className={styles.buttons__cancel} onClick={() => onClose()}>
               Cancel
             </div>
-            <Button type="submit" className={styles.buttons__submit} isLoading={profileUpdated?.isLoading}>
+            <Button
+              type="submit"
+              className={styles.buttons__submit}
+              isLoading={profileUpdated?.isLoading}
+            >
               Save
             </Button>
           </div>
