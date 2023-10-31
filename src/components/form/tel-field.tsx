@@ -91,7 +91,7 @@ const TelField = ({
         control={control}
         defaultValue={phoneNumber?.formatNational()}
         render={({ field: { value, onChange, onBlur, ...fields } }) => (
-          <div className={classNames(styles.input__boundary, boundaryClassName)}>
+          <div className={classNames(styles.input__boundary, '!overflow-visible', boundaryClassName)}>
             <input
               {...fields}
               className={classNames(styles.input__field, { [styles['error']]: hasError || error }, inputClassName)}

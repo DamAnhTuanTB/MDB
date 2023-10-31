@@ -3,6 +3,13 @@ import { ListResponse } from '..'
 import { ProductAttributeItem } from './attribute'
 import { ProductCategory } from './category'
 
+export enum PRODUCT_ATTRIBUTE {
+  UNIT = 'UNIT',
+  BRAND = 'BRAND',
+  PREFERENCES = 'PREFERENCES',
+  SPF = 'SPF'
+}
+
 export type ProductImage = {
   key: string
   url: string
@@ -26,7 +33,6 @@ export type Product = {
   id: string
   name: string
   slug: string
-  brand: string
   identifier: string
   sku: string
   quantity: number

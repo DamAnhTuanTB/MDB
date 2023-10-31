@@ -1,9 +1,11 @@
+import { useMemo } from 'react'
+
 import classNames from 'classnames'
 
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
-import { Product } from '@/types/product'
+import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
 import CustomForm from '@/components/form'
@@ -24,7 +26,9 @@ type Props = {
 export default function QuickReviewModal({ open, data, onClose }: Props) {
   const { query } = useRouterWithQueryParams()
 
-  const image = data?.images && data?.images?.find((item) => item.isDefault)
+  const image = useMemo(() => data?.images && data?.images?.find((item) => item.isDefault), [data?.images])
+  const brand = useMemo(() => data?.attributeGroups?.find((item) => item.key === PRODUCT_ATTRIBUTE.BRAND), [data?.attributeGroups])
+  const brandString = brand?.attributes.map((item) => item.value).join(', ')
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -40,7 +44,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
         <div className={styles.content}>
           <div className={styles.image__sp} style={{ backgroundImage: `url(${image?.url})` }} />
           <h3 className={styles.content__name}>{data?.name}</h3>
-          <p className={styles.content__brand}>{data?.brand}</p>
+          <p className={styles.content__brand}>{brandString}</p>
           <div className={styles.content__group}>
             <RatingCommon score={data?.averageRating || 0} /> <span>{data?.averageRating}.0</span> ({data?.totalReviews} reviews)
           </div>
