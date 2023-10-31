@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import type { PhoneNumber } from 'libphonenumber-js'
 import { FieldValue } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -11,6 +12,7 @@ import Button from '../common/button'
 import Modal from '../common/modal'
 import CustomForm from '../form'
 import SelectField from '../form/select-field'
+import TelField from '../form/tel-field'
 import TextField from '../form/text-field'
 
 import { EditData } from './information'
@@ -32,6 +34,7 @@ type Props = {
 export default function ModalEdit({ open, data, onClose }: Props) {
   const { updateProfile, profileUpdated } = useAccountInformation()
   const [isUpdated, setIsUpdated] = useState<boolean>(false)
+  const [phoneNumber, setPhoneNumber] = useState<PhoneNumber>()
 
   useEffect(() => {
     if (profileUpdated?.data && isUpdated) onClose(true)
@@ -39,7 +42,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
 
   const handleSubmit = (value: Form) => {
     if (value.editValue === data.value) return
-    const putData = { [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : value.editValue }
+    const putData = { [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : data.key === 'phone' ? phoneNumber?.number : value.editValue }
 
     updateProfile(putData)
     setIsUpdated(true)
@@ -59,6 +62,8 @@ export default function ModalEdit({ open, data, onClose }: Props) {
           showErrorMessage
         />
       )
+    } else if (data.key === 'phone') {
+      return <TelField label={`Edit your ${data?.label?.toLowerCase()} below`} defaultValue={data.value as string} name="editValue" onUpdate={(phone) => setPhoneNumber(phone)} />
     }
     return (
       <TextField

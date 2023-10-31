@@ -77,16 +77,11 @@ export default function AccountInformation({ profile, onReset }: Props) {
               <div className={styles.infor__item__edit} onClick={() => handleEditInformation('phone', 'Mobile Number', profile?.phone)}>
                 Edit
               </div>
-              <CustomForm>
-                <TelField
-                  disabled
-                  defaultValue={profile?.phone || ''}
-                  name="tel"
-                  onUpdate={(value) => {
-                    console.log(value)
-                  }}
-                />
-              </CustomForm>
+              {profile?.phone && (
+                <CustomForm>
+                  <TelField disabled defaultValue={profile?.phone || ''} name="tel" />
+                </CustomForm>
+              )}
             </div>
             <div className={styles.infor__item}>
               <h4 className={styles.infor__item__title}>Password</h4>
