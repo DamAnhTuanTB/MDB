@@ -31,7 +31,5 @@ export const getServerSideProps = async ({ params }: GetServerSidePropsContext) 
 }
 
 export default function AffiliateHomePage({ banners, featuredProducts, contentOptions }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const featuredProductTitle = (contentOptions && contentOptions.find((item) => item.name === CONTENT_OPTIONS_KEY.FEATURED_PRODUCT_TITLE)?.value) || ''
-
-  return <HomeComponent banners={banners || []} products={featuredProducts || []} featuredProductTitle={featuredProductTitle} />
+  return <HomeComponent banners={banners || []} products={featuredProducts || []} contentOptions={contentOptions} />
 }
