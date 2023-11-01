@@ -17,18 +17,11 @@ import TopHead from './top-head'
 export default function Header() {
   const { query } = useRouterWithQueryParams()
   const [openMenu, setOpenMenu] = useState<boolean>(true)
-  const [dropdownHoverable, setDropdownHoverable] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
-
-  const handleCloseMenu = () => {
-    if (window.innerWidth > 1023) return
-    setOpenMenu(false)
-  }
 
   useEffect(() => {
     const handleResize = () => {
       setOpenMenu(window.innerWidth > 1023)
-      setDropdownHoverable(window.innerWidth > 1023)
     }
 
     const debouncedHandleResize = debounce(handleResize, 30)
