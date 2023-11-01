@@ -1,6 +1,6 @@
 import qs from 'qs'
 
-import { ContentOptionParams, ContentOptions, SettingItem } from '@/types/global'
+import { ContentOption, ContentOptionParams, SettingItem } from '@/types/global'
 
 import { apiBase } from '.'
 
@@ -15,6 +15,6 @@ export const globalApi = {
 
   getContentOptions(params: ContentOptionParams) {
     const queryString = qs.stringify(params)
-    return apiBase.get<ContentOptions[]>(`/options?${queryString}`)
+    return apiBase.get<ContentOption[]>(`/options?${queryString}`)
   }
 }

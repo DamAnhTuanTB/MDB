@@ -1,4 +1,4 @@
-import { ContentOptions } from './global'
+import { ContentOption } from './global'
 
 export type FooterMenuItem = {
   id: string
@@ -9,7 +9,7 @@ export type FooterMenuItem = {
   description: string
 }
 
-export type FooterContent<T = any> = ContentOptions<T>
+export type FooterContent<T = any> = ContentOption<T>
 
 export type MediaIcon = {
   id: string

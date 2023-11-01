@@ -53,12 +53,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   const handleSubmit = (value: Form) => {
     if (value.editValue === data.value) return
     const putData = {
-      [data.key]:
-        data.key === 'allowPromotions'
-          ? Boolean(Number(value.editValue))
-          : data.key === 'phone'
-          ? phoneNumber?.number
-          : value.editValue
+      [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : data.key === 'phone' ? phoneNumber?.number : value.editValue
     }
 
     updateProfile(putData)
@@ -92,35 +87,11 @@ export default function ModalEdit({ open, data, onClose }: Props) {
     } else if (data.key === 'password') {
       return (
         <>
-          <TextField
-            showErrorMessage
-            required
-            label="Current password"
-            name="currentPassword"
-            placeholder="Current password"
-            type="password"
-            isLoading={profileUpdated?.isLoading}
-          />
+          <TextField showErrorMessage required label="Current password" name="currentPassword" placeholder="Current password" type="password" isLoading={profileUpdated?.isLoading} />
           <br />
-          <TextField
-            showErrorMessage
-            required
-            label="New password"
-            name="password"
-            placeholder="New password"
-            type="password"
-            isLoading={profileUpdated?.isLoading}
-          />
+          <TextField showErrorMessage required label="New password" name="password" placeholder="New password" type="password" isLoading={profileUpdated?.isLoading} />
           <br />
-          <TextField
-            showErrorMessage
-            required
-            label="Confirm new password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            type="password"
-            isLoading={profileUpdated?.isLoading}
-          />
+          <TextField showErrorMessage required label="Confirm new password" name="confirmPassword" placeholder="Confirm password" type="password" isLoading={profileUpdated?.isLoading} />
         </>
       )
     }
@@ -146,11 +117,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
             <div className={styles.buttons__cancel} onClick={() => onClose()}>
               Cancel
             </div>
-            <Button
-              type="submit"
-              className={styles.buttons__submit}
-              isLoading={profileUpdated?.isLoading}
-            >
+            <Button type="submit" className={styles.buttons__submit} isLoading={profileUpdated?.isLoading}>
               Save
             </Button>
           </div>
