@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import initCarousel, { Options } from '@/services/carousel'
 
-import { useGlobalSettingStore } from '@/recoil/global'
+import { useHomeStore } from '@/recoil/home'
 import styles from '@/styles/layout/promotion.module.scss'
 import { CONTENT_OPTIONS_KEY } from '@/types/global'
 import { findObjectByName } from '@/utils/helper'
@@ -12,7 +12,7 @@ import { findObjectByName } from '@/utils/helper'
 import HtmlRender from '../common/html-render'
 
 export default function Promotion() {
-  const { homeContent } = useGlobalSettingStore()
+  const { homeContent } = useHomeStore()
 
   const topNavContent = findObjectByName(homeContent, 'name', CONTENT_OPTIONS_KEY.TOP_NAVIGATION_BAR)?.value || ''
   const topNavArray = topNavContent.split('</p>')?.filter((item) => item)

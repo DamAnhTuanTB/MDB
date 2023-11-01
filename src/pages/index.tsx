@@ -1,31 +1,30 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
-import { globalApi } from '@/services/api/global'
 import { homeApi } from '@/services/api/home'
 import { productApi } from '@/services/api/product'
 
-import { CONTENT_OPTIONS_KEY } from '@/types/global'
+import { useHomeStore } from '@/recoil/home'
 
 import HomeComponent from '@/components/home'
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const [bannerResponse, productResponse, contentOptions] = await Promise.all([
+  const [bannerResponse, productResponse] = await Promise.all([
     homeApi.getBanners(),
     productApi.getFeaturedProducts({
       noPagination: true
-    }),
-    globalApi.getContentOptions({ where: { groups: CONTENT_OPTIONS_KEY.HOMEPAGE } })
+    })
   ])
 
   return {
     props: {
       banners: bannerResponse?.data?.results || [],
-      featuredProducts: productResponse?.data?.results || [],
-      contentOptions: contentOptions?.data || []
+      featuredProducts: productResponse?.data?.results || []
     }
   }
 }
 
-export default function HomePage({ banners, featuredProducts, contentOptions }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return <HomeComponent banners={banners || []} products={featuredProducts || []} contentOptions={contentOptions} />
+export default function HomePage({ banners, featuredProducts }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { homeContent } = useHomeStore()
+
+  return <HomeComponent banners={banners || []} products={featuredProducts || []} contentOptions={homeContent} />
 }

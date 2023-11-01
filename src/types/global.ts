@@ -19,7 +19,7 @@ export enum CONTENT_OPTIONS_KEY {
 
 export type Metadata = {}
 
-export type ContentItem = {
+export type SettingItem = {
   id: string
   key: string
   name: string
@@ -28,12 +28,12 @@ export type ContentItem = {
 }
 
 export type GlobalSetting = {
-  logo: ContentItem
-  favicon: ContentItem
-  bannerAutoScroll: ContentItem
+  logo: SettingItem
+  favicon: SettingItem
+  bannerAutoScroll: SettingItem
 }
 
-export type ContentOptions<T = Object> = {
+export type ContentOption<T = Object> = {
   id: string
   group: string
   name: string

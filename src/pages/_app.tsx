@@ -9,9 +9,10 @@ import { RecoilRoot } from 'recoil'
 import { categoryApi } from '@/services/api/category'
 import { globalApi } from '@/services/api/global'
 
-import { globalSettingState, homeContentState, menuCategorieStage } from '@/recoil/global'
+import { globalSettingState, menuCategorieStage } from '@/recoil/global'
+import { homeContentState } from '@/recoil/home'
 import { FooterContent } from '@/types/footer'
-import { CONTENT_OPTIONS_KEY, ContentItem, GlobalSetting, settingIconKey } from '@/types/global'
+import { CONTENT_OPTIONS_KEY, ContentOption, GlobalSetting, settingIconKey } from '@/types/global'
 import { ProductCategory } from '@/types/product/category'
 import { findObjectByName } from '@/utils/helper'
 
@@ -28,7 +29,7 @@ type GlobalProps = {
   globalSetting: GlobalSetting
   categories: ProductCategory[]
   footerContent: FooterContent[]
-  homeContent: ContentItem[]
+  homeContent: ContentOption[]
 }
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
