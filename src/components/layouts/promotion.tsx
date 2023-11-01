@@ -1,12 +1,23 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import classNames from 'classnames'
 
 import initCarousel, { Options } from '@/services/carousel'
 
+import { useGlobalSettingStore } from '@/recoil/global'
 import styles from '@/styles/layout/promotion.module.scss'
+import { CONTENT_OPTIONS_KEY } from '@/types/global'
+import { findObjectByName } from '@/utils/helper'
+
+import HtmlRender from '../common/html-render'
 
 export default function Promotion() {
+  const { homeContent } = useGlobalSettingStore()
+
+  const topNavContent = findObjectByName(homeContent, 'name', CONTENT_OPTIONS_KEY.TOP_NAVIGATION_BAR)?.value || ''
+  const topNavArray = topNavContent.split('</p>')?.filter((item) => item)
+  const carouselItems = useMemo(() => topNavArray.map((item, index) => <HtmlRender key={index} className={classNames('swiper-slide', styles.carousel__slide)} htmlString={item} />), [topNavArray])
+
   useEffect(() => {
     const options: Options = {
       spaceBetween: 0,
@@ -34,10 +45,7 @@ export default function Promotion() {
   return (
     <div className={styles.wrapper}>
       <div id="promotionSwipper" className={styles.carousel}>
-        <div className="swiper-wrapper">
-          <div className={classNames('swiper-slide', styles.carousel__slide)}>buy 5 items, get one item 50% off</div>
-          <div className={classNames('swiper-slide', styles.carousel__slide)}>free shipping on orders over $75</div>
-        </div>
+        <div className="swiper-wrapper">{carouselItems}</div>
 
         <div className={classNames('swiper-button-next', styles.carousel__next)} />
         <div className={classNames('swiper-button-prev', styles.carousel__prev)} />

@@ -9,9 +9,9 @@ import { RecoilRoot } from 'recoil'
 import { categoryApi } from '@/services/api/category'
 import { globalApi } from '@/services/api/global'
 
-import { globalSettingState, menuCategorieStage } from '@/recoil/global'
+import { globalSettingState, homeContentState, menuCategorieStage } from '@/recoil/global'
 import { FooterContent } from '@/types/footer'
-import { CONTENT_OPTIONS_KEY, GlobalSetting, settingIconKey } from '@/types/global'
+import { CONTENT_OPTIONS_KEY, ContentItem, GlobalSetting, settingIconKey } from '@/types/global'
 import { ProductCategory } from '@/types/product/category'
 import { findObjectByName } from '@/utils/helper'
 
@@ -28,6 +28,7 @@ type GlobalProps = {
   globalSetting: GlobalSetting
   categories: ProductCategory[]
   footerContent: FooterContent[]
+  homeContent: ContentItem[]
 }
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -35,12 +36,14 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 }
 
 const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
-  const { globalSetting, categories, footerContent } = pageProps
+  const { globalSetting, categories, footerContent, homeContent } = pageProps
 
   return (
     <RecoilRoot
       initializeState={({ set }) => {
-        set(globalSettingState, globalSetting), set(menuCategorieStage, categories)
+        set(globalSettingState, globalSetting)
+        set(menuCategorieStage, categories)
+        set(homeContentState, homeContent)
       }}
     >
       <Root>
@@ -56,10 +59,11 @@ const MyDermboxApp = ({ Component, pageProps }: AppProps<GlobalProps>) => {
 MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
   const appProps = await App.getInitialProps(ctx)
 
-  const [settings, categories, footerContent] = await Promise.all([
+  const [settings, categories, footerContent, homeContent] = await Promise.all([
     globalApi.getSettings(),
     categoryApi.getCategories({ noPagination: true, includeChildren: true, where: { isPinned: true } }),
-    globalApi.getContentOptions({ where: { groups: CONTENT_OPTIONS_KEY.FOOTER } })
+    globalApi.getContentOptions({ where: { groups: CONTENT_OPTIONS_KEY.FOOTER } }),
+    globalApi.getContentOptions({ where: { groups: CONTENT_OPTIONS_KEY.HOMEPAGE } })
   ])
 
   return {
@@ -71,7 +75,8 @@ MyDermboxApp.getInitialProps = async (ctx: AppContext) => {
         bannerAutoScroll: findObjectByName(settings?.data || [], 'key', settingIconKey.bannerAutoScroll) || {}
       } as GlobalSetting,
       categories: categories?.data?.results || [],
-      footerContent: footerContent?.data || []
+      footerContent: footerContent?.data || [],
+      homeContent: homeContent?.data || []
     }
   }
 }

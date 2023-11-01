@@ -12,12 +12,14 @@ export enum CONTENT_OPTIONS_KEY {
   FOOTER = 'FOOTER',
   SOCIAL_MEDIA_ICONS = 'SOCIAL_MEDIA_ICONS',
   FOOTER_MENU_ITEMS = 'FOOTER_MENU_ITEMS',
-  FOOTER_DESCRIPTION = 'FOOTER_DESCRIPTION'
+  FOOTER_DESCRIPTION = 'FOOTER_DESCRIPTION',
+  TOP_NAVIGATION_BAR = 'TOP_NAVIGATION_BAR',
+  FEATURED_BRANDS = 'FEATURED_BRANDS'
 }
 
 export type Metadata = {}
 
-export type SettingItem = {
+export type ContentItem = {
   id: string
   key: string
   name: string
@@ -26,9 +28,9 @@ export type SettingItem = {
 }
 
 export type GlobalSetting = {
-  logo: SettingItem
-  favicon: SettingItem
-  bannerAutoScroll: SettingItem
+  logo: ContentItem
+  favicon: ContentItem
+  bannerAutoScroll: ContentItem
 }
 
 export type ContentOptions<T = Object> = {

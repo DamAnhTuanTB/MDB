@@ -176,6 +176,8 @@ export function paramToQueryString<T extends Object>(paramsObj: T) {
  * @return {T | undefined} - The found object, or undefined if no match was found.
  */
 export function findObjectByName<T>(array: T[], propertyName: keyof T, name: T[keyof T]): T | undefined {
+  if (!array || array.length === 0) return undefined
+
   return array.find((item) => item[propertyName] === name)
 }
 

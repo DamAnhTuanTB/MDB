@@ -1,16 +1,16 @@
 import qs from 'qs'
 
-import { ContentOptionParams, ContentOptions, SettingItem } from '@/types/global'
+import { ContentItem, ContentOptionParams, ContentOptions } from '@/types/global'
 
 import { apiBase } from '.'
 
 export const globalApi = {
   getSettings() {
-    return apiBase.get<SettingItem[]>('/settings')
+    return apiBase.get<ContentItem[]>('/settings')
   },
 
   getSingleSetting(key: string) {
-    return apiBase.get<SettingItem>(`/settings/${key}`)
+    return apiBase.get<ContentItem>(`/settings/${key}`)
   },
 
   getContentOptions(params: ContentOptionParams) {

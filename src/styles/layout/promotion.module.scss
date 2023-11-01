@@ -10,12 +10,13 @@
     @apply md:text-base;
 
     &::after {
-      @apply lg:content-[''] lg:absolute lg:right-[-6px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none;
+      @apply lg:content-[''] lg:absolute lg:right-[-6px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none lg:top-0;
     }
   }
 
   &__next {
     @apply right-[5px];
+    @apply lg:hidden;
 
     &::before {
       @apply content-[""] w-6 h-6 bg-[url(/images/icons/arrow.svg)] after:content-none bg-[length:24px_24px] -rotate-90 bg-no-repeat;
@@ -27,6 +28,7 @@
 
   &__prev {
     @apply left-[2px];
+    @apply lg:hidden;
 
     &::before {
       @apply content-[''] w-6 h-6 bg-[url(/images/icons/arrow.svg)] after:content-none bg-[length:24px_24px] rotate-90 bg-no-repeat;
