@@ -2,7 +2,7 @@ import classNames from 'classnames'
 
 import styles from '@/styles/modules/product/detail.module.scss'
 import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
-import { currencyFormatter } from '@/utils/helper'
+import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
 import Button from '@/components/common/button'
 import HtmlRender from '@/components/common/html-render'
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const unit = data.attributeGroups?.find((item) => item.key === PRODUCT_ATTRIBUTE.UNIT)
+  const units = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)
 
   return (
     <div className={styles.container}>
@@ -47,7 +47,7 @@ export default function Information({ data }: Props) {
             <div className={styles.detail__form}>
               <div className={classNames(styles.detail__group, styles['size'], 'justify-between')}>
                 <span className={styles.detail__form__label}>
-                  Size: {data?.size} {unit?.attributes[0]?.value}
+                  Size: {data?.size} {units?.attributes[0]?.value}
                 </span>
                 {/* <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} /> */}
               </div>

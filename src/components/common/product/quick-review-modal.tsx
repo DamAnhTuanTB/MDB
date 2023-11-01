@@ -6,7 +6,7 @@ import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
 import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
-import { currencyFormatter } from '@/utils/helper'
+import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
@@ -27,8 +27,10 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
   const { query } = useRouterWithQueryParams()
 
   const image = useMemo(() => data?.images && data?.images?.find((item) => item.isDefault), [data?.images])
-  const brand = useMemo(() => data?.attributeGroups?.find((item) => item.key === PRODUCT_ATTRIBUTE.BRAND), [data?.attributeGroups])
-  const brandString = brand?.attributes.map((item) => item.value).join(', ')
+  const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
+  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
+
+  const units = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -61,7 +63,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
             <div className={styles.content__form}>
               <div className={classNames(styles.content__group, styles['size'], 'justify-between')}>
                 <p className={styles.content__form__label}>Size </p>
-                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} />
+                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={[{ label: '1.7 ' + units?.attributes[0]?.value, value: '1.7' }]} />
               </div>
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
                 <p className={styles.content__form__label}>Qty: {data?.quantity || 0}</p>
