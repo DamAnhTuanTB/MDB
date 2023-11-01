@@ -15,6 +15,6 @@
   @apply relative z-10 p-6 bg-white max-w-[770px] w-[calc(100%-48px)] rounded-lg;
 
   &__close {
-    @apply absolute top-5 right-4 w-6 h-6 bg-[url(/images/icons/close.svg)];
+    @apply absolute top-5 right-4 w-6 h-6 bg-[url(/images/icons/close.svg)] cursor-pointer;
   }
 }
