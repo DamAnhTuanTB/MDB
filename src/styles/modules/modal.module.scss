@@ -17,4 +17,8 @@
   &__close {
     @apply absolute top-5 right-4 w-6 h-6 bg-[url(/images/icons/close.svg)] cursor-pointer;
   }
+
+  &__content {
+    @apply max-h-[80vh] overflow-x-auto;
+  }
 }
