@@ -1,0 +1,71 @@
+.form {
+  &__group__sx,
+  &__group {
+    @apply flex gap-[14px];
+    @apply lg:gap-8;
+
+    .form__field {
+      @apply w-1/2;
+    }
+  }
+
+  &__group__sx {
+    @apply lg:hidden;
+
+    .form__input {
+      @apply h-11;
+    }
+  }
+
+  &__group__lg {
+    @apply hidden gap-[23px] justify-between;
+    @apply lg:flex;
+
+    .form__field {
+      @apply w-full;
+    }
+  }
+
+  &__field {
+    @apply mb-4;
+
+    &__city {
+      @apply mb-4;
+      @apply lg:hidden;
+    }
+
+    svg {
+      @apply h-6 w-6;
+    }
+  }
+
+  &__select__input {
+    @apply h-11;
+    @apply lg:h-10;
+  }
+
+  &__input {
+    @apply h-10;
+  }
+
+  &__checkbox {
+    @apply relative pl-6 text-xs font-normal flex items-center;
+    @apply lg:pl-8;
+
+    &::after {
+      @apply content-[''] w-4 h-4 bg-[url(/images/icons/checkbox_empty.svg)] absolute top-0 left-0 rounded-[4px];
+      @apply lg:ml-2;
+    }
+
+    &.checked {
+      &::after {
+        @apply content-none;
+      }
+
+      &::before {
+        @apply content-[''] w-4 h-4 absolute left-0 rounded-[4px] bg-[url(/images/icons/primary_checked.svg)] bg-contain bg-no-repeat;
+        @apply lg:ml-2;
+      }
+    }
+  }
+}

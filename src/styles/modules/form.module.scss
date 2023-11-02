@@ -16,6 +16,7 @@
   &__boundary {
     @apply rounded overflow-hidden;
 
+    select,
     input {
       @apply border border-grey min-h-[32px];
     }
