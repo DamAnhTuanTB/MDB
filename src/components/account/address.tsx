@@ -11,16 +11,18 @@ import ProfileLayout from './layout'
 
 export const addresses: Address[] = [
   {
-    customerName: 'Victor Chue',
+    firstName: 'Victor Chue',
+    lastName: 'Victor Chue',
     company: 'Popshap',
-    addressDetail: '240 Hackensack, NJ 07601',
+    address: '240 Hackensack, NJ 07601',
     email: 'victor@popshap.com',
     phoneNumber: '(888) 317-5531'
   },
   {
-    customerName: 'Victor Chue',
+    firstName: 'Victor Chue',
+    lastName: 'Victor Chue',
     company: 'Popshap',
-    addressDetail: '240 Hackensack, NJ 07601',
+    address: '240 Hackensack, NJ 07601',
     email: 'victor@popshap.com',
     phoneNumber: '(888) 317-5531'
   }

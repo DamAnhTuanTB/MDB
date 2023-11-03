@@ -1,7 +1,12 @@
 export type Address = {
-  customerName: string
+  country?: string
+  firstName: string
+  lastName: string
   company: string
-  addressDetail: string
+  address: string
+  city?: string
+  state?: string
+  zipCode?: string
   email: string
   phoneNumber: string
 }

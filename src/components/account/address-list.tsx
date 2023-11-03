@@ -16,7 +16,8 @@ const confirm = {
     id: 'af61d37d-b853-41f6-9240-da9a09920e9e',
     key: 'address',
     label: 'Default Address',
-    subLabel: 'address'
+    subLabel: 'address',
+    value: ''
   }
 }
 
@@ -58,9 +59,11 @@ export default function AddressList({ addresses }: Props) {
             onRemove={handleRemoveAddress}
           >
             <div className={styles.wrapper__address__item}>
-              <p>{address.customerName}</p>
+              <p>
+                {address.firstName} {address.lastName}
+              </p>
               <p>{address.company}</p>
-              <p>{address.addressDetail}</p>
+              <p>{address.address}</p>
               <p>{address.email}</p>
               <p>{address.phoneNumber}</p>
             </div>
@@ -83,7 +86,7 @@ export default function AddressList({ addresses }: Props) {
           Add Address
         </button>
       </div>
-      <ModalAdd className={styles.add__modal} contentClassName={styles.add__modal__content} open={openModalAdd} onClose={() => setOpenModalAdd(false)} data={confirm?.data} />
+      <ModalAdd open={openModalAdd} onClose={() => setOpenModalAdd(false)} data={confirm?.data} />
       <ModalConfirm open={openModalConfirm} onClose={() => setOpenModalConfirm(false)} data={confirm?.data} />
     </div>
   )
