@@ -1,6 +1,6 @@
 .collapse {
   @apply bg-gray-100;
-  @apply lg:rounded-lg overflow-hidden;
+  @apply lg:rounded-lg overflow-visible;
   border-bottom: 0 !important;
 
   & + a {
@@ -74,4 +74,8 @@
   &__name {
     @apply text-sm font-normal;
   }
+}
+
+.tooltip__icon {
+  @apply pointer-events-auto;
 }

@@ -18,11 +18,6 @@
     &__title {
       @apply flex flex-1 items-center text-base max-w-[320px] font-semibold break-keep;
       @apply lg:text-xl lg:max-w-full;
-
-      .annotation {
-        @apply ml-4;
-        @apply lg:ml-[21px];
-      }
     }
   }
 
