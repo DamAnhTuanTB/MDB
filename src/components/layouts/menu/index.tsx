@@ -4,6 +4,7 @@ import classNames from 'classnames'
 
 import { menuItems } from '@/constants/menu'
 import useDevice from '@/hooks/use-device'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/menu/index.module.scss'
@@ -24,6 +25,8 @@ export default function Menu({ open, onClose }: Props) {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
   const [menuListVisible, setMenuListVisible] = useState<boolean>(true)
 
+  const { query } = useRouterWithQueryParams()
+
   const { isPc } = useDevice()
 
   const { menuCategories } = useGlobalSettingStore()
@@ -35,16 +38,18 @@ export default function Menu({ open, onClose }: Props) {
 
         return {
           title: name,
-          href: routes.productPage(slug || ''),
+          href: routes.productPage(slug || '', query.affiliate as string),
           parentId,
           links: childCategories
             ? childCategories.map(
                 (child) =>
                   ({
                     title: child.name,
-                    href: routes.productPage(child.slug || ''),
+                    href: routes.productPage(child.slug || '', query.affiliate as string),
                     parentId: child.parentId,
-                    links: child.childCategories ? child.childCategories.map((sub) => ({ title: sub.name, href: routes.productPage(sub.slug || ''), parentId: sub.parentId }) as MenuItem) : []
+                    links: child.childCategories
+                      ? child.childCategories.map((sub) => ({ title: sub.name, href: routes.productPage(sub.slug || '', query.affiliate as string), parentId: sub.parentId }) as MenuItem)
+                      : []
                   }) as MenuItem
               )
             : []
