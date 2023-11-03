@@ -16,8 +16,12 @@
     }
 
     &__title {
-      @apply text-base max-w-[320px] font-semibold;
+      @apply flex flex-1 items-center text-base max-w-[320px] font-semibold break-keep;
       @apply lg:text-xl lg:max-w-full;
+
+      .annotation {
+        @apply ml-4;
+      }
     }
   }
 
@@ -37,7 +41,7 @@
       }
     }
     .collapse__body {
-      @apply opacity-100;
+      @apply opacity-100 overflow-visible;
     }
   }
 }

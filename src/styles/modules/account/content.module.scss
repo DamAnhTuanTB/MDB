@@ -62,3 +62,16 @@
     }
   }
 }
+
+.aesthetic {
+  @apply w-full h-auto pt-4 px-4 pb-8 first:-mt-2 mb-4 last:mb-0 text-black-50 rounded-lg border-[1px] border-white-100 bg-grey-50 max-h-[94px];
+  @apply first:lg:mt-4;
+
+  &__title {
+    @apply text-base font-semibold mb-2;
+  }
+
+  &__name {
+    @apply text-sm font-normal;
+  }
+}

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+import Image from 'next/image'
+
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/collapse.module.scss'
@@ -11,10 +13,12 @@ export type Props = {
   className?: string
   headingClassName?: string
   contentClassName?: string
+  annotation?: React.ReactNode
+  directionDropdown?: 'top' | 'bottom' | 'left' | 'right'
   onToggle?: (value: boolean) => void
 }
 
-export default function CollapseItem({ title, isActive = false, children, className = '', headingClassName = '', contentClassName = '', onToggle }: Props) {
+export default function CollapseItem({ title, isActive = false, children, className = '', headingClassName = '', contentClassName = '', annotation, directionDropdown, onToggle }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(isActive)
   const collapseBodyRef = useRef<HTMLDivElement>(null)
   const [bodyHeight, setBodyHeight] = useState<string>(isActive ? 'auto' : '0')
@@ -35,7 +39,14 @@ export default function CollapseItem({ title, isActive = false, children, classN
   return (
     <div className={classNames(styles.collapse, className, { [styles.active]: isOpen })}>
       <div className={classNames(styles.collapse__heading, headingClassName)} onClick={hanldeClickHeading}>
-        <h3 className={styles.collapse__heading__title}>{title}</h3>
+        <h3 className={styles.collapse__heading__title}>
+          {title}
+          {annotation && isOpen && (
+            <div className={styles.annotation} onClick={(e) => e.stopPropagation()}>
+              <Image src={'/images/icons/question.svg'} width={20} height={20} alt="" />
+            </div>
+          )}
+        </h3>
       </div>
       <div className={styles.collapse__body} style={{ height: bodyHeight }}>
         <div ref={collapseBodyRef} className={classNames(styles.collapse__content, contentClassName)}>
