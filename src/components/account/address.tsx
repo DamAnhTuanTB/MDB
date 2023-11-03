@@ -2,14 +2,14 @@ import { useState } from 'react'
 
 import { PROFILE_ID } from '@/constants/profile'
 import styles from '@/styles/modules/account/content.module.scss'
-import { Address } from '@/types/address'
+import { AddressBody } from '@/types/address'
 
 import CollapseItem from '@/components/common/collapse'
 
 import AddressList from './address-list'
 import ProfileLayout from './layout'
 
-export const addresses: Address[] = [
+export const addresses: AddressBody[] = [
   {
     firstName: 'Victor Chue',
     lastName: 'Victor Chue',

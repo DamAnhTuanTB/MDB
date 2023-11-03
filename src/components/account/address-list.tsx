@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import styles from '@/styles/modules/account/address-list.module.scss'
-import { Address } from '@/types/address'
+import { AddressBody } from '@/types/address'
 
 import RadioItem from '@/components/common/radio-item'
 
@@ -19,7 +19,7 @@ const confirm = {
 }
 
 type Props = {
-  addresses: Address[]
+  addresses: AddressBody[]
 }
 
 export default function AddressList({ addresses }: Props) {
