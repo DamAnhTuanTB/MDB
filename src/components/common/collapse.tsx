@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-import Image from 'next/image'
-
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/collapse.module.scss'
@@ -37,9 +35,7 @@ export default function CollapseItem({ title, isActive = false, children, classN
   return (
     <div className={classNames(styles.collapse, className, { [styles.active]: isOpen })}>
       <div className={classNames(styles.collapse__heading, headingClassName)} onClick={hanldeClickHeading}>
-        <h3 className={styles.collapse__heading__title}>
-          {title}
-        </h3>
+        <h3 className={styles.collapse__heading__title}>{title}</h3>
       </div>
       <div className={styles.collapse__body} style={{ height: bodyHeight }}>
         <div ref={collapseBodyRef} className={classNames(styles.collapse__content, contentClassName)}>
