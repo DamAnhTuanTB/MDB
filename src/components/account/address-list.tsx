@@ -1,8 +1,5 @@
 import { useMemo, useState } from 'react'
 
-import { useSetRecoilState } from 'recoil'
-
-import { notificationState } from '@/recoil/notification'
 import styles from '@/styles/modules/account/address-list.module.scss'
 import { Address } from '@/types/address'
 
@@ -26,17 +23,9 @@ type Props = {
 }
 
 export default function AddressList({ addresses }: Props) {
-  const setNotification = useSetRecoilState(notificationState)
-
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | null>(null)
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
-
-  const handleSubmitForm = () => {
-    setNotification({ message: 'Saved Address', type: 'success' })
-    setOpenModalAdd(false)
-    // TODO: handle api
-  }
 
   const handleEditAddress = () => {}
 

@@ -24,11 +24,16 @@ export default function ModalConfirm({ open, onClose, data, showCancel = true }:
     return null
   }, [])
 
+  const handleSubmit = () => {
+    // TODO: submit form
+    onClose()
+  }
+
   return (
     <Modal className={styles.modal} bodyClassName={styles.modal__body} open={open} onClose={onClose}>
       <h6 className={`${styles.modal__confirm__label} ${styles.modal__label}`}>Confirm {data?.label}</h6>
       <p className={styles.modal__sub__label}>Are you sure you want to use this {data?.subLabel} as your default?</p>
-      <CustomForm onSubmit={() => {}}>
+      <CustomForm onSubmit={handleSubmit}>
         <>
           {inputElement}
           <div className={styles.modal__confirm__buttons}>
@@ -37,7 +42,7 @@ export default function ModalConfirm({ open, onClose, data, showCancel = true }:
                 Cancel
               </p>
             )}
-            <Button className={styles.modal__submit__button} variant="blue">
+            <Button type="submit" className={styles.modal__submit__button} variant="blue">
               Confirm
             </Button>
           </div>

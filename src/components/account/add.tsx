@@ -1,5 +1,8 @@
 import { useMemo } from 'react'
 
+import { useSetRecoilState } from 'recoil'
+
+import { notificationState } from '@/recoil/notification'
 import styles from '@/styles/modules/account/add.module.scss'
 import { AddData } from '@/types/account/information'
 
@@ -19,6 +22,8 @@ type Props = {
 }
 
 export default function ModalAdd({ open, onClose, data }: Props) {
+  const setNotification = useSetRecoilState(notificationState)
+
   const inputElement = useMemo(() => {
     if (data.key === 'address') {
       return <AddNewAddressForm />
@@ -28,6 +33,8 @@ export default function ModalAdd({ open, onClose, data }: Props) {
 
   const handleSubmit = () => {
     // TODO: submit form
+    setNotification({ message: 'Saved Address', type: 'success' })
+    onClose()
   }
 
   return (
@@ -40,7 +47,7 @@ export default function ModalAdd({ open, onClose, data }: Props) {
             <p className={styles.cancel} onClick={onClose}>
               Cancel
             </p>
-            <Button className={styles.modal__submit__button} variant="blue">
+            <Button type="submit" className={styles.modal__submit__button} variant="blue">
               Save
             </Button>
           </div>
