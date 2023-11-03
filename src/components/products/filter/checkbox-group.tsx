@@ -24,6 +24,7 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   const [selectedId, setSelectedId] = useState<string[]>(typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds || [])
   const [minSpf, setMinSpf] = useState<number | null>(query.minSpf === '' ? null : Number(query.minSpf))
   const [maxSpf, setMaxSpf] = useState<number | null>(query.maxSpf === '' ? null : Number(query.maxSpf) || null)
+  const [lastRemoveAttributeId, setLastRemoveAttributeId] = useState<string>('')
 
   useEffect(() => {
     if (clearFilter) {
@@ -34,8 +35,13 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   }, [clearFilter])
 
   useEffect(() => {
-    const params: any = { ...query, attributeIds: selectedId }
+    const currentAttributeIds = typeof query.attributeIds === 'string' ? [query.attributeIds] : query.attributeIds || []
+    const attributeIds = [...selectedId, ...currentAttributeIds.filter((item) => item !== lastRemoveAttributeId)]
+    const cleanAttributeIds = attributeIds.filter((item, index) => attributeIds.indexOf(item) === index)
+
+    const params: any = { ...query, attributeIds: cleanAttributeIds }
     if (query.hasOwnProperty('page') && query.page) params.page = 1
+
     updateQueryParams(params)
   }, [selectedId])
 
@@ -51,7 +57,10 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
 
   const toggleCheckbox = (checked: boolean, data: ProductAttribute) => {
     if (checked) setSelectedId((preValue) => [...preValue, data.id])
-    else setSelectedId(selectedId.filter((item) => item !== data.id))
+    else {
+      setSelectedId(selectedId.filter((item) => item !== data.id))
+      setLastRemoveAttributeId(data.id)
+    }
   }
 
   const checkListElement = useMemo(
@@ -64,11 +73,11 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
     setMaxSpf(checked ? data.maxValue : null)
   }
 
-  const checkListSpfElement = useMemo(
+  const checkListSpfElements = useMemo(
     () =>
       listRenderItem &&
       listRenderItem.map((item) => (
-        <Checkbox key={item.id} checked={minSpf === item.minValue && maxSpf === item.maxValue} label={item.value} onChange={(checked) => toggleSpfCheckbox(checked, item)} />
+        <Checkbox key={item.id} checked={minSpf === item.minValue && (maxSpf === item.maxValue || maxSpf === 100)} label={item.value} onChange={(checked) => toggleSpfCheckbox(checked, item)} />
       )),
     [listRenderItem, maxSpf, minSpf]
   )
@@ -76,7 +85,7 @@ function CheckboxGroup({ attributes, title, clearFilter = false, isSPF = false }
   return (
     <div className={classNames(styles.group, { '!mt-0': !title })}>
       {title && <div className={styles.group__title}>{title}</div>}
-      <div className={classNames(styles.group__value, { '!pl-0 !mt-0': !title })}>{isSPF ? checkListSpfElement : checkListElement}</div>
+      <div className={classNames(styles.group__value, { '!pl-0 !mt-0': !title })}>{isSPF ? checkListSpfElements : checkListElement}</div>
       {attributes.length > listRenderItem.length && (
         <div className={styles.group__more} onClick={handleSeeAll}>
           <Image src={'/images/icons/arrow_blue.svg'} width={24} height={24} alt="see more" />
