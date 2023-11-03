@@ -2,6 +2,14 @@
   @apply relative pt-1;
   @apply lg:pt-3;
 
+  &__address__item {
+    @apply font-normal text-sm;
+
+    p {
+      @apply mb-1 last:mb-0;
+    }
+  }
+
   .float__btn {
     @apply hidden rounded-lg bg-blue h-11 w-[144px] text-white text-base font-bold absolute right-0 -top-12;
     @apply lg:block;

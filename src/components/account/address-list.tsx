@@ -2,15 +2,14 @@ import { useMemo, useState } from 'react'
 
 import { useSetRecoilState } from 'recoil'
 
-import { Address } from '@/constants/addresses'
 import { notificationState } from '@/recoil/notification'
-import styles from '@/styles/modules/account/address/address-list.module.scss'
+import styles from '@/styles/modules/account/address-list.module.scss'
+import { Address } from '@/types/address'
 
-import AddressItem from '@/components/account/address/address-item'
 import RadioItem from '@/components/common/radio-item'
 
-import ModalAdd from '../add'
-import ModalConfirm from '../confirm'
+import ModalAdd from './add'
+import ModalConfirm from './confirm'
 
 const confirm = {
   data: {
@@ -30,36 +29,17 @@ export default function AddressList({ addresses }: Props) {
 
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | null>(null)
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
-  const [openModalConfirm, setOpenModaslConfirm] = useState<boolean>(false)
-
-  const handleSelectAddress = (index: number) => {
-    setSelectedAddressIndex(index)
-  }
+  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
 
   const handleSubmitForm = () => {
     setNotification({ message: 'Saved Address', type: 'success' })
     setOpenModalAdd(false)
+    // TODO: handle api
   }
 
   const handleEditAddress = () => {}
 
   const handleRemoveAddress = () => {}
-
-  const handleOpenModalAdd = () => {
-    setOpenModalAdd(true)
-  }
-
-  const handleOpenModalConfirm = () => {
-    setOpenModaslConfirm(true)
-  }
-
-  const handleCloseModalAdd = () => {
-    setOpenModalAdd(false)
-  }
-
-  const handleCloseModalConfirm = () => {
-    setOpenModaslConfirm(false)
-  }
 
   const addressElements = useMemo(
     () =>
@@ -73,11 +53,17 @@ export default function AddressList({ addresses }: Props) {
             title="Default Address"
             isSelected={isSelected}
             key={index}
-            onSelect={() => handleSelectAddress(index)}
+            onSelect={() => setSelectedAddressIndex(index)}
             onEdit={handleEditAddress}
             onRemove={handleRemoveAddress}
           >
-            <AddressItem address={address} />
+            <div className={styles.wrapper__address__item}>
+              <p>{address.customerName}</p>
+              <p>{address.company}</p>
+              <p>{address.addressDetail}</p>
+              <p>{address.email}</p>
+              <p>{address.phoneNumber}</p>
+            </div>
           </RadioItem>
         )
       }),
@@ -85,20 +71,20 @@ export default function AddressList({ addresses }: Props) {
   )
   return (
     <div className={styles.wrapper}>
-      <button onClick={handleOpenModalAdd} className={styles.float__btn}>
+      <button onClick={() => setOpenModalAdd(true)} className={styles.float__btn}>
         Add Address
       </button>
       {addressElements}
       <div className={styles.buttons}>
-        <button onClick={handleOpenModalConfirm} className={styles.buttons__default}>
+        <button onClick={() => setOpenModalConfirm(true)} className={styles.buttons__default}>
           Set As Default
         </button>
-        <button onClick={handleOpenModalAdd} className={styles.buttons__add__address}>
+        <button onClick={() => setOpenModalAdd(true)} className={styles.buttons__add__address}>
           Add Address
         </button>
       </div>
-      <ModalAdd className={styles.add__modal} contentClassName={styles.add__modal__content} open={openModalAdd} onClose={handleCloseModalAdd} data={confirm?.data} />
-      <ModalConfirm open={openModalConfirm} onClose={handleCloseModalConfirm} data={confirm?.data} />
+      <ModalAdd className={styles.add__modal} contentClassName={styles.add__modal__content} open={openModalAdd} onClose={() => setOpenModalAdd(false)} data={confirm?.data} />
+      <ModalConfirm open={openModalConfirm} onClose={() => setOpenModalConfirm(false)} data={confirm?.data} />
     </div>
   )
 }

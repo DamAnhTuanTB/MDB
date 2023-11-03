@@ -1,30 +1,27 @@
 import { useMemo } from 'react'
 
 import styles from '@/styles/modules/account/confirm.module.scss'
+import { ConfirmData } from '@/types/account/information'
 
 import Modal from '@/components/common/modal'
 import CustomForm from '@/components/form'
 
 import Button from '../common/button'
-// import CreditCardItem from '../common/credit-card-item'
 import TextAreaField from '../form/textarea-field'
 
-type ConfirmData = any
-
-type PersonalInfoModalProps = {
+type Props = {
   open: boolean
-  onClose: () => void
   data: ConfirmData
   showCancel?: boolean
+  onClose: () => void
 }
 
-export default function ModalConfirm({ open, onClose, data, showCancel = true }: PersonalInfoModalProps) {
+export default function ModalConfirm({ open, onClose, data, showCancel = true }: Props) {
   const inputElement = useMemo(() => {
     if (data.key === 'address') {
       return <TextAreaField className={styles.field} inputClassName={styles.field__input} name="" label="" />
     }
     return null
-    // <CreditCardItem className={styles.modal__card} creditCard={data?.creditCard} />
   }, [])
 
   return (

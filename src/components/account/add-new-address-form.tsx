@@ -3,22 +3,10 @@ import { useState } from 'react'
 import classNames from 'classnames'
 import { FieldErrors, FormProvider, useForm } from 'react-hook-form'
 
-import styles from '@/styles/modules/account/address/add-new-address-form.module.scss'
+import styles from '@/styles/modules/account/add-new-address-form.module.scss'
 
 import SelectField from '@/components/form/select-field'
 import TextField from '@/components/form/text-field'
-
-type Form = {
-  country: string
-  firstName: string
-  lastName: string
-  company: string
-  address: string
-  city: string
-  state: string
-  zipCode: string
-  phoneNumber: string
-}
 
 export default function AddNewAddressForm() {
   const methods = useForm()
