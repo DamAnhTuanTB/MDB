@@ -12,7 +12,7 @@ definitions:
 
 pipelines:
   branches:
-    Stage:
+    Dev:
       - step:
           name: Deployment
           image: 'google/cloud-sdk:latest'
@@ -24,19 +24,19 @@ pipelines:
             # - echo $BITBUCKET_BRANCH-$PROJECT_NAME
             - echo "FAILED" > deployment_status.txt
             - >-
-              echo $GCLOUD_SERVICE_ACCOUNT_KEY_PROD | base64 --decode
+              echo $GCLOUD_SERVICE_ACCOUNT_KEY | base64 --decode
               --ignore-garbage | gcloud auth activate-service-account
               --key-file=-
-            - gcloud config set project $GCLOUD_PROJECT_ID_PROD
+            - gcloud config set project $GCLOUD_PROJECT_ID
             - gcloud config set compute/zone $GCLOUD_COMPUTE_ZONE
             - gcloud auth configure-docker ${GCLOUD_REGION}-docker.pkg.dev
             - export DOCKER_BUILDKIT=0
             - >
               if docker build -t
-              ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID_PROD}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest .
+              ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest .
               && \
-                  docker push ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID_PROD}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest && \
-                  gcloud run deploy ${BITBUCKET_BRANCH}-${PROJECT_NAME} --image ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID_PROD}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest --platform managed --region $GCLOUD_REGION --allow-unauthenticated --set-env-vars=NODE_ENV='development'; then
+                  docker push ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest && \
+                  gcloud run deploy ${BITBUCKET_BRANCH}-${PROJECT_NAME} --image ${GCLOUD_REGION}-docker.pkg.dev/${GCLOUD_PROJECT_ID}/${PROJECT_NAME}/landing-${BITBUCKET_BRANCH}:latest --platform managed --region $GCLOUD_REGION --allow-unauthenticated --set-env-vars=NODE_ENV='development'; then
 
                     echo "SUCCESSED" > deployment_status.txt
               fi
