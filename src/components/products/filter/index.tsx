@@ -38,7 +38,7 @@ const Filter = ({ attributes, defaultData, clearAllFilter = false, onClearFilter
           case 'rating':
             return <Rating key={index} clearFilter={clearAllFilter} title="Rating" />
           case 'slider':
-            return <Slider key={index} clearFilter={clearAllFilter} title="Price" min={defaultData?.price.min || 0} max={defaultData?.price.max || 1000} />
+            return <Slider key={index} clearFilter={clearAllFilter} title="Price" min={defaultData?.price?.min || 0} max={defaultData?.price?.max || 10000} />
           default:
             return <CheckListGroup key={index} attributes={attr.attributes || []} title={attr.name} isSPF={attr.key === productAttributeGroup.SPF} clearFilter={clearAllFilter} />
         }

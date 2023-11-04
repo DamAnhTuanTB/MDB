@@ -16,18 +16,19 @@ type Props = {
 
 export default function Slider({ title, clearFilter = false, min, max }: Props) {
   const { query, updateQueryParams } = useRouterWithQueryParams()
-  const [defaultValue, setDefaultValue] = useState<number[]>([Number(query.minPrice || min), Number(query.maxPrice || max)])
+  const [value, setValue] = useState<number[]>([Number(query.minPrice || min), Number(query.maxPrice || max)])
 
   useEffect(() => {
-    if (clearFilter) setDefaultValue([0, 100]) // TODO: update default value
+    if (clearFilter) setValue([min, max])
   }, [clearFilter])
 
   const handleChangeValue = debounce((value: number[]) => {
-    const params: any = { ...query, minPrice: value[0], maxPrice: value[1] }
+    const [minPrice, maxPrice] = value.map((item) => Math.ceil(item))
+    setValue(value)
+    const params: any = { ...query, minPrice, maxPrice }
     if (query.hasOwnProperty('page') && query.page) params.page = 1
-    setDefaultValue(value)
     updateQueryParams(params)
-  }, 300)
+  }, 100)
 
   return (
     <div className={classNames(styles.group, { '!mt-0': !title })}>
@@ -37,46 +38,15 @@ export default function Slider({ title, clearFilter = false, min, max }: Props) 
           className="slider"
           thumbClassName="slider__thumb"
           trackClassName="slider__track"
-          defaultValue={defaultValue}
           ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
-          pearling
-          minDistance={10}
+          minDistance={1}
+          min={min}
+          max={max}
+          value={value}
           onChange={(value) => handleChangeValue(value)}
-          renderThumb={(
-            {
-              className,
-              style,
-              role,
-              'aria-valuenow': ariaValueNow,
-              'aria-valuemin': ariaValueMin,
-              'aria-valuemax': ariaValueMax,
-              'aria-disabled': areaDisabled,
-              'aria-valuetext': ariaValueText,
-              ref,
-              key,
-              onFocus,
-              onMouseDown,
-              onTouchStart
-            },
-            state
-          ) => (
-            <div
-              ref={ref}
-              className={className}
-              style={style}
-              role={role}
-              key={key || `key${new Date().getTime()}`}
-              aria-orientation={'horizontal'}
-              aria-valuenow={ariaValueNow}
-              aria-valuemin={ariaValueMin}
-              aria-valuemax={ariaValueMax}
-              aria-disabled={areaDisabled}
-              aria-valuetext={ariaValueText}
-              onFocus={onFocus}
-              onMouseDown={onMouseDown}
-              onTouchStart={onTouchStart}
-            >
-              <div className="slider__thumb__value">{`$${state.valueNow}`}</div>
+          renderThumb={(props, state) => (
+            <div {...props}>
+              <div className="slider__thumb__value">{`$${Math.ceil(state.valueNow)}`}</div>
             </div>
           )}
         />
