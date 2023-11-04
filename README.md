@@ -227,13 +227,13 @@ export const isLoggedInState = atom({
 
 ### Under development
 
-1. Create branch from branch `stage`, with prefix is `feature/[TASK-ID]` or `hotfix/[TASK-ID]`.
-2. Create pull request and merge feature branch into `stage`.
-3. Run `pipeline stage` to deploy on staging site.
+1. Create branch from branch `dev`, with prefix is `feature/[TASK-ID]` or `hotfix/[TASK-ID]`.
+2. Create pull request and merge feature branch into `dev`.
+3. Run `pipeline dev` to deploy on development site.
 
 ### Released
 
 1. Create branch from branch `prod`, with prefix is `feature/[TASK-ID]` or `hotfix/[TASK-ID]`.
-2. Merge feature branch into `stage` and run `pipeline stage` to deploy on development site.
+2. Merge feature branch into `dev` and run `pipeline dev` to deploy on development site.
 3. When test done, everything work well, merge feature branch into `prod`.
 4. Run `pipeline prod` to deploy on production site.
