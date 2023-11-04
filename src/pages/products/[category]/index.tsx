@@ -48,9 +48,16 @@ export const getServerSideProps = async ({ query }: GetServerSidePropsContext) =
       }
     }
 
+    const filterDataResponse = await productApi.getDefaultFilterData()
+
     const productParams = getQuery(query)
 
-    const [productAttributeResponse, filterDataResponse, productResponse] = await Promise.all([productApi.getAttributes(), productApi.getDefaultFilterData(), productApi.getProducts(productParams)])
+    productParams.where = {
+      minPrice: query.minPrice || filterDataResponse?.data?.price?.min,
+      maxPrice: query.maxPrice || filterDataResponse?.data?.price?.max
+    }
+
+    const [productAttributeResponse, productResponse] = await Promise.all([productApi.getAttributes(), productApi.getProducts(productParams)])
 
     return {
       props: {
