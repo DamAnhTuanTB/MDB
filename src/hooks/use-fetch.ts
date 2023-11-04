@@ -2,13 +2,13 @@ import { useCallback, useState } from 'react'
 
 import type { AxiosResponse } from 'axios'
 
-import { ApiError, MDBResult } from '@/types'
+import { ApiError, MDBResult, RequestError } from '@/types'
 
 type Props<T, P> = {
   fetcher: (params: P) => Promise<AxiosResponse<T>>
 }
-export const useFetch = <T, P = any, E = any>({ fetcher }: Props<T, P>) => {
-  const [pageDataResult, setPageDataResult] = useState<MDBResult<T, E>>()
+export const useFetch = <T, P = any, E = RequestError>({ fetcher }: Props<T, P>) => {
+  const [dataResult, setPageDataResult] = useState<MDBResult<T, E>>()
 
   const fetch = useCallback(async (params: P) => {
     setPageDataResult({
@@ -38,7 +38,7 @@ export const useFetch = <T, P = any, E = any>({ fetcher }: Props<T, P>) => {
   }, [])
 
   return {
-    pageDataResult,
+    dataResult,
     fetch
   }
 }

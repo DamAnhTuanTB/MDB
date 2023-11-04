@@ -13,13 +13,6 @@ export type SignUpResponse = {
   refreshToken: string
 }
 
-export type SignUpError = {
-  message?: string
-  messageCode?: string
-  error?: string
-  path?: string
-}
-
 // Login
 export type LoginBody = {
   email: string
@@ -31,26 +24,12 @@ export type LoginResponse = {
   refreshToken: string
 }
 
-export type LoginError = {
-  message?: string
-  messageCode?: string
-  error?: string
-  path?: string
-}
-
 // Forgot password
 export type ForgotPasswordBody = {
   email: string
 }
 
 export type ForgotPasswordResponse = {}
-
-export type ForgotPasswordError = {
-  message?: string
-  messageCode?: string
-  error?: string
-  path?: string
-}
 
 // Reset password
 export type ResetPasswordBody = {
@@ -60,10 +39,3 @@ export type ResetPasswordBody = {
 }
 
 export type ResetPasswordResponse = {}
-
-export type ResetPasswordError = {
-  message?: string
-  messageCode?: string
-  error?: string
-  path?: string
-}

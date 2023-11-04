@@ -7,16 +7,16 @@ import { SignUpBody, SignUpResponse } from '@/types/authentication'
 import { useFetch } from '../use-fetch'
 
 export const useCustomerSignUp = () => {
-  const { fetch, pageDataResult } = useFetch<SignUpResponse, SignUpBody>({ fetcher: customerApi.signup })
+  const { fetch, dataResult } = useFetch<SignUpResponse, SignUpBody>({ fetcher: customerApi.signup })
 
   const [errorMessage, setErrorMessage] = useState<string>()
 
   useEffect(() => {
-    setErrorMessage(pageDataResult?.error?.response?.data.message)
-  }, [pageDataResult?.error])
+    setErrorMessage(dataResult?.error?.response?.data?.message)
+  }, [dataResult?.error])
 
   return {
-    ...pageDataResult,
+    ...dataResult,
     errorMessage,
     fetch
   }
