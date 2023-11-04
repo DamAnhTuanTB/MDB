@@ -3,14 +3,18 @@
 }
 
 .carousel {
-  @apply w-[230px] md:w-[350px] lg:w-[470px] mx-auto overflow-hidden;
+  @apply w-[230px] md:w-[350px] lg:w-[500px] mx-auto overflow-hidden;
+
+  .single {
+    @apply flex justify-center;
+  }
 
   &__slide {
-    @apply relative text-center lg:text-left text-xs whitespace-nowrap;
+    @apply relative text-center lg:text-left text-xs;
     @apply md:text-base;
 
     &::after {
-      @apply lg:content-[''] lg:absolute lg:right-[-6px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none lg:top-0;
+      @apply lg:content-[''] lg:absolute lg:right-[2px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none lg:top-0;
     }
   }
 
