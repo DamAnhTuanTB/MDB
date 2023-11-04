@@ -23,15 +23,14 @@ type Props = {
 }
 
 export default function ProductComponent({ products, attributes, totalCount = 0, defaultFilterData, category }: Props) {
-  const { query } = useRouterWithQueryParams()
-  const { resetQueryParams } = useRouterWithQueryParams()
+  const { query, redirect } = useRouterWithQueryParams()
   const [clearAllFilter, setClearAllFilter] = useState<boolean>(false)
 
   const breadcrumbItems: BreadcrumbItem[] = [{ label: 'Home', href: routes.homePage() }, { label: category?.name }]
 
   const handleClearAllFilter = () => {
     setClearAllFilter(true)
-    resetQueryParams(routes.productPage(category.slug, query.affiliate as string))
+    redirect(routes.productPage(category.slug, query.affiliate as string))
   }
 
   return (
