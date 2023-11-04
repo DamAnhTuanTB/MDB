@@ -48,23 +48,13 @@ export const getServerSideProps = async ({ query }: GetServerSidePropsContext) =
       }
     }
 
-    const filterDataResponse = await productApi.getDefaultFilterData()
-
-    const productParams = getQuery(query)
-
-    productParams.where = {
-      minPrice: query.minPrice || filterDataResponse?.data?.price?.min,
-      maxPrice: query.maxPrice || filterDataResponse?.data?.price?.max
-    }
-
-    const [productAttributeResponse, productResponse] = await Promise.all([productApi.getAttributes(), productApi.getProducts(productParams)])
+    const [productAttributeResponse, filterDataResponse] = await Promise.all([productApi.getAttributes(), productApi.getDefaultFilterData()])
 
     return {
       props: {
         productAttributes: productAttributeResponse.data?.results || [],
         defaultFilterData: filterDataResponse.data || {},
-        category: categoryResponse.data || {},
-        products: productResponse.data || {}
+        category: categoryResponse.data || {}
       }
     }
   } catch (error) {
@@ -74,9 +64,9 @@ export const getServerSideProps = async ({ query }: GetServerSidePropsContext) =
   }
 }
 
-export default function ProductPage({ productAttributes, defaultFilterData, category, products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [displayProducts, setDisplayProducts] = useState<Product[]>(products?.results || [])
-  const [totalCount, setTotalCount] = useState<number>(products?.count || 0)
+export default function ProductPage({ productAttributes, defaultFilterData, category }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [displayProducts, setDisplayProducts] = useState<Product[]>([])
+  const [totalCount, setTotalCount] = useState<number>(0)
   const [isInitialRender, setIsInitialRender] = useState(true)
 
   const { getProductList, data: productList } = useProduct()

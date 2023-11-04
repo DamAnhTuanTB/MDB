@@ -21,5 +21,9 @@ export function useRouterWithQueryParams() {
     )
   }
 
-  return { ...router, updateQueryParams, resetQueryParams }
+  const redirect = (url?: string) => {
+    window.location.href = url || '/'
+  }
+
+  return { ...router, updateQueryParams, resetQueryParams, redirect }
 }
