@@ -1,12 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
 import { useCustomerForgotPassword } from '@/hooks/pages/use-customer-forgot-password'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { ForgotPasswordBody } from '@/types/authentication'
 
@@ -19,11 +17,11 @@ const schema = z.object({
 }) satisfies ZodType<ForgotPasswordBody>
 
 export default function ForgotPasswordForm() {
-  const { fetch, isLoading, errorMessage, data } = useCustomerForgotPassword()
-  const { push } = useRouterWithQueryParams()
+  const { fetch, isLoading, data, errorMessage } = useCustomerForgotPassword()
+  const [isSuccess, setIsSuccess] = useState<boolean>(false)
 
   useEffect(() => {
-    if (data) push(routes.resetPasswordPage())
+    if (data) setIsSuccess(true)
   }, [data])
 
   const handleSubmitForm = (data: ForgotPasswordBody) => {
@@ -34,16 +32,20 @@ export default function ForgotPasswordForm() {
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Forgot password</h4>
       {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
-      <CustomForm schema={schema} onSubmit={handleSubmitForm}>
-        <div className={styles.form}>
-          <div className={styles.form__field}>
-            <TextField showErrorMessage required label="Email" name="email" placeholder="example@email.com" type="email" isLoading={isLoading} isError={!!errorMessage} />
+      {isSuccess ? (
+        <p className="mt-10 text-lg text-center">Please check your email to reset password!</p>
+      ) : (
+        <CustomForm schema={schema} onSubmit={handleSubmitForm}>
+          <div className={styles.form}>
+            <div className={styles.form__field}>
+              <TextField showErrorMessage required label="Email" name="email" placeholder="example@email.com" type="email" isLoading={isLoading} isError={!!errorMessage} />
+            </div>
+            <Button type="submit" className={styles.form__button} isLoading={isLoading}>
+              Send
+            </Button>
           </div>
-          <Button type="submit" className={styles.form__button} isLoading={isLoading}>
-            Send
-          </Button>
-        </div>
-      </CustomForm>
+        </CustomForm>
+      )}
     </div>
   )
 }

@@ -5,10 +5,10 @@ import { ListProductResponse, ProductParams } from '@/types/product'
 import { useFetch } from '../use-fetch'
 
 export const useProduct = () => {
-  const { fetch: getProductList, pageDataResult } = useFetch<ListProductResponse, ProductParams>({ fetcher: productApi.getProducts })
+  const { fetch: getProductList, dataResult } = useFetch<ListProductResponse, ProductParams>({ fetcher: productApi.getProducts })
 
   return {
-    ...pageDataResult,
+    ...dataResult,
     getProductList
   }
 }

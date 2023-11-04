@@ -12,7 +12,7 @@ import Link from '@/components/common/custom-link'
 
 export default function EmailVerifyPage() {
   const { query, push } = useRouterWithQueryParams()
-  const { fetch: verifyEmail, errorMessage, successMessage } = useEmailVerify()
+  const { verifyEmail, errorMessage, successMessage } = useEmailVerify()
   const [firtCheck, setFirtCheck] = useState<boolean>(true)
 
   useEffect(() => {

@@ -3,26 +3,26 @@ import { useEffect, useState } from 'react'
 import { customerApi } from '@/services/api/authentication'
 
 import { authenticationConfig } from '@/configs/authentication'
-import { LoginBody, LoginError, LoginResponse } from '@/types/authentication'
+import { LoginBody, LoginResponse } from '@/types/authentication'
 import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
 
 export const useCustomerLogin = () => {
-  const { fetch, pageDataResult } = useFetch<LoginResponse, LoginBody, LoginError>({ fetcher: customerApi.login })
+  const { fetch, dataResult } = useFetch<LoginResponse, LoginBody>({ fetcher: customerApi.login })
 
   const [errorMessage, setErrorMessage] = useState<string>()
 
   useEffect(() => {
-    setErrorMessage(pageDataResult?.error?.response?.data.message)
-  }, [pageDataResult?.error])
+    setErrorMessage(dataResult?.error?.response?.data.message)
+  }, [dataResult?.error])
 
   useEffect(() => {
-    if (pageDataResult?.data) {
-      setLocalStorage(authenticationConfig.accessToken, pageDataResult?.data?.accessToken)
-      setLocalStorage(authenticationConfig.refreshToken, pageDataResult?.data?.refreshToken)
+    if (dataResult?.data) {
+      setLocalStorage(authenticationConfig.accessToken, dataResult?.data?.accessToken)
+      setLocalStorage(authenticationConfig.refreshToken, dataResult?.data?.refreshToken)
     }
-  }, [pageDataResult?.data])
+  }, [dataResult?.data])
 
   const login = async (data: LoginBody) => {
     await fetch(data)
@@ -34,7 +34,7 @@ export const useCustomerLogin = () => {
   }
 
   return {
-    ...pageDataResult,
+    ...dataResult,
     errorMessage,
     login,
     logout

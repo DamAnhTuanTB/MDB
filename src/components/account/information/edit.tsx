@@ -9,14 +9,14 @@ import { promotionEmailOptions } from '@/constants/account'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import styles from '@/styles/modules/account/edit.module.scss'
 
-import Button from '../common/button'
-import Modal from '../common/modal'
-import CustomForm from '../form'
-import SelectField from '../form/select-field'
-import TelField from '../form/tel-field'
-import TextField from '../form/text-field'
+import Button from '../../common/button'
+import Modal from '../../common/modal'
+import CustomForm from '../../form'
+import SelectField from '../../form/select-field'
+import TelField from '../../form/tel-field'
+import TextField from '../../form/text-field'
 
-import { EditData } from './information'
+import { EditData } from '.'
 
 type Form = {
   editValue: string
@@ -64,7 +64,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
     if (data.key === 'allowPromotions' || data.key === 'isEmailVerified') {
       return (
         <SelectField
-          label={<p className="mb-2">Edit your ${data?.label?.toLowerCase()} below</p>}
+          label={<p className="mb-2">Edit your {data?.label?.toLowerCase()} below</p>}
           className={styles.infor__item__select}
           inputClassName={styles.infor__item__select__input}
           name="editValue"
@@ -108,7 +108,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   }, [])
 
   return (
-    <Modal open={open} onClose={() => onClose()} bodyClassName={styles.wrapper}>
+    <Modal open={open} onClose={() => onClose()} bodyClassName={styles.wrapper} contentClassName="!overflow-visible">
       <h3 className={styles.title}>Change {data?.label}</h3>
       <CustomForm schema={schema} onSubmit={handleSubmit}>
         <>

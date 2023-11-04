@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import classNames from 'classnames'
 import { FieldValues } from 'react-hook-form'
@@ -29,10 +29,6 @@ export default function ResetPasswordForm() {
   const { push, query } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (!query.code || !query.email) push(routes.homePage())
-  }, [])
-
-  useEffect(() => {
     if (data) push(routes.loginPage())
   }, [data])
 
@@ -41,10 +37,21 @@ export default function ResetPasswordForm() {
     fetch({ password: data.password, code: code as string, email: email as string })
   }
 
+  const errorMessageElements = useMemo(
+    () =>
+      errorMessage &&
+      errorMessage.map((message, index) => (
+        <p key={index} className={classNames(styles.description, 'text-red')}>
+          {message}
+        </p>
+      )),
+    [errorMessage]
+  )
+
   return (
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Reset password</h4>
-      {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
+      {errorMessageElements}
       <CustomForm schema={schema} onSubmit={handleSubmitForm}>
         <div className={styles.form}>
           <div className={styles.form__field}>
