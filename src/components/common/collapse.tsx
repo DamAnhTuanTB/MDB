@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import styles from '@/styles/modules/collapse.module.scss'
 
 export type Props = {
-  title: string | React.ReactNode
+  title: React.ReactNode
   isActive?: boolean
   children?: React.ReactNode
   className?: string

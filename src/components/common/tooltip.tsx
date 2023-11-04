@@ -37,21 +37,13 @@ const Tooltip: React.FC<Props> = ({ children, content, className, closeOnOutside
         {isTooltipVisible && (
           <>
             <div
-              className={classNames(styles.tooltip__arrow, {
-                [styles.active]: isTooltipVisible,
-                [styles.top]: direction === 'top',
-                [styles.bottom]: direction === 'bottom',
-                [styles.left]: direction === 'left',
-                [styles.right]: direction === 'right'
+              className={classNames(styles.tooltip__arrow, [styles[direction]], {
+                [styles.active]: isTooltipVisible
               })}
             />
             <div
-              className={classNames(styles.tooltip__content, {
-                [styles.active]: isTooltipVisible,
-                [styles.top]: direction === 'top',
-                [styles.bottom]: direction === 'bottom',
-                [styles.left]: direction === 'left',
-                [styles.right]: direction === 'right'
+              className={classNames(styles.tooltip__content, [styles[direction]], {
+                [styles.active]: isTooltipVisible
               })}
             >
               {content}
