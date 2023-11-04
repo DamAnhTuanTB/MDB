@@ -45,7 +45,7 @@ export default function Promotion() {
   return (
     <div className={styles.wrapper}>
       <div id="promotionSwipper" className={styles.carousel}>
-        <div className="swiper-wrapper">{carouselItems}</div>
+        <div className={classNames('swiper-wrapper', { [styles.single]: topNavArray.length < 2 })}>{carouselItems}</div>
 
         <div className={classNames('swiper-button-next', styles.carousel__next)} />
         <div className={classNames('swiper-button-prev', styles.carousel__prev)} />
