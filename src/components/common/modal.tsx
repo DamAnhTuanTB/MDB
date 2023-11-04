@@ -7,10 +7,11 @@ type Props = {
   children: React.ReactNode
   className?: string
   bodyClassName?: string
+  contentClassName?: string
   onClose?: () => void
 }
 
-export default function Modal({ open, children, className, bodyClassName, onClose }: Props) {
+export default function Modal({ open, children, className, bodyClassName, contentClassName, onClose }: Props) {
   // useEffect(() => {
   //   if (open) blockScroll(window.scrollY)
   //   else enableScroll()
@@ -21,7 +22,7 @@ export default function Modal({ open, children, className, bodyClassName, onClos
       <div className={styles.overlay} />
       <div className={classNames(styles.body, bodyClassName)}>
         <div className={styles.body__close} onClick={onClose} />
-        <div className={styles.body__content}>{children}</div>
+        <div className={classNames(styles.body__content, contentClassName)}>{children}</div>
       </div>
     </div>
   )
