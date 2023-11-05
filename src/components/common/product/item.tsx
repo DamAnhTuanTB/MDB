@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
-import { Product } from '@/types/product'
+import { Product, ProductSize } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
 
@@ -26,6 +26,7 @@ export default function ProductItem({ product, category, className, page = '', t
   const { query } = useRouterWithQueryParams()
 
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
+  const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product.sizes])
 
   const ratingElements = useMemo(
     () => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, styles[type], { [styles['active']]: num <= ratingScore })}></div>),
@@ -50,7 +51,7 @@ export default function ProductItem({ product, category, className, page = '', t
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
       <div className={styles.item__rating}>{ratingElements}</div>
-      <p className={styles.item__price}>{currencyFormatter.format(product?.price)}</p>
+      <p className={styles.item__price}>{currencyFormatter.format(size?.price)}</p>
       <Button className={styles.item__button}>Add to cart</Button>
     </div>
   )

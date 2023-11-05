@@ -1,14 +1,16 @@
 import classNames from 'classnames'
 
+import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import styles from '@/styles/modules/product/detail.module.scss'
-import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
-import { currencyFormatter, findObjectByName } from '@/utils/helper'
+import { Product } from '@/types/product'
+import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
 import HtmlRender from '@/components/common/html-render'
 import Quantity from '@/components/common/quantity'
 import RatingCommon from '@/components/common/rating'
 import CustomForm from '@/components/form'
+import SelectField from '@/components/form/select-field'
 
 import ImageCarousel from './image-carousel'
 
@@ -17,7 +19,7 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const units = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)
+  const { selectedSize, handleUpdateSize, price, quantity, sizeOptions, unit } = useProductDetail(data)
 
   return (
     <div className={styles.container}>
@@ -36,7 +38,7 @@ export default function Information({ data }: Props) {
           </div>
           <div className={styles.detail__group}>
             <h4 className={styles.detail__stock}>
-              {currencyFormatter.format(data?.price)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(price)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <div className={styles.detail__description}>
@@ -46,15 +48,13 @@ export default function Information({ data }: Props) {
           <CustomForm>
             <div className={styles.detail__form}>
               <div className={classNames(styles.detail__group, styles['size'], 'justify-between')}>
-                <span className={styles.detail__form__label}>
-                  Size: {data?.size} {units?.attributes[0]?.value}
-                </span>
-                {/* <SelectField className={styles.detail__form__input} inputClassName="h-10" name="size" options={[{ label: '1.7 oz', value: '1.7' }]} /> */}
+                <span className={styles.detail__form__label}>Size: {selectedSize + ' ' + unit}</span>
+                <SelectField className={styles.detail__form__input} inputClassName="h-10 text-[12px]" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
               </div>
               <div className={classNames(styles.detail__group, styles['quantity'], 'justify-between mt-2')}>
-                <span className={styles.detail__form__label}>Qty: {data?.quantity}</span>
+                <span className={styles.detail__form__label}>Qty: {quantity}</span>
                 <div className="flex">
-                  <Quantity className={styles.detail__form__input} name="quantity" min={0} defaultValue={1} />
+                  <Quantity className={styles.detail__form__input} name="quantity" min={1} max={quantity} defaultValue={1} />
                   <Button className={classNames(styles.detail__form__button, styles['pc'])}>Add to cart</Button>
                 </div>
               </div>
