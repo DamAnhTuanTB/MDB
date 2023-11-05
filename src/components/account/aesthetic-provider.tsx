@@ -18,7 +18,7 @@ type Props = {
 }
 
 const AestheticProvider = ({ aestheticProviderList }: Props) => {
-  const { isMobile, isTablet } = useDevice()
+  const { isPc } = useDevice()
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
   const handleToggleCollapse = (value: boolean) => {
@@ -53,13 +53,13 @@ const AestheticProvider = ({ aestheticProviderList }: Props) => {
       <>
         Aesthetic Provider
         {!showMenu && (
-          <Tooltip content={annotation} direction={isTablet || isMobile ? 'bottom' : 'right'}>
-            <Image className={styles.tooltip__icon} onClick={(e) => e.stopPropagation()} src={'/images/icons/question.svg'} width={20} height={20} alt="" />
+          <Tooltip content={annotation} direction={isPc ? 'right' : 'bottom'}>
+            <Image className={styles.tooltip__icon} src={'/images/icons/question.svg'} width={20} height={20} alt="" />
           </Tooltip>
         )}
       </>
     )
-  }, [isMobile, annotation, isTablet, showMenu])
+  }, [isPc, annotation, showMenu])
 
   return (
     <ProfileLayout activeId={PROFILE_ID.AESTHETIC_PROVIDER} isShow={showMenu}>

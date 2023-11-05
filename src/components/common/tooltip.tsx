@@ -21,9 +21,8 @@ const Tooltip: React.FC<Props> = ({ children, content, className, direction = 'b
         <div onClick={() => setIsTooltipVisible(!isTooltipVisible)} className={styles.tooltip__icon}>
           {children}
         </div>
-        <div className={styles.tooltip__body}>
-          <div className={classNames(styles.tooltip__arrow, [styles[direction]])} />
-          <div className={classNames(styles.tooltip__content, [styles[direction]])}>{content}</div>
+        <div className={classNames(styles.tooltip__body, [styles[direction]])}>
+          <div className={styles.tooltip__content}>{content}</div>
         </div>
       </div>
     </div>
