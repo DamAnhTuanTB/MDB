@@ -7,16 +7,16 @@ type Props = {
   title: string
   className?: string
   iconCheckClassname?: string
-  isSelected: boolean
+  isSelected?: boolean
   onSelect: () => void
   onEdit?: () => void
   onRemove?: () => void
 }
 
-export default function RadioItem({ children, title, className, iconCheckClassname, isSelected, onSelect, onEdit, onRemove }: Props) {
+export default function RadioItem({ children, title, className, iconCheckClassname, isSelected = false, onSelect, onEdit, onRemove }: Props) {
   return (
     <div className={classNames(styles.radio, className)}>
-      <div onClick={onSelect} className={classNames(styles.radio__check, iconCheckClassname, { [styles['checked']]: isSelected })}></div>
+      <div onClick={onSelect} className={classNames(styles.radio__check, iconCheckClassname, { [styles.checked]: isSelected })}></div>
       <div className={styles.radio__content}>
         <div className={styles.header}>
           <p>{title}</p>

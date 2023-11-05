@@ -25,7 +25,7 @@
     }
 
     &__default {
-      @apply text-black-50 font-normal border-[1px] border-blue;
+      @apply text-black-50 font-normal border-[1px] border-blue bg-transparent;
       @apply lg:font-bold lg:w-[190px] lg:text-white lg:border-none lg:bg-blue-50;
     }
 

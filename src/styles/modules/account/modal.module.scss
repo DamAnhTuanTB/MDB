@@ -1,26 +1,37 @@
 .modal {
   &__body {
     @apply mx-6;
-    @apply lg:mx-0 lg:px-10 lg:py-10 lg:max-w-[588px];
+    @apply lg:mx-0 lg:px-10 lg:py-10;
+    max-width: 588px !important;
   }
 
   &__label {
     @apply mb-6 font-semibold text-lg text-center;
-    @apply lg:mb-10;
+    @apply lg:mb-6;
   }
 
-  &__add__buttons {
-    @apply flex text-base items-center justify-center mt-[33px] mb-[29px];
+  &__text {
+    @apply text-base;
+    @apply lg:ml-[50px];
+  }
+
+  &__buttons {
+    @apply flex text-base items-center justify-center mt-[33px] mb-[29px] gap-x-[60px];
     @apply lg:mt-[25px] lg:mb-0;
+
+    &__submit {
+      @apply max-w-[134px] h-10;
+      @apply lg:h-11 lg:max-w-[191px];
+    }
+
+    &__cancel {
+      @apply max-w-[137px];
+    }
   }
 
-  &__submit__button {
-    @apply max-w-[134px] h-10;
-    @apply lg:h-11 lg:max-w-[191px];
-  }
-
-  .cancel {
-    @apply mr-[60px] max-w-[137px];
+  &__textarea {
+    @apply text-sm p-4 mt-6 border border-white-100 rounded-lg;
+    @apply lg:mx-[50px];
   }
 }
 

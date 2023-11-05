@@ -40,7 +40,7 @@ export default function AddressModal({ open, onClose }: Props) {
 
   return (
     <Modal className={styles.modal} bodyClassName={styles.modal__body} open={open} onClose={onClose}>
-      <h4 className={`${styles.modal__add__label} ${styles.modal__label}`}>Add New Address</h4>
+      <h4 className={styles.modal__label}>Add New Address</h4>
       <div className={styles.modal__content}>
         <CustomForm schema={schema} onSubmit={handleSubmit}>
           <div className={styles.form}>
@@ -84,11 +84,11 @@ export default function AddressModal({ open, onClose }: Props) {
               <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} name="phoneNumber" placeholder="Phone Number" />
             </div>
             <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0 lg:ml-2'} labelClassName={'!text-xs -ml-2'} />
-            <div className={styles.modal__add__buttons}>
-              <Button variant="none" className={styles.cancel} onClick={onClose}>
+            <div className={styles.modal__buttons}>
+              <Button variant="none" className={styles.modal__buttons__cancel} onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" className={styles.modal__submit__button} variant="blue">
+              <Button type="submit" className={styles.modal__buttons__submit} variant="blue">
                 Save
               </Button>
             </div>

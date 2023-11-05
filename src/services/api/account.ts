@@ -1,5 +1,5 @@
 import { authenticationConfig } from '@/configs/authentication'
-import { ListAddressResponse } from '@/types/account/address'
+import { AddressBody, AddressType, ListAddressResponse, UpdateAddressParams } from '@/types/account/address'
 import { AccountInformation } from '@/types/account/information'
 import { getLocalStorage } from '@/utils/helper'
 
@@ -26,6 +26,14 @@ export const accountApi = {
   },
   getAddressList() {
     return apiBase.get<ListAddressResponse>('/addresses', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+  },
+  updateAddress({ body, id }: UpdateAddressParams) {
+    return apiBase.put<Partial<AddressBody>, AddressType>(`/addresses/${id}`, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`

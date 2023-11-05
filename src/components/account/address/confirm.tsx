@@ -1,48 +1,56 @@
-import { useMemo } from 'react'
+import { useEffect } from 'react'
 
-import styles from '@/styles/modules/account/confirm.module.scss'
-import { ConfirmData } from '@/types/account/information'
+import { parsePhoneNumber } from 'libphonenumber-js'
+
+import { useAccountAddress } from '@/hooks/pages/use-account-address'
+import styles from '@/styles/modules/account/modal.module.scss'
+import { AddressType } from '@/types/account/address'
 
 import Modal from '@/components/common/modal'
 import CustomForm from '@/components/form'
 
 import Button from '../../common/button'
-import TextAreaField from '../../form/textarea-field'
 
 type Props = {
   open: boolean
-  data: ConfirmData
-  showCancel?: boolean
+  address?: AddressType
   onClose: () => void
 }
 
-export default function ModalConfirm({ open, onClose, data, showCancel = true }: Props) {
-  const inputElement = useMemo(() => {
-    if (data.key === 'address') {
-      return <TextAreaField className={styles.field} inputClassName={styles.field__input} name="" label="" />
-    }
-    return null
-  }, [])
+export default function ModalConfirm({ open, onClose, address }: Props) {
+  const phoneNumber = address?.phone ? parsePhoneNumber(address?.phone) : ''
+  const { updateAddress, updateData } = useAccountAddress()
+
+  useEffect(() => {
+    if (updateData?.data) onClose()
+  }, [updateData?.data])
 
   const handleSubmit = () => {
-    // TODO: submit form
-    onClose()
+    updateAddress({ body: { isDefault: true }, id: address?.id || '' })
   }
 
   return (
     <Modal className={styles.modal} bodyClassName={styles.modal__body} open={open} onClose={onClose}>
-      <h6 className={`${styles.modal__confirm__label} ${styles.modal__label}`}>Confirm {data?.label}</h6>
-      <p className={styles.modal__sub__label}>Are you sure you want to use this {data?.subLabel} as your default?</p>
+      <h4 className={styles.modal__label}>Confirm Default Address</h4>
+      <p className={styles.modal__text}>Are you sure you want to use this address as your default?</p>
       <CustomForm onSubmit={handleSubmit}>
         <>
-          {inputElement}
-          <div className={styles.modal__confirm__buttons}>
-            {showCancel && (
-              <p className={styles.cancel} onClick={onClose}>
-                Cancel
-              </p>
-            )}
-            <Button type="submit" className={styles.modal__submit__button} variant="blue">
+          <div className={styles.modal__textarea}>
+            <p>
+              {address?.firstName} {address?.lastName}
+            </p>
+            <p>{address?.company}</p>
+            <p>{address?.address}</p>
+            <p>
+              {address?.city}, {address?.country}
+            </p>
+            <p>{phoneNumber && phoneNumber.formatNational()}</p>
+          </div>
+          <div className={styles.modal__buttons}>
+            <Button variant="none" className={styles.modal__buttons__cancel} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit" className={styles.modal__buttons__submit} variant="blue" isLoading={updateData?.isLoading}>
               Confirm
             </Button>
           </div>

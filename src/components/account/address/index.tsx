@@ -25,7 +25,7 @@ export default function AddressBook({ addresses }: Props) {
     <>
       <ProfileLayout activeId={PROFILE_ID.ADDRESS} isShow={showMenu}>
         <CollapseItem title="Addresses" headingClassName={styles.collapse__heading} contentClassName={styles.collapse__content} className={styles.collapse} isActive onToggle={handleToggleCollapse}>
-          <AddressList addresses={addresses || []} />
+          {addresses && <AddressList addresses={addresses} />}
         </CollapseItem>
       </ProfileLayout>
     </>

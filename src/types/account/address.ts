@@ -30,4 +30,9 @@ export type AddressType = {
   updatedAt: string
 }
 
+export type UpdateAddressParams = {
+  body: Partial<AddressBody>
+  id: string
+}
+
 export type ListAddressResponse = ListResponse<AddressType>
