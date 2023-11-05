@@ -1,4 +1,4 @@
-import { ListResponse } from '..'
+import { ListResponse, StringOrNull } from '..'
 
 import { ProductAttributeItem } from './attribute'
 import { ProductCategory } from './category'
@@ -27,6 +27,14 @@ export type ProductIcon = {
 export type ProductIngredient = {
   id: string
   name: string
+}
+
+export type ProductSize = {
+  size: number
+  sku: StringOrNull
+  quantity: number
+  price: number
+  wholesale: number
 }
 
 export type Product = {
@@ -59,6 +67,7 @@ export type Product = {
   totalReviews: number
   categories: ProductCategory[]
   attributeGroups: ProductAttributeItem[]
+  sizes: ProductSize[]
 }
 
 export type ProductSort = {
