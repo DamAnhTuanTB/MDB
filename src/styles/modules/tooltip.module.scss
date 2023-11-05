@@ -1,17 +1,25 @@
 .wrapper {
   @apply relative;
 
+  &:hover {
+    .tooltip__body {
+      @apply opacity-100;
+    }
+  }
+
   .tooltip {
     @apply relative mx-4;
     @apply lg:mx-[21px];
 
+    &__body {
+      @apply transition-all duration-300 opacity-0 pointer-events-none;
+    }
+
+    &__icon {
+      @apply relative;
+    }
+
     &__arrow {
-      @apply transition-opacity opacity-0 ease-linear;
-
-      &.active {
-        @apply opacity-100;
-      }
-
       &::after {
         @apply left-0 absolute content-[''] bg-[url(/images/icons/arrow_dropdown.png)] z-[101] bg-top bg-contain bg-no-repeat w-8 h-8;
       }
@@ -43,12 +51,8 @@
     }
 
     &__content {
-      @apply p-4 font-normal text-sm pointer-events-none origin-top-right absolute max-w-max h-auto border-white-100 border-[1px] min-w-[240px] rounded-lg bg-white transition-opacity opacity-0 ease-linear;
+      @apply p-4 font-normal text-sm origin-top-right absolute max-w-max h-auto border-white-100 border-[1px] min-w-[240px] rounded-lg bg-white;
       @apply lg:min-w-[322px];
-
-      &.active {
-        @apply opacity-100;
-      }
 
       &.top {
         @apply bottom-full -left-1/2 mb-[10px];
@@ -66,6 +70,13 @@
 
       &.right {
         @apply -translate-y-1/2 ml-[calc(100%+12px)];
+      }
+    }
+
+    &.active,
+    &:hover {
+      .tooltip__body {
+        @apply opacity-100;
       }
     }
   }
