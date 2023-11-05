@@ -10,14 +10,14 @@
     @apply relative cursor-pointer pt-[21px] pl-4 pb-6;
     @apply lg:py-[29px] lg:px-10;
 
-    &::after {
-      @apply content-[''] origin-center duration-300 mr-1 absolute  right-[15px] scale-125 w-6 h-6 bg-[url(/images/icons/arrow_black.svg)] bg-contain bg-no-repeat top-1/2 transform -translate-y-1/2;
-      @apply lg:w-8 lg:h-8 lg:right-10;
+    &__title {
+      @apply flex flex-1 items-center text-base max-w-[320px] font-semibold break-keep;
+      @apply lg:text-xl lg:max-w-full;
     }
 
-    &__title {
-      @apply text-base max-w-[320px] font-semibold;
-      @apply lg:text-xl lg:max-w-full;
+    &__arrow {
+      @apply origin-center duration-300 mr-1 absolute right-[15px] scale-125 w-6 h-6 bg-[url(/images/icons/arrow_black.svg)] bg-contain bg-no-repeat top-1/2 transform -translate-y-1/2;
+      @apply lg:w-8 lg:h-8 lg:right-10;
     }
   }
 
@@ -31,13 +31,11 @@
   }
 
   &.active {
-    .collapse__heading {
-      &::after {
-        @apply rotate-180;
-      }
+    .collapse__heading__arrow {
+      @apply rotate-180;
     }
     .collapse__body {
-      @apply opacity-100;
+      @apply opacity-100 overflow-visible;
     }
   }
 }

@@ -1,0 +1,70 @@
+.wrapper {
+  @apply relative z-50;
+
+  .tooltip {
+    @apply relative mx-4;
+    @apply lg:mx-[21px];
+
+    &__body {
+      @apply absolute max-w-max h-auto border-white-100 border min-w-[240px] rounded-lg bg-white origin-top-right;
+      @apply transition-all duration-300 opacity-0 pointer-events-none;
+
+      &::after {
+        @apply content-[''] absolute bg-[url(/images/icons/arrow_dropdown.png)] z-[101] bg-top bg-contain bg-no-repeat w-8 h-8 pointer-events-none;
+      }
+
+      &.top {
+        @apply left-0 top-0 -translate-x-[15%]  -translate-y-[calc(100%+14px)];
+
+        &::after {
+          @apply left-[13%] bottom-0 -translate-y-[-9px] rotate-180;
+        }
+      }
+
+      &.bottom {
+        @apply left-0 bottom-0 -translate-x-[15%]  translate-y-[calc(100%+14px)];
+
+        &::after {
+          @apply left-[13%] top-0 translate-y-[-9px];
+        }
+      }
+
+      &.left {
+        @apply right-0 -translate-y-1/2 mr-[calc(100%+10px)];
+
+        &::after {
+          @apply rotate-90 right-0 top-1/2 translate-x-[9px] -translate-y-[calc(50%+10px)];
+        }
+      }
+
+      &.right {
+        @apply -translate-y-1/2 ml-[calc(100%+12px)];
+
+        &::after {
+          @apply -rotate-90 left-0 top-1/2 translate-x-[-9px] -translate-y-[calc(50%+10px)];
+        }
+      }
+    }
+
+    &__icon {
+      @apply relative;
+    }
+
+    &__content {
+      @apply p-4 font-normal text-sm cursor-default;
+      @apply lg:min-w-[322px];
+    }
+
+    &:hover {
+      .tooltip__body {
+        @apply lg:opacity-100 lg:pointer-events-auto;
+      }
+    }
+
+    &.active {
+      .tooltip__body {
+        @apply opacity-100 pointer-events-auto;
+      }
+    }
+  }
+}

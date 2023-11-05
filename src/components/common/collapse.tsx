@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
 import styles from '@/styles/modules/collapse.module.scss'
 
 export type Props = {
-  title: string
+  title: React.ReactNode
   isActive?: boolean
   children?: React.ReactNode
   className?: string
@@ -18,11 +18,6 @@ export default function CollapseItem({ title, isActive = false, children, classN
   const [isOpen, setIsOpen] = useState<boolean>(isActive)
   const collapseBodyRef = useRef<HTMLDivElement>(null)
   const [bodyHeight, setBodyHeight] = useState<string>(isActive ? 'auto' : '0')
-  const [height, setHeight] = useState<number>(0)
-
-  useEffect(() => {
-    setHeight(collapseBodyRef.current?.clientHeight || 0)
-  }, [])
 
   const hanldeClickHeading = () => {
     const height = collapseBodyRef.current?.clientHeight
@@ -34,8 +29,9 @@ export default function CollapseItem({ title, isActive = false, children, classN
 
   return (
     <div className={classNames(styles.collapse, className, { [styles.active]: isOpen })}>
-      <div className={classNames(styles.collapse__heading, headingClassName)} onClick={hanldeClickHeading}>
+      <div className={classNames(styles.collapse__heading, headingClassName)}>
         <h3 className={styles.collapse__heading__title}>{title}</h3>
+        <div onClick={hanldeClickHeading} className={styles.collapse__heading__arrow}></div>
       </div>
       <div className={styles.collapse__body} style={{ height: bodyHeight }}>
         <div ref={collapseBodyRef} className={classNames(styles.collapse__content, contentClassName)}>
