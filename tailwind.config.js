@@ -46,6 +46,10 @@ module.exports = {
         teal: {
           DEFAULT: '#E1F1F4',
           50: '#60B0C4'
+        },
+        green: {
+          DEFAULT: '#1EB564',
+          50: '#1EB56433'
         }
       },
       fontFamily: {

@@ -11,7 +11,7 @@ type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButt
   className?: string
   isLoading?: boolean
   disabled?: boolean
-  variant?: 'blue' | 'ocean' | 'teal' | 'outlined' | 'filled'
+  variant?: 'blue' | 'ocean' | 'teal' | 'outlined' | 'filled' | 'none'
 }
 
 export default function Button({ children, className, type, variant = 'blue', disabled = false, isLoading = false, ...otherProps }: Props) {

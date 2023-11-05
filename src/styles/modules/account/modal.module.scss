@@ -1,0 +1,87 @@
+.modal {
+  &__body {
+    @apply mx-6;
+    @apply lg:mx-0 lg:px-10 lg:py-10;
+    max-width: 588px !important;
+  }
+
+  &__label {
+    @apply mb-6 font-semibold text-lg text-center;
+    @apply lg:mb-6;
+  }
+
+  &__text {
+    @apply text-base;
+    @apply lg:ml-[50px];
+  }
+
+  &__buttons {
+    @apply flex text-base items-center justify-center mt-[33px] mb-[29px] gap-x-[60px];
+    @apply lg:mt-[25px] lg:mb-0;
+
+    &__submit {
+      @apply max-w-[134px] h-10;
+      @apply lg:h-11 lg:max-w-[191px];
+    }
+
+    &__cancel {
+      @apply max-w-[137px];
+    }
+  }
+
+  &__textarea {
+    @apply text-sm p-4 mt-6 border border-white-100 rounded-lg;
+    @apply lg:mx-[50px];
+  }
+}
+
+.form {
+  &__group__sx,
+  &__group {
+    @apply flex gap-[14px];
+    @apply lg:gap-8;
+
+    .form__field {
+      @apply w-1/2;
+    }
+  }
+
+  &__group__sx {
+    @apply lg:hidden;
+
+    .form__input {
+      @apply h-11;
+    }
+  }
+
+  &__group__lg {
+    @apply hidden gap-[23px] justify-between;
+    @apply lg:flex;
+
+    .form__field {
+      @apply w-full;
+    }
+  }
+
+  &__field {
+    @apply mb-4;
+
+    &__city {
+      @apply mb-4;
+      @apply lg:hidden;
+    }
+
+    svg {
+      @apply h-6 w-6;
+    }
+  }
+
+  &__select__input {
+    @apply h-11;
+    @apply lg:h-10;
+  }
+
+  &__input {
+    @apply h-10;
+  }
+}

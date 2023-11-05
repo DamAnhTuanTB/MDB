@@ -1,0 +1,21 @@
+.notification {
+  @apply flex items-center relative max-w-full py-2 pl-4 text-base font-semibold rounded max-h-11;
+  @apply lg:pl-11 lg:py-[18px] lg:max-h-[60px];
+
+  &.success {
+    @apply bg-green-50 border-[1px] border-green;
+  }
+
+  .icon {
+    @apply mr-3 w-6 h-6;
+
+    &__success {
+      @apply w-6 h-6 bg-[url(/images/icons/success.svg)];
+    }
+  }
+
+  .close {
+    @apply cursor-pointer absolute right-0 mr-2 w-4 h-4 bg-[url(/images/icons/black_close.svg)];
+    @apply lg:mr-3 lg:mt-3 lg:top-0;
+  }
+}

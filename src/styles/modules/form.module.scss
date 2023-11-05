@@ -16,6 +16,7 @@
   &__boundary {
     @apply rounded overflow-hidden;
 
+    select,
     input {
       @apply border border-grey min-h-[32px];
     }
@@ -42,6 +43,6 @@
   }
 
   &__error {
-    @apply mt-1 text-red;
+    @apply mt-1 text-red text-sm;
   }
 }
