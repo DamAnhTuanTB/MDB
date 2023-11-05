@@ -1,17 +1,16 @@
-import { useMemo, useState } from 'react'
-
 import classNames from 'classnames'
 
+import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import styles from '@/styles/modules/product/detail.module.scss'
-import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
-import { currencyFormatter, findObjectByName } from '@/utils/helper'
+import { Product } from '@/types/product'
+import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
 import HtmlRender from '@/components/common/html-render'
 import Quantity from '@/components/common/quantity'
 import RatingCommon from '@/components/common/rating'
 import CustomForm from '@/components/form'
-import SelectField, { SelectOption } from '@/components/form/select-field'
+import SelectField from '@/components/form/select-field'
 
 import ImageCarousel from './image-carousel'
 
@@ -20,20 +19,7 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const unit = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value
-
-  const [selectedSize, setSelectedSize] = useState<string>(String(data.sizes[0].size))
-  const [price, setPrice] = useState<number>(data.sizes[0].price)
-  const [quantity, setQuantity] = useState<number>(data.sizes[0].quantity)
-
-  const sizeOptions: SelectOption[] = useMemo(() => data.sizes.map((item) => ({ label: item.size + ' ' + unit, value: String(item.size) })), [data.sizes, unit])
-
-  const handleUpdateSize = (value: string) => {
-    setSelectedSize(value)
-    const size = data.sizes.find((item) => item.size == Number(value))
-    setPrice(Number(size?.price))
-    setQuantity(Number(size?.quantity))
-  }
+  const { selectedSize, handleUpdateSize, price, quantity, sizeOptions, unit } = useProductDetail(data)
 
   return (
     <div className={styles.container}>
