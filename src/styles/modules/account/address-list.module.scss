@@ -1,0 +1,43 @@
+.wrapper {
+  @apply relative pt-1;
+  @apply lg:pt-3;
+
+  &__address__item {
+    @apply font-normal text-sm;
+
+    p {
+      @apply mb-1 last:mb-0;
+    }
+  }
+
+  .float__btn {
+    @apply hidden rounded-lg bg-blue h-11 w-[144px] text-white text-base font-bold absolute right-0 -top-12;
+    @apply lg:block;
+  }
+
+  .buttons {
+    @apply flex gap-4 justify-center;
+    @apply lg:justify-end;
+
+    button {
+      @apply w-[170px] h-10 rounded-lg text-base;
+      @apply lg:h-11 lg:mt-6;
+    }
+
+    &__default {
+      @apply text-black-50 font-normal border-[1px] border-blue bg-transparent;
+      @apply lg:font-bold lg:w-[190px] lg:text-white lg:border-none lg:bg-blue-50;
+    }
+
+    &__add__address {
+      @apply bg-blue text-white font-bold;
+      @apply lg:hidden;
+    }
+  }
+
+  .radio {
+    &__icon {
+      @apply mb-[6px];
+    }
+  }
+}

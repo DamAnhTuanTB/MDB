@@ -11,3 +11,16 @@ export type AccountInformation = {
   isEmailVerified: boolean
   aestheticProvider?: AccountInformation
 }
+
+export type AddData = {
+  key: string
+  label: string
+  value: StringOrNull | boolean
+}
+
+export type ConfirmData = {
+  key: string
+  label: string
+  subLabel: string
+  value: StringOrNull | boolean
+}

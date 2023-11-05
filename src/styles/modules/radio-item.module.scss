@@ -1,0 +1,40 @@
+.radio {
+  @apply flex rounded-lg bg-grey-50 border-[1px] border-white-100 px-4 pt-4 pb-10 mb-4;
+
+  &__check {
+    @apply relative;
+
+    &::after {
+      @apply absolute cursor-pointer content-[''] top-1/2 -translate-y-1/2 w-5 h-5 bg-[url(/images/icons/radio_unselected.svg)];
+      @apply lg:left-2;
+    }
+
+    &.checked {
+      &::after {
+        @apply content-none;
+      }
+
+      &::before {
+        @apply absolute cursor-pointer content-[''] top-1/2 -translate-y-1/2 w-5 h-5 bg-[url(/images/icons/radio_selected.svg)];
+        @apply lg:left-2;
+      }
+    }
+  }
+
+  &__content {
+    @apply pl-9 grow;
+    @apply lg:pl-12;
+
+    .header {
+      @apply flex justify-between text-base font-semibold mb-4;
+
+      &__operation {
+        @apply flex text-blue-50;
+
+        p {
+          @apply mr-4 last:mr-0 cursor-pointer;
+        }
+      }
+    }
+  }
+}

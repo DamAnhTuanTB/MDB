@@ -6,6 +6,12 @@
   }
 
   &__container {
-    @apply lg:py-10 lg:px-20 flex-1;
+    @apply flex-1 bg-grey-100;
+    @apply lg:py-10 lg:px-20 lg:bg-white;
+
+    .notification {
+      @apply mx-4 mt-4;
+      @apply lg:-mt-4 lg:mb-6 lg:mx-0;
+    }
   }
 }
