@@ -1,18 +1,14 @@
 import { useState } from 'react'
 
-import classNames from 'classnames'
-
 import styles from '@/styles/modules/account/add-new-address-form.module.scss'
 
 import SelectField from '@/components/form/select-field'
 import TextField from '@/components/form/text-field'
 
-export default function AddNewAddressForm() {
-  const [isMakeDefaultAddress, setIsMakeDefaultAddress] = useState<boolean>(false)
+import Checkbox from '../common/checkbox'
 
-  const toggleCheck = () => {
-    setIsMakeDefaultAddress(!isMakeDefaultAddress)
-  }
+export default function AddNewAddressForm() {
+  const [isDefaultAddress, setIsDefaultAddress] = useState<boolean>(false)
 
   return (
     <div className={styles.form}>
@@ -58,11 +54,7 @@ export default function AddNewAddressForm() {
       <div className={styles.form__field}>
         <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} name="phoneNumber" placeholder="Phone Number" />
       </div>
-      <div className={styles.form__checkbox}>
-        <p className={classNames(styles.checkbox, { [styles['checked']]: isMakeDefaultAddress })} onClick={toggleCheck}>
-          Make this my default address
-        </p>
-      </div>
+      <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'pl-0 lg:pl-2'} labelClassName={'!text-xs, -ml-2'} />
     </div>
   )
 }

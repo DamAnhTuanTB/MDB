@@ -47,25 +47,4 @@
   &__input {
     @apply h-10;
   }
-
-  &__checkbox {
-    @apply relative pl-6 text-xs font-normal flex items-center;
-    @apply lg:pl-8;
-
-    &::after {
-      @apply content-[''] w-4 h-4 bg-[url(/images/icons/checkbox_empty.svg)] absolute top-0 left-0 rounded-[4px];
-      @apply lg:ml-2;
-    }
-
-    &.checked {
-      &::after {
-        @apply content-none;
-      }
-
-      &::before {
-        @apply content-[''] w-4 h-4 absolute left-0 rounded-[4px] bg-[url(/images/icons/primary_checked.svg)] bg-contain bg-no-repeat;
-        @apply lg:ml-2;
-      }
-    }
-  }
 }
