@@ -10,6 +10,7 @@ import { debounce } from '@/utils/helper'
 
 import Link from '@/components/common/custom-link'
 
+import Cart from './cart'
 import Menu from './menu'
 import Search from './search'
 import TopHead from './top-head'
@@ -52,9 +53,7 @@ export default function Header() {
           <div className={styles.content__nav__item}>
             <Image src={'/images/icons/heart.svg'} width={24} height={24} alt="My Dermbox" />
           </div>
-          <div className={styles.content__nav__item}>
-            <Image src={'/images/icons/cart.svg'} width={24} height={24} alt="My Dermbox" />
-          </div>
+          <Cart />
         </div>
       </div>
       <Search className="block lg:hidden" />

@@ -1,0 +1,88 @@
+.wrapper {
+  @apply absolute z-10 text-sm text-gray-500 right-0 py-4 mx-4;
+  @apply bg-white border border-gray-200 rounded-lg;
+  @apply w-[90vw] sm:w-[400px];
+
+  &:after {
+    @apply content-[''] absolute bg-[url(/images/icons/arrow_dropdown.png)] z-[101] bg-top bg-contain bg-no-repeat w-12 h-2 pointer-events-none;
+  }
+
+  &__el {
+    &__top {
+      @apply top-0;
+    }
+
+    &__middle {
+      @apply top-1/2;
+    }
+
+    &__bottom {
+      @apply top-full;
+    }
+
+    &__left {
+      @apply left-0;
+    }
+
+    &__center {
+      @apply left-1/2;
+    }
+
+    &__right {
+      @apply left-full;
+    }
+  }
+
+  &__pos {
+    &__top {
+      @apply top-8;
+      &:after {
+        @apply -top-2;
+      }
+    }
+
+    &__middle {
+      @apply -translate-y-1/2;
+      &:after {
+        @apply top-1/2;
+        @apply -translate-y-1/2;
+      }
+    }
+
+    &__bottom {
+      @apply -translate-y-full;
+      &:after {
+        @apply top-full;
+      }
+    }
+
+    &__left {
+    }
+
+    &__center {
+      @apply -translate-x-1/2;
+      &:after {
+        @apply left-1/2;
+        @apply -translate-x-1/2;
+      }
+    }
+
+    &__right {
+      @apply -translate-x-full;
+      &:after {
+        @apply left-full;
+        @apply -translate-x-full;
+      }
+    }
+  }
+}
+
+.body {
+  &__header {
+    @apply flex justify-between text-base border-gray-200 rounded-t-lg px-6;
+  }
+
+  &__edit {
+    @apply font-semibold text-blue cursor-pointer hover:underline;
+  }
+}
