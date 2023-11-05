@@ -17,22 +17,22 @@ type Props = {
   onClose: () => void
 }
 
-export default function ModalConfirm({ open, onClose, address }: Props) {
+export default function ModalConfirmDelete({ open, onClose, address }: Props) {
   const phoneNumber = address?.phone ? parsePhoneNumber(address?.phone) : ''
-  const { updateAddress, updateData } = useAccountAddress()
+  const { deleteAddress, deleteData } = useAccountAddress()
 
   useEffect(() => {
-    if (updateData?.data) onClose()
-  }, [updateData?.data])
+    if (deleteData?.data) onClose()
+  }, [deleteData?.data])
 
   const handleSubmit = () => {
-    updateAddress({ body: { isDefault: true }, id: address?.id || '' })
+    deleteAddress({ id: address?.id || '' })
   }
 
   return (
     <Modal className={styles.modal} bodyClassName={styles.modal__body} open={open} onClose={onClose}>
-      <h4 className={styles.modal__label}>Confirm Default Address</h4>
-      <p className={styles.modal__text}>Are you sure you want to use this address as your default?</p>
+      <h4 className={styles.modal__label}>Confirm Delete Address</h4>
+      <p className={styles.modal__text}>Are you sure you want to delete this address?</p>
       <CustomForm onSubmit={handleSubmit}>
         <>
           <div className={styles.modal__textarea}>
@@ -50,7 +50,7 @@ export default function ModalConfirm({ open, onClose, address }: Props) {
             <Button variant="none" className={styles.modal__buttons__cancel} onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" className={styles.modal__buttons__submit} variant="blue" isLoading={updateData?.isLoading}>
+            <Button type="submit" className={styles.modal__buttons__submit} variant="blue" isLoading={deleteData?.isLoading}>
               Confirm
             </Button>
           </div>

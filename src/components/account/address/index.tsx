@@ -12,9 +12,10 @@ import AddressList from './list'
 
 type Props = {
   addresses?: AddressType[]
+  onReloadList: () => void
 }
 
-export default function AddressBook({ addresses }: Props) {
+export default function AddressBook({ addresses, onReloadList }: Props) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
   const handleToggleCollapse = (value: boolean) => {
@@ -25,7 +26,7 @@ export default function AddressBook({ addresses }: Props) {
     <>
       <ProfileLayout activeId={PROFILE_ID.ADDRESS} isShow={showMenu}>
         <CollapseItem title="Addresses" headingClassName={styles.collapse__heading} contentClassName={styles.collapse__content} className={styles.collapse} isActive onToggle={handleToggleCollapse}>
-          {addresses && <AddressList addresses={addresses} />}
+          {addresses && <AddressList addresses={addresses} onReloadList={onReloadList} />}
         </CollapseItem>
       </ProfileLayout>
     </>

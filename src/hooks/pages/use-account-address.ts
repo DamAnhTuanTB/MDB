@@ -9,10 +9,14 @@ export const useAccountAddress = () => {
 
   const { fetch: updateAddress, dataResult: updateData } = useFetch<AddressType, UpdateAddressParams>({ fetcher: accountApi.updateAddress })
 
+  const { fetch: deleteAddress, dataResult: deleteData } = useFetch<AddressType, { id: string }>({ fetcher: accountApi.deleteAddress })
+
   return {
     addresses,
-    updateData,
     getAdressList,
-    updateAddress
+    updateData,
+    updateAddress,
+    deleteData,
+    deleteAddress
   }
 }

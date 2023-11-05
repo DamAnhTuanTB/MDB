@@ -39,5 +39,13 @@ export const accountApi = {
         Authorization: `Bearer ${accessToken}`
       }
     })
+  },
+  deleteAddress({ id }: { id: string }) {
+    return apiBase.delete<AddressType>(`/addresses/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
   }
 }

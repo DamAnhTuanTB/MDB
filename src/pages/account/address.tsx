@@ -17,7 +17,7 @@ export default function Addresses() {
     <>
       <Meta title="Address Book" />
       <ProfileLayout>
-        <AddressBook addresses={addresses?.data?.results} />
+        <AddressBook addresses={addresses?.data?.results} onReloadList={() => getAdressList(undefined)} />
       </ProfileLayout>
     </>
   )

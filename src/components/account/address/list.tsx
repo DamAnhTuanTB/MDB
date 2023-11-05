@@ -2,25 +2,33 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { parsePhoneNumber } from 'libphonenumber-js'
 
+import { useAccountAddress } from '@/hooks/pages/use-account-address'
 import styles from '@/styles/modules/account/address-list.module.scss'
 import { AddressType } from '@/types/account/address'
 
 import Button from '@/components/common/button'
 import RadioItem from '@/components/common/radio-item'
 
-import AddressModal from './add'
-import ModalConfirm from './confirm'
+import AddressModal from './add-modal'
+import ModalConfirmDefault from './confirm-default-modal'
+import ModalConfirmDelete from './confirm-delete-modal'
 
 type Props = {
   addresses: AddressType[]
+  onReloadList: () => void
 }
 
-export default function AddressList({ addresses }: Props) {
-  const [activeId, setActiveId] = useState<string | undefined>(addresses.find((item) => item.isDefault)?.id)
+export default function AddressList({ addresses, onReloadList }: Props) {
+  const defaultAddress = useMemo(() => addresses.find((item) => item.isDefault), [addresses])
+  const [activeId, setActiveId] = useState<string | undefined>(defaultAddress?.id)
   const [selectedAddress, setselectedAddress] = useState<AddressType>()
+  const [selectedRemoveAddress, setselectedRemoveAddress] = useState<AddressType>()
 
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
+  const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+
+  const { getAdressList } = useAccountAddress()
 
   useEffect(() => {
     if (activeId) {
@@ -48,7 +56,10 @@ export default function AddressList({ addresses }: Props) {
             isSelected={activeId === address.id}
             onSelect={() => setActiveId(address.id)}
             onEdit={handleEditAddress}
-            onRemove={handleRemoveAddress}
+            onRemove={() => {
+              setselectedRemoveAddress(address)
+              setOpenModalDelete(true)
+            }}
           >
             <div className={styles.wrapper__address__item}>
               <p>
@@ -74,7 +85,7 @@ export default function AddressList({ addresses }: Props) {
       </Button>
       {addressElements}
       <div className={styles.buttons}>
-        <Button onClick={() => setOpenModalConfirm(true)} className={styles.buttons__default} disabled={!activeId}>
+        <Button onClick={() => setOpenModalConfirm(true)} className={styles.buttons__default} disabled={!activeId || activeId === defaultAddress?.id}>
           Set As Default
         </Button>
         <Button onClick={() => setOpenModalAdd(true)} className={styles.buttons__add__address}>
@@ -82,13 +93,22 @@ export default function AddressList({ addresses }: Props) {
         </Button>
       </div>
       <AddressModal open={openModalAdd} onClose={() => setOpenModalAdd(false)} />
-      <ModalConfirm
+      <ModalConfirmDefault
         open={openModalConfirm}
         onClose={() => {
           setOpenModalConfirm(false)
+          onReloadList()
           setActiveId(selectedAddress?.id)
         }}
         address={selectedAddress}
+      />
+      <ModalConfirmDelete
+        open={openModalDelete}
+        onClose={() => {
+          setOpenModalDelete(false)
+          onReloadList()
+        }}
+        address={selectedRemoveAddress}
       />
     </div>
   )
