@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
 
+import { parsePhoneNumber } from 'libphonenumber-js'
+
 import styles from '@/styles/modules/account/address-list.module.scss'
-import { AddressBody } from '@/types/address'
+import { AddressType } from '@/types/account/address'
 
 import RadioItem from '@/components/common/radio-item'
 
@@ -19,10 +21,12 @@ const confirm = {
 }
 
 type Props = {
-  addresses: AddressBody[]
+  addresses: AddressType[]
 }
 
 export default function AddressList({ addresses }: Props) {
+  console.log(addresses)
+
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | null>(null)
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
@@ -36,6 +40,7 @@ export default function AddressList({ addresses }: Props) {
       addresses &&
       addresses.map((address, index) => {
         const isSelected = index === selectedAddressIndex
+        const phoneNumber = parsePhoneNumber(address.phone)
         return (
           <RadioItem
             className={styles.radio}
@@ -53,8 +58,10 @@ export default function AddressList({ addresses }: Props) {
               </p>
               <p>{address.company}</p>
               <p>{address.address}</p>
-              <p>{address.email}</p>
-              <p>{address.phoneNumber}</p>
+              <p>
+                {address.city}, {address.country}
+              </p>
+              <p>{phoneNumber.formatNational()}</p>
             </div>
           </RadioItem>
         )

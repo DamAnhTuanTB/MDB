@@ -14,7 +14,7 @@ type Props = {
 }
 
 export default function Account({ children }: Props) {
-  const [notification, setNotification] = useRecoilState(notificationState)
+  const [notification] = useRecoilState(notificationState)
 
   return (
     <div className="container mx-auto">

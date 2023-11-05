@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ZodType, z } from 'zod'
 
 import styles from '@/styles/modules/account/modal.module.scss'
+import { AddressBody } from '@/types/account/address'
 
 import Button from '@/components/common/button'
 import Modal from '@/components/common/modal'
@@ -12,28 +13,18 @@ import TextField from '@/components/form/text-field'
 
 import Checkbox from '../../common/checkbox'
 
-export type Form = {
-  country: string
-  firstName: string
-  lastName: string
-  company?: string
-  city: string
-  state: string
-  zipCode: string
-  phoneNumber: string
-}
-
 export const schema = z.object({
-  country: z.string(),
   firstName: z.string(),
   lastName: z.string(),
+  phone: z.string(),
   company: z.string().optional(),
-  address: z.string(),
   city: z.string(),
-  state: z.string(),
-  zipCode: z.string(),
-  phoneNumber: z.string()
-}) satisfies ZodType<Form>
+  stage: z.string(),
+  country: z.string(),
+  address: z.string(),
+  zip: z.string(),
+  isDefault: z.boolean().optional()
+}) satisfies ZodType<AddressBody>
 
 export type Props = {
   open: boolean
@@ -43,7 +34,7 @@ export type Props = {
 export default function AddressModal({ open, onClose }: Props) {
   const [isDefaultAddress, setIsDefaultAddress] = useState<boolean>(false)
 
-  const handleSubmit = (value: Form) => {
+  const handleSubmit = (value: AddressBody) => {
     console.log(value)
   }
 
@@ -92,7 +83,7 @@ export default function AddressModal({ open, onClose }: Props) {
             <div className={styles.form__field}>
               <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} name="phoneNumber" placeholder="Phone Number" />
             </div>
-            <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'pl-0 lg:pl-2'} labelClassName={'!text-xs, -ml-2'} />
+            <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0 lg:ml-2'} labelClassName={'!text-xs -ml-2'} />
             <div className={styles.modal__add__buttons}>
               <Button variant="none" className={styles.cancel} onClick={onClose}>
                 Cancel
