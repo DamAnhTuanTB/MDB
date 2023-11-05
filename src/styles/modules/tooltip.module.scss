@@ -6,6 +6,12 @@
     @apply lg:mx-[21px];
 
     &__arrow {
+      @apply transition-opacity opacity-0 ease-linear;
+
+      &.active {
+        @apply opacity-100;
+      }
+
       &::after {
         @apply left-0 absolute content-[''] bg-[url(/images/icons/arrow_dropdown.png)] z-[101] bg-top bg-contain bg-no-repeat w-8 h-8;
       }
@@ -14,7 +20,6 @@
         &::after {
           @apply left-[50%] mb-[2px] bottom-full -translate-x-1/2 -rotate-180;
           @apply lg:mb-[10px];
-          @apply slide-in-top;
         }
       }
 
@@ -22,49 +27,45 @@
         &::after {
           @apply left-[50%] mt-[2px] -translate-x-1/2;
           @apply lg:mt-[10px];
-          @apply slide-in-top;
         }
       }
       &.left {
         &::after {
           @apply -translate-y-[26px] -ml-[calc(100%+14px)] rotate-90;
-          @apply dropdow-in-left;
         }
       }
 
       &.right {
         &::after {
           @apply -translate-y-[26px] ml-[calc(100%+4px)] -rotate-90;
-          @apply dropdow-in-left;
         }
       }
     }
 
     &__content {
-      @apply p-4 font-normal text-sm pointer-events-none origin-top-right absolute max-w-max h-auto border-white-100 border-[1px] min-w-[240px] rounded-lg bg-white;
+      @apply p-4 font-normal text-sm pointer-events-none origin-top-right absolute max-w-max h-auto border-white-100 border-[1px] min-w-[240px] rounded-lg bg-white transition-opacity opacity-0 ease-linear;
       @apply lg:min-w-[322px];
-      @apply slide-in-top;
+
+      &.active {
+        @apply opacity-100;
+      }
 
       &.top {
         @apply bottom-full -left-1/2 mb-[10px];
         @apply lg:mb-[18px];
-        @apply slide-in-top;
       }
 
       &.bottom {
         @apply -right-[166px] mt-[10px];
         @apply lg:mt-[18px];
-        @apply slide-in-top;
       }
 
       &.left {
         @apply right-0 -translate-y-1/2 mr-[calc(100%+10px)];
-        @apply dropdow-in-left;
       }
 
       &.right {
         @apply -translate-y-1/2 ml-[calc(100%+12px)];
-        @apply dropdow-in-left;
       }
     }
   }

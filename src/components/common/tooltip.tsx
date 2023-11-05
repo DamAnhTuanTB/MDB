@@ -2,36 +2,43 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
+import useDevice from '@/hooks/use-device'
 import styles from '@/styles/modules/tooltip.module.scss'
 
 type Props = {
   children: React.ReactNode
   content: React.ReactNode
   className?: string
-  closeOnOutsideClick?: boolean
   direction?: 'top' | 'bottom' | 'left' | 'right'
 }
 
-const Tooltip: React.FC<Props> = ({ children, content, className, closeOnOutsideClick = true, direction = 'bottom' }) => {
+const Tooltip: React.FC<Props> = ({ children, content, className, direction = 'bottom' }) => {
+  const { isMobile, isTablet, isPc } = useDevice()
   const tooltipRef = useRef<HTMLDivElement | null>(null)
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false)
 
+  const handleMouseEnter = () => {
+    if (isPc) setIsTooltipVisible(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (isPc) setIsTooltipVisible(false)
+  }
+
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (closeOnOutsideClick && tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-        setIsTooltipVisible(false)
-      }
+    const handleClick = () => {
+      if (isMobile || isTablet) setIsTooltipVisible(!isTooltipVisible)
     }
 
-    document.addEventListener('mousedown', handleOutsideClick)
+    if (isMobile || isTablet) tooltipRef.current?.addEventListener('click', handleClick)
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
+      if (isMobile || isTablet) tooltipRef.current?.removeEventListener('click', handleClick)
     }
-  }, [isTooltipVisible])
+  }, [isMobile, isTablet, isTooltipVisible])
 
   return (
-    <div className={classNames(styles.wrapper, className)} ref={tooltipRef} onMouseEnter={() => setIsTooltipVisible(!isTooltipVisible)}>
+    <div className={classNames(styles.wrapper, className)} ref={tooltipRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className={styles.tooltip}>
         {children}
         {isTooltipVisible && (
