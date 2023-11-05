@@ -1,3 +1,29 @@
+.modal {
+  &__body {
+    @apply mx-6;
+    @apply lg:mx-0 lg:px-10 lg:py-10 lg:max-w-[588px];
+  }
+
+  &__label {
+    @apply mb-6 font-semibold text-lg text-center;
+    @apply lg:mb-10;
+  }
+
+  &__add__buttons {
+    @apply flex text-base items-center justify-center mt-[33px] mb-[29px];
+    @apply lg:mt-[25px] lg:mb-0;
+  }
+
+  &__submit__button {
+    @apply max-w-[134px] h-10;
+    @apply lg:h-11 lg:max-w-[191px];
+  }
+
+  .cancel {
+    @apply mr-[60px] max-w-[137px];
+  }
+}
+
 .form {
   &__group__sx,
   &__group {

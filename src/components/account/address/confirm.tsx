@@ -6,8 +6,8 @@ import { ConfirmData } from '@/types/account/information'
 import Modal from '@/components/common/modal'
 import CustomForm from '@/components/form'
 
-import Button from '../common/button'
-import TextAreaField from '../form/textarea-field'
+import Button from '../../common/button'
+import TextAreaField from '../../form/textarea-field'
 
 type Props = {
   open: boolean

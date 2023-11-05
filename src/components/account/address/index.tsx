@@ -6,8 +6,9 @@ import { AddressBody } from '@/types/address'
 
 import CollapseItem from '@/components/common/collapse'
 
-import AddressList from './address-list'
-import ProfileLayout from './layout'
+import ProfileLayout from '../layout'
+
+import AddressList from './list'
 
 export const addresses: AddressBody[] = [
   {

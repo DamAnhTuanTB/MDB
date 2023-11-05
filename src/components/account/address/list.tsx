@@ -5,8 +5,8 @@ import { AddressBody } from '@/types/address'
 
 import RadioItem from '@/components/common/radio-item'
 
-import ModalAdd from './add'
 import ModalConfirm from './confirm'
+import AddressModal from './modal'
 
 const confirm = {
   data: {
@@ -75,7 +75,7 @@ export default function AddressList({ addresses }: Props) {
           Add Address
         </button>
       </div>
-      <ModalAdd open={openModalAdd} onClose={() => setOpenModalAdd(false)} data={confirm?.data} />
+      <AddressModal open={openModalAdd} onClose={() => setOpenModalAdd(false)} />
       <ModalConfirm open={openModalConfirm} onClose={() => setOpenModalConfirm(false)} data={confirm?.data} />
     </div>
   )
