@@ -13,11 +13,13 @@ export const useCart = () => {
 
   useEffect(() => {
     setCartBadge(dataCount?.data?.count || 0)
-  }, [dataCount, setCartBadge])
+    // eslint-disable-next-line
+  }, [dataCount])
 
   useEffect(() => {
     setCartDetail(dataCart?.data?.results || [])
-  }, [dataCart, setCartDetail])
+    // eslint-disable-next-line
+  }, [dataCart])
 
   return {
     dataCart,

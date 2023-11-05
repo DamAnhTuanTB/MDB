@@ -16,7 +16,9 @@ export const cartState = atom<CartStore>({
 
 export const useCartStore = () => {
   const [cart, setCart] = useRecoilState(cartState)
-  const setCartBadge = (count: number) => setCart((currVal) => ({ ...currVal, count }))
+  const setCartBadge = (count: number) => {
+    setCart((currVal) => ({ ...currVal, count }))
+  }
 
   const setCartDetail = (listProd: CartItem[]) => {
     setCart((currVal) => ({ ...currVal, listProd }))

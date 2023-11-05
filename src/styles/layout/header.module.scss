@@ -30,7 +30,7 @@
     &__badge {
       @apply absolute flex items-center justify-center;
       @apply z-10 leading-3 text-sm font-semibold text-white;
-      @apply -top-2 -right-2 cursor-auto p-0.5;
+      @apply -top-2 left-1/2 cursor-auto p-0.5;
       @apply bg-red-500 rounded-full;
       min-width: 16px;
     }
