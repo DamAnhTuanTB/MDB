@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import routes from '@/routes'
 import styles from '@/styles/modules/dropdown/favorite.module.scss'
 import { ProductFavorite } from '@/types/product'
 
@@ -16,7 +17,9 @@ export const products: ProductFavorite[] = [
         isDefault: true
       }
     ],
-    name: 'EltaMD UV Lip Balm SPF 36'
+    name: 'EltaMD UV Lip Balm SPF 36',
+    categories: '/products',
+    slug: '/skin-care/la-roche-posay-spf50-50ml'
   },
   {
     id: '1',
@@ -27,7 +30,9 @@ export const products: ProductFavorite[] = [
         isDefault: true
       }
     ],
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46'
+    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
+    categories: '/products',
+    slug: '/skin-care/la-roche-posay-spf50-50ml'
   },
   {
     id: '3',
@@ -38,7 +43,9 @@ export const products: ProductFavorite[] = [
         isDefault: true
       }
     ],
-    name: 'EltaMD UV Lip Balm SPF 36'
+    name: 'EltaMD UV Lip Balm SPF 36',
+    categories: '/products',
+    slug: '/skin-care/la-roche-posay-spf50-50ml'
   },
   {
     id: '4',
@@ -49,7 +56,9 @@ export const products: ProductFavorite[] = [
         isDefault: true
       }
     ],
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46'
+    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
+    categories: '/products',
+    slug: '/skin-care/la-roche-posay-spf50-50ml'
   }
 ]
 
@@ -64,12 +73,14 @@ export default function FavoriteProducts() {
       products.map((item, index) => {
         return (
           <div key={index} className={styles.product}>
-            <div className={styles.product__image}>
-              <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
-            </div>
-            <div className={styles.product__content}>
-              <p className={styles.product__name}>{item.name}</p>
-            </div>
+            <Link href={routes.productDetailPage(item.categories, item.slug as string)}>
+              <div className={styles.product__image}>
+                <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
+              </div>
+              <div className={styles.product__content}>
+                <p className={styles.product__name}>{item.name}</p>
+              </div>
+            </Link>
           </div>
         )
       }),
