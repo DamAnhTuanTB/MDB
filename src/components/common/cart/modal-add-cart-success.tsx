@@ -7,7 +7,7 @@ import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
 import { CartItem } from '@/types/cart'
-import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
+import { PRODUCT_ATTRIBUTE } from '@/types/product'
 import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
 import RelatedProduct from '@/components/common/cart/related'
@@ -24,25 +24,24 @@ export default function ModalAddCartSuccess() {
     cart: { showModalAddSuccess },
     toggleModalAddSuccess
   } = useCartStore()
-  // const { product: data } = cartItem || {}
-  // const { product: data } = modalData || {}
 
   const [data, setData] = useState<CartItem>()
   const { product } = data || {}
-
-  const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product])
-  const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product])
-  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
-  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(product)
-
   const { data: productList, getProductList } = useProduct()
   const { getCart, dataCart } = useCart()
   const { profile } = useAuthStore()
 
+  const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product, dataCart])
+  const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product, dataCart])
+  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands, dataCart])
+  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(product)
+
   useEffect(() => {
-    if (profile) getCart(undefined)
-    else {
-      setData(getLocalStorageCart()?.[0] || {})
+    if (profile) {
+      getCart(undefined)
+    } else {
+      const list = getLocalStorageCart() || []
+      setData(list(list.length - 1))
     }
   }, [])
 
@@ -53,7 +52,7 @@ export default function ModalAddCartSuccess() {
   }, [dataCart])
 
   useEffect(() => {
-    getProductList({ where: { relatedProductIds: [product?.id || ''] } })
+    if (product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
   }, [product])
 
   const getLocalStorageCart = () => {

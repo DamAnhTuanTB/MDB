@@ -93,7 +93,7 @@ export default function Cart() {
           <Image src={'/images/icons/cart.svg'} width={24} height={24} />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
-          <ModalAddCartSuccess />
+          {cart?.showModalAddSuccess && <ModalAddCartSuccess />}
         </div>
       }
       onOpen={loadDataCart}

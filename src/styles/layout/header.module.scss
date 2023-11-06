@@ -26,16 +26,13 @@
     }
   }
 
-  &__cart {
-    &__badge {
-      @apply absolute flex items-center justify-center;
-      @apply z-10 leading-3 text-sm font-semibold text-white;
-      @apply -top-2 left-1/2 cursor-auto p-0.5;
-      @apply bg-red-500 rounded-full;
-      min-width: 16px;
-    }
+  &__cart__badge {
+    @apply absolute flex items-center justify-center;
+    @apply z-10 leading-3 text-sm font-semibold text-white;
+    @apply -top-2 left-1/2 cursor-auto p-0.5;
+    @apply bg-red-500 rounded-full;
+    @apply min-w-[16px]
   }
-
 }
 
 .search {

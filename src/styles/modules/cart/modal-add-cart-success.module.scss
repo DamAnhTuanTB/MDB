@@ -59,15 +59,6 @@
 
     &__button {
       @apply mt-6 items-center;
-
-      &.sp {
-        @apply block lg:hidden;
-      }
-
-      &.pc {
-        @apply hidden lg:block;
-        @apply mt-0 ml-4 min-w-[250px];
-      }
     }
   }
 }
