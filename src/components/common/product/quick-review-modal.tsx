@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,9 +6,11 @@ import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
+import { CartItem } from '@/types/cart'
 import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
 import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
+import ButtonAddToCart from '@/components/common/cart/button-add-to-cart'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 
@@ -19,7 +21,7 @@ import Quantity from '../quantity'
 import RatingCommon from '../rating'
 
 type Props = {
-  data?: Product
+  data: Product
   open: boolean
   onClose: () => void
 }
@@ -31,7 +33,17 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
   const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
 
-  const { handleUpdateSize, price, quantity, sizeOptions, unit } = useProductDetail(data)
+  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(data)
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
+  const dataAdd = useMemo(() => {
+    return {
+      id: data?.id || '',
+      productId: data?.id || '',
+      quantity: selectedQuantity,
+      size: selectedSize || sizeOptions[0]?.value || '',
+      product: data
+    }
+  }, [quantity, sizeOptions.length, data])
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -49,11 +61,13 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
           <h3 className={styles.content__name}>{data?.name}</h3>
           <p className={styles.content__brand}>{brandString}</p>
           <div className={styles.content__group}>
-            <RatingCommon score={data?.averageRating || 0} /> <span>{data?.averageRating}.0</span> ({data?.totalReviews} reviews)
+            <RatingCommon score={data?.averageRating || 0} />
+            <span>{data?.averageRating}.0</span> ({data?.totalReviews} reviews)
           </div>
           <div className={styles.content__group}>
             <h4>
-              {currencyFormatter.format(price)} <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(price)} <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'}
+              <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <h4 className={styles.content__description__title}>Product Description</h4>
@@ -69,11 +83,11 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
                 <p className={styles.content__form__label}>Qty: {quantity}</p>
                 <div className="flex">
-                  <Quantity className={styles.content__form__input} name="quantity" min={1} max={quantity} defaultValue={1} />
-                  <Button className={classNames(styles.content__form__button, styles['pc'])}>Add to cart</Button>
+                  <Quantity className={styles.content__form__input} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
+                  {dataAdd && <ButtonAddToCart className={classNames(styles.content__form__button, styles['pc'])} data={dataAdd} onOpened={onClose} />}
                 </div>
               </div>
-              <Button className={classNames(styles.content__form__button, styles['sp'])}>Add to cart</Button>
+              {dataAdd && <ButtonAddToCart className={classNames(styles.content__form__button, styles['sp'])} data={dataAdd} onOpened={onClose} />}
             </div>
           </CustomForm>
           {/* <div className={styles.content__group}>

@@ -35,6 +35,7 @@ export type ProductSize = {
   quantity: number
   price: number
   wholesale: number
+  id: string
 }
 
 export type Product = {

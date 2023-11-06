@@ -40,7 +40,7 @@ export default function ProductThreeColumn({ title, products, category, classNam
     <div className={classNames(styles.wrapper, className)}>
       <h3 className={classNames(styles.title, titleClassName)}>{title}</h3>
       <div className={classNames(styles.list, styles.list__three, listClassName)}>{productElements}</div>
-      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
+      {quickReviewData && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
     </div>
   )
 }

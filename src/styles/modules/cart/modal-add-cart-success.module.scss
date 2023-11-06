@@ -1,0 +1,75 @@
+.wrapper {
+  @apply fixed top-0 right-0 rounded-none #{!important};
+  @apply w-[100vw] h-[100vh] sm:w-[448px] #{!important};
+  @apply p-0 #{!important};
+  &__content {
+    @apply max-h-full #{!important}
+  }
+}
+
+.header {
+  @apply flex items-center;
+  @apply p-5;
+  @apply border-b-[1px] border-b-gray-800;
+
+  &__label {
+    @apply text-xl font-semibold text-black
+  }
+
+  &__icon {
+    @apply w-7 h-7 bg-[url(/images/icons/success.svg)] bg-cover;
+    @apply mr-8
+  }
+}
+
+.body {
+  @apply flex flex-col p-10 gap-4 items-center overflow-auto ;
+  .product {
+    @apply grid grid-cols-[100px_auto];
+    &__info {
+      @apply p-4 flex flex-col items-center justify-center;
+      @apply font-semibold text-base text-black
+    }
+
+  }
+
+  .border-line:after {
+    @apply content-[''] h-[1px] w-[368px] bg-gray-300 absolute -bottom-8 right-0;
+  }
+
+  &__header {
+    @apply flex justify-between text-base border-gray-200 rounded-t-lg px-6;
+  }
+
+  &__form {
+    @apply grid grid-cols-[102px_auto];
+    @apply mt-2;
+
+    &__label {
+      @apply text-base;
+      @apply lg:mb-2 lg:mx-0;
+    }
+
+    &__input {
+      @apply max-w-[102px] h-[40px];
+      @apply lg:max-w-[117px] lg:mt-1;
+    }
+
+    &__select {
+      @apply max-w-[102px] h-[40px];
+    }
+
+    &__button {
+      @apply mt-6 items-center;
+
+      &.sp {
+        @apply block lg:hidden;
+      }
+
+      &.pc {
+        @apply hidden lg:block;
+        @apply mt-0 ml-4 min-w-[250px];
+      }
+    }
+  }
+}

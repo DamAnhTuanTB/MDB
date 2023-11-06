@@ -1,0 +1,37 @@
+.popover {
+  @apply flex flex-col items-center;
+  &__header {
+    @apply flex justify-between w-full px-6;
+    @apply font-semibold text-base;
+    @apply border-gray-200 rounded-t-lg;
+    @apply text-black;
+  }
+
+  &__grid {
+    @apply max-h-[400px] overflow-auto;
+  }
+
+  &__row {
+    @apply grid grid-cols-[50px_auto_auto] sm:grid-cols-[100px_auto_auto] gap-2;
+    @apply px-4 sm:px-6 py-4;
+    @apply border-b border-gray-200;
+  }
+
+  &__item__decription,
+  &__item__price {
+    @apply flex flex-col justify-center;
+    @apply font-medium text-black text-xs whitespace-break-spaces;
+  }
+
+  &__item__decription {
+    @apply whitespace-break-spaces;
+  }
+
+  &__item__price {
+    @apply whitespace-nowrap;
+  }
+
+  &__edit {
+    @apply font-semibold text-blue cursor-pointer hover:underline;
+  }
+}
