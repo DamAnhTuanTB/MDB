@@ -19,11 +19,12 @@ export type EditData = {
 }
 
 type Props = {
-  data: Product[]
+  favoriteProducts: Product[]
+  relatedProducts: Product[]
   onReset: () => void
 }
 
-export default function Favorite({ data }: Props) {
+export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
 
   const handleToggleCollapse = (value: boolean) => {
@@ -42,10 +43,10 @@ export default function Favorite({ data }: Props) {
           onToggle={handleToggleCollapse}
         >
           <div className={styles.box}>
-            <ProductThreeColumn title="My Favorites" products={data} titleClassName={styles.box__title} />
+            <ProductThreeColumn title="My Favorites" products={favoriteProducts} titleClassName={styles.box__title} />
           </div>
           <div className={styles.box}>
-            <ProductThreeColumn titleClassName={styles.box__title} title="You May Also Like" products={data} />
+            <ProductThreeColumn titleClassName={styles.box__title} title="You May Also Like" products={relatedProducts} />
           </div>
         </CollapseItem>
       </ProfileLayout>
