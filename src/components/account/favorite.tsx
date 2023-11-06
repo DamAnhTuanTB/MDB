@@ -37,16 +37,29 @@ export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
         <CollapseItem
           title="Favorites"
           headingClassName={classNames(styles.collapse__heading, 'block lg:hidden')}
-          contentClassName={classNames(styles.collapse__content, '!px-0 lg:px-10')}
+          contentClassName={classNames(styles.collapse__content, '!px-0 lg:px-10 !pb-0 lg:!pb-10')}
           className={classNames(styles.collapse, 'lg:!bg-white')}
           isActive
           onToggle={handleToggleCollapse}
         >
           <div className={styles.box}>
-            <ProductThreeColumn title="My Favorites" products={favoriteProducts} titleClassName={styles.box__title} />
+            <ProductThreeColumn
+              key={'favoriteList'}
+              title="My Favorites"
+              products={favoriteProducts}
+              titleClassName={classNames(styles.box__title, '!hidden lg:!block')}
+              listClassName="px-4 lg:px-0"
+            />
           </div>
           <div className={styles.box}>
-            <ProductThreeColumn titleClassName={styles.box__title} title="You May Also Like" products={relatedProducts} />
+            <ProductThreeColumn
+              key={'relatedList'}
+              titleClassName={classNames(styles.box__title, 'px-4 lg:px-0 pt-6 lg:pt-0')}
+              title="You May Also Like"
+              className="!bg-white lg:!bg-grey-100"
+              listClassName="px-4 lg:px-0 pb-10 lg:pb-0"
+              products={relatedProducts}
+            />
           </div>
         </CollapseItem>
       </ProfileLayout>

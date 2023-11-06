@@ -27,10 +27,11 @@
 }
 
 .box {
-  @apply bg-grey-100 p-10 rounded-lg;
+  @apply relative w-full bg-grey-100 rounded-lg;
+  @apply lg:p-10;
 
   &__title {
-    @apply mb-6;
+    @apply mb-6 text-lg lg:text-xl;
   }
 
   & + .box {
