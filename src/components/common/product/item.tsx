@@ -26,7 +26,7 @@ export default function ProductItem({ product, category, className, page = '', t
   const { query } = useRouterWithQueryParams()
 
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
-  const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product.sizes])
+  const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product])
 
   const ratingElements = useMemo(
     () => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, styles[type], { [styles['active']]: num <= ratingScore })}></div>),
