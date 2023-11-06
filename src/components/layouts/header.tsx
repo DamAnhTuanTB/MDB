@@ -89,17 +89,17 @@ export default function Header() {
         <div className={styles.content__nav}>
           <Search className="hidden lg:block w-[472px] mr-6" />
           <div className={styles.content__nav__item}>
-            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.dropdown__content} content={accountOptions}>
+            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.account__dropdown} content={accountOptions}>
               <Image src={'/images/icons/user.svg'} width={24} height={24} alt="My Dermbox" />
             </Dropdown>
           </div>
           <div className={styles.content__nav__item}>
-            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} content={<FavoriteProducts />}>
+            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.favorite__dropdown} content={<FavoriteProducts />}>
               <Image src={'/images/icons/heart.svg'} width={24} height={24} alt="My Dermbox" />
             </Dropdown>
           </div>
           <div className={styles.content__nav__item}>
-            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} content={<CartProducts />}>
+            <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.cart__dropdown} content={<CartProducts />}>
               <Image src={'/images/icons/cart.svg'} width={24} height={24} alt="My Dermbox" />
             </Dropdown>
           </div>

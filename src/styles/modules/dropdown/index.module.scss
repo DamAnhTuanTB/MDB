@@ -59,7 +59,7 @@
     }
 
     &.bottom {
-      @apply -right-[20px] mt-[10px];
+      @apply mt-[10px];
       @apply lg:mt-[18px];
       @apply slide-in-top;
     }
