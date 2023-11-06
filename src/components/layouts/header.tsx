@@ -16,7 +16,7 @@ import TopHead from './top-head'
 
 export default function Header() {
   const { query } = useRouterWithQueryParams()
-  const [openMenu, setOpenMenu] = useState<boolean>(true)
+  const [openMenu, setOpenMenu] = useState<boolean>(false)
   const { globalSettingStore } = useGlobalSettingStore()
 
   useEffect(() => {
