@@ -25,7 +25,7 @@
 .body {
   @apply flex flex-col p-10 gap-4 items-center overflow-auto ;
   .product {
-    @apply grid grid-cols-[100px_auto];
+    @apply grid grid-cols-[100px_auto] w-full;
     &__info {
       @apply p-4 flex flex-col items-center justify-center;
       @apply font-semibold text-base text-black
@@ -47,12 +47,10 @@
 
     &__label {
       @apply text-base;
-      @apply lg:mb-2 lg:mx-0;
     }
 
     &__input {
       @apply max-w-[102px] h-[40px];
-      @apply lg:max-w-[117px] lg:mt-1;
     }
 
     &__select {

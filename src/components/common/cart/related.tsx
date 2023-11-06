@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import stylesCart from '@/styles/modules/cart/modal-add-cart-success.module.scss'
-import styles from '@/styles/modules/product/related.module.scss'
+import styles from '@/styles/modules/cart/related.module.scss'
 import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 
