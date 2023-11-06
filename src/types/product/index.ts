@@ -109,3 +109,17 @@ export type DefaultFilterData = {
   wholesale: DefaultFilterDataItem
   quantity: DefaultFilterDataItem
 }
+
+export type ProductCart = {
+  id: string
+  images: ProductImage[]
+  name: string
+  price: number
+  quantity: number
+}
+
+export type ProductFavorite = {
+  id: string
+  images: ProductImage[]
+  name: string
+}
