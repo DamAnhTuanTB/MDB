@@ -28,6 +28,10 @@
     textarea {
       @apply border border-gray-300 min-h-[145px];
     }
+
+    > div {
+      @apply w-full;
+    }
   }
 
   &__expend {

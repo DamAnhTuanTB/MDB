@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+
+import { parsePhoneNumber } from 'libphonenumber-js'
 import { atom, useRecoilState } from 'recoil'
 
 import { AccountInformation } from '@/types/account/information'
@@ -16,5 +19,7 @@ export const useAuthStore = () => {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInStage)
   const [profile, setProfile] = useRecoilState(profileStage)
 
-  return { isLoggedIn, setIsLoggedIn, profile, setProfile }
+  const phoneNumber = useMemo(() => (profile && profile.phone ? parsePhoneNumber(profile.phone) : undefined), [profile])
+
+  return { isLoggedIn, setIsLoggedIn, profile, setProfile, phoneNumber }
 }
