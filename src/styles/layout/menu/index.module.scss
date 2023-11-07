@@ -2,7 +2,7 @@
 
 .wrapper {
   @apply fixed top-0 left-0 w-screen h-screen bg-transparent z-[110];
-  @apply lg:relative lg:translate-x-0 lg:w-full lg:h-auto lg:z-[100];
+  @apply lg:relative lg:w-full lg:h-auto lg:z-[100];
   @apply slide-in-left;
 
   .close {

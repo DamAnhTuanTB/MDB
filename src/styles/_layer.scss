@@ -13,7 +13,7 @@
 
   .slide-in-left {
     @apply transition-all duration-200 transform -translate-x-full opacity-0;
-    @apply lg:opacity-100;
+    @apply lg:opacity-100 lg:translate-x-0;
 
     &.active {
       @apply translate-x-0 opacity-100;
@@ -25,6 +25,14 @@
 
     &.active {
       @apply translate-y-0 opacity-100;
+    }
+  }
+
+  .dropdow-in-left {
+    @apply transition-all duration-200 transform -translate-x-[30px] opacity-0;
+
+    &.active {
+      @apply translate-x-0 opacity-100;
     }
   }
 

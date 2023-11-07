@@ -1,24 +1,30 @@
 import { useEffect } from 'react'
 
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import routes from '@/routes'
+import { useProduct } from '@/hooks/pages/use-product'
 
 import Account from '@/components/account'
 import Favorite from '@/components/account/favorite'
 import Meta from '@/components/common/meta'
 
 export default function AccountPage() {
-  const { getFavorite, data, isLoading, error } = useAccountFavorite()
-  const { push } = useRouterWithQueryParams()
+  const { getFavorite, data: favoriteProducts } = useAccountFavorite()
+  const { getProductList, data: relatedProducts } = useProduct()
 
   useEffect(() => {
     getFavorite({ noPagination: true })
   }, [])
 
   useEffect(() => {
-    if (error) push(routes.loginPage())
-  }, [error])
+    if (favoriteProducts && favoriteProducts?.results?.length > 0) {
+      const favoriteIdList = favoriteProducts && favoriteProducts.results?.map((item) => item.id)
+      getProductList({
+        where: {
+          relatedProductIds: favoriteIdList
+        }
+      })
+    }
+  }, [favoriteProducts?.results])
 
   const resetData = () => {
     getFavorite({ noPagination: true })
@@ -28,7 +34,7 @@ export default function AccountPage() {
     <>
       <Meta title="Favorites" />
       <Account>
-        <Favorite data={data?.results || []} onReset={resetData} />
+        <Favorite favoriteProducts={favoriteProducts?.results || []} relatedProducts={relatedProducts?.results || []} onReset={resetData} />
       </Account>
     </>
   )
