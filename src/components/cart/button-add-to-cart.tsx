@@ -29,7 +29,6 @@ export default function ButtonAddToCart({ data, className, onOpened }: Props) {
 
   const addToCart = () => {
     if (profile) {
-      data.productSizeId = data.size
       addCart({
         productId: data?.productId,
         quantity: data.quantity || 1,

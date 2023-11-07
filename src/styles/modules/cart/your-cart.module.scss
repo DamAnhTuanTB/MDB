@@ -4,6 +4,21 @@
 }
 
 .header {
+  @apply flex items-center gap-6;
+  span {
+    @apply text-xl ;
+    @apply flex items-center;
+  }
+
+  .isActive {
+    @apply text-[#0472AF] font-semibold
+  }
+
+  img {
+    @apply my-6 -rotate-90
+  }
+
+
 }
 
 .body {
@@ -12,9 +27,9 @@
   }
 
   &__header {
-    @apply border-b-gray-300 py-[28px] border-b;
-    @apply font-bold;
-    :first-child {
+    @apply border-b-gray-200 py-[28px] border-b;
+    @apply text-lg font-semibold;
+    & > :first-child {
       @apply px-4
     }
   }
@@ -31,7 +46,7 @@
 
     &__info {
       @apply flex;
-      @apply text-gray-800 text-base;
+      @apply text-gray-800 text-base font-normal;
       @apply relative;
       img {
         @apply w-[125px] h-[125px] mr-6;
@@ -55,18 +70,19 @@
     @apply border-b border-gray-200;
   }
 
-  &__item__decription,
-  &__item__price {
-    @apply flex flex-col justify-center;
-    @apply font-medium text-black text-xs whitespace-break-spaces;
-  }
+  &__item {
+    &__price {
+      @apply flex flex-col justify-center;
+      @apply font-normal text-black text-base line-clamp-2 whitespace-break-spaces;
+    }
 
-  &__item__decription {
-    @apply whitespace-break-spaces;
-  }
+    &__decription {
+      @apply whitespace-break-spaces;
+    }
 
-  &__item__price {
-    @apply whitespace-nowrap;
+    &__price {
+      @apply whitespace-nowrap;
+    }
   }
 
   &__edit {

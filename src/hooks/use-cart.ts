@@ -8,7 +8,7 @@ import { useNotificationUI } from '@/recoil/common-ui'
 
 import { useFetch } from './use-fetch'
 import { useAuthStore } from '@/recoil/auth'
-import { EditCart } from '@/types/cart'
+import { CartItem, EditCart } from '@/types/cart'
 
 export const useCart = () => {
   const { dataResult: dataCart, fetch: getCart } = useFetch({ fetcher: cartApi.getCart })
@@ -56,7 +56,38 @@ export const useCart = () => {
   const _editCart = (params: EditCart) => {
     if (profile) {
       editCart(params)
+    } else {
+      updateLocalStorage(params)
     }
+  }
+
+  const _deleteCart = (id: string) => {
+    if (profile) {
+      deleteCart(id)
+    } else {
+      removeLocalStorage(id)
+    }
+  }
+
+  const getLocalStorageCart = () => {
+    let prodsCard: any = localStorage.getItem('MDB_LIST_PRODUCT_CART')
+    prodsCard = prodsCard ? JSON.parse(prodsCard) : []
+    return prodsCard
+  }
+
+  const updateLocalStorage = (params: EditCart) => {
+    const listProd = getLocalStorageCart()
+    const itemExits = listProd.findIndex((i: CartItem) => i.productId === params?.productId && i.productSizeId === params.productSizeId)
+    listProd[itemExits] = { ...listProd[itemExits], ...params }
+    localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
+    window.dispatchEvent(new Event('storage'))
+  }
+
+  const removeLocalStorage = (id: string) => {
+    let listProd = getLocalStorageCart()
+    listProd = listProd.forEach((i: CartItem) => i?.id !== id)
+    localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
+    window.dispatchEvent(new Event('storage'))
   }
 
   return {
@@ -70,9 +101,9 @@ export const useCart = () => {
     dataAddCart,
 
     dataEditCart,
-    editCart,
+    editCart: _editCart,
 
     dataDeleteCart,
-    deleteCart
+    deleteCart: _deleteCart
   }
 }
