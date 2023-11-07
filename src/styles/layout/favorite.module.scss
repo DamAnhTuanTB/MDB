@@ -11,8 +11,8 @@
   }
 
   &__body {
-    @apply overflow-y-auto max-h-[600px] flex px-6 mt-4 flex-col justify-center overflow-x-auto max-w-[800px];
-    @apply lg:flex-row lg:mt-[23px];
+    @apply max-h-[600px] flex mx-0 mt-4 flex-col justify-center overflow-auto max-w-[900px] mb-4 pt-1;
+    @apply lg:flex-row lg:mt-[23px] lg:overflow-y-hidden lg:mx-6 lg:pb-4 lg:mb-0 lg:pt-0;
 
     .product {
       @apply flex-1 mr-0 min-w-[134px] mb-4 last:mb-2 w-full;

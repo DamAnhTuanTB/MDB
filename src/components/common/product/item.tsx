@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
+import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
@@ -24,6 +25,19 @@ type Props = {
 
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
   const { query } = useRouterWithQueryParams()
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
+  const { getFavorite, data: favoriteProducts, add, remove } = useAccountFavorite()
+
+  useEffect(() => {
+    getFavorite({ noPagination: true })
+  }, [])
+
+  useMemo(() => {
+    if (favoriteProducts) {
+      const isProductInFavorites = favoriteProducts?.results.some((favoriteProduct: Product) => favoriteProduct.id === product.id)
+      setIsFavorite(isProductInFavorites)
+    }
+  }, [favoriteProducts, product])
 
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
   const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product])
@@ -36,10 +50,19 @@ export default function ProductItem({ product, category, className, page = '', t
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
 
+  const handleChangeFavorite = () => {
+    if (isFavorite) {
+      remove({ productId: product.id })
+    } else {
+      add({ productId: product.id })
+    }
+    getFavorite({ noPagination: true })
+  }
+
   return (
     <div className={classNames(styles.item, [styles[page]], className)} data-id={product?.id}>
       {/* TODO: handle favorite */}
-      <div className={classNames(styles.item__favorite, { [styles['active']]: true })} />
+      <div onClick={handleChangeFavorite} className={classNames(styles.item__favorite, { [styles['active']]: isFavorite })} />
       {featuredImage && <div className={styles.item__image} style={{ backgroundImage: `url(${featuredImage.url})` }} />}
       <div className={styles.item__detail}>
         <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
