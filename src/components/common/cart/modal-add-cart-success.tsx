@@ -5,6 +5,7 @@ import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import { useCart } from '@/hooks/use-cart'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
+import { useNotificationUI } from '@/recoil/common-ui'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
 import { CartItem } from '@/types/cart'
 import { PRODUCT_ATTRIBUTE } from '@/types/product'
@@ -24,27 +25,30 @@ export default function ModalAddCartSuccess() {
     cart: { showModalAddSuccess },
     toggleModalAddSuccess
   } = useCartStore()
-  const { getCart, dataCart, editCart, deleteCart } = useCart()
+  const { getCart, dataCart, editCart, deleteCart, dataDeleteCart } = useCart()
 
-  const [data, setData] = useState<CartItem>()
+  const { data: productList, getProductList } = useProduct()
+  const { profile } = useAuthStore()
+  const { setNotificationUI } = useNotificationUI()
+
+  const [data, setData] = useState<CartItem | null>()
   const { product } = data || {}
+  const { price, quantity, sizeOptions, selectedSize, handleUpdateSize } = useProductDetail(product)
+
+  const timer = useRef<any>()
 
   const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product])
   const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product])
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
-  const { price, quantity, sizeOptions } = useProductDetail(product)
-
-  const { data: productList, getProductList } = useProduct()
-  const { profile } = useAuthStore()
-
-  const timer = useRef<any>()
 
   useEffect(() => {
-    if (profile) getCart(undefined)
-    else {
-      setData(getLocalStorageCart()?.[0] || {})
+    if (showModalAddSuccess) {
+      if (profile) getCart(undefined)
+      else {
+        setData(getLocalStorageCart()?.[0] || {})
+      }
     }
-  }, [])
+  }, [showModalAddSuccess])
 
   useEffect(() => {
     if (dataCart?.data?.results[0]) {
@@ -53,8 +57,20 @@ export default function ModalAddCartSuccess() {
   }, [dataCart])
 
   useEffect(() => {
-    getProductList({ where: { relatedProductIds: [product?.id || ''] } })
-  }, [product])
+    if (data?.product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
+  }, [data])
+
+  useEffect(() => {
+    if (dataDeleteCart?.data) _onClose()
+  }, [dataDeleteCart])
+
+  useEffect(() => {
+    _editCart({ productSizeId: selectedSize })
+  }, [selectedSize])
+
+  const _onClose = () => {
+    toggleModalAddSuccess(false) //off
+  }
 
   const getLocalStorageCart = () => {
     let prodsCard: any = localStorage.getItem('MDB_LIST_PRODUCT_CART')
@@ -62,19 +78,21 @@ export default function ModalAddCartSuccess() {
     return prodsCard
   }
 
-  const _onClose = () => {
-    toggleModalAddSuccess()
-  }
-
   const _editCart = (params: object) => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => {
-      if (product?.id) editCart({ id: product?.id, ...params })
+      if (data?.id) editCart({ cartItemId: data?.id, ...params })
+      else {
+        setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
+      }
     }, 500)
   }
 
   const _deleteCart = () => {
-    if (product) deleteCart(product?.id)
+    if (data?.id) deleteCart(data?.id)
+    else {
+      setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
+    }
   }
 
   return (
@@ -95,7 +113,7 @@ export default function ModalAddCartSuccess() {
         <CustomForm>
           <div className={stylesModal.body__form}>
             <div className={'flex items-center justify-center'}>
-              <SelectField className={stylesModal.body__form__select} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={(e) => console.log('e', e)} />
+              <SelectField className={stylesModal.body__form__select} inputClassName="h-10" name="size" options={sizeOptions} onChange={(vl) => _editCart({ productSizeId: vl })} />
             </div>
             <div className={'flex items-center justify-center'}>
               <Quantity className={stylesModal.body__form__input} name="quantity" min={1} max={quantity} defaultValue={1} onChange={(vl) => _editCart({ quantity: vl })} />

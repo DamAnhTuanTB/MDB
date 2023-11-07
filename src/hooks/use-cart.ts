@@ -4,7 +4,7 @@ import { cartApi } from '@/services/api/cart'
 
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useCartStore } from '@/recoil/cart'
-import { CartItem } from '@/types/cart'
+import { useNotificationUI } from '@/recoil/common-ui'
 
 import { useFetch } from './use-fetch'
 
@@ -14,7 +14,7 @@ export const useCart = () => {
   const { dataResult: dataAddCart, fetch: addCart } = useFetch({ fetcher: cartApi.addCart })
   const { dataResult: dataEditCart, fetch: editCart } = useFetch({ fetcher: cartApi.editCart })
   const { dataResult: dataDeleteCart, fetch: deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
-  const { profile } = useAccountInformation()
+  const { setNotificationUI } = useNotificationUI()
   const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart } = useCartStore()
 
   useEffect(() => {
@@ -23,18 +23,22 @@ export const useCart = () => {
   }, [dataCount?.data])
 
   useEffect(() => {
-    if (dataCart?.data) setCartDetail(dataCart?.data?.results || [])
+    if (dataCart?.data) {
+      setCartDetail(dataCart?.data?.results || [])
+    }
     // eslint-disable-next-line
   }, [dataCart?.data])
 
   useEffect(() => {
-    if (dataAddCart?.data) getCart(undefined)
+    if (dataAddCart?.data?.id) {
+      toggleModalAddSuccess(dataAddCart.data.quantity === 1)
+    }
     // eslint-disable-next-line
-  }, [dataAddCart?.data])
+  }, [dataAddCart?.data?.id])
 
   useEffect(() => {
-    if (dataAddCart?.data) toggleModalAddSuccess(true)
-  }, [dataAddCart])
+    if (dataEditCart) setNotificationUI({ open: true, message: 'Update successfully', type: 'success' })
+  }, [dataEditCart])
 
   return {
     dataCart,

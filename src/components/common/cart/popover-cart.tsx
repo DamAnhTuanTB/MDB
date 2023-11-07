@@ -44,6 +44,9 @@ export default function Cart() {
     prodsCard = prodsCard ? JSON.parse(prodsCard) : []
     return prodsCard
   }
+  {
+    console.log('cart?.listProd', cart?.listProd)
+  }
 
   const listProd = useMemo(() => {
     return (
@@ -54,7 +57,7 @@ export default function Cart() {
         </div>
         {/*popover content*/}
         <div className={stylesPopoverCart.popover__grid}>
-          {cart.listProd.map((item, idx) => {
+          {cart?.listProd?.map((item, idx) => {
             const { images, name, sizes, price } = item.product || {}
             const { quantity } = item
 
@@ -93,7 +96,6 @@ export default function Cart() {
           <Image src={'/images/icons/cart.svg'} width={24} height={24} />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
-          <ModalAddCartSuccess />
         </div>
       }
       onOpen={loadDataCart}

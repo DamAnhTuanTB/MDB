@@ -44,7 +44,7 @@ export default function ButtonAddToCart({ data, className, onOpened }: Props) {
         onOpened?.()
       } else {
         listProd.push(data)
-        toggleModalAddSuccess()
+        toggleModalAddSuccess(true) //on
         localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
       }
       window.dispatchEvent(new Event('storage'))

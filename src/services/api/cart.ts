@@ -22,14 +22,14 @@ export const cartApi = {
   },
 
   editCart: (body: EditCart) => {
-    return apiBase.put<EditCart, CartItem>(`/carts/${body.id}`, body, config)
+    return apiBase.put<EditCart, CartItem>(`/carts/${body.cartItemId}`, body, config)
   },
 
-  deleteCart: (id: string) => {
-    return apiBase.delete<CartItem>(`/carts/${id}`, config)
+  deleteCart: (cartItemId: string) => {
+    return apiBase.delete<CartItem>(`/carts/${cartItemId}`, config)
   },
 
   count: () => {
-    return apiBase.get<Count>('/carts/count')
+    return apiBase.get<Count>('/carts/count', config)
   }
 }

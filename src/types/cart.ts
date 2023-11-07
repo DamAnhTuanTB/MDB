@@ -20,9 +20,9 @@ export type AddCart = {
   productSizeId?: string
 }
 export type EditCart = {
-  id: string
+  cartItemId: string
   quantity?: number
-  size?: string
+  productSizeId?: string
 }
 export type Count = {
   count: number

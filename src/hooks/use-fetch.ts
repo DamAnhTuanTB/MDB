@@ -25,9 +25,6 @@ export const useFetch = <T, P = any, E = RequestError>({ fetcher }: Props<T, P>)
         data,
         error: undefined
       })
-
-      console.log('status', status)
-      console.log('data', data)
     } catch (error: any) {
       setPageDataResult({
         isLoading: false,
