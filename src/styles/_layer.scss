@@ -28,6 +28,14 @@
     }
   }
 
+  .dropdow-in-left {
+    @apply transition-all duration-200 transform -translate-x-[30px] opacity-0;
+
+    &.active {
+      @apply translate-x-0 opacity-100;
+    }
+  }
+
   .overlay-custom {
     @apply pointer-events-none opacity-0 transition-opacity duration-200 z-[130];
     @apply lg:hidden;
