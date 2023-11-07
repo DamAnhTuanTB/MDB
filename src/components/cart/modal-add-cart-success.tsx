@@ -11,14 +11,14 @@ import { CartItem } from '@/types/cart'
 import { PRODUCT_ATTRIBUTE } from '@/types/product'
 import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
-import RelatedProduct from '@/components/common/cart/related'
+import RelatedProduct from '@/components/cart/related'
 import ImageComponent from '@/components/common/image'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 
-import Button from '../button'
-import Modal from '../modal'
-import Quantity from '../quantity'
+import Button from '../common/button'
+import Modal from '../common/modal'
+import Quantity from '../common/quantity'
 
 export default function ModalAddCartSuccess() {
   const {

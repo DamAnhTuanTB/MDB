@@ -9,7 +9,7 @@ import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import { debounce } from '@/utils/helper'
 
-import Cart from '@/components/common/cart/popover-cart'
+import Cart from '@/components/cart/popover-cart'
 import Link from '@/components/common/custom-link'
 
 import Menu from './menu'

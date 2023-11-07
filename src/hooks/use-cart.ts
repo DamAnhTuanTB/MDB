@@ -7,6 +7,8 @@ import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
 
 import { useFetch } from './use-fetch'
+import { useAuthStore } from '@/recoil/auth'
+import { EditCart } from '@/types/cart'
 
 export const useCart = () => {
   const { dataResult: dataCart, fetch: getCart } = useFetch({ fetcher: cartApi.getCart })
@@ -16,6 +18,7 @@ export const useCart = () => {
   const { dataResult: dataDeleteCart, fetch: deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
   const { setNotificationUI } = useNotificationUI()
   const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart } = useCartStore()
+  const { profile } = useAuthStore()
 
   useEffect(() => {
     if (dataCount?.data) setCartBadge(dataCount?.data?.count || 0)
@@ -37,8 +40,24 @@ export const useCart = () => {
   }, [dataAddCart?.data?.id])
 
   useEffect(() => {
-    if (dataEditCart) setNotificationUI({ open: true, message: 'Update successfully', type: 'success' })
+    if (dataEditCart) {
+      setNotificationUI({ open: true, message: 'Update successfully', type: 'success' })
+      getCart(undefined)
+    }
   }, [dataEditCart])
+
+  useEffect(() => {
+    if (dataDeleteCart) {
+      setNotificationUI({ open: true, message: 'Delete successfully', type: 'success' })
+      getCart(undefined)
+    }
+  }, [dataDeleteCart])
+
+  const _editCart = (params: EditCart) => {
+    if (profile) {
+      editCart(params)
+    }
+  }
 
   return {
     dataCart,

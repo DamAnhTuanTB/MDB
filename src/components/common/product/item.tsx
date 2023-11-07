@@ -9,7 +9,7 @@ import { Product, ProductSize } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
 
-import ButtonAddToCart from '@/components/common/cart/button-add-to-cart'
+import ButtonAddToCart from '@/components/cart/button-add-to-cart'
 import Link from '@/components/common/custom-link'
 
 import Button from '../button'

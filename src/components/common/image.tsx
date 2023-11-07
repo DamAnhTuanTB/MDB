@@ -9,10 +9,11 @@ type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButt
   height?: number | `${number}` | undefined
   srcDefault?: string
   alt?: string
+  onClick?: () => void
 }
 
 export default function ImageComponent(props: Props) {
-  const { className, width, height, srcDefault = '/images/img-def.png', alt } = props
+  const { className, width, height, srcDefault = '/images/img-def.png', alt, onClick } = props
   let { src } = props
   if (!src) src = srcDefault
   return (
@@ -29,6 +30,7 @@ export default function ImageComponent(props: Props) {
       sizes="100vw"
       src={src}
       alt={alt || ''}
+      onClick={onClick}
       onError={(e) => (e.currentTarget.src = '/images/image-error.png')}
     />
   )

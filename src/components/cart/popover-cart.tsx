@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo } from 'react'
 
-import { useAccountInformation } from '@/hooks/pages/use-account-information'
+import { useRouter } from 'next/router'
+
 import { useCart } from '@/hooks/use-cart'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
+import routers from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
 import { currencyFormatter } from '@/utils/helper'
 
 import Button from '@/components/common/button'
-import ModalAddCartSuccess from '@/components/common/cart/modal-add-cart-success'
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
 
@@ -17,8 +18,10 @@ export default function Cart() {
   const { profile } = useAuthStore()
   const { cart, setCartStore } = useCartStore()
   const { countCart, getCart } = useCart()
+  const router = useRouter()
 
   useEffect(() => {
+    console.log('profile', profile)
     if (profile) countCart(undefined)
     else updateCartLocal()
 
@@ -26,6 +29,10 @@ export default function Cart() {
     window.addEventListener('storage', () => listenerLocalStorage())
     return window.removeEventListener('storage', () => listenerLocalStorage())
   }, [])
+
+  useEffect(() => {
+    if (profile) countCart(undefined)
+  }, [profile])
 
   /** Func update Badge number when localStorage change */
   const updateCartLocal = () => {
@@ -44,16 +51,20 @@ export default function Cart() {
     prodsCard = prodsCard ? JSON.parse(prodsCard) : []
     return prodsCard
   }
-  {
-    console.log('cart?.listProd', cart?.listProd)
-  }
 
   const listProd = useMemo(() => {
     return (
       <div className={stylesPopoverCart.popover}>
         <div className={stylesPopoverCart.popover__header}>
           My Cart
-          <button className={stylesPopoverCart.popover__edit}>Edit</button>
+          <button
+            className={stylesPopoverCart.popover__edit}
+            onClick={() => {
+              router.push(routers.cartPage())
+            }}
+          >
+            Edit
+          </button>
         </div>
         {/*popover content*/}
         <div className={stylesPopoverCart.popover__grid}>
@@ -83,7 +94,9 @@ export default function Cart() {
   }, [cart.listProd])
 
   const loadDataCart = () => {
-    if (profile) getCart(undefined)
+    if (profile) {
+      getCart(undefined)
+    }
   }
 
   return (

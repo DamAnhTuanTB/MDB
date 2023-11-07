@@ -10,7 +10,7 @@ import { CartItem } from '@/types/cart'
 import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
 import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
-import ButtonAddToCart from '@/components/common/cart/button-add-to-cart'
+import ButtonAddToCart from '@/components/cart/button-add-to-cart'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 

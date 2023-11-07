@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -29,6 +29,10 @@ export default function Popover(props: Props) {
 
   const { vertical: elVertical = 'top', horizontal: elHorizontal = 'center' }: Anchor = anchorEl
   const { vertical: posVertical = 'top', horizontal: posHorizontal = 'center' }: Anchor = anchorPosition
+
+  // useImperativeHandle(ref, () => ({
+  //   close: setOpen(false)
+  // }))
 
   useEffect(() => {
     const detectClickOutsite = (event: Event) => {

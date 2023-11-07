@@ -21,7 +21,7 @@ import { ProductAttributeItem } from '@/types/product/attribute'
 import { ProductCategory } from '@/types/product/category'
 import { debounce } from '@/utils/helper'
 
-import ModalAddCartSuccess from '@/components/common/cart/modal-add-cart-success'
+import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 import FilterModal from '@/components/products/filter/filter-modal'

@@ -20,5 +20,6 @@ export default {
   addressPage: () => '/account/address',
   paymentMethodPage: () => '/account/payment-method',
   favoritePage: () => '/account/favorite',
-  aestheticProviderPage: () => '/account/aesthetic-provider'
+  aestheticProviderPage: () => '/account/aesthetic-provider',
+  cartPage: () => '/cart'
 }
