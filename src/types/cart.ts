@@ -18,9 +18,11 @@ export type AddCart = {
   productId: string
   quantity: number
   productSizeId?: string
+  size?: string
 }
 export type EditCart = {
-  cartItemId: string
+  id?: string
+  cartItemId?: string
   quantity?: number
   productSizeId?: string
   productId?: string

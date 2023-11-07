@@ -28,7 +28,7 @@ export default function ModalAddCartSuccess() {
   const { getCart, dataCart, editCart, deleteCart, dataDeleteCart } = useCart()
 
   const { data: productList, getProductList } = useProduct()
-  const { profile } = useAuthStore()
+  const { isLoggedIn } = useAuthStore()
   const { setNotificationUI } = useNotificationUI()
 
   const [data, setData] = useState<CartItem | null>()
@@ -43,27 +43,31 @@ export default function ModalAddCartSuccess() {
 
   useEffect(() => {
     if (showModalAddSuccess) {
-      if (profile) getCart(undefined)
+      if (isLoggedIn) getCart()
       else {
         setData(getLocalStorageCart()?.[0] || {})
       }
     }
   }, [showModalAddSuccess])
 
+  // get product first in list card to display
   useEffect(() => {
     if (dataCart?.data?.results[0]) {
       setData(dataCart?.data?.results[0])
     }
   }, [dataCart])
 
+  // load list Prod May be Also Like
   useEffect(() => {
     if (data?.product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
   }, [data])
 
+  // off popover after delete
   useEffect(() => {
     if (dataDeleteCart?.data) _onClose()
   }, [dataDeleteCart])
 
+  // edit cart when change DD size
   useEffect(() => {
     _editCart({ productSizeId: selectedSize })
   }, [selectedSize])
@@ -81,18 +85,18 @@ export default function ModalAddCartSuccess() {
   const _editCart = (params: object) => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => {
-      if (data?.id) editCart({ cartItemId: data?.id, ...params })
-      else {
-        setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
-      }
+      if (data?.id) editCart({ ...params, id: data.id })
+      else renderNotFound()
     }, 500)
   }
 
   const _deleteCart = () => {
     if (data?.id) deleteCart(data?.id)
-    else {
-      setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
-    }
+    else renderNotFound()
+  }
+
+  const renderNotFound = () => {
+    return setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
   }
 
   return (

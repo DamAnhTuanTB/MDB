@@ -14,10 +14,12 @@ const config = {
 }
 export const cartApi = {
   getCart: () => {
-    const queryString = qs.stringify({
-      sort: { createdAt: 'desc', noPagination: true }
-    })
-    return apiBase.get<GetCartResponse>(`/carts?${queryString}`, config)
+    // const queryString = qs.stringify({
+    //   sort: { createdAt: 'desc', noPagination: true }
+    // })
+    // console.log(queryString)
+    // return apiBase.get<GetCartResponse>(`/carts?${queryString}`)
+    return apiBase.get<GetCartResponse>('/carts')
   },
 
   addCart: (body: AddCart) => {

@@ -8,7 +8,7 @@
   }
 
   &__grid {
-    @apply max-h-[400px] overflow-auto;
+    @apply max-h-[400px] overflow-auto w-full;
   }
 
   &__row {

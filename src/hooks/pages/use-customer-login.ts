@@ -7,11 +7,13 @@ import { LoginBody, LoginResponse } from '@/types/authentication'
 import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
+import { useAuthStore } from '@/recoil/auth'
 
 export const useCustomerLogin = () => {
   const { fetch, dataResult } = useFetch<LoginResponse, LoginBody>({ fetcher: customerApi.login })
 
   const [errorMessage, setErrorMessage] = useState<string>()
+  const { setIsLoggedIn } = useAuthStore()
 
   useEffect(() => {
     setErrorMessage(dataResult?.error?.response?.data.message)
@@ -19,6 +21,7 @@ export const useCustomerLogin = () => {
 
   useEffect(() => {
     if (dataResult?.data) {
+      setIsLoggedIn(true)
       setLocalStorage(authenticationConfig.accessToken, dataResult?.data?.accessToken)
       setLocalStorage(authenticationConfig.refreshToken, dataResult?.data?.refreshToken)
     }
