@@ -12,9 +12,8 @@ import { debounce } from '@/utils/helper'
 import Link from '@/components/common/custom-link'
 import Dropdown from '@/components/common/dropdown'
 
-import CartProducts from '../common/dropdown/cart'
-import FavoriteProducts from '../common/dropdown/favorite'
-
+import CartProducts from './cart'
+import FavoriteProducts from './favorite'
 import Menu from './menu'
 import Search from './search'
 import TopHead from './top-head'

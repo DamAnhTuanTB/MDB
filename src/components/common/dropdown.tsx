@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
-import styles from '@/styles/modules/dropdown/index.module.scss'
+import styles from '@/styles/modules/dropdown.module.scss'
 
 type DropdownProps = {
   children: React.ReactNode

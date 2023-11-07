@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import routes from '@/routes'
-import styles from '@/styles/modules/dropdown/cart.module.scss'
+import styles from '@/styles/layout/cart.module.scss'
 import { ProductCart } from '@/types/product'
 
 export const products: ProductCart[] = [

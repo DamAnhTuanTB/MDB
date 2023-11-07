@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import routes from '@/routes'
-import styles from '@/styles/modules/dropdown/favorite.module.scss'
+import styles from '@/styles/layout/favorite.module.scss'
 import { ProductFavorite } from '@/types/product'
 
 export const products: ProductFavorite[] = [
