@@ -78,7 +78,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
                 <div className={styles.infor__item__edit} onClick={() => handleEditInformation('phone', 'Mobile Number', profile?.phone)}>
                   Edit
                 </div>
-                {profile?.phone && <TelField disabled defaultValue={profile?.phone || ''} name="tel" />}
+                {profile?.phone && <TelField disabled defaultValue={profile?.phone || ''} name="tel" inputClassName="border-none bg-transparent pointer-event-none" />}
               </div>
               <div className={styles.infor__item}>
                 <h4 className={styles.infor__item__title}>Password</h4>

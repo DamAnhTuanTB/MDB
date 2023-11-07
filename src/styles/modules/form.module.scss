@@ -11,6 +11,10 @@
     &.error {
       @apply border-red;
     }
+
+    &__tel {
+      @apply bg-white;
+    }
   }
 
   &__boundary {

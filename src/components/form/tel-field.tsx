@@ -94,7 +94,7 @@ const TelField = ({
           <div className={classNames(styles.input__boundary, '!overflow-visible', boundaryClassName)}>
             <input
               {...fields}
-              className={classNames(styles.input__field, { [styles['error']]: hasError || error }, inputClassName)}
+              className={classNames(styles.input__field, styles.input__field__tel, { [styles['error']]: hasError || error }, inputClassName)}
               type="tel"
               onChange={(e) => {
                 onChange(e)
