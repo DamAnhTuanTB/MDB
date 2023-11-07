@@ -18,8 +18,8 @@ export const products: ProductFavorite[] = [
       }
     ],
     name: 'EltaMD UV Lip Balm SPF 36',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml'
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml'
   },
   {
     id: '1',
@@ -31,8 +31,8 @@ export const products: ProductFavorite[] = [
       }
     ],
     name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml'
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml'
   },
   {
     id: '3',
@@ -44,8 +44,8 @@ export const products: ProductFavorite[] = [
       }
     ],
     name: 'EltaMD UV Lip Balm SPF 36',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml'
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml'
   },
   {
     id: '4',
@@ -57,8 +57,8 @@ export const products: ProductFavorite[] = [
       }
     ],
     name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml'
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml'
   }
 ]
 
@@ -73,7 +73,7 @@ export default function FavoriteProducts() {
       products.map((item, index) => {
         return (
           <div key={index} className={styles.product}>
-            <Link href={routes.productDetailPage(item.categories, item.slug as string)}>
+            <Link href={routes.productDetailPage(item.categories, item.slug)}>
               <div className={styles.product__image}>
                 <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
               </div>

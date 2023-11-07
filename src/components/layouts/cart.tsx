@@ -18,8 +18,8 @@ export const products: ProductCart[] = [
       }
     ],
     name: 'EltaMD UV Lip Balm SPF 36',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml',
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml',
     price: 28.0,
     quantity: 2
   },
@@ -33,8 +33,8 @@ export const products: ProductCart[] = [
       }
     ],
     name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    categories: '/products',
-    slug: '/skin-care/la-roche-posay-spf50-50ml',
+    categories: 'skin-care',
+    slug: 'la-roche-posay-spf50-50ml',
     price: 44.0,
     quantity: 1
   }
@@ -51,7 +51,7 @@ export default function CartProducts() {
       products &&
       products.map((item, index) => {
         return (
-          <Link key={index} href={routes.productDetailPage(item.categories, item.slug as string)}>
+          <Link key={index} href={routes.productDetailPage(item.categories, item?.slug)}>
             <div className={styles.product}>
               <div className={styles.product__image}>
                 <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
