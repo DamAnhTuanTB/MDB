@@ -43,7 +43,7 @@ const accountOptionsMockData: AccountOption[] = [
 
 export default function Header() {
   const { query } = useRouterWithQueryParams()
-  const [openMenu, setOpenMenu] = useState<boolean>(true)
+  const [openMenu, setOpenMenu] = useState<boolean>(false)
   const [hoverableDropdown, setHoverableDropdown] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
 
