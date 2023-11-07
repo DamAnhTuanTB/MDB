@@ -1,5 +1,5 @@
 import { authenticationConfig } from '@/configs/authentication'
-import { AddCart, CartItem, Count, GetCartResponse } from '@/types/cart'
+import { AddCart, CartItem, Count, GetCartResponse, EditCart } from '@/types/cart'
 import { Product } from '@/types/product'
 import { getLocalStorage } from '@/utils/helper'
 
@@ -21,11 +21,15 @@ export const cartApi = {
     return apiBase.post<AddCart, CartItem>('/carts', body, config)
   },
 
-  count: () => {
-    return apiBase.get<Count>('/carts/count')
+  editCart: (body: EditCart) => {
+    return apiBase.put<EditCart, CartItem>(`/carts/${body.id}`, body, config)
   },
 
-  addCard: (body: AddCart) => {
-    return apiBase.post<AddCart, Product>('/carts')
+  deleteCart: (id: string) => {
+    return apiBase.delete<CartItem>(`/carts/${id}`, config)
+  },
+
+  count: () => {
+    return apiBase.get<Count>('/carts/count')
   }
 }

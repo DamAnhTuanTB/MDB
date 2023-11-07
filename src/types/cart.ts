@@ -19,6 +19,11 @@ export type AddCart = {
   quantity: number
   productSizeId?: string
 }
+export type EditCart = {
+  id: string
+  quantity?: number
+  size?: string
+}
 export type Count = {
   count: number
 }

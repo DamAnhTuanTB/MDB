@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useProduct } from '@/hooks/pages/use-product'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
@@ -24,24 +24,25 @@ export default function ModalAddCartSuccess() {
     cart: { showModalAddSuccess },
     toggleModalAddSuccess
   } = useCartStore()
+  const { getCart, dataCart, editCart, deleteCart } = useCart()
 
   const [data, setData] = useState<CartItem>()
   const { product } = data || {}
+
+  const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product])
+  const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product])
+  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
+  const { price, quantity, sizeOptions } = useProductDetail(product)
+
   const { data: productList, getProductList } = useProduct()
-  const { getCart, dataCart } = useCart()
   const { profile } = useAuthStore()
 
-  const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product, dataCart])
-  const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product, dataCart])
-  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands, dataCart])
-  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(product)
+  const timer = useRef<any>()
 
   useEffect(() => {
-    if (profile) {
-      getCart(undefined)
-    } else {
-      const list = getLocalStorageCart() || []
-      setData(list(list.length - 1))
+    if (profile) getCart(undefined)
+    else {
+      setData(getLocalStorageCart()?.[0] || {})
     }
   }, [])
 
@@ -52,7 +53,7 @@ export default function ModalAddCartSuccess() {
   }, [dataCart])
 
   useEffect(() => {
-    if (product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
+    getProductList({ where: { relatedProductIds: [product?.id || ''] } })
   }, [product])
 
   const getLocalStorageCart = () => {
@@ -63,6 +64,17 @@ export default function ModalAddCartSuccess() {
 
   const _onClose = () => {
     toggleModalAddSuccess()
+  }
+
+  const _editCart = (params: object) => {
+    if (timer.current) clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      if (product?.id) editCart({ id: product?.id, ...params })
+    }, 500)
+  }
+
+  const _deleteCart = () => {
+    if (product) deleteCart(product?.id)
   }
 
   return (
@@ -83,11 +95,11 @@ export default function ModalAddCartSuccess() {
         <CustomForm>
           <div className={stylesModal.body__form}>
             <div className={'flex items-center justify-center'}>
-              <SelectField className={stylesModal.body__form__select} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
+              <SelectField className={stylesModal.body__form__select} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={(e) => console.log('e', e)} />
             </div>
             <div className={'flex items-center justify-center'}>
-              <Quantity className={stylesModal.body__form__input} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setQuantity} />
-              <Button variant={'outlined'} className={'ml-2 !border-gray-400 w-10'}>
+              <Quantity className={stylesModal.body__form__input} name="quantity" min={1} max={quantity} defaultValue={1} onChange={(vl) => _editCart({ quantity: vl })} />
+              <Button variant={'outlined'} className={'ml-2 !border-gray-400 w-10'} onClick={_deleteCart}>
                 <ImageComponent src={'/images/icons/delete.svg'} width={16} height={16} />
               </Button>
             </div>

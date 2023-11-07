@@ -12,6 +12,8 @@ export const useCart = () => {
   const { dataResult: dataCart, fetch: getCart } = useFetch({ fetcher: cartApi.getCart })
   const { dataResult: dataCount, fetch: countCart } = useFetch({ fetcher: cartApi.count })
   const { dataResult: dataAddCart, fetch: addCart } = useFetch({ fetcher: cartApi.addCart })
+  const { dataResult: dataEditCart, fetch: editCart } = useFetch({ fetcher: cartApi.editCart })
+  const { dataResult: dataDeleteCart, fetch: deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
   const { profile } = useAccountInformation()
   const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart } = useCartStore()
 
@@ -31,43 +33,23 @@ export const useCart = () => {
   }, [dataAddCart?.data])
 
   useEffect(() => {
-    if (dataAddCart?.data) toggleModalAddSuccess(dataAddCart?.data?.quantity === 1)
+    if (dataAddCart?.data) toggleModalAddSuccess(true)
   }, [dataAddCart])
-
-  const getLocalStorageCart = () => {
-    let prodsCard: any = localStorage.getItem('MDB_LIST_PRODUCT_CART')
-    prodsCard = prodsCard ? JSON.parse(prodsCard) : []
-    return prodsCard
-  }
-
-  const addToCart = (product: CartItem) => {
-    if (profile?.data) {
-      addCart({
-        productId: product?.productId,
-        quantity: product.quantity || 1,
-        productSizeId: product?.size
-      })
-    } else {
-      const listProd = getLocalStorageCart()
-      const itemExits = listProd.findIndex((i: CartItem) => i.productId === product?.productId)
-      if (itemExits > -1) {
-        listProd[itemExits].quantity += product.quantity
-        localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
-      } else {
-        listProd.push(product)
-        localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
-      }
-      window.dispatchEvent(new Event('storage'))
-    }
-  }
 
   return {
     dataCart,
     getCart,
+
     dataCount,
     countCart,
-    addCart,
-    addToCart,
-    dataAddCart
+
+    addCart, //call api add cart
+    dataAddCart,
+
+    dataEditCart,
+    editCart,
+
+    dataDeleteCart,
+    deleteCart
   }
 }

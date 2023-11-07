@@ -36,12 +36,7 @@ export default function RelatedProduct({ title, products, category, className, l
           <>
             <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} />
             {products[index + 1] && (
-              <ProductItem
-                className={classNames(stylesCart['border-line'], 'swiper-slide')}
-                key={index + 1}
-                product={products[index + 1]}
-                onQuickReview={() => handleQuickReview(products[index + 1])}
-              />
+              <ProductItem className={classNames(stylesCart['border-line'], 'swiper-slide')} key={index} product={products[index + 1]} onQuickReview={() => handleQuickReview(products[index + 1])} />
             )}
           </>
         )

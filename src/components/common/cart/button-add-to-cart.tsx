@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react'
+
+import classNames from 'classnames'
+
+import { useAccountInformation } from '@/hooks/pages/use-account-information'
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useCart } from '@/hooks/use-cart'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
+import styles from '@/styles/modules/product/quick-review-modal.module.scss'
 import { CartItem } from '@/types/cart'
 
 import Button from '@/components/common/button'

@@ -42,7 +42,7 @@
   }
 
   &__form {
-    @apply grid grid-cols-[102px_auto];
+    @apply grid grid-cols-[100px_auto];
     @apply mt-2;
 
     &__label {
@@ -59,6 +59,15 @@
 
     &__button {
       @apply mt-6 items-center;
+
+      &.sp {
+        @apply block lg:hidden;
+      }
+
+      &.pc {
+        @apply hidden lg:block;
+        @apply mt-0 ml-4 min-w-[250px];
+      }
     }
   }
 }

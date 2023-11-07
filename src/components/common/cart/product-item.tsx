@@ -68,7 +68,7 @@ export default function ProductItem({ product, category, className, page = '', t
         <div className={`${stylesModal.body__form}`}>
           <SelectField className={`${stylesModal.body__form__select} scale-90 !max-w-[100px]`} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
           <div className={'flex items-center justify-end'}>
-            <Quantity className={`${stylesModal.body__form__input} scale-90 !max-w-[80px]`} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
+            <Quantity className={`${stylesModal.body__form__input} scale-90 !max-w-[70px]`} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
           </div>
         </div>
       </CustomForm>
