@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
+import { useRecoilState } from 'recoil'
 
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { favoriteProductsState } from '@/recoil/favorite'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product, ProductSize } from '@/types/product'
@@ -26,6 +28,7 @@ type Props = {
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
   const { query } = useRouterWithQueryParams()
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
+  const [favoriteList, setFavoriteList] = useRecoilState(favoriteProductsState)
   const { getFavorite, data: favoriteProducts, add, remove } = useAccountFavorite()
 
   useEffect(() => {
@@ -51,12 +54,14 @@ export default function ProductItem({ product, category, className, page = '', t
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
 
   const handleChangeFavorite = () => {
+    setIsFavorite(!isFavorite)
     if (isFavorite) {
       remove({ productId: product.id })
+      getFavorite({ noPagination: true })
     } else {
       add({ productId: product.id })
+      getFavorite({ noPagination: true })
     }
-    getFavorite({ noPagination: true })
   }
 
   return (

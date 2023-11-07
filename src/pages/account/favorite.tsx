@@ -17,10 +17,6 @@ export default function AccountPage() {
 
   useEffect(() => {
     getFavorite({ noPagination: true })
-    if (favoriteProducts) {
-      setNotification(favoriteProducts)
-      console.log('favoriteState', favoriteProductsState)
-    }
   }, [])
 
   useEffect(() => {
