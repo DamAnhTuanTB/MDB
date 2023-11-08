@@ -53,7 +53,8 @@ export default function ProductItem({ product, category, className, page = '', t
     setIsFavorite(!isFavorite)
     if (isFavorite) {
       remove({ productId: product.id })
-    } else {
+    }
+    if (!isFavorite) {
       add({ productId: product.id })
     }
   }

@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { authenticationConfig } from '@/configs/authentication'
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useFavoriteStore } from '@/recoil/favorite'
@@ -14,11 +15,16 @@ import { ProductCategory } from '@/types/product/category'
 export default function FavoriteProducts() {
   const { query } = useRouterWithQueryParams()
   const { favorites, setFavorites } = useFavoriteStore()
-
   const { getFavorite, data: favoriteProducts } = useAccountFavorite()
+  const isAuthenticated = () => {
+    const accessToken = localStorage.getItem(authenticationConfig.accessToken)
+    return accessToken
+  }
 
   useEffect(() => {
-    getFavorite({ noPagination: true })
+    if (isAuthenticated()) {
+      getFavorite({ noPagination: true })
+    }
   }, [])
 
   useEffect(() => {
