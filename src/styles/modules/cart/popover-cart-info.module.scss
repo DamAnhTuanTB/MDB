@@ -8,7 +8,7 @@
   }
 
   &__grid {
-    @apply max-h-[400px] overflow-auto w-full;
+    @apply max-h-[calc(100vh-230px)] overflow-auto w-full;
   }
 
   &__row {
@@ -20,15 +20,15 @@
   &__item__decription,
   &__item__price {
     @apply flex flex-col justify-center;
-    @apply font-medium text-black text-xs whitespace-break-spaces;
+    @apply font-normal text-black text-xs whitespace-break-spaces;
   }
 
   &__item__decription {
-    @apply whitespace-break-spaces;
+    @apply whitespace-break-spaces leading-5;
   }
 
   &__item__price {
-    @apply whitespace-nowrap;
+    @apply whitespace-nowrap text-right;
   }
 
   &__edit {

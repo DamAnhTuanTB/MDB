@@ -1,21 +1,22 @@
 .wrapper {
-  @apply p-10
+  @apply md:p-10
 
 }
 
+
 .header {
-  @apply flex items-center gap-6;
+  @apply flex items-center gap-1 md:gap-6 mx-4 md:m-0;
+  :first-child {
+    @apply text-[#0472AF]
+  }
+
   span {
-    @apply text-xl ;
+    @apply text-sm md:text-xl font-semibold;
     @apply flex items-center;
   }
 
-  .isActive {
-    @apply text-[#0472AF] font-semibold
-  }
-
   img {
-    @apply my-6 -rotate-90
+    @apply my-0.5 md:my-6 -rotate-90
   }
 
 
@@ -23,34 +24,49 @@
 
 .body {
   &__grid {
-    @apply px-20 py-4 rounded-lg bg-gray-100;
+    @apply mt-5
+  }
+
+  &__grid, &__footer {
+    @apply px-6  md:px-20 py-4 md:rounded-lg bg-gray-100;
   }
 
   &__header {
     @apply border-b-gray-200 py-[28px] border-b;
     @apply text-lg font-semibold;
+    & > :nth-child(2), & > :nth-child(3) {
+      @apply invisible md:visible
+    }
+
     & > :first-child {
-      @apply px-4
+      @apply md:px-4 justify-self-start
     }
   }
 
   &__tr {
-    @apply my-4
+    @apply my-4;
+    @apply w-full;
   }
 
   &__tr, &__header {
-    @apply grid grid-cols-[auto_120px_100px_100px] w-full;
-    :not(:first-child) {
-      @apply flex items-center justify-center;
+    @apply grid grid-cols-[auto_10%_15%_15%] md:grid-cols-[auto_minmax(120px,10%)_15%_15%] w-full gap-x-0 gap-0;
+    @apply items-center justify-items-end;
+
+    & > :nth-child(2) {
+      @apply justify-self-center
+    }
+
+    &__image {
+      @apply mr-6 rounded-[4px] #{!important};
+      @apply max-w-[50px] max-h-[50px] min-w-[50px] min-h-[50px] #{!important};
+      @apply md:max-w-[125px] md:max-h-[125px] md:min-w-[125px] md:min-h-[125px] #{!important};
     }
 
     &__info {
-      @apply flex;
+      @apply flex md:items-center;
       @apply text-gray-800 text-base font-normal;
-      @apply relative;
-      img {
-        @apply w-[125px] h-[125px] mr-6;
-      }
+      @apply relative w-full gap-2;
+
 
       input {
         @apply max-h-8
@@ -61,27 +77,28 @@
         @apply w-4 h-4;
         @apply absolute -left-8 top-[50%] -translate-y-1/2
       }
+
+      .span__remove {
+        @apply visible md:invisible;
+        @apply text-[#0472AF] text-xs font-semibold absolute top-[60px] left-0
+      }
     }
   }
 
   &__row {
-    @apply grid grid-cols-[50px_auto_auto] sm:grid-cols-[100px_auto_auto] gap-2;
+    @apply grid grid-cols-[50px_auto_auto] sm:grid-cols-[100px_auto_auto] gap-x-0;
     @apply px-4 sm:px-6 py-4;
     @apply border-b border-gray-200;
   }
 
   &__item {
     &__price {
-      @apply flex flex-col justify-center;
-      @apply font-normal text-black text-base line-clamp-2 whitespace-break-spaces;
+      @apply font-normal text-black text-base line-clamp-2;
+      @apply whitespace-nowrap;
     }
 
     &__decription {
-      @apply whitespace-break-spaces;
-    }
-
-    &__price {
-      @apply whitespace-nowrap;
+      @apply gap-2 items-start #{!important}
     }
   }
 
@@ -91,5 +108,5 @@
 }
 
 .footer {
-
+  @apply p-10 md:rounded-lg md:bg-gray-100 mt-10;
 }

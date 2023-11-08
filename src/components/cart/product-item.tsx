@@ -11,8 +11,8 @@ import { Product, ProductSize } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
 
-import Button from '@/components/common/button'
 import ButtonAddToCart from '@/components/cart/button-add-to-cart'
+import Button from '@/components/common/button'
 import Link from '@/components/common/custom-link'
 import ImageComponent from '@/components/common/image'
 import Quantity from '@/components/common/quantity'
@@ -32,12 +32,11 @@ type Props = {
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
   const { query } = useRouterWithQueryParams()
 
-  const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
   const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product.sizes])
 
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
-  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(product)
+  const { handleUpdateSize, quantity, sizeOptions } = useProductDetail(product)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
   const dataAdd = useMemo(() => {
     return {
@@ -65,11 +64,9 @@ export default function ProductItem({ product, category, className, page = '', t
       <h3 className={styles.item__name}>{product?.name}</h3>
       <p className={styles.item__price}>{currencyFormatter.format(size?.price)}</p>
       <CustomForm>
-        <div className={`${stylesModal.body__form}`}>
-          <SelectField className={`${stylesModal.body__form__select} scale-90 !max-w-[100px]`} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
-          <div className={'flex items-center justify-end'}>
-            <Quantity className={`${stylesModal.body__form__input} scale-90 !max-w-[70px]`} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
-          </div>
+        <div className={'flex justify-between mt-5 gap-2'}>
+          <SelectField className={`${stylesModal.body__form__select} `} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
+          <Quantity className={`${stylesModal.body__form__input} !max-w-[50px] !md:max-w-[60px]`} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
         </div>
       </CustomForm>
       {dataAdd && <ButtonAddToCart className={`${styles.item__button} bg-blue`} data={dataAdd} />}

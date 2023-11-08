@@ -25,10 +25,14 @@
 .body {
   @apply flex flex-col p-10 gap-4 items-center overflow-auto ;
   .product {
-    @apply grid grid-cols-[100px_auto] w-full;
+    @apply grid grid-cols-[40%_60%] w-full;
+    img {
+      @apply justify-items-center
+    }
+
     &__info {
       @apply p-4 flex flex-col items-center justify-center;
-      @apply font-semibold text-base text-black
+      @apply font-semibold text-base text-black text-center
     }
 
   }
@@ -42,7 +46,7 @@
   }
 
   &__form {
-    @apply grid grid-cols-[100px_auto];
+    @apply grid grid-cols-[40%_60%] gap-2;
     @apply mt-2;
 
     &__label {
@@ -50,11 +54,11 @@
     }
 
     &__input {
-      @apply max-w-[102px] h-[40px];
+      @apply max-w-[80px] ;
     }
 
     &__select {
-      @apply max-w-[102px] h-[40px];
+      @apply max-w-[100px];
     }
 
     &__button {

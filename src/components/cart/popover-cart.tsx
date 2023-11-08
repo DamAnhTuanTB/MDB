@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -8,12 +8,12 @@ import { useCartStore } from '@/recoil/cart'
 import routers from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
-import { currencyFormatter, findObjectByName } from '@/utils/helper'
+import { PRODUCT_ATTRIBUTE } from '@/types/product'
+import { currencyFormatter, findObjectByName, getLocalStorage } from '@/utils/helper'
 
 import Button from '@/components/common/button'
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
-import { PRODUCT_ATTRIBUTE } from '@/types/product'
 
 export default function Cart() {
   const { isLoggedIn } = useAuthStore()
@@ -23,7 +23,6 @@ export default function Cart() {
   const anchorRef = useRef<HTMLDivElement | null>()
 
   useEffect(() => {
-    console.log('isLoggedIn', isLoggedIn)
     if (!isLoggedIn) updateCartLocal()
 
     // listener localStorage change
@@ -32,7 +31,6 @@ export default function Cart() {
   }, [])
 
   useEffect(() => {
-    console.log('isLoggedIn', isLoggedIn)
     if (isLoggedIn) countCart()
   }, [isLoggedIn])
 
@@ -49,9 +47,13 @@ export default function Cart() {
   }
 
   const getLocalStorageCart = () => {
-    let prodsCard: any = localStorage.getItem('MDB_LIST_PRODUCT_CART')
-    prodsCard = prodsCard ? JSON.parse(prodsCard) : []
-    return prodsCard
+    const prodsCard: any = getLocalStorage('MDB_LIST_PRODUCT_CART') || '[]'
+    return JSON.parse(prodsCard)
+  }
+
+  const goCart = () => {
+    anchorRef.current?.click()
+    router.push(routers.cartPage())
   }
 
   const listProd = useMemo(() => {
@@ -59,13 +61,7 @@ export default function Cart() {
       <div className={stylesPopoverCart.popover}>
         <div className={stylesPopoverCart.popover__header}>
           My Cart
-          <button
-            className={stylesPopoverCart.popover__edit}
-            onClick={() => {
-              anchorRef.current?.click()
-              router.push(routers.cartPage())
-            }}
-          >
+          <button className={stylesPopoverCart.popover__edit} onClick={goCart}>
             Edit
           </button>
         </div>
@@ -93,7 +89,9 @@ export default function Cart() {
             )
           })}
         </div>
-        <Button className={'!w-1/3 !bg-blue mt-4'}>View Cart</Button>
+        <Button className={'!w-1/3 !bg-blue mt-4'} onClick={goCart}>
+          View Cart
+        </Button>
       </div>
     )
   }, [cart.listProd])

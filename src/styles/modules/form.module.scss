@@ -6,7 +6,7 @@
   }
 
   &__field {
-    @apply text-sm px-2 rounded outline-none w-full h-10;
+    @apply text-sm px-2 rounded-lg outline-none w-full h-8;
 
     &.error {
       @apply border-red;
@@ -18,11 +18,11 @@
   }
 
   &__boundary {
-    @apply rounded overflow-hidden;
+    @apply rounded-lg overflow-hidden;
 
     select,
     input {
-      @apply border border-grey min-h-[32px];
+      @apply border border-grey-150 h-[32px];
     }
 
     textarea {
