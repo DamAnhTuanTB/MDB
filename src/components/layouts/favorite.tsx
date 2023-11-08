@@ -3,8 +3,8 @@ import { useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { authenticationConfig } from '@/configs/authentication'
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
+import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
@@ -16,16 +16,17 @@ export default function FavoriteProducts() {
   const { query } = useRouterWithQueryParams()
   const { favorites, setFavorites } = useFavoriteStore()
   const { getFavorite, data: favoriteProducts } = useAccountFavorite()
-  const isAuthenticated = () => {
-    const accessToken = localStorage.getItem(authenticationConfig.accessToken)
-    return accessToken
-  }
+  const { getProfile, profile } = useAccountInformation()
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    getProfile(undefined)
+  }, [])
+
+  useEffect(() => {
+    if (profile?.data) {
       getFavorite({ noPagination: true })
     }
-  }, [])
+  }, [profile?.data])
 
   useEffect(() => {
     if (favoriteProducts) {
@@ -63,7 +64,7 @@ export default function FavoriteProducts() {
     <div className={styles.favorite}>
       <div className={styles.favorite__header}>
         <span className={styles.title}>My Favorites</span>
-        <Link className={styles.edit} href="#">
+        <Link className={styles.edit} href={routes.favoritePage()}>
           Edit
         </Link>
       </div>

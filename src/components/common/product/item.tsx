@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
+import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
@@ -25,10 +26,15 @@ type Props = {
 }
 
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
-  const { query } = useRouterWithQueryParams()
+  const { query, push } = useRouterWithQueryParams()
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const { favorites, addToFavorites, removeFromFavorites } = useFavoriteStore()
   const { add, remove, addData, removeData } = useAccountFavorite()
+  const { getProfile, profile } = useAccountInformation()
+
+  useEffect(() => {
+    getProfile(undefined)
+  }, [])
 
   useMemo(() => {
     if (favorites) {
@@ -50,6 +56,10 @@ export default function ProductItem({ product, category, className, page = '', t
   }, [removeData])
 
   const handleChangeFavorite = () => {
+    if (profile?.error) {
+      push(routes.loginPage())
+      return
+    }
     setIsFavorite(!isFavorite)
     if (isFavorite) {
       remove({ productId: product.id })
