@@ -86,7 +86,7 @@
   }
 
   &__favorite {
-    @apply absolute top-0 right-0 w-10 h-10 bg-[url(/images/icons/favorite.svg)] bg-contain bg-no-repeat z-10;
+    @apply absolute transition-all duration-150 cursor-pointer top-0 right-0 w-10 h-10 bg-[url(/images/icons/favorite.svg)] bg-contain bg-no-repeat z-10;
 
     &.active {
       @apply bg-[url(/images/icons/favorite_filled.svg)];
