@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 
-import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useFavoriteStore } from '@/recoil/favorite'
 

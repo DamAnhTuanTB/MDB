@@ -11,7 +11,7 @@ import styles from '@/styles/modules/product/index.module.scss'
 import { Product, ProductSize } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
-
+import { useAuthStore } from '@/recoil/auth'
 import Link from '@/components/common/custom-link'
 
 import Button from '../button'
@@ -31,6 +31,7 @@ export default function ProductItem({ product, category, className, page = '', t
   const { favorites, addToFavorites, removeFromFavorites } = useFavoriteStore()
   const { add, remove, addData, removeData } = useAccountFavorite()
   const { getProfile, profile } = useAccountInformation()
+  const { isLoggedIn } = useAuthStore()
 
   useEffect(() => {
     getProfile(undefined)
@@ -56,7 +57,7 @@ export default function ProductItem({ product, category, className, page = '', t
   }, [removeData])
 
   const handleChangeFavorite = () => {
-    if (profile?.error) {
+    if (!isLoggedIn) {
       push(routes.loginPage())
       return
     }

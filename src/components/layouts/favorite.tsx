@@ -1,10 +1,8 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
-import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
@@ -14,25 +12,7 @@ import { ProductCategory } from '@/types/product/category'
 
 export default function FavoriteProducts() {
   const { query } = useRouterWithQueryParams()
-  const { favorites, setFavorites } = useFavoriteStore()
-  const { getFavorite, data: favoriteProducts } = useAccountFavorite()
-  const { getProfile, profile } = useAccountInformation()
-
-  useEffect(() => {
-    getProfile(undefined)
-  }, [])
-
-  useEffect(() => {
-    if (profile?.data) {
-      getFavorite({ noPagination: true })
-    }
-  }, [profile?.data])
-
-  useEffect(() => {
-    if (favoriteProducts) {
-      setFavorites(favoriteProducts?.results)
-    }
-  }, [favoriteProducts])
+  const { favorites } = useFavoriteStore()
 
   const getDefaultImage = (product: Product) => {
     const defaultImage = product.images.find((img) => img.isDefault)
