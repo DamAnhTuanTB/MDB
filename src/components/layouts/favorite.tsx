@@ -3,8 +3,11 @@ import { useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useRecoilState } from 'recoil'
+
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { favoriteProductsState } from '@/recoil/favorite'
 import routes from '@/routes'
 import styles from '@/styles/layout/favorite.module.scss'
 import { Product } from '@/types/product'
@@ -12,12 +15,14 @@ import { ProductCategory } from '@/types/product/category'
 
 export default function FavoriteProducts() {
   const { query } = useRouterWithQueryParams()
+  const [favoriteProductsRecoil, setFavoriteProductsRecoil] = useRecoilState(favoriteProductsState)
 
   const { getFavorite, data: favoriteProducts } = useAccountFavorite()
 
   useEffect(() => {
     getFavorite({ noPagination: true })
-  }, [])
+    // setFavoriteProductsRecoil(favoriteProducts)
+  }, [favoriteProductsRecoil])
 
   const getDefaultImage = (product: Product) => {
     const defaultImage = product.images.find((img) => img.isDefault)

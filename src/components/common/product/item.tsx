@@ -57,10 +57,8 @@ export default function ProductItem({ product, category, className, page = '', t
     setIsFavorite(!isFavorite)
     if (isFavorite) {
       remove({ productId: product.id })
-      getFavorite({ noPagination: true })
     } else {
       add({ productId: product.id })
-      getFavorite({ noPagination: true })
     }
   }
 
