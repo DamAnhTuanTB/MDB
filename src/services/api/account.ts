@@ -1,5 +1,6 @@
 import { authenticationConfig } from '@/configs/authentication'
 import { AddressBody, AddressType, ListAddressResponse, UpdateAddressParams } from '@/types/account/address'
+import { AestheticProviderResponse } from '@/types/account/aesthetic-provider'
 import { AccountInformation } from '@/types/account/information'
 import { getLocalStorage } from '@/utils/helper'
 
@@ -42,6 +43,14 @@ export const accountApi = {
   },
   deleteAddress({ id }: { id: string }) {
     return apiBase.delete<AddressType>(`/addresses/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+  },
+  getAestheticProvider() {
+    return apiBase.get<AestheticProviderResponse>('/aesthetics', {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`

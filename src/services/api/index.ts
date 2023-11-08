@@ -1,6 +1,11 @@
 import type { AxiosPromise, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 
+import { authenticationConfig } from '@/configs/authentication'
+import { getLocalStorage } from '@/utils/helper'
+
+import { customerApi } from './authentication'
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const instance = axios.create({
@@ -21,6 +26,45 @@ const apiBase = {
 
   delete: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => instance.delete(url, config)
 }
+
+let isRefreshed: boolean = false
+let isRefreshing: boolean = false
+
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response && error.response.status === 401) {
+      if (!isRefreshed) {
+        if (!isRefreshing) {
+          isRefreshing = true
+          const currentToken = getLocalStorage(authenticationConfig.accessToken) || ''
+          const response = await customerApi.refreshToken({ refreshToken: currentToken })
+
+          if (response.data) {
+            // reset headers
+            instance.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
+
+            // Save new token to localStorage
+            // setLocalStorage(authenticationConfig.accessToken, response.data.accessToken)
+
+            // Token has expired or is invalid
+            // Perform actions to refresh the token
+            // You can make an API call to get a new access token
+            // Once the new access token is obtained, update the authorization header of the instance
+            // and retry the failed request
+            isRefreshed = true
+            return instance(error.config)
+          }
+
+          setTimeout(() => {
+            isRefreshing = false
+          }, 5000)
+        }
+      }
+    }
+    return Promise.reject(error)
+  }
+)
 
 const handleApiError = (error: any) => {
   if (axios.isAxiosError(error) && error.response) {

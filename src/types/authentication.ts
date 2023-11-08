@@ -38,4 +38,8 @@ export type ResetPasswordBody = {
   email: string
 }
 
+// Refresh token
+export type RefreshTokenBody = {
+  refreshToken: string
+}
 export type ResetPasswordResponse = {}
