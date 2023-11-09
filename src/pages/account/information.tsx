@@ -12,9 +12,10 @@ export default function AccountPage() {
   const { getProfile, profile } = useAccountInformation()
   const { push } = useRouterWithQueryParams()
 
-  useEffect(() => {
-    getProfile(undefined)
-  }, [])
+  // useEffect(() => {
+  //   console.log('info call me');
+  //   getProfile(undefined)
+  // }, [])
 
   useEffect(() => {
     if (profile?.error) push(routes.loginPage())

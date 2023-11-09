@@ -12,7 +12,7 @@ import { globalApi } from '@/services/api/global'
 import { globalSettingState, menuCategorieStage } from '@/recoil/global'
 import { homeContentState } from '@/recoil/home'
 import { FooterContent } from '@/types/footer'
-import { CONTENT_OPTIONS_KEY, ContentOption, GlobalSetting, settingIconKey } from '@/types/global'
+import { ContentOption, CONTENT_OPTIONS_KEY, GlobalSetting, settingIconKey } from '@/types/global'
 import { ProductCategory } from '@/types/product/category'
 import { findObjectByName } from '@/utils/helper'
 
