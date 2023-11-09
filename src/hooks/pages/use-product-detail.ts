@@ -24,7 +24,7 @@ export const useProductDetail = (data?: Product) => {
 
   useEffect(() => {
     getSizes()
-  }, [])
+  }, [data])
 
   useEffect(() => {
     if (data && sizeOptionsData?.results) {
