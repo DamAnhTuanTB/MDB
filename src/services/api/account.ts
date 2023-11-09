@@ -9,11 +9,11 @@ import { apiBase } from '.'
 const accessToken = getLocalStorage(authenticationConfig.accessToken)
 
 export const accountApi = {
-  getProfile() {
+  getProfile(accessTokenT: string) {
     return apiBase.get<AccountInformation>('/users/me', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken || accessTokenT}`
       }
     })
   },
