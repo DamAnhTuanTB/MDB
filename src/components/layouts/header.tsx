@@ -4,6 +4,7 @@ import Image from 'next/image'
 
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
@@ -48,6 +49,7 @@ export default function Header() {
   const [hoverableDropdown, setHoverableDropdown] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
   const { logout } = useCustomerLogin()
+  const { isLoggedIn } = useAuthStore()
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,12 +76,16 @@ export default function Header() {
             </div>
           )
         })}
-        <div className={styles.option__item} onClick={logout}>
-          Logout
-        </div>
+        {isLoggedIn && (
+          <div className={styles.option__item} onClick={logout}>
+            {/*<Link href={''}>*/}
+            Logout
+            {/*</Link>*/}
+          </div>
+        )}
       </>
     )
-  }, [accountOptionsMockData])
+  }, [accountOptionsMockData, isLoggedIn])
 
   return (
     <header className={styles.wrapper}>

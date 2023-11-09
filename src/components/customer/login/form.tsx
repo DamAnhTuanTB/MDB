@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 import { ZodType, z } from 'zod'
@@ -28,12 +28,16 @@ export default function LoginForm() {
   const { isLoggedIn } = useAuthStore()
   const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
   const { push } = useRouterWithQueryParams()
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (isLoading) setIsLoadingPage(true)
+  }, [isLoading])
 
   useEffect(() => {
     if (isLoggedIn) push(routes.homePage())
   }, [isLoggedIn])
 
-  if(isLoggedIn) return <Loading/>
   return (
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Login</h4>
@@ -46,7 +50,7 @@ export default function LoginForm() {
           <div className={styles.form__field}>
             <TextField showErrorMessage required label="Password" name="password" placeholder="Password" type="password" isLoading={isLoading} isError={!!errorMessage} />
           </div>
-          <Button type="submit" className={styles.form__button} isLoading={isLoading}>
+          <Button type="submit" className={styles.form__button} isLoading={isLoadingPage}>
             Login
           </Button>
           <div className={classNames(styles.form__redirect, 'flex flex-col items-start md:items-center md:flex-row md:justify-between')}>

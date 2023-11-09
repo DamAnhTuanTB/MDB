@@ -32,7 +32,7 @@ export default function Layout({ children, footerContent }: Props) {
       setIsLoggedIn(false)
       setProfile(undefined)
     }
-  }, [profile?.data])
+  }, [profile])
 
   return (
     <>
