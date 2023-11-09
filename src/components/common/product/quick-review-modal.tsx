@@ -31,7 +31,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
   const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
 
-  const { handleUpdateSize, price, quantity, sizeOptions, unit } = useProductDetail(data)
+  const { handleUpdateSize, sizeOptions, unit } = useProductDetail(data)
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -53,7 +53,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
           </div>
           <div className={styles.content__group}>
             <h4>
-              {currencyFormatter.format(price)} <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(data?.price || 0)} <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <h4 className={styles.content__description__title}>Product Description</h4>
@@ -67,9 +67,9 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
                 <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
               </div>
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
-                <p className={styles.content__form__label}>Qty: {quantity}</p>
+                <p className={styles.content__form__label}>Qty: {data?.quantity}</p>
                 <div className="flex">
-                  <Quantity className={styles.content__form__input} name="quantity" min={1} max={quantity} defaultValue={1} />
+                  <Quantity className={styles.content__form__input} name="quantity" min={1} max={data?.quantity} defaultValue={1} />
                   <Button className={classNames(styles.content__form__button, styles['pc'])}>Add to cart</Button>
                 </div>
               </div>
