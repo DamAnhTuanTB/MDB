@@ -18,6 +18,7 @@ import FavoriteProducts from './favorite'
 import Menu from './menu'
 import Search from './search'
 import TopHead from './top-head'
+import { useAuthStore } from '@/recoil/auth'
 
 const accountOptionsMockData: AccountOption[] = [
   {
@@ -48,6 +49,7 @@ export default function Header() {
   const [hoverableDropdown, setHoverableDropdown] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
   const { logout } = useCustomerLogin()
+  const { isLoggedIn } = useAuthStore()
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,12 +76,16 @@ export default function Header() {
             </div>
           )
         })}
-        <div className={styles.option__item} onClick={logout}>
-          Logout
-        </div>
+        {isLoggedIn && (
+          <div className={styles.option__item} onClick={logout}>
+            {/*<Link href={''}>*/}
+            Logout
+            {/*</Link>*/}
+          </div>
+        )}
       </>
     )
-  }, [accountOptionsMockData])
+  }, [accountOptionsMockData, isLoggedIn])
 
   return (
     <header className={styles.wrapper}>
