@@ -19,7 +19,6 @@ export default function Layout({ children, footerContent }: Props) {
   const { setIsLoggedIn, setProfile, profile: profileStage } = useAuthStore()
 
   useEffect(() => {
-    console.log('accessToken', accessToken)
     if (accessToken && !profile) {
       getProfile({})
     }
@@ -33,7 +32,7 @@ export default function Layout({ children, footerContent }: Props) {
       setIsLoggedIn(false)
       setProfile(undefined)
     }
-  }, [profile?.data])
+  }, [profile])
 
   return (
     <>

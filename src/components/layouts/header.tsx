@@ -4,6 +4,7 @@ import Image from 'next/image'
 
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
@@ -18,7 +19,6 @@ import FavoriteProducts from './favorite'
 import Menu from './menu'
 import Search from './search'
 import TopHead from './top-head'
-import { useAuthStore } from '@/recoil/auth'
 
 const accountOptionsMockData: AccountOption[] = [
   {
