@@ -14,7 +14,7 @@ export const useProductDetail = (data?: Product) => {
 
   const { data: sizeOptionsData, getProductList } = useProduct()
 
-  const sizeOptions = useMemo<SelectOption[]>(() => {
+  const sizeOptions = useMemo(() => {
     return sizeOptionsData?.results?.map((i) => ({ value: i.size, label: `${i.size} ${unit}` })) || []
   }, [sizeOptionsData, unit])
 
