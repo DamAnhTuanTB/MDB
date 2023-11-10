@@ -28,7 +28,7 @@ export default function Layout({ children, footerContent }: Props) {
       setIsLoading(true)
       if (!isLoad.current) {
         isLoad.current = true
-        getProfile({})
+        getProfile(undefined)
       }
     } else {
       setIsLoading(false)
