@@ -2,24 +2,27 @@ import { useEffect } from 'react'
 
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import routes from '@/routes'
+import { useAuthStore } from '@/recoil/auth'
 
 import Account from '@/components/account'
 import AccountInformation from '@/components/account/information'
 import Meta from '@/components/common/meta'
-import { getLocalStorage } from '@/utils/helper'
-import { authenticationConfig } from '@/configs/authentication'
-import { useAuthStore } from '@/recoil/auth'
 
-const accessToken = getLocalStorage(authenticationConfig.accessToken)
 export default function AccountPage() {
-  const { getProfile, profile } = useAccountInformation()
-  const { profile: profileStage } = useAuthStore()
+  const { getProfile } = useAccountInformation()
+  const { profile: profileStage, isLoading } = useAuthStore()
   const { push } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (profile?.error || profileStage || !accessToken) push(routes.loginPage())
-  }, [profile?.error, profileStage])
+    if (!isLoading && !profileStage) {
+      push({
+        pathname: '/customer/login',
+        query: {
+          onBack: '/account/information'
+        }
+      })
+    }
+  }, [isLoading, profileStage])
 
   const resetData = () => {
     getProfile(undefined)
@@ -29,7 +32,7 @@ export default function AccountPage() {
     <>
       <Meta title="Account information" />
       <Account>
-        <AccountInformation profile={profile?.data} onReset={resetData} />
+        <AccountInformation profile={profileStage} onReset={resetData} />
       </Account>
     </>
   )

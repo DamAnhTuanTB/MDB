@@ -5,13 +5,14 @@ import classNames from 'classnames'
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
 import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
 import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
-import { useAuthStore } from '@/recoil/auth'
+
 import Link from '@/components/common/custom-link'
 
 import Button from '../button'
@@ -32,10 +33,6 @@ export default function ProductItem({ product, category, className, page = '', t
   const { add, remove, addData, removeData } = useAccountFavorite()
   const { getProfile, profile } = useAccountInformation()
   const { isLoggedIn } = useAuthStore()
-
-  useEffect(() => {
-    getProfile(undefined)
-  }, [])
 
   useMemo(() => {
     if (favorites) {

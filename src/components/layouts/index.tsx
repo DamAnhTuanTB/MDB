@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { authenticationConfig } from '@/configs/authentication'
 import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
@@ -18,15 +18,22 @@ type Props = {
 const accessToken = getLocalStorage(authenticationConfig.accessToken)
 export default function Layout({ children, footerContent }: Props) {
   const { getProfile, profile } = useAccountInformation()
-  const { isLoggedIn, setIsLoggedIn, setProfile, profile: profileStage } = useAuthStore()
+  const { isLoggedIn, setIsLoggedIn, setProfile, isLoading, profile: profileStage, setIsLoading } = useAuthStore()
   const { getFavorite, data: favoriteProducts } = useAccountFavorite()
   const { setFavorites } = useFavoriteStore()
+  const isLoad = useRef<boolean>(false)
 
   useEffect(() => {
-    if (accessToken && !profile) {
-      getProfile({})
+    if (accessToken && !profileStage && isLoading) {
+      setIsLoading(true)
+      if (!isLoad.current) {
+        isLoad.current = true
+        getProfile({})
+      }
+    } else {
+      setIsLoading(false)
     }
-  }, [])
+  }, [profileStage, isLoading, isLoad.current])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -41,8 +48,17 @@ export default function Layout({ children, footerContent }: Props) {
     } else if (profile?.error) {
       setIsLoggedIn(false)
       setProfile(undefined)
+      isLoad.current = false
+      setIsLoading(false)
     }
   }, [profile])
+
+  useEffect(() => {
+    if (profileStage) {
+      isLoad.current = false
+      setIsLoading(false)
+    }
+  }, [profileStage])
 
   useEffect(() => {
     if (favoriteProducts) {
