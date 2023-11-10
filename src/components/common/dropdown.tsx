@@ -18,17 +18,31 @@ type DropdownProps = {
 const Dropdown: React.FC<DropdownProps> = ({ children, content, className, contentClassName, hoverable = true, clickable = false, closeOnOutsideClick = true, direction = 'bottom' }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const timeoutRef = useRef<number | null>(null)
 
   const toggleDropdown = () => {
     if (clickable) setIsOpen(!isOpen)
   }
 
   const handleMouseEnter = () => {
-    if (hoverable) setIsOpen(true)
+    if (hoverable) {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+      setIsOpen(true)
+    }
   }
 
   const handleMouseLeave = () => {
-    if (hoverable) setIsOpen(false)
+    if (hoverable) {
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = window.setTimeout(() => {
+        setIsOpen(false)
+      }, 150)
+    }
   }
 
   useEffect(() => {

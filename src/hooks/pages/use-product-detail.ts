@@ -1,42 +1,46 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
+import { useProduct } from '@/hooks/pages/use-product'
+import { Product, PRODUCT_ATTRIBUTE } from '@/types/product'
 import { findObjectByName } from '@/utils/helper'
-
-import { SelectOption } from '@/components/form/select-field'
 
 export const useProductDetail = (data?: Product) => {
   const [selectedSize, setSelectedSize] = useState<string>('')
-  const [price, setPrice] = useState<number>(0)
-  const [quantity, setQuantity] = useState<number>(0)
   const [unit, setUnit] = useState<string>('')
 
-  const sizeOptions: SelectOption[] = useMemo(() => data?.sizes.map((item) => ({ label: item.size + ' ' + unit, value: String(item.size) })), [data?.sizes, unit]) || []
+  const { data: sizeOptionsData, getProductList } = useProduct()
+
+  const sizeOptions = useMemo(() => {
+    return sizeOptionsData?.results?.map((i) => ({ value: i.size, label: `${i.size} ${unit}` })) || []
+  }, [sizeOptionsData, unit])
+
+  const getSizes = () => {
+    getProductList({ where: { identifier: data?.identifier } })
+  }
 
   useEffect(() => {
-    if (data) {
-      setSelectedSize(String(data?.sizes[0].size))
-      setPrice(data?.sizes[0].price)
-      setQuantity(data?.sizes[0].quantity || 0)
-      setUnit(findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || '')
-    }
+    getSizes()
   }, [data])
 
-  const handleUpdateSize = (value: string) => {
-    setSelectedSize(value)
-    const size = data?.sizes.find((item) => item.size == Number(value))
-    setPrice(Number(size?.price))
-    setQuantity(Number(size?.quantity))
-  }
+  useEffect(() => {
+    if (data && sizeOptionsData?.results) {
+      setSelectedSize(String(sizeOptionsData?.results[0].size))
+      setUnit(findObjectByName(sizeOptionsData?.results[0]?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || '')
+    }
+  }, [data, sizeOptionsData?.results])
+
+  const handleUpdateSize = useCallback(
+    (value: string) => {
+      setSelectedSize(value)
+      const size = sizeOptionsData?.results?.find((item) => item.size == Number(value))
+    },
+    [sizeOptionsData?.results]
+  )
 
   return {
     unit,
     selectedSize,
     setSelectedSize,
-    price,
-    setPrice,
-    quantity,
-    setQuantity,
     sizeOptions,
     handleUpdateSize
   }

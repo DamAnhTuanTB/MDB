@@ -54,8 +54,7 @@ const AestheticProvider = ({ aestheticProvider }: Props) => {
           <div className={styles.aesthetic}>
             <h5 className={styles.aesthetic__title}>Provider Name</h5>
             <p className={styles.aesthetic__name}>
-              {aestheticProvider?.firstName}
-              {aestheticProvider?.lastName}
+              {aestheticProvider?.firstName} {aestheticProvider?.lastName}
             </p>
           </div>
         )}

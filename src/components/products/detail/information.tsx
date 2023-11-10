@@ -19,7 +19,7 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const { selectedSize, handleUpdateSize, price, quantity, sizeOptions, unit } = useProductDetail(data)
+  const { selectedSize, handleUpdateSize, sizeOptions, unit } = useProductDetail(data)
 
   return (
     <div className={styles.container}>
@@ -38,7 +38,7 @@ export default function Information({ data }: Props) {
           </div>
           <div className={styles.detail__group}>
             <h4 className={styles.detail__stock}>
-              {currencyFormatter.format(price)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(data?.price || 0)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <div className={styles.detail__description}>
@@ -52,9 +52,9 @@ export default function Information({ data }: Props) {
                 <SelectField className={styles.detail__form__input} inputClassName="h-10 text-[12px]" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
               </div>
               <div className={classNames(styles.detail__group, styles['quantity'], 'justify-between mt-2')}>
-                <span className={styles.detail__form__label}>Qty: {quantity}</span>
+                <span className={styles.detail__form__label}>Qty: {data?.quantity}</span>
                 <div className="flex">
-                  <Quantity className={styles.detail__form__input} name="quantity" min={1} max={quantity} defaultValue={1} />
+                  <Quantity className={styles.detail__form__input} name="quantity" min={1} max={data?.quantity} defaultValue={1} />
                   <Button className={classNames(styles.detail__form__button, styles['pc'])}>Add to cart</Button>
                 </div>
               </div>
