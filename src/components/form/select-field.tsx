@@ -10,7 +10,7 @@ import ErrorMessage from '@/components/form/error-message'
 
 export type SelectOption<T = string> = {
   label: string
-  value: string | T
+  value: string | number | T
 }
 
 export type Props = Partial<React.InputHTMLAttributes<HTMLSelectElement>> & {
