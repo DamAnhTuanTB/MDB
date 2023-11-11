@@ -20,6 +20,7 @@ import { EditData } from '.'
 
 type Form = {
   editValue: string
+  currentPassword?: string
   password?: string
   confirmPassword?: string
 }
@@ -27,6 +28,7 @@ type Form = {
 const schema = z
   .object({
     editValue: z.string(),
+    currentPassword: z.string().optional(),
     password: z.string().min(8).optional(),
     confirmPassword: z.string().optional()
   })
@@ -42,7 +44,7 @@ type Props = {
 }
 
 export default function ModalEdit({ open, data, onClose }: Props) {
-  const { updateProfile, profileUpdated } = useAccountInformation()
+  const { updateProfile, profileUpdated, profile } = useAccountInformation()
   const [isUpdated, setIsUpdated] = useState<boolean>(false)
   const [phoneNumber, setPhoneNumber] = useState<PhoneNumber>()
 
@@ -51,9 +53,25 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   }, [profileUpdated?.data])
 
   const handleSubmit = (value: Form) => {
-    if (value.editValue === data.value) return
-    const putData = {
-      [data.key]: data.key === 'allowPromotions' ? Boolean(Number(value.editValue)) : data.key === 'phone' ? phoneNumber?.number : value.editValue
+    if (data.key != 'password') {
+      if (value.editValue === data.value) return
+    }
+
+    let putData: Record<string, string | boolean> = {}
+
+    if (data.key === 'allowPromotions') {
+      putData[data.key] = Boolean(Number(value.editValue))
+    } else if (data.key === 'isEmailVerified') {
+      putData[data.key] = Boolean(Number(value.editValue))
+    } else if (data.key === 'phone') {
+      putData[data.key] = phoneNumber?.number || ''
+    } else if (data.key === 'password') {
+      putData = {
+        currentPassword: value.currentPassword || '',
+        newPassword: value.password || ''
+      }
+    } else {
+      putData[data.key] = value.editValue
     }
 
     updateProfile(putData)
@@ -66,7 +84,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
         <SelectField
           label={<p className="mb-2">Edit your {data?.label?.toLowerCase()} below</p>}
           className={styles.infor__item__select}
-          inputClassName={styles.infor__item__select__input}
+          inputClassName={styles.infopromotionEmailOptionsr__item__select__input}
           name="editValue"
           options={promotionEmailOptions}
           defaultValue={data.value ? '1' : '0'}
