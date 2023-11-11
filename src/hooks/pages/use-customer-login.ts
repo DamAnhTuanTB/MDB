@@ -14,7 +14,7 @@ import { useFetch } from '../use-fetch'
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()
   const { fetch, dataResult } = useFetch<LoginResponse, LoginBody>({ fetcher: customerApi.login })
-  const { setIsLoggedIn, setProfile, profile: profileStage } = useAuthStore()
+  const { setIsLoggedIn, setProfile, profile: profileStage, setIsLoading } = useAuthStore()
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
 
@@ -25,6 +25,7 @@ export const useCustomerLogin = () => {
       getProfile(dataResult?.data?.accessToken)
     } else if (dataResult?.error) {
       setErrorMessage(dataResult?.error?.response?.data.message)
+      setIsLoading(false)
     }
   }, [dataResult?.data])
 
@@ -32,12 +33,20 @@ export const useCustomerLogin = () => {
     if (profile?.data) {
       setIsLoggedIn(true)
       setProfile(profile.data)
+    } else if (profile?.error) {
+      setIsLoading(false)
     }
   }, [profile])
 
+  useEffect(() => {
+    if (profileStage) {
+      setIsLoading(false)
+    }
+  }, [profileStage])
+
   const login = async (data: LoginBody) => {
+    setIsLoading(true)
     await fetch(data)
-    setIsLoggedIn(true)
   }
 
   const logout = () => {
