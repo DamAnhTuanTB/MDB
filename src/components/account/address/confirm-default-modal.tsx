@@ -15,14 +15,20 @@ type Props = {
   open: boolean
   address?: AddressType
   onClose: () => void
+  onReload: (id: string) => void
+  onSuccess: (mess: string) => void
 }
 
-export default function ModalConfirmDefault({ open, onClose, address }: Props) {
-  const phoneNumber = address?.phone ? parsePhoneNumber(address?.phone) : ''
+export default function ModalConfirmDefault({ open, onClose, address, onReload, onSuccess }: Props) {
+  const phoneNumber = address?.phone ? parsePhoneNumber(address?.phone, 'US') : ''
   const { updateAddress, updateData } = useAccountAddress()
 
   useEffect(() => {
-    if (updateData?.data) onClose()
+    if (updateData?.data) {
+      onClose()
+      onReload(updateData?.data.id)
+      onSuccess('Update address default successfully')
+    }
   }, [updateData?.data])
 
   const handleSubmit = () => {
@@ -46,6 +52,7 @@ export default function ModalConfirmDefault({ open, onClose, address }: Props) {
             </p>
             <p>{phoneNumber && phoneNumber.formatNational()}</p>
           </div>
+          {updateData?.error && <p className="lg:mx-[50px] text-sm text-red mt-2">{updateData?.error?.message}</p>}
           <div className={styles.modal__buttons}>
             <Button variant="none" className={styles.modal__buttons__cancel} onClick={onClose}>
               Cancel

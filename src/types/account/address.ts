@@ -6,7 +6,7 @@ export type AddressBody = {
   phone: string
   company?: string
   city: string
-  stage: string
+  state: string
   country: string
   address: string
   zip: string
@@ -21,7 +21,7 @@ export type AddressType = {
   lastName: string
   address: string
   city: string
-  stage: string
+  state: string
   country: string
   zip: string
   company: string
