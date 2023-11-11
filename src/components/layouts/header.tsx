@@ -78,9 +78,7 @@ export default function Header() {
         })}
         {isLoggedIn && (
           <div className={styles.option__item} onClick={logout}>
-            {/*<Link href={''}>*/}
             Logout
-            {/*</Link>*/}
           </div>
         )}
       </>

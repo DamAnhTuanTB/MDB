@@ -7,7 +7,6 @@ import { validates } from '@/configs/validate'
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useAuthStore } from '@/recoil/auth'
-
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { LoginBody } from '@/types/authentication'
@@ -23,7 +22,7 @@ const schema = z.object({
 }) satisfies ZodType<LoginBody>
 
 export default function LoginForm() {
-  const { isLoggedIn,isLoading: isLoadingStage } = useAuthStore()
+  const { isLoggedIn, isLoading: isLoadingStage } = useAuthStore()
   const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false)
   const { query, push } = useRouterWithQueryParams()
@@ -34,7 +33,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isLoggedIn && !isLoadingStage) {
-      if(query?.onBack === '/account/information') push(routes.accountInformationPage())
+      if (query?.onBack === '/account/information') push(routes.accountInformationPage())
       else push(routes.homePage())
     }
   }, [isLoggedIn, isLoadingStage])
