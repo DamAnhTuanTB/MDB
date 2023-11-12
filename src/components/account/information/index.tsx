@@ -121,11 +121,12 @@ export default function AccountInformation({ profile, onReset }: Props) {
         </CollapseItem>
       </ProfileLayout>
 
-      {editData && (
+      {showEditModal && !!editData && (
         <ModalEdit
           open={showEditModal}
           onClose={(reset) => {
             setShowEditModal(false)
+            setEditData(undefined)
             reset && onReset()
           }}
           data={editData}

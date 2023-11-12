@@ -18,6 +18,7 @@ import TelField from '../../form/tel-field'
 import TextField from '../../form/text-field'
 
 import { EditData } from '.'
+import { useAuthStore } from '@/recoil/auth'
 
 type Form = {
   editValue: StringOrNull
@@ -54,12 +55,21 @@ const schemaPassword = () => {
 
 export default function ModalEdit({ open, data, onClose }: Props) {
   const { updateProfile, profileUpdated } = useAccountInformation()
+  const { setProfile } = useAuthStore()
   const [isUpdated, setIsUpdated] = useState<boolean>(false)
   const [phoneNumber, setPhoneNumber] = useState<PhoneNumber>()
 
   useEffect(() => {
-    if (profileUpdated?.data && isUpdated) onClose(true)
+    if (profileUpdated?.data && isUpdated) {
+      onClose(true)
+    }
   }, [profileUpdated?.data])
+
+  useEffect(() => {
+    if (profileUpdated?.data) {
+      setProfile(profileUpdated?.data)
+    }
+  }, [profileUpdated])
 
   const handleSubmitPassword = (value: FormPassword) => {
     let putData: Record<string, string | boolean> = {}
