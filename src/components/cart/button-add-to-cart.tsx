@@ -13,7 +13,6 @@ export default function ButtonAddToCart({ data, className, onOpened }: Props) {
   const { addCart, dataAddCart } = useCart()
 
   useEffect(() => {
-    console.log(dataAddCart)
     onOpened?.()
   }, [dataAddCart])
 

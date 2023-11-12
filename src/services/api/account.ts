@@ -9,11 +9,11 @@ import { apiBase } from '.'
 const accessToken = getLocalStorage(authenticationConfig.accessToken)
 
 export const accountApi = {
-  getProfile() {
+  getProfile(accessTokenT: string) {
     return apiBase.get<AccountInformation>('/users/me', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessTokenT || accessToken}`
       }
     })
   },
@@ -27,6 +27,14 @@ export const accountApi = {
   },
   getAddressList() {
     return apiBase.get<ListAddressResponse>('/addresses', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+  },
+  addAddressList({ body }: UpdateAddressParams) {
+    return apiBase.post<Partial<AddressBody>, AddressType>('/addresses', body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`

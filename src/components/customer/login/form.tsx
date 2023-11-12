@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 import { ZodType, z } from 'zod'
@@ -6,6 +6,8 @@ import { ZodType, z } from 'zod'
 import { validates } from '@/configs/validate'
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
+
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { LoginBody } from '@/types/authentication'
@@ -21,12 +23,21 @@ const schema = z.object({
 }) satisfies ZodType<LoginBody>
 
 export default function LoginForm() {
+  const { isLoggedIn,isLoading: isLoadingStage } = useAuthStore()
   const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
-  const { push } = useRouterWithQueryParams()
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false)
+  const { query, push } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (loginData) push(routes.homePage())
-  }, [loginData])
+    if (isLoading) setIsLoadingPage(true)
+  }, [isLoading])
+
+  useEffect(() => {
+    if (isLoggedIn && !isLoadingStage) {
+      if(query?.onBack === '/account/information') push(routes.accountInformationPage())
+      else push(routes.homePage())
+    }
+  }, [isLoggedIn, isLoadingStage])
 
   return (
     <div className={styles.wrapper}>
@@ -40,7 +51,7 @@ export default function LoginForm() {
           <div className={styles.form__field}>
             <TextField showErrorMessage required label="Password" name="password" placeholder="Password" type="password" isLoading={isLoading} isError={!!errorMessage} />
           </div>
-          <Button type="submit" className={styles.form__button} isLoading={isLoading}>
+          <Button type="submit" className={styles.form__button} isLoading={isLoadingPage}>
             Login
           </Button>
           <div className={classNames(styles.form__redirect, 'flex flex-col items-start md:items-center md:flex-row md:justify-between')}>

@@ -1,11 +1,15 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
+import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
+import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
+import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/index.module.scss'
-import { Product, ProductSize } from '@/types/product'
+import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
 
@@ -24,10 +28,47 @@ type Props = {
 }
 
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
-  const { query } = useRouterWithQueryParams()
+  const { query, push } = useRouterWithQueryParams()
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
+  const { favorites, addToFavorites, removeFromFavorites } = useFavoriteStore()
+  const { add, remove, addData, removeData } = useAccountFavorite()
+  const { getProfile, profile } = useAccountInformation()
+  const { isLoggedIn } = useAuthStore()
+
+  useMemo(() => {
+    if (favorites) {
+      const isProductInFavorites = favorites.some((favoriteProduct: Product) => favoriteProduct.id === product.id)
+      setIsFavorite(isProductInFavorites)
+    }
+  }, [favorites, product])
+
+  useEffect(() => {
+    if (addData) {
+      addToFavorites(product)
+    }
+  }, [addData])
+
+  useEffect(() => {
+    if (removeData?.data?.productId == product.id) {
+      removeFromFavorites(product)
+    }
+  }, [removeData])
+
+  const handleChangeFavorite = () => {
+    if (!isLoggedIn) {
+      push(routes.loginPage())
+      return
+    }
+    setIsFavorite(!isFavorite)
+    if (isFavorite) {
+      remove({ productId: product.id })
+    }
+    if (!isFavorite) {
+      add({ productId: product.id })
+    }
+  }
 
   const ratingScore = useMemo(() => Math.ceil(product?.averageRating), [product?.averageRating])
-  const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product])
 
   const ratingElements = useMemo(
     () => [1, 2, 3, 4, 5].map((num) => <div key={num} className={classNames(styles.item__rating__star, styles[type], { [styles['active']]: num <= ratingScore })}></div>),
@@ -42,15 +83,14 @@ export default function ProductItem({ product, category, className, page = '', t
       id: product?.id || '',
       productId: product?.id || '',
       quantity: 1,
-      size: size?.id,
+      size: product?.size,
       product: product
     }
-  }, [size, product])
+  }, [product])
 
   return (
     <div className={classNames(styles.item, [styles[page]], className)} data-id={product?.id}>
-      {/* TODO: handle favorite */}
-      <div className={classNames(styles.item__favorite, { [styles['active']]: true })} />
+      <div onClick={handleChangeFavorite} className={classNames(styles.item__favorite, { [styles['active']]: isFavorite })} />
       {featuredImage && <div className={styles.item__image} style={{ backgroundImage: `url(${featuredImage.url})` }} />}
       <div className={styles.item__detail}>
         <Button variant="ocean" onClick={() => onQuickReview && onQuickReview(product)}>
@@ -62,7 +102,7 @@ export default function ProductItem({ product, category, className, page = '', t
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
       <div className={styles.item__rating}>{ratingElements}</div>
-      <p className={styles.item__price}>{currencyFormatter.format(size?.price)}</p>
+      <p className={styles.item__price}>{currencyFormatter.format(product?.price)}</p>
       {dataAdd && <ButtonAddToCart className={styles.item__button} data={dataAdd} />}
     </div>
   )

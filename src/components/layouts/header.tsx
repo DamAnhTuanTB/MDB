@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 
 import Image from 'next/image'
 
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useAuthStore } from '@/recoil/auth'
 import { useGlobalSettingStore } from '@/recoil/global'
 import routes from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
@@ -47,6 +49,8 @@ export default function Header() {
   const [openMenu, setOpenMenu] = useState<boolean>(false)
   const [hoverableDropdown, setHoverableDropdown] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
+  const { logout } = useCustomerLogin()
+  const { isLoggedIn } = useAuthStore()
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,18 +67,26 @@ export default function Header() {
     }
   }, [])
 
-  const accountOptions = useMemo(
-    () =>
-      accountOptionsMockData &&
-      accountOptionsMockData.map((item, index) => {
-        return (
-          <div key={index} className={styles.option__item}>
-            <Link href={item.href}>{item.label}</Link>
+  const accountOptions = useMemo(() => {
+    return (
+      <>
+        {accountOptionsMockData?.map((item, index) => {
+          return (
+            <div key={index} className={styles.option__item}>
+              <Link href={item.href || ''}>{item.label}</Link>
+            </div>
+          )
+        })}
+        {isLoggedIn && (
+          <div className={styles.option__item} onClick={logout}>
+            {/*<Link href={''}>*/}
+            Logout
+            {/*</Link>*/}
           </div>
-        )
-      }),
-    [accountOptionsMockData]
-  )
+        )}
+      </>
+    )
+  }, [accountOptionsMockData, isLoggedIn])
 
   return (
     <header className={styles.wrapper}>
@@ -90,12 +102,12 @@ export default function Header() {
           <Search className="hidden lg:block w-[472px] mr-6" />
           <div className={styles.content__nav__item}>
             <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.account__dropdown} content={accountOptions}>
-              <Image src={'/images/icons/user.svg'} width={24} height={24} alt="My Dermbox" />
+              <Image src={'/images/icons/user.svg'} className={'cursor-pointer'} width={24} height={24} alt="My Dermbox" />
             </Dropdown>
           </div>
           <div className={styles.content__nav__item}>
             <Dropdown hoverable={hoverableDropdown} clickable={!hoverableDropdown} contentClassName={styles.favorite__dropdown} content={<FavoriteProducts />}>
-              <Image src={'/images/icons/heart.svg'} width={24} height={24} alt="My Dermbox" />
+              <Image src={'/images/icons/heart.svg'} className={'cursor-pointer'} width={24} height={24} alt="My Dermbox" />
             </Dropdown>
           </div>
           <Cart />

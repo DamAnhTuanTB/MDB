@@ -1,40 +1,32 @@
 import { useEffect } from 'react'
 
-import { useAccountFavorite } from '@/hooks/pages/use-account-favorite'
 import { useProduct } from '@/hooks/pages/use-product'
+import { useFavoriteStore } from '@/recoil/favorite'
 
 import Account from '@/components/account'
 import Favorite from '@/components/account/favorite'
 import Meta from '@/components/common/meta'
 
 export default function AccountPage() {
-  const { getFavorite, data: favoriteProducts } = useAccountFavorite()
   const { getProductList, data: relatedProducts } = useProduct()
+  const { favorites } = useFavoriteStore()
 
   useEffect(() => {
-    getFavorite({ noPagination: true })
-  }, [])
-
-  useEffect(() => {
-    if (favoriteProducts && favoriteProducts?.results?.length > 0) {
-      const favoriteIdList = favoriteProducts && favoriteProducts.results?.map((item) => item.id)
+    if (favorites.length > 0) {
+      const favoriteIdList = favorites.map((item) => item.id)
       getProductList({
         where: {
           relatedProductIds: favoriteIdList
         }
       })
     }
-  }, [favoriteProducts?.results])
-
-  const resetData = () => {
-    getFavorite({ noPagination: true })
-  }
+  }, [favorites])
 
   return (
     <>
       <Meta title="Favorites" />
       <Account>
-        <Favorite favoriteProducts={favoriteProducts?.results || []} relatedProducts={relatedProducts?.results || []} onReset={resetData} />
+        <Favorite favoriteProducts={favorites || []} relatedProducts={relatedProducts?.results || []} />
       </Account>
     </>
   )

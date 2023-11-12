@@ -7,7 +7,7 @@ export type CartItem = {
   id: string
   productId: string
   quantity: number
-  size?: string
+  size?: number
   createdAt?: string
   updatedAt?: string
   productSizeId?: string
@@ -18,7 +18,7 @@ export type AddCart = {
   productId: string
   quantity: number
   productSizeId?: string
-  size?: string
+  size?: number
 }
 export type EditCart = {
   id?: string

@@ -108,13 +108,13 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   }, [])
 
   return (
-    <Modal open={open} onClose={() => onClose()} bodyClassName={styles.wrapper} contentClassName="!overflow-visible">
+    <Modal open={open} onClose={onClose} bodyClassName={styles.wrapper} contentClassName="!overflow-visible">
       <h3 className={styles.title}>Change {data?.label}</h3>
       <CustomForm schema={schema} onSubmit={handleSubmit}>
         <>
           {inputElement}
           <div className={styles.buttons}>
-            <div className={styles.buttons__cancel} onClick={() => onClose()}>
+            <div className={styles.buttons__cancel} onClick={() => onClose(true)}>
               Cancel
             </div>
             <Button type="submit" className={styles.buttons__submit} isLoading={profileUpdated?.isLoading}>

@@ -3,77 +3,30 @@ import { useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useFavoriteStore } from '@/recoil/favorite'
 import routes from '@/routes'
 import styles from '@/styles/layout/favorite.module.scss'
-import { ProductFavorite } from '@/types/product'
-
-export const products: ProductFavorite[] = [
-  {
-    id: '1',
-    images: [
-      {
-        key: '01',
-        url: '/images/product.png',
-        isDefault: true
-      }
-    ],
-    name: 'EltaMD UV Lip Balm SPF 36',
-    categories: 'skin-care',
-    slug: 'la-roche-posay-spf50-50ml'
-  },
-  {
-    id: '1',
-    images: [
-      {
-        key: '01',
-        url: '/images/product.png',
-        isDefault: true
-      }
-    ],
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    categories: 'skin-care',
-    slug: 'la-roche-posay-spf50-50ml'
-  },
-  {
-    id: '3',
-    images: [
-      {
-        key: '01',
-        url: '/images/product.png',
-        isDefault: true
-      }
-    ],
-    name: 'EltaMD UV Lip Balm SPF 36',
-    categories: 'skin-care',
-    slug: 'la-roche-posay-spf50-50ml'
-  },
-  {
-    id: '4',
-    images: [
-      {
-        key: '01',
-        url: '/images/product.png',
-        isDefault: true
-      }
-    ],
-    name: 'EltaMD UV Clear Broad-Spectrum SPF 46',
-    categories: 'skin-care',
-    slug: 'la-roche-posay-spf50-50ml'
-  }
-]
+import { Product } from '@/types/product'
+import { ProductCategory } from '@/types/product/category'
 
 export default function FavoriteProducts() {
-  const getDefaultImage = (product: ProductFavorite) => {
+  const { query } = useRouterWithQueryParams()
+  const { favorites } = useFavoriteStore()
+
+  const getDefaultImage = (product: Product) => {
     const defaultImage = product.images.find((img) => img.isDefault)
     return defaultImage ? defaultImage.url : '/images/product.png'
   }
-  const favoriteProducts = useMemo(
+
+  const renderFavoriteProducts = useMemo(
     () =>
-      products &&
-      products.map((item, index) => {
+      favorites &&
+      favorites.map((item: Product, index: number) => {
+        const currentCategory = item?.categories?.length > 0 ? item?.categories[0] : ({} as ProductCategory)
         return (
           <div key={index} className={styles.product}>
-            <Link href={routes.productDetailPage(item.categories, item.slug)}>
+            <Link href={routes.productDetailPage(currentCategory?.slug, item?.slug, query.affiliate as string)}>
               <div className={styles.product__image}>
                 <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
               </div>
@@ -84,18 +37,18 @@ export default function FavoriteProducts() {
           </div>
         )
       }),
-    [products]
+    [favorites]
   )
 
   return (
     <div className={styles.favorite}>
       <div className={styles.favorite__header}>
         <span className={styles.title}>My Favorites</span>
-        <Link className={styles.edit} href="#">
+        <Link className={styles.edit} href={routes.favoritePage()}>
           Edit
         </Link>
       </div>
-      <div className={styles.favorite__body}>{favoriteProducts}</div>
+      <div className={styles.favorite__body}>{renderFavoriteProducts}</div>
     </div>
   )
 }

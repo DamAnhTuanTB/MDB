@@ -21,7 +21,6 @@ export type EditData = {
 type Props = {
   favoriteProducts: Product[]
   relatedProducts: Product[]
-  onReset: () => void
 }
 
 export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
