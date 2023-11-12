@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import type { PhoneNumber } from 'libphonenumber-js'
+import { FieldValue } from 'react-hook-form'
 import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
 import { promotionEmailOptions } from '@/constants/account'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import styles from '@/styles/modules/account/edit.module.scss'
+import { StringOrNull } from '@/types'
 
 import Button from '../../common/button'
 import Modal from '../../common/modal'
@@ -18,7 +20,7 @@ import TextField from '../../form/text-field'
 import { EditData } from '.'
 
 type Form = {
-  editValue: string
+  editValue: StringOrNull
 }
 
 type FormPassword = {
@@ -33,11 +35,10 @@ type Props = {
   onClose: (reset?: boolean) => void
 }
 
-const schema = () => {
-  return z.object({
-    editValue: z.string()
-  }) satisfies ZodType<Form>
-}
+const schema = z.object({
+  editValue: z.string()
+}) satisfies FieldValue<Form>
+
 const schemaPassword = () => {
   return z
     .object({
@@ -52,7 +53,7 @@ const schemaPassword = () => {
 }
 
 export default function ModalEdit({ open, data, onClose }: Props) {
-  const { updateProfile, profileUpdated, profile } = useAccountInformation()
+  const { updateProfile, profileUpdated } = useAccountInformation()
   const [isUpdated, setIsUpdated] = useState<boolean>(false)
   const [phoneNumber, setPhoneNumber] = useState<PhoneNumber>()
 
@@ -69,6 +70,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
     updateProfile(putData)
     setIsUpdated(true)
   }
+
   const handleSubmit = (value: Form) => {
     if (value.editValue === data.value) return
     const putData: Record<string, string | boolean> = {}
@@ -95,7 +97,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
           inputClassName={styles.infopromotionEmailOptionsr__item__select__input}
           name="editValue"
           options={promotionEmailOptions}
-          defaultValue={data.value ? '1' : '0'}
+          defaultValue={data?.value ? '1' : '0'}
           disabled={profileUpdated?.isLoading}
           showErrorMessage
         />
@@ -104,7 +106,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
       return (
         <TelField
           label={`Edit your ${data?.label?.toLowerCase()} below`}
-          defaultValue={data.value as string}
+          defaultValue={data?.value as string}
           name="editValue"
           disabled={profileUpdated?.isLoading}
           onUpdate={(phone) => setPhoneNumber(phone)}
@@ -121,15 +123,16 @@ export default function ModalEdit({ open, data, onClose }: Props) {
         disabled={profileUpdated?.isLoading}
       />
     )
-  }, [])
+  }, [data])
 
   return (
     <Modal open={open} onClose={onClose} bodyClassName={styles.wrapper} contentClassName="!overflow-visible">
       <h3 className={styles.title}>Change {data?.label}</h3>
-      {data.key !== 'password' && <Form schema={schema} inputElement={inputElement} onSubmit={handleSubmit} profileUpdated={profileUpdated} />}
+      {data.key !== 'password' && <Form schema={schema} inputElement={inputElement} onClose={() => onClose(true)} onSubmit={handleSubmit} profileUpdated={profileUpdated} />}
       {data.key == 'password' && (
         <Form
           schema={schemaPassword()}
+          onClose={() => onClose(true)}
           inputElement={
             <>
               <TextField showErrorMessage required label="Current password" name="currentPassword" placeholder="Current password" type="password" isLoading={profileUpdated?.isLoading} />
@@ -147,13 +150,13 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   )
 }
 
-const Form = (props) => {
-  const { profileUpdated, inputElement, ...rest } = props
+const Form = (props: any) => {
+  const { profileUpdated, inputElement, onClose, ...rest } = props
   return (
     <CustomForm {...rest}>
       <>
         {inputElement}
-        {profileUpdated?.error && <p className="text-base text-sm text-red mt-2">{profileUpdated?.error?.message}</p>}
+        {profileUpdated?.error && <p className="text-sm text-red mt-2">{profileUpdated?.error?.message}</p>}
         <div className={styles.buttons}>
           <div className={styles.buttons__cancel} onClick={() => onClose(true)}>
             Cancel
