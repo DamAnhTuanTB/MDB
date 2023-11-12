@@ -10,6 +10,7 @@ const accessToken = getLocalStorage(authenticationConfig.accessToken)
 
 export const accountApi = {
   getProfile(accessTokenT: string) {
+    console.log(accessTokenT, accessToken)
     return apiBase.get<AccountInformation>('/users/me', {
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +34,7 @@ export const accountApi = {
       }
     })
   },
-  addAddressList({ body }: UpdateAddressParams) {
+  addAddressList(body: AddressBody) {
     return apiBase.post<Partial<AddressBody>, AddressType>('/addresses', body, {
       headers: {
         'Content-Type': 'application/json',

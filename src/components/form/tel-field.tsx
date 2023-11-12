@@ -47,7 +47,7 @@ const TelField = ({
 
   const currentRef = useRef<HTMLInputElement>(null)
 
-  const phoneNumber = defaultValue ? parsePhoneNumber(defaultValue as string) : undefined
+  const phoneNumber = defaultValue ? parsePhoneNumber(defaultValue as string, 'US') : undefined
 
   const [number, setNumber] = useState<string>((phoneNumber?.nationalNumber as string) || '')
   const [countryCode, setCountryCode] = useState<string>(phoneNumber?.countryCallingCode || '1')

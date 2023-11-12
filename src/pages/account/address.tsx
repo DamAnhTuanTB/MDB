@@ -7,17 +7,17 @@ import AddressBook from '@/components/account/address'
 import Meta from '@/components/common/meta'
 
 export default function Addresses() {
-  const { getAdressList, addresses } = useAccountAddress()
+  const { getAddressList, addresses } = useAccountAddress()
 
   useEffect(() => {
-    getAdressList(undefined)
+    getAddressList(undefined)
   }, [])
 
   return (
     <>
       <Meta title="Address Book" />
       <ProfileLayout>
-        <AddressBook addresses={addresses?.data?.results} onReloadList={() => getAdressList(undefined)} />
+        <AddressBook addresses={addresses?.data?.results} onReloadList={() => getAddressList(undefined)} />
       </ProfileLayout>
     </>
   )

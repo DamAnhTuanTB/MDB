@@ -7,21 +7,16 @@ import { useAuthStore } from '@/recoil/auth'
 import Account from '@/components/account'
 import AccountInformation from '@/components/account/information'
 import Meta from '@/components/common/meta'
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 
 export default function AccountPage() {
   const { getProfile } = useAccountInformation()
+  const { loginPutBack } = useCustomerLogin()
   const { profile: profileStage, isLoading } = useAuthStore()
   const { push } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (!isLoading && !profileStage) {
-      push({
-        pathname: '/customer/login',
-        query: {
-          onBack: '/account/information'
-        }
-      })
-    }
+    if (!isLoading && !profileStage) loginPutBack('/account/information')
   }, [isLoading, profileStage])
 
   const resetData = () => {
