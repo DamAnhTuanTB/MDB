@@ -11,7 +11,6 @@ import { AddressBody, AddressType } from '@/types/account/address'
 import Button from '@/components/common/button'
 import Modal from '@/components/common/modal'
 import CustomForm from '@/components/form'
-import SelectField from '@/components/form/select-field'
 import TelField from '@/components/form/tel-field'
 import TextField from '@/components/form/text-field'
 
@@ -33,18 +32,23 @@ export const schema = z.object({
   isDefault: z.any()
 }) satisfies ZodType<AddressBody>
 
+type successFunc = {
+  message: string
+  type: 'info' | 'warning' | 'error' | 'success'
+}
+
 export type Props = {
   open: boolean
   onClose: () => void
   onReload: () => void
   address?: AddressType | null
-  onSuccess: (params: { message: string, type: 'info' | 'warning' | 'error' | 'success' }) => void
+  onSuccess: (params: successFunc) => void
 }
 
 export default function AddressModal({ open, onClose, onReload, address: dataEdit, onSuccess }: Props) {
   const { profile, phoneNumber } = useAuthStore()
-  const { addAddress, addData, addresses, updateAddress, updateData } = useAccountAddress()
-  const { firstName, lastName, company, city, state, country, address, zip, isDefault } = dataEdit || {}
+  const { addAddress, addData, updateAddress, updateData } = useAccountAddress()
+  const { firstName, lastName, company, city, state, country, address, zip } = dataEdit || {}
   const [isDefaultAddress, setIsDefaultAddress] = useState<boolean>(false)
   const [phoneState, setPhoneState] = useState<string | undefined>('')
 
