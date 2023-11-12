@@ -32,6 +32,10 @@ export default function LoginForm() {
     if (isLoading) setIsLoadingPage(true)
   }, [isLoading])
 
+  useEffect(()=>{
+    if(errorMessage) setIsLoadingPage(false)
+  },[errorMessage])
+
   useEffect(() => {
     if (isLoggedIn && !isLoadingStage) {
       if (query?.onBack === '/account/information') push(routes.accountInformationPage())
@@ -42,7 +46,6 @@ export default function LoginForm() {
   return (
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Login</h4>
-      {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
       <CustomForm schema={schema} onSubmit={login}>
         <div className={styles.form}>
           <div className={styles.form__field}>
@@ -51,6 +54,7 @@ export default function LoginForm() {
           <div className={styles.form__field}>
             <TextField showErrorMessage required label="Password" name="password" placeholder="Password" type="password" isLoading={isLoading} isError={!!errorMessage} />
           </div>
+          {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
           <Button type="submit" className={styles.form__button} isLoading={isLoadingPage}>
             Login
           </Button>
