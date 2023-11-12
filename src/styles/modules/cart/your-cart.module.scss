@@ -49,7 +49,7 @@
   }
 
   &__tr, &__header {
-    @apply grid grid-cols-[auto_10%_15%_15%] md:grid-cols-[auto_minmax(120px,10%)_15%_15%] w-full gap-x-0 gap-0;
+    @apply grid grid-cols-[auto_0%_0%_20%] md:grid-cols-[auto_minmax(120px,10%)_15%_15%] w-full gap-x-0 gap-0;
     @apply items-center justify-items-end;
 
     & > :nth-child(2) {

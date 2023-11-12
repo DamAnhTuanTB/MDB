@@ -39,7 +39,7 @@ export default function RelatedProduct({ title, products, category, className, l
     <div className={classNames(styles.wrapper, className)}>
       <h3 className={styles.title}>{title}</h3>
       <div className={classNames(styles.list, listClassName)}>{productElements}</div>
-      {quickReviewData && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
+      {(quickReviewData && openQuickReview) && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
     </div>
   )
 }

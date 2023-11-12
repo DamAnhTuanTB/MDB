@@ -3,13 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import { useCart } from '@/hooks/use-cart'
-import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
-import { CartItem } from '@/types/cart'
-import { PRODUCT_ATTRIBUTE } from '@/types/product'
-import { currencyFormatter, findObjectByName, getLocalStorage } from '@/utils/helper'
+import { currencyFormatter, getLocalStorage } from '@/utils/helper'
 
 import RelatedProduct from '@/components/cart/related'
 import ImageComponent from '@/components/common/image'
@@ -19,48 +16,35 @@ import SelectField from '@/components/form/select-field'
 import Button from '../common/button'
 import Modal from '../common/modal'
 import Quantity from '../common/quantity'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import routes from '@/routes'
 
 export default function ModalAddCartSuccess() {
   const {
-    cart: { showModalAddSuccess },
-    toggleModalAddSuccess
+    cart: { dataModalAddSuccess: dataProps }
   } = useCartStore()
-  const { getCart, dataCart, editCart, deleteCart, dataDeleteCart } = useCart()
+  const { addCart, editCart, deleteCart, dataDeleteCart } = useCart()
+  const { sizeOptions, selectedSize, sizeOptionsData, setSelectedSize, handleUpdateSize } = useProductDetail(dataProps?.product)
+
+  const product = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize) || dataProps?.product?.size), [sizeOptionsData, selectedSize])
 
   const { data: productList, getProductList } = useProduct()
-  const { isLoggedIn } = useAuthStore()
+  const { setCartModal } = useCartStore()
   const { setNotificationUI } = useNotificationUI()
-
-  const [data, setData] = useState<CartItem | null>()
-  const { product, quantity } = data || {}
-  const { price, quantity: quantityTotal, sizeOptions, selectedSize } = useProductDetail(product)
-
+  const { push } = useRouterWithQueryParams()
   const timer = useRef<any>()
 
-  const image = useMemo(() => product?.images?.find((item) => item.isDefault), [product?.images, data, product])
-  const brands = useMemo(() => findObjectByName(product?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes, [product])
-  const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
+  const image = useMemo(() => product?.images?.find((item: any) => item.isDefault), [product?.images, dataProps, product])
 
   useEffect(() => {
-    if (showModalAddSuccess) {
-      if (isLoggedIn) getCart()
-      else {
-        setData(getLocalStorageCart()?.[0] || {})
-      }
+    return () => {
+      setCartModal(null)
     }
-  }, [showModalAddSuccess])
-
-  // get product first in list card to display
-  useEffect(() => {
-    if (dataCart?.data?.results[0]) {
-      setData(dataCart?.data?.results[0])
-    }
-  }, [dataCart])
-
+  }, [])
   // load list Prod May be Also Like
   useEffect(() => {
-    if (data?.product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
-  }, [data])
+    if (product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
+  }, [product])
 
   // off popover after delete
   useEffect(() => {
@@ -68,7 +52,7 @@ export default function ModalAddCartSuccess() {
   }, [dataDeleteCart])
 
   const _onClose = () => {
-    toggleModalAddSuccess(false) //off
+    setCartModal() //off
   }
 
   const getLocalStorageCart = () => {
@@ -80,25 +64,27 @@ export default function ModalAddCartSuccess() {
   const _editCart = (params: object) => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => {
-      if (data?.id) editCart({ ...params, id: data.id })
+      if (product?.id) editCart({ ...params, id: dataProps?.id, productId: dataProps?.productId })
       else renderNotFound()
     }, 500)
-  }
-
-  const _deleteCart = () => {
-    if (data?.id) deleteCart(data?.id)
-    else renderNotFound()
   }
 
   const renderNotFound = () => {
     return setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
   }
   const goCart = () => {
-    // router.push(routers.cartPage())
+    push(routes.cartPage())
+  }
+
+  const _onDelete = () => {
+    if (product?.id) {
+      deleteCart(dataProps?.id || '')
+      setCartModal(null)
+    }
   }
 
   return (
-    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={showModalAddSuccess} onClose={_onClose}>
+    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps} onClose={_onClose}>
       <div className={stylesModal.header}>
         <span className={stylesModal.header__icon} />
         <div className={stylesModal.header__label}>Added to Cart</div>
@@ -108,17 +94,43 @@ export default function ModalAddCartSuccess() {
           <ImageComponent src={image?.url} className={stylesModal.product__image} width={100} height={100} />
           <div className={stylesModal.product__info}>
             <h3 className={'line-clamp-2'}>{product?.name}</h3>
-            <h3 className={'pt-4'}>{currencyFormatter.format(price)}</h3>
+            <h3 className={'pt-4'}>{currencyFormatter.format(product?.price || 0)}</h3>
           </div>
         </div>
         <CustomForm>
           <div className={stylesModal.body__form}>
             <div className={'flex items-center justify-center'}>
-              <SelectField className={stylesModal.body__form__select} inputClassName="h-10" name="size" options={sizeOptions} onChange={(vl) => _editCart({ productSizeId: vl })} />
+              <SelectField
+                className={stylesModal.body__form__select}
+                inputClassName="h-10"
+                name="size"
+                defaultValue={dataProps?.product?.size}
+                value={dataProps?.product?.size}
+                options={sizeOptions}
+                onInputChange={(vl) => {
+                  handleUpdateSize(vl)
+                  deleteCart(dataProps?.id || '')
+                  addCart({
+                    id: dataProps?.id || '',
+                    productId: dataProps?.product?.id || '',
+                    quantity: Number(dataProps?.quantity),
+                    product: dataProps?.product
+                  })
+                }}
+              />
             </div>
             <div className={'flex items-center justify-center'}>
-              <Quantity name="quantity" min={1} max={quantityTotal} defaultValue={quantity} value={data?.quantity} onChange={(vl) => _editCart({ quantity: vl })} />
-              <Button variant={'outlined'} className={'ml-2 !border-gray-400 w-8 h-8'} onClick={_deleteCart}>
+              <Quantity
+                name="quantity"
+                min={1}
+                max={product?.quantity}
+                defaultValue={1}
+                value={dataProps?.quantity}
+                onChange={(vl) => {
+                  _editCart({ quantity: vl })
+                }}
+              />
+              <Button variant={'outlined'} className={'ml-2 !border-gray-400 w-8 h-8 min-w-fit'} onClick={_onDelete} isLoading={dataDeleteCart?.isLoading}>
                 <ImageComponent src={'/images/icons/delete.svg'} width={16} height={16} />
               </Button>
             </div>

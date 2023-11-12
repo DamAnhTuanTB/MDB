@@ -13,7 +13,6 @@ export default function AccountPage() {
   const { getProfile } = useAccountInformation()
   const { loginPutBack } = useCustomerLogin()
   const { profile: profileStage, isLoading } = useAuthStore()
-  const { push } = useRouterWithQueryParams()
 
   useEffect(() => {
     if (!isLoading && !profileStage) loginPutBack('/account/information')

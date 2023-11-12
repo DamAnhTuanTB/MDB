@@ -36,7 +36,9 @@ let isRefreshed: boolean = false
 let isRefreshing: boolean = false
 
 instance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response
+  },
   async (error) => {
     if (error.response && error.response.status === 401) {
       if (!isRefreshed) {

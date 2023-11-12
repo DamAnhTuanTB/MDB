@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -26,27 +26,30 @@ type Props = {
   onClose: () => void
 }
 
-export default function QuickReviewModal({ open, data, onClose }: Props) {
+export default function QuickReviewModal({ open, data: dataProps, onClose }: Props) {
   const { query } = useRouterWithQueryParams()
+  const { handleUpdateSize, sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(dataProps)
+  const data = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize) || dataProps.size), [sizeOptionsData, selectedSize])
 
   const image = useMemo(() => data?.images && data?.images?.find((item) => item.isDefault), [data?.images])
   const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
 
-  const { handleUpdateSize, price, selectedSize, quantity, sizeOptions, unit, setQuantity } = useProductDetail(data)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
   const dataAdd = useMemo(() => {
     return {
       id: data?.id || '',
       productId: data?.id || '',
       quantity: selectedQuantity,
-      size: data?.size,
       product: data
     }
-  }, [selectedQuantity, data])
+  }, [sizeOptions.length, data])
 
+  const quantityCurrent = useRef()
+
+  // if(!(open && !!dataProps && !!data)) return null
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open && !!dataProps && !!data} onClose={onClose}>
       <div className={styles.body}>
         <div className={styles.pc}>
           <div className={styles.image} style={{ backgroundImage: `url(${image?.url})` }}></div>
@@ -66,7 +69,8 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
           </div>
           <div className={styles.content__group}>
             <h4>
-              {currencyFormatter.format(data?.price || 0)} <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(data?.price || 0)}
+              <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
           <h4 className={styles.content__description__title}>Product Description</h4>
@@ -77,7 +81,7 @@ export default function QuickReviewModal({ open, data, onClose }: Props) {
             <div className={styles.content__form}>
               <div className={classNames(styles.content__group, styles['size'], 'justify-between')}>
                 <p className={styles.content__form__label}>Size </p>
-                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
+                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" defaultValue={data?.size} options={sizeOptions} onInputChange={handleUpdateSize} />
               </div>
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
                 <p className={styles.content__form__label}>Qty: {data?.quantity}</p>

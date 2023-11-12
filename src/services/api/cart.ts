@@ -18,7 +18,6 @@ export const cartApi = {
       sort: {createdAt: 'desc'},
       noPagination: true
     })
-    console.log(queryString)
     return apiBase.get<GetCartResponse>(`/carts?${queryString}`, config)
   },
 

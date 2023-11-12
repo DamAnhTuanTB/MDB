@@ -6,8 +6,6 @@ import { findObjectByName } from '@/utils/helper'
 
 export const useProductDetail = (data?: Product) => {
   const [selectedSize, setSelectedSize] = useState<string>('')
-  const [price, setPrice] = useState<number>(0)
-  const [quantity, setQuantity] = useState<number>(0)
   const [unit, setUnit] = useState<string>('')
 
   const { data: sizeOptionsData, getProductList } = useProduct()
@@ -26,7 +24,6 @@ export const useProductDetail = (data?: Product) => {
 
   useEffect(() => {
     if (data && sizeOptionsData?.results) {
-      setSelectedSize(String(sizeOptionsData?.results[0].size))
       setUnit(findObjectByName(sizeOptionsData?.results[0]?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || '')
     }
   }, [data, sizeOptionsData?.results])
@@ -34,7 +31,8 @@ export const useProductDetail = (data?: Product) => {
   const handleUpdateSize = useCallback(
     (value: string) => {
       setSelectedSize(value)
-      const size = sizeOptionsData?.results?.find((item) => item.size == Number(value))
+      const productSize = sizeOptionsData?.results?.find((item) => item.size == Number(value))
+      setUnit(findObjectByName(productSize?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || '')
     },
     [sizeOptionsData?.results]
   )
@@ -43,11 +41,8 @@ export const useProductDetail = (data?: Product) => {
     unit,
     selectedSize,
     setSelectedSize,
-    price,
-    setPrice,
-    quantity,
-    setQuantity,
     sizeOptions,
+    sizeOptionsData,
     handleUpdateSize
   }
 }

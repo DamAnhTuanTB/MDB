@@ -5,14 +5,14 @@ import { CartItem } from '@/types/cart'
 export type CartStore = {
   count: number
   listProd: CartItem[]
-  showModalAddSuccess: boolean
+  dataModalAddSuccess: CartItem | null
 }
 export const cartState = atom<CartStore>({
   key: 'cartDetailState',
   default: {
     count: 0,
     listProd: [],
-    showModalAddSuccess: false
+    dataModalAddSuccess: null
   }
 })
 
@@ -22,15 +22,19 @@ export const useCartStore = () => {
     setCart((currVal) => ({ ...currVal, count }))
   }
 
-  const toggleModalAddSuccess = (flag?: boolean) => {
+  const toggleModalAddSuccess = (cartData?: CartItem) => {
     setCart((currVal) => ({
       ...currVal,
-      showModalAddSuccess: typeof flag === 'boolean' ? flag : !cart.showModalAddSuccess
+      dataModalAddSuccess: cartData || null
     }))
   }
 
   const setCartDetail = (listProd: CartItem[]) => {
     setCart((currVal) => ({ ...currVal, listProd }))
+  }
+
+  const setCartModal = (cartData: CartItem | null = null) => {
+    setCart((currVal) => ({ ...currVal, dataModalAddSuccess: cartData }))
   }
 
   const setCartStore = (cart: CartStore) => setCart((currVal) => ({ ...currVal, ...cart }))
@@ -40,6 +44,7 @@ export const useCartStore = () => {
     setCartBadge,
     setCartDetail,
     setCartStore,
+    setCartModal,
     toggleModalAddSuccess
   }
 }

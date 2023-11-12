@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -14,15 +14,7 @@ type Props = {
   onChange?: (value: number) => void
 }
 
-export default function Quantity({
-                                   value: valueProps,
-                                   name,
-                                   defaultValue = 0,
-                                   min = 0,
-                                   max,
-                                   className,
-                                   onChange
-                                 }: Props) {
+export default function Quantity({ value: valueProps, name, defaultValue = 0, min = 0, max, className, onChange }: Props) {
   const [value, setValue] = useState<number>(defaultValue || 0)
 
   const increase = () => {
@@ -32,10 +24,8 @@ export default function Quantity({
     onChange && onChange(value + 1)
   }
 
-
   useEffect(() => {
-    console.log("valuePropsvaluePropsvaluePropsvalueProps")
-    console.log(valueProps)
+    if (valueProps) setValue(valueProps || 0)
   }, [valueProps])
 
   const decrease = () => {
@@ -46,11 +36,14 @@ export default function Quantity({
 
   return (
     <div className={classNames(styles.wrapper, className)}>
-      <span className={classNames(styles.button, [styles['minus']], {[styles['disabled']]: value === min})}
-            onClick={decrease}/>
-      <input name={name} value={value} min={min} max={max} disabled/>
-      <span className={classNames(styles.button, [styles['add']], {[styles['disabled']]: value === max})}
-            onClick={increase}/>
+      <span className={classNames(styles.button, [styles['minus']], { [styles['disabled']]: value === min })} onClick={decrease} />
+      {useMemo(
+        () => (
+          <input name={name} value={value} min={min} max={max} disabled />
+        ),
+        [value]
+      )}
+      <span className={classNames(styles.button, [styles['add']], { [styles['disabled']]: value === max })} onClick={increase} />
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { CartItem } from '@/types/cart'
 
@@ -10,17 +9,16 @@ type Props = {
   onOpened?: () => void
 }
 export default function ButtonAddToCart({ data, className, onOpened }: Props) {
-  const { addCart } = useCart()
+  const { addCart, dataAddCart } = useCart()
+
+  const _addToCart = () => {
+    addCart(data, (type: string, openModal?: boolean) => {
+      if (type !== 'local' || !openModal) onOpened?.()
+    })
+  }
 
   return (
-    <Button
-      className={className}
-      onClick={() =>
-        addCart(data, (type, open) => {
-          if (open || type !== 'local') onOpened?.()
-        })
-      }
-    >
+    <Button className={className} onClick={_addToCart} isLoading={dataAddCart?.isLoading}>
       Add to cart
     </Button>
   )

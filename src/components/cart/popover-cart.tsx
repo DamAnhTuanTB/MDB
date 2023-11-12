@@ -72,7 +72,7 @@ export default function Cart() {
             const { quantity } = item
             const unit = findObjectByName(attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || ''
 
-            const img = images.find((i, idx) => i.isDefault)?.url
+            const img = images?.find((i, idx) => i.isDefault)?.url
             return (
               <div key={idx} className={stylesPopoverCart.popover__row}>
                 <Image src={img} className={'!w-50 !sm:w-100'} />

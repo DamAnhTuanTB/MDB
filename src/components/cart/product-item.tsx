@@ -32,21 +32,18 @@ type Props = {
 export default function ProductItem({ product, category, className, page = '', type = 'blue', onQuickReview }: Props) {
   const { query } = useRouterWithQueryParams()
 
-  const size = useMemo(() => product.sizes[0] || ({} as ProductSize), [product.sizes])
-
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
-  const { handleUpdateSize, quantity, sizeOptions } = useProductDetail(product)
+  const { handleUpdateSize, selectedSize, sizeOptions, unit } = useProductDetail(product)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
   const dataAdd = useMemo(() => {
     return {
       id: product?.id || '',
       productId: product?.id || '',
       quantity: selectedQuantity,
-      size: size?.id,
       product: product
     }
-  }, [size, product, selectedQuantity])
+  }, [product, selectedQuantity])
 
   return (
     <div className={classNames(styles.item, [styles[page]], className, 'flex flex-col items-center')} data-id={product?.id}>
@@ -62,11 +59,11 @@ export default function ProductItem({ product, category, className, page = '', t
         </Link>
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
-      <p className={styles.item__price}>{currencyFormatter.format(size?.price)}</p>
+      <p className={styles.item__price}>{currencyFormatter.format(product?.price || 0)}</p>
       <CustomForm>
         <div className={'flex justify-between mt-5 gap-2'}>
           <SelectField className={`${stylesModal.body__form__select} `} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
-          <Quantity className={`${stylesModal.body__form__input} !max-w-[50px] !md:max-w-[60px]`} name="quantity" min={1} max={quantity} defaultValue={1} onChange={setSelectedQuantity} />
+          <Quantity className={`${stylesModal.body__form__input} !max-w-[50px] !md:max-w-[60px]`} name="quantity" min={1} max={product?.quantity} defaultValue={1} onChange={setSelectedQuantity} />
         </div>
       </CustomForm>
       {dataAdd && <ButtonAddToCart className={`${styles.item__button} bg-blue`} data={dataAdd} />}

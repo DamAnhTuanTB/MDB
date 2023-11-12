@@ -5,20 +5,19 @@ import { ListResponse } from '.'
 export type CartItem = {
   userId?: string
   id: string
+  cartItemId?: string
   productId: string
   quantity: number
-  size?: number
   createdAt?: string
   updatedAt?: string
   productSizeId?: string
-  product: Product
+  syncType?: 'delete' | 'update'
+  product: Product | undefined
 }
 
 export type AddCart = {
   productId: string
   quantity: number
-  productSizeId?: string
-  size?: number
 }
 export type EditCart = {
   id?: string

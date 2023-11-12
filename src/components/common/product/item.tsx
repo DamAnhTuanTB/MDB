@@ -81,7 +81,6 @@ export default function ProductItem({ product, category, className, page = '', t
       id: product?.id || '',
       productId: product?.id || '',
       quantity: 1,
-      size: product?.size,
       product: product
     }
   }, [product])

@@ -21,14 +21,13 @@ type Props = {
 }
 
 export default function Information({ data }: Props) {
-  const { selectedSize, handleUpdateSize, price, quantity, sizeOptions, unit, setQuantity } = useProductDetail(data)
+  const { selectedSize, handleUpdateSize, sizeOptions, unit } = useProductDetail(data)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
   const dataAdd = useMemo(() => {
     return {
       id: data?.id || '',
       productId: data?.id || '',
       quantity: selectedQuantity,
-      size: data?.size,
       product: data
     }
   }, [data, selectedQuantity])
