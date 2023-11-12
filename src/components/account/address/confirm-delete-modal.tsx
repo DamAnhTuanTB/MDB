@@ -16,7 +16,7 @@ type Props = {
   address?: AddressType
   onClose: () => void
   onReloadList: () => void
-  onSuccess: (mess: string) => void
+  onSuccess: (params: { message: string, type: 'info' | 'warning' | 'error' | 'success' }) => void
 }
 
 export default function ModalConfirmDelete({ open, onClose, address, onReloadList, onSuccess }: Props) {
@@ -25,11 +25,9 @@ export default function ModalConfirmDelete({ open, onClose, address, onReloadLis
 
   useEffect(() => {
     if (deleteData?.data) {
-      onSuccess('Delete address successfully')
-      setTimeout(() => {
-        onReloadList()
-        onClose()
-      }, 100)
+      onSuccess({ message: 'Delete address successfully', type: 'success' })
+      onReloadList()
+      onClose()
     }
   }, [deleteData?.data])
 

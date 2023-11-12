@@ -21,6 +21,12 @@ export default function Modal({ open, children, className, bodyClassName, conten
     else enableScroll()
   }, [open])
 
+  useEffect(()=>{
+    return ()=>{
+      enableScroll()
+    }
+  },[])
+
   return (
     <div className={classNames(styles.wrapper, className, { [styles['open']]: open })}>
       <div className={styles.overlay} />

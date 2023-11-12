@@ -16,7 +16,7 @@ type Props = {
   address?: AddressType
   onClose: () => void
   onReload: (id: string) => void
-  onSuccess: (mess: string) => void
+  onSuccess: (params: { message: string, type: 'info' | 'warning' | 'error' | 'success' }) => void
 }
 
 export default function ModalConfirmDefault({ open, onClose, address, onReload, onSuccess }: Props) {
@@ -27,7 +27,7 @@ export default function ModalConfirmDefault({ open, onClose, address, onReload, 
     if (updateData?.data) {
       onClose()
       onReload(updateData?.data.id)
-      onSuccess('Update address default successfully')
+      onSuccess({ message: 'Update address default successfully', type: 'success' })
     }
   }, [updateData?.data])
 

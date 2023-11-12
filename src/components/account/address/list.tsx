@@ -13,6 +13,8 @@ import AddressModal from './add-modal'
 import ModalConfirmDefault from './confirm-default-modal'
 import ModalConfirmDelete from './confirm-delete-modal'
 import Notification from '@/components/common/notification'
+import { useRecoilState } from 'recoil'
+import { notificationState } from '@/recoil/notification'
 
 type Props = {
   addresses: AddressType[]
@@ -24,7 +26,7 @@ export default function AddressList({ addresses, onReloadList }: Props) {
   const [activeId, setActiveId] = useState<string | undefined>(defaultAddress?.id)
   const [selectedAddress, setselectedAddress] = useState<AddressType | null>()
   const [selectedRemoveAddress, setselectedRemoveAddress] = useState<AddressType>()
-  const [message, setMessSuccess] = useState<string>()
+  const [notificattion, setMessSuccess] = useRecoilState(notificationState)
 
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
@@ -145,7 +147,7 @@ export default function AddressList({ addresses, onReloadList }: Props) {
           onSuccess={setMessSuccess}
         />
       )}
-      <Notification message={message || ''} type={'success'} />
+      {!notificattion && <Notification message={''} type={'success'} />}
     </div>
   )
 }
