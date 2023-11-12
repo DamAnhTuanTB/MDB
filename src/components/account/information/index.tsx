@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { promotionEmailOptions } from '@/constants/account'
 import { PROFILE_ID } from '@/constants/profile'
+import { useAuthStore } from '@/recoil/auth'
 import styles from '@/styles/modules/account/content.module.scss'
 import { StringOrNull } from '@/types'
 import { AccountInformation } from '@/types/account/information'
@@ -29,6 +30,10 @@ export default function AccountInformation({ profile, onReset }: Props) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const [editData, setEditData] = useState<EditData>()
+  const { profile: profileStage } = useAuthStore()
+  const [phoneNumber, setPhoneNumber] = useState<StringOrNull>(profileStage?.phone || '')
+  const [allowPromotions, setAllowPromotions] = useState<string | boolean | null>(profileStage?.allowPromotions || null)
+  const [isEmailVerified, setIsEmailVerified] = useState<string | boolean | null>(profileStage?.isEmailVerified || null)
 
   useEffect(() => {
     setEditData(undefined)
@@ -42,6 +47,15 @@ export default function AccountInformation({ profile, onReset }: Props) {
     setEditData({ key, label, value })
     setShowEditModal(true)
   }
+
+  useEffect(() => {
+    setPhoneNumber(profileStage?.phone || '')
+  }, [profileStage])
+
+  useEffect(() => {
+    setAllowPromotions(profileStage?.allowPromotions || null)
+    setIsEmailVerified(profileStage?.isEmailVerified || null)
+  }, [profileStage])
 
   return (
     <>
@@ -82,7 +96,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
                 <div className={styles.infor__item__edit} onClick={() => handleEditInformation('phone', 'Mobile Number', profile?.phone)}>
                   Edit
                 </div>
-                {profile?.phone && <TelField disabled defaultValue={profile?.phone || ''} name="tel" inputClassName="border-none bg-transparent pointer-event-none" />}
+                {profile?.phone && <TelField disabled defaultValue={phoneNumber || ''} name="tel" inputClassName="border-none bg-transparent pointer-event-none" />}
               </div>
               <div className={styles.infor__item}>
                 <h4 className={styles.infor__item__title}>Password</h4>
@@ -99,7 +113,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
                   inputClassName={styles.infor__item__select__input}
                   name="promotionEmail"
                   options={promotionEmailOptions}
-                  value={profile?.allowPromotions ? '1' : '0'}
+                  value={allowPromotions ? '1' : '0'}
                 />
                 <div className={styles.infor__item__edit} onClick={() => handleEditInformation('allowPromotions', 'Allow MyDermbox Email Promotions', profile?.allowPromotions)}>
                   Edit
@@ -113,8 +127,11 @@ export default function AccountInformation({ profile, onReset }: Props) {
                   inputClassName={styles.infor__item__select__input}
                   name="isEmailVerified"
                   options={promotionEmailOptions}
-                  defaultValue={profile?.isEmailVerified ? '1' : '0'}
+                  defaultValue={isEmailVerified ? '1' : '0'}
                 />
+                <div className={styles.infor__item__edit} onClick={() => handleEditInformation('isEmailVerified', 'Email Is Verified', profile?.isEmailVerified)}>
+                  Edit
+                </div>
               </div>
             </div>
           </CustomForm>

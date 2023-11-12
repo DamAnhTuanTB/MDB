@@ -7,7 +7,6 @@ import { validates } from '@/configs/validate'
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useAuthStore } from '@/recoil/auth'
-
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { LoginBody } from '@/types/authentication'
@@ -32,9 +31,9 @@ export default function LoginForm() {
     if (isLoading) setIsLoadingPage(true)
   }, [isLoading])
 
-  useEffect(()=>{
-    if(errorMessage) setIsLoadingPage(false)
-  },[errorMessage])
+  useEffect(() => {
+    if (errorMessage) setIsLoadingPage(false)
+  }, [errorMessage])
 
   useEffect(() => {
     if (isLoggedIn && !isLoadingStage) {

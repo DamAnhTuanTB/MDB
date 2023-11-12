@@ -51,6 +51,7 @@ const TelField = ({
 
   const [number, setNumber] = useState<string>((phoneNumber?.nationalNumber as string) || '')
   const [countryCode, setCountryCode] = useState<string>(phoneNumber?.countryCallingCode || '1')
+  const [key, setKey] = useState<number>(0)
 
   useEffect(() => {
     const phoneString = parsePhoneNumber(`+${countryCode}${number}`)
@@ -68,6 +69,13 @@ const TelField = ({
       initialCountry: phoneNumber?.country || 'US'
     })
 
+    if (defaultValue) {
+      const parsedPhoneNumber = parsePhoneNumber(defaultValue as string)
+      setNumber(parsedPhoneNumber?.nationalNumber || '')
+      setCountryCode(parsedPhoneNumber?.countryCallingCode || '1')
+      telInput.setNumber(`+${parsedPhoneNumber?.countryCallingCode}${parsedPhoneNumber?.nationalNumber}`)
+    }
+
     currentRef.current?.addEventListener('countrychange', function (e) {
       const code = telInput.getSelectedCountryData()
       setCountryCode(code.dialCode)
@@ -76,7 +84,13 @@ const TelField = ({
     return () => {
       telInput.destroy()
     }
-  }, [])
+  }, [defaultValue])
+
+  useEffect(() => {
+    setNumber((parsePhoneNumber(defaultValue as string)?.nationalNumber as string) || '')
+    setCountryCode(parsePhoneNumber(defaultValue as string)?.countryCallingCode || '1')
+    setKey((prevKey) => prevKey + 1)
+  }, [defaultValue])
 
   return (
     <div className={classNames(styles.input, className)}>
@@ -87,6 +101,7 @@ const TelField = ({
         </p>
       )}
       <Controller
+        key={String(defaultValue)}
         name={name}
         control={control}
         defaultValue={phoneNumber?.formatNational()}
