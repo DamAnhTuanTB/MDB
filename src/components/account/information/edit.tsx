@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 
 import type { PhoneNumber } from 'libphonenumber-js'
 import { FieldValue } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
 import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
 import { promotionEmailOptions } from '@/constants/account'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
+import { useAuthStore } from '@/recoil/auth'
+import { notificationState } from '@/recoil/notification'
 import styles from '@/styles/modules/account/edit.module.scss'
 import { StringOrNull } from '@/types'
 
@@ -18,7 +21,6 @@ import TelField from '../../form/tel-field'
 import TextField from '../../form/text-field'
 
 import { EditData } from '.'
-import { useAuthStore } from '@/recoil/auth'
 
 type Form = {
   editValue: StringOrNull
@@ -55,6 +57,7 @@ const schemaPassword = () => {
 
 export default function ModalEdit({ open, data, onClose }: Props) {
   const { updateProfile, profileUpdated } = useAccountInformation()
+  const [notification, setNotification] = useRecoilState(notificationState)
   const { setProfile } = useAuthStore()
   const [isUpdated, setIsUpdated] = useState<boolean>(false)
   const [phoneNumber, setPhoneNumber] = useState<PhoneNumber>()
@@ -62,6 +65,7 @@ export default function ModalEdit({ open, data, onClose }: Props) {
   useEffect(() => {
     if (profileUpdated?.data && isUpdated) {
       onClose(true)
+      setNotification({ message: 'Changed information successfully', type: 'success' })
     }
   }, [profileUpdated?.data])
 
