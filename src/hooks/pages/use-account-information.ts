@@ -10,12 +10,7 @@ import { useFetch } from '../use-fetch'
 export const useAccountInformation = () => {
   const { fetch: getProfile, dataResult: profile } = useFetch<AccountInformation>({ fetcher: accountApi.getProfile })
 
-  const { fetch: updateProfile, dataResult: profileUpdated } = useFetch<Partial<AccountInformation>>({ fetcher: accountApi.updateProfile })
-  const { setProfile } = useAuthStore()
-
-  useEffect(() => {
-    if (profile?.data) setProfile(profile?.data)
-  }, [profile])
+  const { fetch: updateProfile, dataResult: profileUpdated } = useFetch<AccountInformation>({ fetcher: accountApi.updateProfile })
 
   return {
     profile,

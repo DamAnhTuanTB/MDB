@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { parsePhoneNumber } from 'libphonenumber-js'
 
@@ -12,6 +12,9 @@ import RadioItem from '@/components/common/radio-item'
 import AddressModal from './add-modal'
 import ModalConfirmDefault from './confirm-default-modal'
 import ModalConfirmDelete from './confirm-delete-modal'
+import Notification from '@/components/common/notification'
+import { useRecoilState } from 'recoil'
+import { notificationState } from '@/recoil/notification'
 
 type Props = {
   addresses: AddressType[]
@@ -21,31 +24,40 @@ type Props = {
 export default function AddressList({ addresses, onReloadList }: Props) {
   const defaultAddress = useMemo(() => addresses.find((item) => item.isDefault), [addresses])
   const [activeId, setActiveId] = useState<string | undefined>(defaultAddress?.id)
-  const [selectedAddress, setselectedAddress] = useState<AddressType>()
+  const [selectedAddress, setselectedAddress] = useState<AddressType | null>()
   const [selectedRemoveAddress, setselectedRemoveAddress] = useState<AddressType>()
+  const [notificattion, setMessSuccess] = useRecoilState(notificationState)
 
   const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false)
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
+  const [openModalEdit, setOpenModalEdit] = useState<AddressType | null>(null)
 
-  const { getAdressList } = useAccountAddress()
+  const { updateData } = useAccountAddress()
 
   useEffect(() => {
-    if (activeId) {
-      const address = addresses.find((item) => item.id === activeId)
-      setselectedAddress(address)
+    if (updateData?.data?.id) {
+      // setActiveId(updateData?.data?.id)
     }
-  }, [activeId])
+  }, [updateData])
 
-  const handleEditAddress = () => {}
+  const _onRemove = (address: AddressType) => {
+    setselectedRemoveAddress(address)
+    setOpenModalDelete(true)
+  }
 
-  const handleRemoveAddress = () => {}
+  const _onEdit = (address: AddressType | null) => {
+    setOpenModalEdit(address)
+  }
+
+  const _onAdd = useCallback(() => {
+    setOpenModalAdd(!openModalAdd)
+  }, [openModalAdd])
 
   const addressElements = useMemo(
     () =>
-      addresses &&
-      addresses.map((address, index) => {
-        const phoneNumber = address.phone ? parsePhoneNumber(address.phone) : ''
+      addresses?.map((address, index) => {
+        const phoneNumber = address.phone ? parsePhoneNumber(address.phone, 'US') : ''
 
         return (
           <RadioItem
@@ -54,12 +66,12 @@ export default function AddressList({ addresses, onReloadList }: Props) {
             iconCheckClassname={styles.radio__icon}
             title="Default Address"
             isSelected={activeId === address.id}
-            onSelect={() => setActiveId(address.id)}
-            onEdit={handleEditAddress}
-            onRemove={() => {
-              setselectedRemoveAddress(address)
-              setOpenModalDelete(true)
+            onSelect={() => {
+              setActiveId(address.id)
+              setselectedAddress(address)
             }}
+            onEdit={() => _onEdit(address)}
+            onRemove={() => _onRemove(address)}
           >
             <div className={styles.wrapper__address__item}>
               <p>
@@ -70,7 +82,7 @@ export default function AddressList({ addresses, onReloadList }: Props) {
               <p>
                 {address.city}, {address.country}
               </p>
-              <p>{phoneNumber && phoneNumber.formatNational()}</p>
+              <p>{phoneNumber && phoneNumber?.number}</p>
             </div>
           </RadioItem>
         )
@@ -80,36 +92,62 @@ export default function AddressList({ addresses, onReloadList }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <Button onClick={() => setOpenModalAdd(true)} className={styles.float__btn}>
+      <Button onClick={_onAdd} className={styles.float__btn}>
         Add Address
       </Button>
       {addressElements}
       <div className={styles.buttons}>
-        <Button onClick={() => setOpenModalConfirm(true)} className={styles.buttons__default} disabled={!activeId || activeId === defaultAddress?.id}>
+        <Button
+          onClick={() => {
+            setOpenModalConfirm(true)
+          }}
+          className={styles.buttons__default}
+          disabled={!activeId || activeId === defaultAddress?.id}
+        >
           Set As Default
         </Button>
-        <Button onClick={() => setOpenModalAdd(true)} className={styles.buttons__add__address}>
+        <Button onClick={_onAdd} className={styles.buttons__add__address}>
           Add Address
         </Button>
       </div>
-      <AddressModal open={openModalAdd} onClose={() => setOpenModalAdd(false)} />
-      <ModalConfirmDefault
-        open={openModalConfirm}
-        onClose={() => {
-          setOpenModalConfirm(false)
-          onReloadList()
-          setActiveId(selectedAddress?.id)
-        }}
-        address={selectedAddress}
-      />
-      <ModalConfirmDelete
-        open={openModalDelete}
-        onClose={() => {
-          setOpenModalDelete(false)
-          onReloadList()
-        }}
-        address={selectedRemoveAddress}
-      />
+      {(openModalAdd || !!openModalEdit) && (
+        <AddressModal
+          open={openModalAdd || !!openModalEdit}
+          address={openModalEdit || null}
+          onClose={() => {
+            if (openModalEdit) _onEdit(null)
+            else if (openModalAdd) _onAdd()
+          }}
+          onSuccess={setMessSuccess}
+          onReload={onReloadList}
+        />
+      )}
+      {!!openModalConfirm && selectedAddress && (
+        <ModalConfirmDefault
+          open={!!openModalConfirm}
+          onClose={() => {
+            setselectedAddress(null)
+            setOpenModalConfirm(false)
+          }}
+          onReload={(id) => {
+            setActiveId(id)
+          }}
+          onSuccess={setMessSuccess}
+          address={selectedAddress}
+        />
+      )}
+      {openModalDelete && (
+        <ModalConfirmDelete
+          open={openModalDelete}
+          onClose={() => {
+            setOpenModalDelete(false)
+          }}
+          onReloadList={onReloadList}
+          address={selectedRemoveAddress}
+          onSuccess={setMessSuccess}
+        />
+      )}
+      {!notificattion && <Notification message={''} type={'success'} />}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { customerApi } from '@/services/api/authentication'
 
@@ -10,13 +10,15 @@ import { LoginBody, LoginResponse } from '@/types/authentication'
 import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()
   const { fetch, dataResult } = useFetch<LoginResponse, LoginBody>({ fetcher: customerApi.login })
-  const { setIsLoggedIn, setProfile, profile: profileStage, setIsLoading } = useAuthStore()
+  const { setIsLoggedIn, setProfile, isLoading, profile: profileStage, setIsLoading } = useAuthStore()
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
+  const { push } = useRouterWithQueryParams()
 
   useEffect(() => {
     setErrorMessage(dataResult?.error?.response?.data.message)
@@ -32,7 +34,7 @@ export const useCustomerLogin = () => {
       setErrorMessage(dataResult?.error?.response?.data.message)
       setIsLoading(false)
     }
-  }, [dataResult?.data])
+  }, [dataResult])
 
   useEffect(() => {
     if (profile?.data) {
@@ -54,6 +56,15 @@ export const useCustomerLogin = () => {
     await fetch(data)
   }
 
+  const loginPutBack = (urlBack: string) => {
+    push({
+      pathname: '/customer/login',
+      query: {
+        url: urlBack
+      }
+    })
+  }
+
   const logout = () => {
     removeLocalStorage(authenticationConfig.accessToken)
     removeLocalStorage(authenticationConfig.refreshToken)
@@ -66,6 +77,7 @@ export const useCustomerLogin = () => {
     ...dataResult,
     errorMessage,
     login,
-    logout
+    logout,
+    loginPutBack
   }
 }

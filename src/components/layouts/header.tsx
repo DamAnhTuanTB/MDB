@@ -45,12 +45,12 @@ const accountOptionsMockData: AccountOption[] = [
 ]
 
 export default function Header() {
-  const { query } = useRouterWithQueryParams()
+  const { query, push } = useRouterWithQueryParams()
   const [openMenu, setOpenMenu] = useState<boolean>(false)
   const [hoverableDropdown, setHoverableDropdown] = useState<boolean>(true)
   const { globalSettingStore } = useGlobalSettingStore()
-  const { logout } = useCustomerLogin()
-  const { isLoggedIn } = useAuthStore()
+  const { logout, loginPutBack } = useCustomerLogin()
+  const { isLoggedIn, profile: profileStage } = useAuthStore()
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,16 +72,21 @@ export default function Header() {
       <>
         {accountOptionsMockData?.map((item, index) => {
           return (
-            <div key={index} className={styles.option__item}>
-              <Link href={item.href || ''}>{item.label}</Link>
+            <div
+              key={index}
+              className={styles.option__item}
+              onClick={() => {
+                if(!profileStage) loginPutBack(item.href)
+                else push(item.href)
+              }}
+            >
+              {item.label}
             </div>
           )
         })}
         {isLoggedIn && (
           <div className={styles.option__item} onClick={logout}>
-            {/*<Link href={''}>*/}
             Logout
-            {/*</Link>*/}
           </div>
         )}
       </>

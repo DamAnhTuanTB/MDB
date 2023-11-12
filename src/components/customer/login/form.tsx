@@ -7,7 +7,6 @@ import { validates } from '@/configs/validate'
 import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useAuthStore } from '@/recoil/auth'
-
 import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { LoginBody } from '@/types/authentication'
@@ -23,7 +22,7 @@ const schema = z.object({
 }) satisfies ZodType<LoginBody>
 
 export default function LoginForm() {
-  const { isLoggedIn,isLoading: isLoadingStage } = useAuthStore()
+  const { isLoggedIn, isLoading: isLoadingStage } = useAuthStore()
   const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false)
   const { query, push } = useRouterWithQueryParams()
@@ -33,8 +32,12 @@ export default function LoginForm() {
   }, [isLoading])
 
   useEffect(() => {
+    if (errorMessage) setIsLoadingPage(false)
+  }, [errorMessage])
+
+  useEffect(() => {
     if (isLoggedIn && !isLoadingStage) {
-      if(query?.onBack === '/account/information') push(routes.accountInformationPage())
+      if(query?.url) push({pathname: query?.url.toString()})
       else push(routes.homePage())
     }
   }, [isLoggedIn, isLoadingStage])
@@ -42,7 +45,6 @@ export default function LoginForm() {
   return (
     <div className={styles.wrapper}>
       <h4 className={classNames(styles.title, 'text-center')}>Login</h4>
-      {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
       <CustomForm schema={schema} onSubmit={login}>
         <div className={styles.form}>
           <div className={styles.form__field}>
@@ -51,6 +53,7 @@ export default function LoginForm() {
           <div className={styles.form__field}>
             <TextField showErrorMessage required label="Password" name="password" placeholder="Password" type="password" isLoading={isLoading} isError={!!errorMessage} />
           </div>
+          {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
           <Button type="submit" className={styles.form__button} isLoading={isLoadingPage}>
             Login
           </Button>

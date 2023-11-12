@@ -29,7 +29,7 @@
         @apply lg:-right-[12px];
 
         .option__item {
-          @apply px-4 text-sm cursor-pointer font-semibold break-normal mb-4 last:mb-0;
+          @apply px-4 text-sm cursor-pointer font-semibold break-keep whitespace-nowrap mb-4 last:mb-0;
           @apply lg:text-base lg:px-6;
           @apply hover:text-blue-100;
         }
