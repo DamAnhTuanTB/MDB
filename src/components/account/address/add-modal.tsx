@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
-import { useAuthStore } from '@/recoil/auth'
 import { useAccountAddress } from '@/hooks/pages/use-account-address'
+import { useAuthStore } from '@/recoil/auth'
 import styles from '@/styles/modules/account/modal.module.scss'
 import { AddressBody, AddressType } from '@/types/account/address'
 
@@ -63,6 +63,7 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
       }, 100)
     }
   }, [addData, updateData])
+
   const handleSubmit = (value: AddressBody) => {
     const postData: AddressBody = { ...value, isDefault: isDefaultAddress, phone: phoneState || '' }
 
@@ -83,8 +84,10 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
       <h4 className={styles.modal__label}>{`${dataEdit ? 'Update' : 'Add New'} Address`}</h4>
       <div className={styles.modal__content}>
         <CustomForm schema={schema} onSubmit={handleSubmit}>
-          {/*<CustomForm onSubmit={handleSubmit}>*/}
           <div className={styles.form}>
+            <div className={styles.form__field}>
+              <SelectField showErrorMessage required inputClassName={styles.form__select__input} defaultValue={country} name="country" placeholder="Select Country/Region" />
+            </div>
             <div className={styles.form__group}>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} name="firstName" placeholder="First name" defaultValue={firstName || profile?.firstName || ''} />
@@ -94,24 +97,20 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
               </div>
             </div>
             <div className={styles.form__field}>
-              {dataEdit && <TelField showErrorMessage required defaultValue={dataEdit.phone} onUpdate={(vl) => updatePhone(vl.number)} name="phone" className="!w-full" />}
-              {!dataEdit && <TelField showErrorMessage required defaultValue={phoneNumber?.number} onUpdate={(vl) => updatePhone(vl.number)} name="phone" className="!w-full" />}
-            </div>
-            <div className={styles.form__field}>
               <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={company} name="company" placeholder="Company (optional)" />
             </div>
             <div className={styles.form__field}>
               <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={address} name="address" placeholder="Address" />
             </div>
-            <div className={styles.form__field}>
-              <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={country} name="country" placeholder="Country/Region" />
+            <div className={`${styles.form__field} ${styles.form__field__city}`}>
+              <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} name="city" placeholder="city" />
             </div>
             <div className={styles.form__group__lg}>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={city} name="city" placeholder="City" />
               </div>
               <div className={styles.form__field}>
-                <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={state} name="state" placeholder="Stage" />
+                <SelectField showErrorMessage required inputClassName={styles.form__select__input} defaultValue={state} name="state" placeholder="Stage" />
               </div>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={zip} name="zip" placeholder="Zip Code" />
@@ -125,8 +124,12 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
                 <TextField showErrorMessage required inputClassName={styles.form__input} name="zip" defaultValue={zip} placeholder="Zip Code" />
               </div>
             </div>
+            <div className={styles.form__field}>
+              {dataEdit && <TelField showErrorMessage inputClassName={styles.form__input} required defaultValue={dataEdit.phone} onUpdate={(vl) => updatePhone(vl.number)} name="phone" className="!w-full" />}
+              {!dataEdit && <TelField showErrorMessage inputClassName={styles.form__input} required defaultValue={phoneNumber?.number} onUpdate={(vl) => updatePhone(vl.number)} name="phone" className="!w-full" />}
+            </div>
             <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0 lg:ml-2'} labelClassName={'!text-xs -ml-2'} />
-            {(addData?.error || updateData?.error) && <p className="text-base text-sm text-red mt-2">{addData?.error?.message || addData?.error?.message}</p>}
+            {(addData?.error || updateData?.error) && <p className="text-sm text-red mt-2">{addData?.error?.message || addData?.error?.message}</p>}
             <div className={styles.modal__buttons}>
               <Button variant="none" className={styles.modal__buttons__cancel} onClick={onClose}>
                 Cancel

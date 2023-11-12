@@ -1,13 +1,17 @@
 .modal {
   &__body {
-    @apply mx-6;
-    @apply lg:mx-0 lg:px-10 lg:py-10;
+    @apply mx-6 px-0;
+    @apply lg:mx-0 lg:py-10;
     max-width: 588px !important;
   }
 
+  &__content {
+    @apply px-0;
+  }
+
   &__label {
-    @apply mb-6 font-semibold text-lg text-center;
-    @apply lg:mb-6;
+    @apply mx-6 mb-6 mt-0 font-semibold text-lg text-center;
+    @apply lg:mb-10;
   }
 
   &__text {
@@ -36,6 +40,9 @@
 }
 
 .form {
+  @apply px-4;
+  @apply lg:px-10;
+
   &__group__sx,
   &__group {
     @apply flex gap-[14px];
@@ -50,7 +57,7 @@
     @apply lg:hidden;
 
     .form__input {
-      @apply h-10;
+      @apply h-11;
     }
   }
 
@@ -77,11 +84,15 @@
   }
 
   &__select__input {
-    @apply h-10;
+    @apply h-11;
     @apply lg:h-10;
   }
 
   &__input {
-    @apply h-10;
+    @apply h-10 bg-grey-50 border-grey-150;
+  }
+
+  .modal__buttons {
+    @apply gap-4 mr-10;
   }
 }
