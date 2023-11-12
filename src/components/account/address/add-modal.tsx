@@ -86,7 +86,7 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
         <CustomForm schema={schema} onSubmit={handleSubmit}>
           <div className={styles.form}>
             <div className={styles.form__field}>
-              <TextField showErrorMessage required inputClassName={styles.form__group} defaultValue={country} name="country" placeholder="Select Country/Region" />
+              <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={country} name="country" placeholder="Select Country/Region" />
             </div>
             <div className={styles.form__group}>
               <div className={styles.form__field}>
@@ -97,20 +97,20 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
               </div>
             </div>
             <div className={styles.form__field}>
-              <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={company} name="company" placeholder="Company (optional)" />
+              <TextField showErrorMessage inputClassName={styles.form__input} defaultValue={company} name="company" placeholder="Company (optional)" />
             </div>
             <div className={styles.form__field}>
               <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={address} name="address" placeholder="Address" />
             </div>
             <div className={`${styles.form__field} ${styles.form__field__city}`}>
-              <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} name="city" placeholder="city" />
+              <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} defaultValue={city} name="city" placeholder="City" />
             </div>
             <div className={styles.form__group__lg}>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={city} name="city" placeholder="City" />
               </div>
               <div className={styles.form__field}>
-                <TextField showErrorMessage required inputClassName={styles.form__group} defaultValue={state} name="state" placeholder="Stage" />
+                <TextField showErrorMessage required inputClassName={styles.form__group} defaultValue={state} name="state" placeholder="State" />
               </div>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={zip} name="zip" placeholder="Zip Code" />
@@ -118,7 +118,7 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
             </div>
             <div className={styles.form__group__sx}>
               <div className={styles.form__field}>
-                <TextField showErrorMessage required inputClassName={styles.form__select__input} defaultValue={state} name="state" />
+                <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={state} name="State" placeholder="State"/>
               </div>
               <div className={styles.form__field}>
                 <TextField showErrorMessage required inputClassName={styles.form__input} name="zip" defaultValue={zip} placeholder="Zip Code" />
