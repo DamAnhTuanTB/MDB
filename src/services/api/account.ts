@@ -10,7 +10,6 @@ const accessToken = getLocalStorage(authenticationConfig.accessToken)
 
 export const accountApi = {
   getProfile(accessTokenT: string) {
-    console.log(accessTokenT, accessToken)
     return apiBase.get<AccountInformation>('/users/me', {
       headers: {
         'Content-Type': 'application/json',
