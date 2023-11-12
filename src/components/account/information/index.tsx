@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { promotionEmailOptions } from '@/constants/account'
 import { PROFILE_ID } from '@/constants/profile'
@@ -28,10 +28,10 @@ type Props = {
 export default function AccountInformation({ profile, onReset }: Props) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
-  const [editData, seteditData] = useState<EditData>()
+  const [editData, setEditData] = useState<EditData>()
 
   useEffect(() => {
-    seteditData(undefined)
+    setEditData(undefined)
   }, [profile])
 
   const handleToggleCollapse = (value: boolean) => {
@@ -39,7 +39,7 @@ export default function AccountInformation({ profile, onReset }: Props) {
   }
 
   const handleEditInformation = (key: string, label: string, value: any) => {
-    seteditData({ key, label, value })
+    setEditData({ key, label, value })
     setShowEditModal(true)
   }
 
