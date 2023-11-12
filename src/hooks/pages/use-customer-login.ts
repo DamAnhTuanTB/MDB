@@ -27,7 +27,7 @@ export const useCustomerLogin = () => {
       setErrorMessage(dataResult?.error?.response?.data.message)
       setIsLoading(false)
     }
-  }, [dataResult?.data])
+  }, [dataResult])
 
   useEffect(() => {
     if (profile?.data) {
