@@ -156,7 +156,7 @@ const Form = (props: any) => {
     <CustomForm {...rest}>
       <>
         {inputElement}
-        {profileUpdated?.error && <p className="text-sm text-red mt-2">{profileUpdated?.error?.message}</p>}
+        {profileUpdated?.error?.response?.data?.message && <p className="text-sm text-red mt-2">{profileUpdated?.error?.response?.data?.message}</p>}
         <div className={styles.buttons}>
           <div className={styles.buttons__cancel} onClick={() => onClose(true)}>
             Cancel
