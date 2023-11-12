@@ -11,12 +11,16 @@ import CustomForm from '@/components/form'
 
 import Button from '../../common/button'
 
+type successFunc = {
+  message: string
+  type: 'info' | 'warning' | 'error' | 'success'
+}
 type Props = {
   open: boolean
   address?: AddressType
   onClose: () => void
   onReload: (id: string) => void
-  onSuccess: (params: { message: string, type: 'info' | 'warning' | 'error' | 'success' }) => void
+  onSuccess: (params: successFunc) => void
 }
 
 export default function ModalConfirmDefault({ open, onClose, address, onReload, onSuccess }: Props) {
