@@ -15,7 +15,6 @@ import Cart from '@/components/cart/popover-cart'
 import Link from '@/components/common/custom-link'
 import Dropdown from '@/components/common/dropdown'
 
-import CartProducts from './cart'
 import FavoriteProducts from './favorite'
 import Menu from './menu'
 import Search from './search'
@@ -76,7 +75,7 @@ export default function Header() {
               key={index}
               className={styles.option__item}
               onClick={() => {
-                if(!profileStage) loginPutBack(item.href)
+                if (!profileStage) loginPutBack(item.href)
                 else push(item.href)
               }}
             >

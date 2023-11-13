@@ -1,13 +1,11 @@
 .wrapper {
-  @apply md:p-10
-
+  @apply md:p-10;
 }
-
 
 .header {
   @apply flex items-center gap-1 md:gap-6 mx-4 md:m-0;
   :first-child {
-    @apply text-[#0472AF]
+    @apply text-[#0472AF];
   }
 
   span {
@@ -16,30 +14,30 @@
   }
 
   img {
-    @apply my-0.5 md:my-6 -rotate-90
+    @apply my-0.5 md:my-6 -rotate-90;
   }
-
-
 }
 
 .body {
   &__grid {
-    @apply mt-5
+    @apply mt-5;
   }
 
-  &__grid, &__footer {
+  &__grid,
+  &__footer {
     @apply px-6  md:px-20 py-4 md:rounded-lg bg-gray-100;
   }
 
   &__header {
     @apply border-b-gray-200 py-[28px] border-b;
     @apply text-lg font-semibold;
-    & > :nth-child(2), & > :nth-child(3) {
-      @apply invisible md:visible
+    & > :nth-child(2),
+    & > :nth-child(3) {
+      @apply invisible md:visible;
     }
 
     & > :first-child {
-      @apply md:px-4 justify-self-start
+      @apply md:px-4 justify-self-start;
     }
   }
 
@@ -48,12 +46,13 @@
     @apply w-full;
   }
 
-  &__tr, &__header {
+  &__tr,
+  &__header {
     @apply grid grid-cols-[auto_0%_0%_20%] md:grid-cols-[auto_minmax(120px,10%)_15%_15%] w-full gap-x-0 gap-0;
     @apply items-center justify-items-end;
 
     & > :nth-child(2) {
-      @apply justify-self-center
+      @apply justify-self-center;
     }
 
     &__image {
@@ -67,20 +66,19 @@
       @apply text-gray-800 text-base font-normal;
       @apply relative w-full gap-2;
 
-
       input {
-        @apply max-h-8
+        @apply max-h-8;
       }
 
       .btn__delete {
         @apply cursor-pointer;
         @apply w-4 h-4;
-        @apply absolute -left-8 top-[50%] -translate-y-1/2
+        @apply absolute -left-8 top-[50%] -translate-y-1/2;
       }
 
       .span__remove {
         @apply visible md:invisible;
-        @apply text-[#0472AF] text-xs font-semibold absolute top-[60px] left-0
+        @apply text-[#0472AF] text-xs font-semibold absolute top-[60px] left-0;
       }
     }
   }
@@ -98,7 +96,7 @@
     }
 
     &__decription {
-      @apply gap-2 items-start #{!important}
+      @apply gap-2 items-start #{!important};
     }
   }
 

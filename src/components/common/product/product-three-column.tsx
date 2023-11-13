@@ -16,9 +16,10 @@ type Props = {
   className?: string
   listClassName?: string
   titleClassName?: string
+  emptyMessage?: string
 }
 
-export default function ProductThreeColumn({ title, products, category, className, listClassName, titleClassName }: Props) {
+export default function ProductThreeColumn({ title, products, category, className, listClassName, titleClassName, emptyMessage = '' }: Props) {
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
 
@@ -27,20 +28,19 @@ export default function ProductThreeColumn({ title, products, category, classNam
     setOpenQuickReview(true)
   }
 
-  const productElements = useMemo(
-    () =>
-      products &&
-      products.map((product, index) => {
-        return <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} type="black" />
-      }),
-    [products]
-  )
+  const productElements = useMemo(() => {
+    if (!products || products.length === 0) {
+      return <p className={styles.products__is__empty}>{emptyMessage}</p>
+    }
+
+    return products.map((product, index) => <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} type="black" />)
+  }, [products])
 
   return (
     <div className={classNames(styles.wrapper, className)}>
       <h3 className={classNames(styles.title, titleClassName)}>{title}</h3>
       <div className={classNames(styles.list, styles.list__three, listClassName)}>{productElements}</div>
-      {(quickReviewData && openQuickReview) && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
+      {quickReviewData && openQuickReview && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
     </div>
   )
 }

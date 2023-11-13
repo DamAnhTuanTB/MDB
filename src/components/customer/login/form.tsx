@@ -37,7 +37,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isLoggedIn && !isLoadingStage) {
-      if(query?.url) push({pathname: query?.url.toString()})
+      if (query?.url) push({ pathname: query?.url.toString() })
       else push(routes.homePage())
     }
   }, [isLoggedIn, isLoadingStage])

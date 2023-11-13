@@ -1,9 +1,10 @@
-import {authenticationConfig} from '@/configs/authentication'
-import {AddCart, CartItem, Count, GetCartResponse, EditCart} from '@/types/cart'
-import {getLocalStorage} from '@/utils/helper'
-
-import {apiBase} from '../../services/api'
 import qs from 'qs'
+
+import { authenticationConfig } from '@/configs/authentication'
+import { AddCart, CartItem, Count, EditCart, GetCartResponse } from '@/types/cart'
+import { getLocalStorage } from '@/utils/helper'
+
+import { apiBase } from '../../services/api'
 
 const accessToken = getLocalStorage(authenticationConfig.accessToken)
 const config = {
@@ -15,7 +16,7 @@ const config = {
 export const cartApi = {
   getCart: () => {
     const queryString = qs.stringify({
-      sort: {createdAt: 'desc'},
+      sort: { createdAt: 'desc' },
       noPagination: true
     })
     return apiBase.get<GetCartResponse>(`/carts?${queryString}`, config)

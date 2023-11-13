@@ -3,7 +3,7 @@
   @apply w-[100vw] h-[100vh] sm:w-[448px] #{!important};
   @apply p-0 #{!important};
   &__content {
-    @apply max-h-full #{!important}
+    @apply max-h-full #{!important};
   }
 }
 
@@ -13,28 +13,27 @@
   @apply border-b-[1px] border-b-gray-800;
 
   &__label {
-    @apply text-xl font-semibold text-black
+    @apply text-xl font-semibold text-black;
   }
 
   &__icon {
     @apply w-7 h-7 bg-[url(/images/icons/success.svg)] bg-cover;
-    @apply mr-8
+    @apply mr-8;
   }
 }
 
 .body {
-  @apply flex flex-col p-10 gap-4 items-center overflow-auto ;
+  @apply flex flex-col p-10 gap-4 items-center overflow-auto;
   .product {
     @apply grid grid-cols-[40%_60%] w-full;
     img {
-      @apply justify-items-center
+      @apply justify-items-center;
     }
 
     &__info {
       @apply p-4 flex flex-col items-center justify-center;
-      @apply font-semibold text-base text-black text-center
+      @apply font-semibold text-base text-black text-center;
     }
-
   }
 
   .border-line:after {
@@ -54,7 +53,7 @@
     }
 
     &__input {
-      @apply max-w-[80px] ;
+      @apply max-w-[80px];
     }
 
     &__select {

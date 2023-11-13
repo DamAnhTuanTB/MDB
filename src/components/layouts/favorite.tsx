@@ -19,26 +19,28 @@ export default function FavoriteProducts() {
     return defaultImage ? defaultImage.url : '/images/product.png'
   }
 
-  const renderFavoriteProducts = useMemo(
-    () =>
-      favorites &&
-      favorites.map((item: Product, index: number) => {
-        const currentCategory = item?.categories?.length > 0 ? item?.categories[0] : ({} as ProductCategory)
-        return (
-          <div key={index} className={styles.product}>
-            <Link href={routes.productDetailPage(currentCategory?.slug, item?.slug, query.affiliate as string)}>
-              <div className={styles.product__image}>
-                <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
-              </div>
-              <div className={styles.product__content}>
-                <p className={styles.product__name}>{item.name}</p>
-              </div>
-            </Link>
-          </div>
-        )
-      }),
-    [favorites]
-  )
+  const renderFavoriteProducts = useMemo(() => {
+    if (!favorites || favorites.length === 0) {
+      return <p className={styles.favorite__is__empty}>Your have no Favorites saved</p>
+    }
+
+    return favorites.map((item: Product, index: number) => {
+      const currentCategory = item?.categories?.length > 0 ? item?.categories[0] : ({} as ProductCategory)
+
+      return (
+        <div key={index} className={styles.product}>
+          <Link href={routes.productDetailPage(currentCategory?.slug, item?.slug, query.affiliate as string)}>
+            <div className={styles.product__image}>
+              <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
+            </div>
+            <div className={styles.product__content}>
+              <p className={styles.product__name}>{item.name}</p>
+            </div>
+          </Link>
+        </div>
+      )
+    })
+  }, [favorites])
 
   return (
     <div className={styles.favorite}>
