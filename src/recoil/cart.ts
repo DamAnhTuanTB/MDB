@@ -6,6 +6,7 @@ export type CartStore = {
   count: number
   listProd: CartItem[]
   dataModalAddSuccess: CartItem | null
+  isFinal?: boolean
 }
 export const cartState = atom<CartStore>({
   key: 'cartDetailState',
@@ -34,7 +35,7 @@ export const useCartStore = () => {
   }
 
   const setCartModal = (cartData?: { product: { size: number } }) => {
-    setCart((currVal) => ({ ...currVal, dataModalAddSuccess: cartData }))
+    setCart({ ...cart, dataModalAddSuccess: cartData as any })
   }
 
   const setCartStore = (cart: CartStore) => setCart((currVal) => ({ ...currVal, ...cart }))

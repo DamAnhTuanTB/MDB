@@ -37,10 +37,7 @@ export default function MyCartComponent() {
   ]
 
   useEffect(() => {
-    if (!isLoading && !profileStage) loginPutBack('/cart')
-    else {
-      getCart()
-    }
+    getCart()
   }, [isLoading, profileStage])
 
   useEffect(() => {
@@ -48,7 +45,6 @@ export default function MyCartComponent() {
   }, [data?.results])
 
   const titles = ['Product', 'Quantity', 'Price', 'Total']
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -71,9 +67,11 @@ export default function MyCartComponent() {
         </div>
         <div className={styles.body__tbody}>{cart?.listProd?.map((item, idx) => <CartITem data={item} key={`${idx}-${item?.id}`} />)}</div>
       </div>
-      <div className={styles.footer}>
-        <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
-      </div>
+      {data?.results?.length && (
+        <div className={styles.footer}>
+          <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
+        </div>
+      )}
     </div>
   )
 }
@@ -86,9 +84,14 @@ const CartITem = (props: { data: CartItem }) => {
   const { deleteCart, editCart, addCart } = useCart()
 
   const { sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(props?.data?.product)
-  const product: any = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, props?.data?.product])
+  const product: any = useMemo(
+    () => sizeOptionsData?.results?.find((prod) => prod?.size === (Number(selectedSize) || props?.data?.product?.size)),
+    [sizeOptionsData, selectedSize, props?.data?.product]
+  )
   const { images, name, sizes } = product || {}
-  const img = useMemo(()=>images?.find((i: any, idx: any) => i.isDefault)?.url,[product, images])
+  const img = useMemo(() => images?.find((i: any, idx: any) => i.isDefault)?.url, [product, images])
+
+  if (product?.syncType === 'delete') return null
 
   return (
     <div className={styles.body__tr}>
@@ -112,35 +115,36 @@ const CartITem = (props: { data: CartItem }) => {
         <CustomForm>
           <div className={styles.body__item__decription}>
             <div className={'line-clamp-2'}>{name}</div>
-            <SelectField
-              className={' max-w-[100px] !md:max-w-[120px] mt-2'}
-              inputClassName="h-10 text-[12px] rounded-[8px]"
-              name="size"
-              options={sizeOptions}
-              defaultValue={product?.size}
-              value={product?.size}
-              onInputChange={(vl) => {
-                deleteCart(props?.data?.id || '')
-                addCart({
-                  id: props?.data?.id || '',
-                  productId: product?.id || '',
-                  quantity: Number(props?.data.quantity),
-                  product: props?.data?.product
-                })
-              }}
-            />
-            <Quantity
-              className={'mt-2 visible md:invisible max-h-11 max-w-[100px] m-0 md:m-[auto]'}
-              name="quantity"
-              min={1}
-              max={product?.quantity}
-              defaultValue={quantityCart}
-              value={quantityCart}
-              onChange={(vl) => {
-                editCart({ id, quantity: vl })
-                setQuantitySelected(vl)
-              }}
-            />
+            <div className={'flex gap-2'}>
+              <SelectField
+                className={' max-w-[100px] !md:max-w-[120px] mt-2'}
+                inputClassName="h-10 text-[12px] rounded-[8px]"
+                name="size"
+                options={sizeOptions}
+                defaultValue={product?.size}
+                value={product?.size}
+                onInputChange={(vl) => {
+                  const item = sizeOptionsData?.results?.find((i) => i.size === Number(vl))
+                  editCart({
+                    id: props?.data?.id || '',
+                    productId: item?.id || '',
+                    // product: item
+                  })
+                }}
+              />
+              <Quantity
+                className={'mt-2 visible md:invisible max-h-11 max-w-[100px] m-0 md:m-[auto]'}
+                name="quantity"
+                min={1}
+                max={product?.quantity}
+                defaultValue={quantityCart}
+                value={quantityCart}
+                onChange={(vl) => {
+                  editCart({ productId: id, id: id, quantity: vl })
+                  setQuantitySelected(vl)
+                }}
+              />
+            </div>
           </div>
         </CustomForm>
       </div>
@@ -150,9 +154,10 @@ const CartITem = (props: { data: CartItem }) => {
         min={1}
         max={product?.quantity}
         defaultValue={quantityCart}
+        value={quantityCart}
         onChange={(vl) => {
           setQuantitySelected(vl)
-          editCart({ id, quantity: vl })
+          editCart({ productId: id, id, quantity: vl })
         }}
       />
       <div className={`${styles.body__item__price} invisible md:visible`}>{currencyFormatter.format(product?.price || 0)}</div>

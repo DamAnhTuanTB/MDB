@@ -85,7 +85,7 @@ export default function ModalAddCartSuccess() {
   }
 
   return (
-    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps?.isFinal} onClose={_onClose}>
+    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={true} onClose={_onClose}>
       <div className={stylesModal.header}>
         <span className={stylesModal.header__icon} />
         <div className={stylesModal.header__label}>Added to Cart</div>
