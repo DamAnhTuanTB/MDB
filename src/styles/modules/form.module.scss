@@ -22,6 +22,16 @@
 
     select,
     input {
+      &::-webkit-credentials-auto-fill-button {
+        visibility: hidden;
+        display: none;
+      }
+
+      &::-webkit-credentials-auto-fill-icon,
+      &::-webkit-credentials-auto-fill-icon:active {
+        @apply hidden;
+      }
+
       @apply border border-grey-150 h-[32px];
     }
 
