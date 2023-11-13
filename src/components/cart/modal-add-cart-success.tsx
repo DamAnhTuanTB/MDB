@@ -18,29 +18,30 @@ import Modal from '../common/modal'
 import Quantity from '../common/quantity'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
+import Image from 'next/image'
 
 export default function ModalAddCartSuccess() {
+  const timer = useRef<any>()
+
   const {
     cart: { dataModalAddSuccess: dataProps }
   } = useCartStore()
-  const { addCart, editCart, deleteCart, dataDeleteCart } = useCart()
-  const { sizeOptions, selectedSize, sizeOptionsData, setSelectedSize, handleUpdateSize } = useProductDetail(dataProps?.product)
-
-  const product = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize) || dataProps?.product?.size), [sizeOptionsData, selectedSize])
-
-  const { data: productList, getProductList } = useProduct()
+  const { push } = useRouterWithQueryParams()
   const { setCartModal } = useCartStore()
   const { setNotificationUI } = useNotificationUI()
-  const { push } = useRouterWithQueryParams()
-  const timer = useRef<any>()
+  const { data: productList, getProductList } = useProduct()
+  const { editCart, deleteCart, dataDeleteCart } = useCart()
 
+  const { sizeOptions, selectedSize, sizeOptionsData, setSelectedSize, handleUpdateSize } = useProductDetail(dataProps?.product)
+  const product = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, dataProps])
   const image = useMemo(() => product?.images?.find((item: any) => item.isDefault), [product?.images, dataProps, product])
 
-  useEffect(() => {
-    return () => {
-      setCartModal(null)
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     setCartModal(null)
+  //   }
+  // }, [])
+
   // load list Prod May be Also Like
   useEffect(() => {
     if (product?.id) getProductList({ where: { relatedProductIds: [product?.id || ''] } })
@@ -79,19 +80,23 @@ export default function ModalAddCartSuccess() {
   const _onDelete = () => {
     if (product?.id) {
       deleteCart(dataProps?.id || '')
-      setCartModal(null)
+      setCartModal()
     }
   }
 
   return (
-    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps} onClose={_onClose}>
+    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps?.isFinal} onClose={_onClose}>
       <div className={stylesModal.header}>
         <span className={stylesModal.header__icon} />
         <div className={stylesModal.header__label}>Added to Cart</div>
       </div>
       <div className={stylesModal.body}>
         <div className={stylesModal.product}>
-          <ImageComponent src={image?.url} className={stylesModal.product__image} width={100} height={100} />
+          {!dataProps?.isFinal ? (
+            <Image src={`/images/icons/loading_blue.svg`} width={20} height={20} alt="loading" />
+          ) : (
+            <ImageComponent src={image?.url} className={stylesModal.product__image} width={100} height={100} />
+          )}
           <div className={stylesModal.product__info}>
             <h3 className={'line-clamp-2'}>{product?.name}</h3>
             <h3 className={'pt-4'}>{currencyFormatter.format(product?.price || 0)}</h3>
@@ -109,12 +114,12 @@ export default function ModalAddCartSuccess() {
                 options={sizeOptions}
                 onInputChange={(vl) => {
                   handleUpdateSize(vl)
-                  deleteCart(dataProps?.id || '')
-                  addCart({
-                    id: dataProps?.id || '',
-                    productId: dataProps?.product?.id || '',
-                    quantity: Number(dataProps?.quantity),
-                    product: dataProps?.product
+                  setCartModal({ ...dataProps, product: { ...dataProps?.product, size: Number(vl) } })
+                  const item = sizeOptionsData?.results?.find((i) => i.size === Number(vl))
+                  _editCart({
+                    productId: item?.id || '',
+                    quantity: Number(selectedSize),
+                    product: item
                   })
                 }}
               />
@@ -124,13 +129,14 @@ export default function ModalAddCartSuccess() {
                 name="quantity"
                 min={1}
                 max={product?.quantity}
-                defaultValue={1}
+                defaultValue={dataProps?.quantity}
                 value={dataProps?.quantity}
                 onChange={(vl) => {
+                  setCartModal({ ...dataProps, quantity: vl } as any)
                   _editCart({ quantity: vl })
                 }}
               />
-              <Button variant={'outlined'} className={'ml-2 !border-gray-400 w-8 h-8 min-w-fit'} onClick={_onDelete} isLoading={dataDeleteCart?.isLoading}>
+              <Button variant={'outlined'} className={'ml-2 !border-gray-400 !w-8 h-8'} onClick={_onDelete} isLoading={dataDeleteCart?.isLoading}>
                 <ImageComponent src={'/images/icons/delete.svg'} width={16} height={16} />
               </Button>
             </div>

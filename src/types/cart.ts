@@ -13,11 +13,13 @@ export type CartItem = {
   productSizeId?: string
   syncType?: 'delete' | 'update'
   product: Product | undefined
+  isFinal?: boolean
 }
 
 export type AddCart = {
   productId: string
   quantity: number
+  product?: Product | undefined
 }
 export type EditCart = {
   id?: string
@@ -25,6 +27,7 @@ export type EditCart = {
   quantity?: number
   productSizeId?: string
   productId?: string
+  product?: Product | undefined
 }
 export type Count = {
   count: number

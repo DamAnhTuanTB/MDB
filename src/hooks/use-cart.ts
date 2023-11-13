@@ -8,7 +8,7 @@ import { useNotificationUI } from '@/recoil/common-ui'
 
 import { useFetch } from './use-fetch'
 import { useAuthStore } from '@/recoil/auth'
-import { AddCart, CartItem, EditCart } from '@/types/cart'
+import { CartItem, EditCart } from '@/types/cart'
 import { getLocalStorage, setLocalStorage } from '@/utils/helper'
 
 export const useCart = () => {
@@ -17,11 +17,13 @@ export const useCart = () => {
   const { dataResult: dataAddCart, fetch: _addCart } = useFetch({ fetcher: cartApi.addCart })
   const { dataResult: dataEditCart, fetch: _editCart } = useFetch({ fetcher: cartApi.editCart })
   const { dataResult: dataDeleteCart, fetch: _deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
-  const { setNotificationUI } = useNotificationUI()
-  const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart, setCartStore, setCartModal } = useCartStore()
+
   const { isLoggedIn } = useAuthStore()
   const { profile } = useAccountInformation()
+  const { setNotificationUI } = useNotificationUI()
+  const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart, setCartStore, setCartModal } = useCartStore()
 
+  /*================ Bắt recoil xử lý=================*/
   useEffect(() => {
     if (dataCount?.data)
       setCartStore({
@@ -41,12 +43,10 @@ export const useCart = () => {
   }, [dataCart?.data])
 
   useEffect(() => {
-    if (dataAddCart?.data) {
-      // getCart()
-      countCart()
-      // if (dataAddCart?.data?.quantity === 1)
-      setCartModal({ ...cart?.dataModalAddSuccess, ...dataAddCart?.data })
-    } else if (dataAddCart?.error) {
+    if (dataAddCart?.data?.quantity === 1) {
+      setCartModal({ ...cart?.dataModalAddSuccess, ...dataAddCart?.data, isFinal: true })
+      getCart()
+    } else {
       setCartModal()
     }
     // eslint-disable-next-line
@@ -72,6 +72,7 @@ export const useCart = () => {
       countCart()
     }
   }, [dataDeleteCart])
+  /*================ Bắt recoil xử lý=================*/
 
   const renderNoti = (key: string, flag: boolean) => {
     return setNotificationUI({
@@ -81,6 +82,7 @@ export const useCart = () => {
     })
   }
 
+  /*================ data ta badge=================*/
   const countCart = () => {
     console.log('================actionCountCart================', isLoggedIn)
     if (isLoggedIn) _countCart(undefined)
@@ -97,7 +99,9 @@ export const useCart = () => {
       setCartStore({ ...cart, listProd: getLocalStorageCart() })
     }
   }
+  /*================ data ta badge=================*/
 
+  /*================ action =================*/
   const editCart = (params: EditCart) => {
     console.log('================actionEditCart================', isLoggedIn)
     if (isLoggedIn) {
@@ -112,7 +116,7 @@ export const useCart = () => {
   }
 
   const deleteCart = (id: string) => {
-    console.log('================actionDeleteCart================', isLoggedIn)
+    console.log('================actionDeleteCart================', isLoggedIn, id)
     if (isLoggedIn) {
       _deleteCart(id)
     } else {
@@ -120,18 +124,19 @@ export const useCart = () => {
     }
   }
   const addCart = (params: CartItem, cb?: (type: string, openModal?: boolean) => void) => {
-    console.log('================actionAddCart================', isLoggedIn)
+    console.log('================actionAddCart================', isLoggedIn, params)
     if (isLoggedIn) {
       _addCart({
         productId: params?.productId,
         quantity: params.quantity || 1
       })
-      setCartModal(params)
-      setTimeout(() => cb?.('api'), 5000)
+      setCartModal({ ...params, isFinal: false })
+      cb?.('api')
     } else {
       addLocalStorageCart(params, cb)
     }
   }
+  /*================ action =================*/
 
   const getLocalStorageCart = () => {
     let prodsCard: any = getLocalStorage('MDB_LIST_PRODUCT_CART')

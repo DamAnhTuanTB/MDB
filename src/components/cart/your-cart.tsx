@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/cart/your-cart.module.scss'
 import Image from '@/components/common/image'
@@ -80,14 +80,15 @@ export default function MyCartComponent() {
 
 const CartITem = (props: { data: CartItem }) => {
   const {
-    data: { product, quantity: quantityCart, id }
+    data: { product: productProps, quantity: quantityCart, id }
   } = props || {}
   const [quantitySelected, setQuantitySelected] = useState<number>(quantityCart)
-  const { images, name, sizes } = product || {}
   const { deleteCart, editCart, addCart } = useCart()
 
-  const img = images?.find((i: any, idx: any) => i.isDefault)?.url
-  const { sizeOptions } = useProductDetail(product)
+  const { sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(props?.data?.product)
+  const product: any = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, props?.data?.product])
+  const { images, name, sizes } = product || {}
+  const img = useMemo(()=>images?.find((i: any, idx: any) => i.isDefault)?.url,[product, images])
 
   return (
     <div className={styles.body__tr}>

@@ -33,7 +33,7 @@ export const useCartStore = () => {
     setCart((currVal) => ({ ...currVal, listProd }))
   }
 
-  const setCartModal = (cartData: CartItem | null = null) => {
+  const setCartModal = (cartData?: { product: { size: number } }) => {
     setCart((currVal) => ({ ...currVal, dataModalAddSuccess: cartData }))
   }
 
