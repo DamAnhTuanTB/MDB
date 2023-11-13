@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/cart/your-cart.module.scss'
 import Image from '@/components/common/image'
@@ -11,8 +11,8 @@ import RelatedProduct from '@/components/common/product/related'
 import { useProduct } from '@/hooks/pages/use-product'
 import CustomForm from '@/components/form'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
-import {useAuthStore} from '@/recoil/auth'
-import {useCustomerLogin} from '@/hooks/pages/use-customer-login'
+import { useAuthStore } from '@/recoil/auth'
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 
 type stepType = {
   label: string
@@ -38,7 +38,7 @@ export default function MyCartComponent() {
 
   useEffect(() => {
     if (!isLoading && !profileStage) loginPutBack('/cart')
-    else{
+    else {
       getCart()
     }
   }, [isLoading, profileStage])
@@ -85,10 +85,9 @@ const CartITem = (props: { data: CartItem }) => {
   const [quantitySelected, setQuantitySelected] = useState<number>(quantityCart)
   const { images, name, sizes } = product || {}
   const { deleteCart, editCart, addCart } = useCart()
-  const quantityCurrent = useRef()
 
   const img = images?.find((i: any, idx: any) => i.isDefault)?.url
-  const {  sizeOptions } = useProductDetail(product)
+  const { sizeOptions } = useProductDetail(product)
 
   return (
     <div className={styles.body__tr}>
@@ -150,7 +149,10 @@ const CartITem = (props: { data: CartItem }) => {
         min={1}
         max={product?.quantity}
         defaultValue={quantityCart}
-        onChange={(vl) => editCart({ id, quantity: vl })}
+        onChange={(vl) => {
+          setQuantitySelected(vl)
+          editCart({ id, quantity: vl })
+        }}
       />
       <div className={`${styles.body__item__price} invisible md:visible`}>{currencyFormatter.format(product?.price || 0)}</div>
       <div className={styles.body__item__price}>{currencyFormatter.format((product?.price || 0) * quantitySelected || 0)}</div>
