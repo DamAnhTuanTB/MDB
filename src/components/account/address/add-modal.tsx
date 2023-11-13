@@ -153,7 +153,7 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
                 />
               )}
             </div>
-            <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0 lg:ml-2'} labelClassName={'!text-xs -ml-2'} />
+            <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0'} labelClassName={'!text-xs -ml-2'} />
             {errMess?.response?.data?.errors?.map((err: any, idx: number) => (
               <p key={idx} className="text-sm text-red mt-2">
                 {err?.message}

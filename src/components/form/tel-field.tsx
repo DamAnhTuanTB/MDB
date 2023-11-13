@@ -55,11 +55,9 @@ const TelField = ({
 
   useEffect(() => {
     const phoneString = parsePhoneNumber(`+${countryCode}${number}`)
-    if (phoneString?.isPossible) {
+    if (phoneString && phoneString.toString().trim() !== '') {
       onUpdate && onUpdate(phoneString)
       setError(false)
-    } else {
-      setError(true)
     }
   }, [countryCode, number])
 

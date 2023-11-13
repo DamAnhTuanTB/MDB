@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { parsePhoneNumber } from 'libphonenumber-js'
+import { useRecoilState } from 'recoil'
 
 import { useAccountAddress } from '@/hooks/pages/use-account-address'
+import { notificationState } from '@/recoil/notification'
 import styles from '@/styles/modules/account/address-list.module.scss'
 import { AddressType } from '@/types/account/address'
 
 import Button from '@/components/common/button'
+import Notification from '@/components/common/notification'
 import RadioItem from '@/components/common/radio-item'
 
 import AddressModal from './add-modal'
 import ModalConfirmDefault from './confirm-default-modal'
 import ModalConfirmDelete from './confirm-delete-modal'
-import Notification from '@/components/common/notification'
-import { useRecoilState } from 'recoil'
-import { notificationState } from '@/recoil/notification'
 
 type Props = {
   addresses: AddressType[]
@@ -54,17 +54,18 @@ export default function AddressList({ addresses, onReloadList }: Props) {
     setOpenModalAdd(!openModalAdd)
   }, [openModalAdd])
 
+  console.log(addresses)
+
   const addressElements = useMemo(
     () =>
       addresses?.map((address, index) => {
         const phoneNumber = address.phone ? parsePhoneNumber(address.phone, 'US') : ''
-
         return (
           <RadioItem
             key={index}
             className={styles.radio}
             iconCheckClassname={styles.radio__icon}
-            title="Default Address"
+            title={address.isDefault ? 'Default Address' : ''}
             isSelected={activeId === address.id}
             onSelect={() => {
               setActiveId(address.id)
@@ -97,15 +98,17 @@ export default function AddressList({ addresses, onReloadList }: Props) {
       </Button>
       {addressElements}
       <div className={styles.buttons}>
-        <Button
-          onClick={() => {
-            setOpenModalConfirm(true)
-          }}
-          className={styles.buttons__default}
-          disabled={!activeId || activeId === defaultAddress?.id}
-        >
-          Set As Default
-        </Button>
+        {addresses.length > 0 ? (
+          <Button
+            onClick={() => {
+              setOpenModalConfirm(true)
+            }}
+            className={styles.buttons__default}
+            disabled={!activeId || activeId === defaultAddress?.id}
+          >
+            Set As Default
+          </Button>
+        ) : null}
         <Button onClick={_onAdd} className={styles.buttons__add__address}>
           Add Address
         </Button>
