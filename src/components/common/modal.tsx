@@ -16,10 +16,10 @@ type Props = {
 }
 
 export default function Modal({ open, children, className, bodyClassName, contentClassName, onClose }: Props) {
-  useEffect(() => {
-    if (open) blockScroll(window.scrollY)
-    else enableScroll()
-  }, [open])
+  // useEffect(() => {
+  //   if (open) blockScroll(window.scrollY)
+  //   else enableScroll()
+  // }, [open])
 
   return (
     <div className={classNames(styles.wrapper, className, { [styles['open']]: open })}>
