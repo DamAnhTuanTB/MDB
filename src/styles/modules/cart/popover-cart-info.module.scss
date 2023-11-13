@@ -34,4 +34,7 @@
   &__edit {
     @apply font-semibold text-blue cursor-pointer hover:underline;
   }
+  .btn_view_cart{
+    @apply w-1/3 bg-blue mt-2
+  }
 }
