@@ -48,6 +48,7 @@ export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
               products={favoriteProducts}
               titleClassName={classNames(styles.box__title, '!hidden lg:!block')}
               listClassName="px-4 lg:px-0"
+              emptyMessage="Your have no Favorites saved"
             />
           </div>
           <div className={styles.box}>
@@ -58,6 +59,7 @@ export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
               className="!bg-white lg:!bg-grey-100"
               listClassName="px-4 lg:px-0 pb-10 lg:pb-0"
               products={relatedProducts}
+              emptyMessage="Product list is being updated"
             />
           </div>
         </CollapseItem>

@@ -11,7 +11,7 @@
   }
 
   &__body {
-    @apply max-h-[500px] mx-0 mt-4 overflow-auto max-w-[900px] mb-4 pt-1;
+    @apply max-h-[500px] min-h-[60px] mx-0 mt-4 overflow-auto max-w-[900px] mb-4 pt-1;
     @apply lg:flex lg:flex-row lg:mt-[23px] lg:overflow-y-hidden lg:mx-6 lg:pb-4 lg:mb-0 lg:pt-0;
 
     .product {
@@ -37,5 +37,9 @@
         @apply lg:mx-0;
       }
     }
+  }
+
+  &__is__empty {
+    @apply text-center w-full leading-[60px];
   }
 }
