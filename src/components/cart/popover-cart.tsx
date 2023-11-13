@@ -89,9 +89,9 @@ export default function Cart() {
             )
           })}
         </div>
-        <Button className={stylesPopoverCart.btn_view_cart} onClick={goCart}>
+        <button className={stylesPopoverCart.btn_view_cart} onClick={goCart}>
           View Cart
-        </Button>
+        </button>
       </div>
     )
   }, [cart.listProd])
