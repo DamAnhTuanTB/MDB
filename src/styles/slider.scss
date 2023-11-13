@@ -4,12 +4,16 @@
   &__thumb {
     @apply w-4 h-4 outline-none bg-white rounded-full shadow-sm absolute top-0;
 
+    &:hover &__value {
+      @apply opacity-100;
+    }
+
     &-1 {
       @apply ml-[4.5px];
     }
 
     &__value {
-      @apply absolute -bottom-8 transform -translate-x-1/4 text-xs p-1 border border-blue rounded cursor-pointer;
+      @apply opacity-0 transition-opacity duration-100 ease-linear absolute -bottom-8 transform -translate-x-1/4 text-xs p-1 border border-blue rounded cursor-pointer;
     }
   }
 
