@@ -29,8 +29,8 @@ type Props = {
 export default function QuickReviewModal({ open, data: dataProps, onClose }: Props) {
   const { query } = useRouterWithQueryParams()
   const { handleUpdateSize, sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(dataProps)
-  const data = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize) || dataProps.size), [sizeOptionsData, selectedSize])
 
+  const data = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, dataProps])
   const image = useMemo(() => data?.images && data?.images?.find((item) => item.isDefault), [data?.images])
   const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
@@ -43,11 +43,8 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
       quantity: selectedQuantity,
       product: data
     }
-  }, [sizeOptions.length, data])
+  }, [sizeOptions.length, data, selectedSize, sizeOptionsData, selectedQuantity])
 
-  const quantityCurrent = useRef()
-
-  // if(!(open && !!dataProps && !!data)) return null
   return (
     <Modal open={open && !!dataProps && !!data} onClose={onClose}>
       <div className={styles.body}>
@@ -81,12 +78,30 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
             <div className={styles.content__form}>
               <div className={classNames(styles.content__group, styles['size'], 'justify-between')}>
                 <p className={styles.content__form__label}>Size </p>
-                <SelectField className={styles.content__form__select} inputClassName="h-10" name="size" defaultValue={data?.size} options={sizeOptions} onInputChange={handleUpdateSize} />
+                <SelectField
+                  className={styles.content__form__select}
+                  inputClassName="h-10"
+                  name="size"
+                  defaultValue={data?.size}
+                  options={sizeOptions}
+                  onInputChange={(vl) => {
+                    handleUpdateSize(vl)
+                  }}
+                />
               </div>
               <div className={classNames(styles.content__group, styles['quantity'], 'justify-between mt-2')}>
                 <p className={styles.content__form__label}>Qty: {data?.quantity}</p>
                 <div className="flex">
-                  <Quantity className={styles.content__form__input} name="quantity" min={1} max={data?.quantity} defaultValue={1} onChange={setSelectedQuantity} />
+                  <Quantity
+                    className={styles.content__form__input}
+                    name="quantity"
+                    min={1}
+                    max={data?.quantity}
+                    defaultValue={1}
+                    onChange={(vl) => {
+                      setSelectedQuantity(vl)
+                    }}
+                  />
                   {dataAdd && <ButtonAddToCart className={classNames(styles.content__form__button, styles['pc'])} data={dataAdd} onOpened={onClose} />}
                 </div>
               </div>

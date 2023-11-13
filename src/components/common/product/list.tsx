@@ -21,13 +21,13 @@ import { ProductAttributeItem } from '@/types/product/attribute'
 import { ProductCategory } from '@/types/product/category'
 import { debounce } from '@/utils/helper'
 
-import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 import FilterModal from '@/components/products/filter/filter-modal'
 
 import ProductItem from './item'
 import QuickReviewModal from './quick-review-modal'
+import AddNewCartSuccess from '@/components/cart/modal-add-cart-success'
 
 const sortSchema = z.object({
   sort: z.string().optional()
@@ -188,8 +188,8 @@ export default function ProductList({
         )}
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
-      {quickReviewData && openQuickReview && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
-      <ModalAddCartSuccess />
+      {(quickReviewData && openQuickReview) && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
+      {cart.dataModalAddSuccess && <AddNewCartSuccess/>}
     </div>
   )
 }

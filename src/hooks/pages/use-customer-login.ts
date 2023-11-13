@@ -11,6 +11,7 @@ import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import {useCart} from '@/hooks/use-cart'
 
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()
@@ -19,10 +20,18 @@ export const useCustomerLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
   const { push } = useRouterWithQueryParams()
+  const { syncCartLocalToSever, dataSyncLocalToSever } = useCart()
 
   useEffect(() => {
     setErrorMessage(dataResult?.error?.response?.data.message)
   }, [dataResult?.error])
+
+  useEffect(() => {
+    if (dataSyncLocalToSever?.data) {
+      removeLocalStorage('MDB_LIST_PRODUCT_CART')
+      window.dispatchEvent(new Event('storage'))
+    }
+  }, [dataSyncLocalToSever])
 
   useEffect(() => {
     if (dataResult?.data) {
@@ -30,6 +39,7 @@ export const useCustomerLogin = () => {
       setLocalStorage(authenticationConfig.accessToken, dataResult?.data?.accessToken)
       setLocalStorage(authenticationConfig.refreshToken, dataResult?.data?.refreshToken)
       getProfile(dataResult?.data?.accessToken)
+      syncCartLocalToSever(dataResult?.data?.accessToken)
     } else if (dataResult?.error) {
       setErrorMessage(dataResult?.error?.response?.data.message)
       setIsLoading(false)

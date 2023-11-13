@@ -35,9 +35,10 @@ export default function Cart() {
 
   /** Func update Badge number when localStorage change */
   const updateCartLocal = () => {
-    const prodsCard = getLocalStorageCart()
-
-    setCartStore({ ...cart, count: prodsCard?.length || 0, listProd: prodsCard || [] })
+    const prodsCard = getLocalStorageCart().filter((i: any) => i.syncType !== 'delete') || []
+    console.log(prodsCard)
+    const total = prodsCard?.length ? prodsCard.reduce((t: number, i: any) => t + i.quantity, 0) : 0
+    setCartStore({ ...cart, count: total, listProd: prodsCard || [] })
   }
 
   /** Func update Badge number when localStorage change */
