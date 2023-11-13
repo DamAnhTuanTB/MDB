@@ -10,11 +10,15 @@
   }
 
   &__slide {
-    @apply relative text-center lg:text-left text-xs;
+    @apply relative text-center lg:text-left text-xs h-10;
     @apply md:text-base;
 
+    p {
+      @apply absolute top-1/2 -translate-y-1/2;
+    }
+
     &::after {
-      @apply lg:content-[''] lg:absolute lg:right-[2px] lg:h-[100%] lg:w-0 lg:border-[0.5px] lg:border-white last:content-none lg:top-0;
+      @apply lg:content-[''] lg:absolute lg:right-[2px] lg:h-5 lg:w-0 lg:border-[0.5px] lg:border-white last:content-none lg:top-1/2 -translate-y-1/2;
     }
   }
 
