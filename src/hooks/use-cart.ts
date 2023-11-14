@@ -161,7 +161,7 @@ export const useCart = () => {
 
   const updateLocalStorage = (params: EditCart) => {
     const listProd = getLocalStorageCart()
-    const itemExits = listProd.findIndex((i: CartItem) => i.productId === params?.productId)
+    const itemExits = listProd.findIndex((i: CartItem) => i.id === params?.id)
     listProd[itemExits] = { ...listProd[itemExits], ...params }
     localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
     window.dispatchEvent(new Event('storage'))
