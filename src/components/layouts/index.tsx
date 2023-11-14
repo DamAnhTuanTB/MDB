@@ -10,6 +10,7 @@ import { getLocalStorage } from '@/utils/helper'
 
 import Footer from './footer'
 import Header from './header'
+import { useRouter } from 'next/router'
 
 type Props = {
   children: React.ReactNode
@@ -21,11 +22,13 @@ export default function Layout({ children, footerContent }: Props) {
   const { isLoggedIn, setIsLoggedIn, setProfile, isLoading, profile: profileStage, setIsLoading } = useAuthStore()
   const { getFavorite, data: favoriteProducts } = useAccountFavorite()
   const { setFavorites } = useFavoriteStore()
+  const { pathname } = useRouter()
   const isLoad = useRef<boolean>(false)
+
+  const arrNeedToken = ['/account/information', '/account/favorite']
 
   useEffect(() => {
     if (accessToken && !profileStage && isLoading) {
-      setIsLoading(true)
       if (!isLoad.current) {
         isLoad.current = true
         getProfile(undefined)
@@ -49,8 +52,8 @@ export default function Layout({ children, footerContent }: Props) {
       setIsLoggedIn(false)
       setProfile(undefined)
       isLoad.current = false
-      setIsLoading(false)
     }
+    setIsLoading(true)
   }, [profile])
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export default function Layout({ children, footerContent }: Props) {
   return (
     <>
       <Header />
-      {children}
+      {arrNeedToken.includes(pathname) && isLoading ? <div className={'w-full flex mx-auto my-5 justify-center'}>Loading...</div> : children}
       <Footer content={footerContent} />
     </>
   )

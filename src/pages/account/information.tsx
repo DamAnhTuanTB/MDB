@@ -16,7 +16,7 @@ export default function AccountPage() {
   const { profile: profileStage, isLoading, isLoggedIn } = useAuthStore()
 
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) loginPutBack('/account/information')
+    if (!isLoggedIn) loginPutBack('/account/information')
   }, [isLoading, profileStage])
 
   const resetData = () => {
