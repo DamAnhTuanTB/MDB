@@ -37,7 +37,7 @@ export const useCart = () => {
     if (dataCart?.data) {
       setCartStore({
         ...cart,
-        count: dataCart?.data?.results?.length,
+        count: dataCart?.data?.results?.reduce((t: number, i: CartItem) => t + i.quantity, 0),
         listProd: dataCart?.data?.results || []
       })
       setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(dataCart?.data?.results || []))
@@ -47,7 +47,6 @@ export const useCart = () => {
 
   useEffect(() => {
     if (!dataAddCart?.data) return
-    lsole.log(dataAddCart?.data, cart?.dataModalAddSuccess)
     if (dataAddCart?.data?.quantity === 1) {
       setCartModal({ ...cart?.dataModalAddSuccess, ...dataAddCart?.data, isFinal: true } as any)
     } else {
@@ -85,7 +84,7 @@ export const useCart = () => {
 
   /*================ data ta badge=================*/
   const countCart = () => {
-    console.log('================actionCountCart================', isLoggedIn)
+    // console.log('================actionCountCart================', isLoggedIn)
     if (isLoggedIn) _countCart(undefined)
     else {
       const data = getLocalStorageCart()
@@ -105,7 +104,7 @@ export const useCart = () => {
 
   /*================ action =================*/
   const editCart = (params: EditCart) => {
-    console.log('================actionEditCart================', isLoggedIn, params)
+    // console.log('================actionEditCart================', isLoggedIn, params)
     if (isLoggedIn) {
       const paramsN = {
         ...params,
@@ -118,7 +117,7 @@ export const useCart = () => {
   }
 
   const deleteCart = (id: string) => {
-    console.log('================actionDeleteCart================', isLoggedIn, id)
+    // console.log('================actionDeleteCart================', isLoggedIn, id)
     if (isLoggedIn) {
       _deleteCart(id)
     } else {
@@ -127,7 +126,7 @@ export const useCart = () => {
   }
 
   const addCart = (params: CartItem, cb?: (type: string, openModal?: boolean) => void) => {
-    console.log('================actionAddCart================', isLoggedIn, params)
+    // console.log('================actionAddCart================', isLoggedIn, params)
     if (isLoggedIn) {
       setCartModal({ ...params, isFinal: false } as any)
       setTimeout(() => {
