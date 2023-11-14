@@ -10,6 +10,7 @@ import styles from '@/styles/layout/header.module.scss'
 import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
 import { PRODUCT_ATTRIBUTE } from '@/types/product'
 import { currencyFormatter, findObjectByName, getLocalStorage } from '@/utils/helper'
+import classNames from 'classnames'
 
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
@@ -17,12 +18,12 @@ import Popover from '@/components/common/popover'
 export default function Cart() {
   const { isLoggedIn } = useAuthStore()
   const { cart, setCartStore } = useCartStore()
-  const { countCart, getCart } = useCart()
+  const { countCart, getCart, dataCart } = useCart()
   const router = useRouter()
   const anchorRef = useRef<HTMLDivElement | null>()
 
   useEffect(() => {
-    if (!isLoggedIn) updateCartLocal()
+    if (!isLoggedIn) getCart()
 
     // listener localStorage change
     window.addEventListener('storage', () => listenerLocalStorage())
@@ -34,20 +35,8 @@ export default function Cart() {
   }, [isLoggedIn])
 
   /** Func update Badge number when localStorage change */
-  const updateCartLocal = () => {
-    const prodsCard = getLocalStorageCart().filter((i: any) => i.syncType !== 'delete') || []
-    const total = prodsCard?.length ? prodsCard.reduce((t: number, i: any) => t + i.quantity, 0) : 0
-    setCartStore({ ...cart, count: total, listProd: prodsCard || [] })
-  }
-
-  /** Func update Badge number when localStorage change */
   const listenerLocalStorage = () => {
-    updateCartLocal()
-  }
-
-  const getLocalStorageCart = () => {
-    const prodsCard: any = getLocalStorage('MDB_LIST_PRODUCT_CART') || '[]'
-    return JSON.parse(prodsCard)
+    getCart()
   }
 
   const goCart = () => {
@@ -66,6 +55,7 @@ export default function Cart() {
         </div>
         {/*popover content*/}
         <div className={stylesPopoverCart.popover__grid}>
+          {dataCart?.isLoading && <div className={'flex mx-auto my-10 justify-center'}>Loading...</div>}
           {cart?.listProd?.map((item, idx) => {
             const { images, name, sizes, price, attributeGroups, size } = item.product || {}
             const { quantity } = item
@@ -88,7 +78,7 @@ export default function Cart() {
             )
           })}
         </div>
-        <button className={stylesPopoverCart.btn_view_cart} onClick={goCart}>
+        <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} onClick={goCart}>
           View Cart
         </button>
       </div>

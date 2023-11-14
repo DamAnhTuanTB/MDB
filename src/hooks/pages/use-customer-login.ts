@@ -20,7 +20,7 @@ export const useCustomerLogin = () => {
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
   const { push } = useRouterWithQueryParams()
-  const { syncCartLocalToSever, dataSyncLocalToSever } = useCart()
+  const { syncCartLocalToSever, dataSyncLocalToSever, getCart } = useCart()
 
   useEffect(() => {
     setErrorMessage(dataResult?.error?.response?.data.message)
@@ -30,6 +30,7 @@ export const useCustomerLogin = () => {
     if (dataSyncLocalToSever?.data) {
       removeLocalStorage('MDB_LIST_PRODUCT_CART')
       window.dispatchEvent(new Event('storage'))
+      getCart()
     }
   }, [dataSyncLocalToSever])
 

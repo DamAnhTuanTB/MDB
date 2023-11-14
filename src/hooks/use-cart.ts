@@ -127,8 +127,8 @@ export const useCart = () => {
 
   const addCart = (params: CartItem, cb?: (type: string, openModal?: boolean) => void) => {
     // console.log('================actionAddCart================', isLoggedIn, params)
+    setCartModal({ ...params, isFinal: false } as any)
     if (isLoggedIn) {
-      setCartModal({ ...params, isFinal: false } as any)
       setTimeout(() => {
         _addCart({
           productId: params?.productId,
@@ -162,7 +162,9 @@ export const useCart = () => {
       setCartModal({ ...params, isFinal: true } as any)
       cb?.('local', true)
     }
-    window.dispatchEvent(new Event('storage'))
+    setTimeout(()=>{
+      window.dispatchEvent(new Event('storage'))
+    },1000)
   }
 
   const updateLocalStorage = (params: EditCart) => {
@@ -175,9 +177,9 @@ export const useCart = () => {
 
   const removeLocalStorage = (id: string) => {
     const listProd = getLocalStorageCart()
-    const itemExits = listProd.findIndex((i: CartItem) => i.productId === id)
+    const itemExits = listProd.findIndex((i: CartItem) => i.id === id)
     listProd[itemExits] = { ...listProd[itemExits], quantity: 0, syncType: 'delete' }
-    localStorage.setItem('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
+    setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
     window.dispatchEvent(new Event('storage'))
   }
 

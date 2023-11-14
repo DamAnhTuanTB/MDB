@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 import { useProduct } from '@/hooks/pages/use-product'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
@@ -6,7 +6,7 @@ import { useCart } from '@/hooks/use-cart'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
-import { currencyFormatter, getLocalStorage } from '@/utils/helper'
+import { currencyFormatter } from '@/utils/helper'
 
 import RelatedProduct from '@/components/cart/related'
 import ImageComponent from '@/components/common/image'
@@ -133,7 +133,7 @@ export default function ModalAddCartSuccess(props: any) {
         <Button variant={'outlined'} className={'!w-[200px]'} onClick={_onClose}>
           Return to Shopping
         </Button>
-        {dataProps?.id && productList?.results.length && <RelatedProduct products={productList?.results || []} title="You May Also Like" className="mt-5" listClassName="mt-4 lg:mt-10" />}
+        {!!dataProps?.id && !!productList?.results.length && <RelatedProduct products={productList?.results || []} title="You May Also Like" className="mt-5" listClassName="mt-4 lg:mt-10" />}
       </div>
     </Modal>
   )

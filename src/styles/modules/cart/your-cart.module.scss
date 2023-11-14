@@ -42,8 +42,8 @@
   }
 
   &__tr {
-    @apply my-4;
     @apply w-full;
+    @apply border-b border-grey-150 py-4
   }
 
   &__tr,

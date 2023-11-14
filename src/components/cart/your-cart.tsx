@@ -11,8 +11,8 @@ import RelatedProduct from '@/components/common/product/related'
 import { useProduct } from '@/hooks/pages/use-product'
 import CustomForm from '@/components/form'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
-import { useAuthStore } from '@/recoil/auth'
-import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
+import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
+import Button from '@/components/common/button'
 
 type stepType = {
   label: string
@@ -64,6 +64,11 @@ export default function MyCartComponent() {
           ))}
         </div>
         <div className={styles.body__tbody}>{cart?.listProd?.map((item, idx) => <CartITem data={item} key={`${idx}-${item?.productId}`} />)}</div>
+        <div className="w-full flex justify-end my-8 sm:my-10">
+        <Button className="sm:!w-full md:!w-[200px]">
+          Checkout
+        </Button>
+        </div>
       </div>
       {data?.results?.length && (
         <div className={styles.footer}>
@@ -87,7 +92,7 @@ const CartITem = (props: { data: CartItem }) => {
   const { images, name } = product || {}
   const img = useMemo(() => images?.find((i: any, idx: any) => i.isDefault)?.url, [product?.id, images])
 
-  if (product?.syncType === 'delete') return null
+  if (props.data?.syncType === 'delete') return null
 
   return (
     <div className={styles.body__tr}>
