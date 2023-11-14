@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import { useAuthStore } from '@/recoil/auth'
 
 import Account from '@/components/account'
 import AccountInformation from '@/components/account/information'
 import Meta from '@/components/common/meta'
-import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
 import Loading from '@/components/loading'
 
 export default function AccountPage() {
@@ -27,7 +26,7 @@ export default function AccountPage() {
     <>
       <Meta title="Account information" />
       <Account>
-        {isLoading && <Loading/>}
+        {isLoading && <Loading />}
         {!isLoading && <AccountInformation profile={profileStage} onReset={resetData} />}
       </Account>
     </>

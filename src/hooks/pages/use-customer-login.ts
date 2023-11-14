@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { customerApi } from '@/services/api/authentication'
 
 import { authenticationConfig } from '@/configs/authentication'
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
+import { useCart } from '@/hooks/use-cart'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useAuthStore } from '@/recoil/auth'
 import { useFavoriteStore } from '@/recoil/favorite'
 import { LoginBody, LoginResponse } from '@/types/authentication'
 import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import {useCart} from '@/hooks/use-cart'
 
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()

@@ -27,7 +27,7 @@ export const cartApi = {
   },
 
   syncLocalToSever: (params: any) => {
-    return apiBase.post<AddCart[], CartItem>('/carts/sync', params.data, {...config, headers:{...config.headers, Authorization:`Bearer ${params.token}`}})
+    return apiBase.post<AddCart[], CartItem>('/carts/sync', params.data, { ...config, headers: { ...config.headers, Authorization: `Bearer ${params.token}` } })
   },
 
   editCart: (body: EditCart) => {
