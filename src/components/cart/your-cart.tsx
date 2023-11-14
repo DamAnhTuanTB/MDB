@@ -70,7 +70,7 @@ export default function MyCartComponent() {
         </Button>
         </div>
       </div>
-      {data?.results?.length && (
+      {!!data?.results?.length && (
         <div className={styles.footer}>
           <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
         </div>
