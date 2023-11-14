@@ -18,7 +18,7 @@
   }
 
   &__boundary {
-    @apply rounded-lg overflow-hidden;
+    @apply rounded overflow-hidden;
 
     select,
     input {
