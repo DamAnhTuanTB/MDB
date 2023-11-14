@@ -86,7 +86,7 @@ export const useCart = () => {
     if (isLoggedIn) _countCart(undefined)
     else {
       const data = getLocalStorageCart()
-      setCartStore({ ...cart, count: data?.length || 0, listProd: data || [] })
+      setCartStore({ ...cart, count: data.reduce((t: number, i: CartItem) => t + i.quantity, 0), listProd: data || [] })
     }
   }
 
