@@ -21,7 +21,7 @@ import Quantity from '../quantity'
 import RatingCommon from '../rating'
 
 type Props = {
-  data: Product
+  data?: Product
   open: boolean
   onClose: () => void
 }
@@ -46,7 +46,7 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
   }, [sizeOptions.length, data, selectedSize, sizeOptionsData, selectedQuantity])
 
   return (
-    <Modal open={open && !!dataProps && !!data} onClose={onClose}>
+    <Modal open={open} onClose={onClose}>
       <div className={styles.body}>
         <div className={styles.pc}>
           <div className={styles.image} style={{ backgroundImage: `url(${image?.url})` }}></div>

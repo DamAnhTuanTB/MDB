@@ -189,7 +189,7 @@ export default function ProductList({
         )}
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
-      {(quickReviewData && openQuickReview) && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
+      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
       {cart.dataModalAddSuccess && <AddNewCartSuccess/>}
     </div>
   )
