@@ -188,7 +188,7 @@ export const useCart = () => {
 
   const syncCartLocalToSever = (token: string) => {
     const listProd = getLocalStorageCart()?.map((i: any) => {
-      const item = {
+      const item: any = {
         productId: i.productId,
         quantity: i.quantity
       }

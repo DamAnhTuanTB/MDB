@@ -11,7 +11,7 @@ import { removeLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from '../use-fetch'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import {useCart} from "@/hooks/use-cart";
+import {useCart} from '@/hooks/use-cart'
 
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()
