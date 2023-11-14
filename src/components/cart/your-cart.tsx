@@ -38,7 +38,7 @@ export default function MyCartComponent() {
 
   useEffect(() => {
     getCart()
-  }, [isLoading, profileStage])
+  }, [])
 
   useEffect(() => {
     if (!data?.results) getProductList({ where: { relatedProductIds: cart?.listProd?.map((i) => i.productId) } })
