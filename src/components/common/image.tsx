@@ -15,7 +15,7 @@ type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButt
 export default function ImageComponent(props: Props) {
   const {className, width, height, srcDefault, alt, onClick} = props
   let {src} = props
-  if (!src && srcDefault) src = typeof srcDefault === "string" ? srcDefault : '/images/img-def.png'
+  if (!src && srcDefault) src = typeof srcDefault === 'string' ? srcDefault : '/images/img-def.png'
   return (
     <Image
       className={`${className} object-contain`}

@@ -18,14 +18,11 @@ import Modal from '../common/modal'
 import Quantity from '../common/quantity'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
-import Image from 'next/image'
 
-export default function ModalAddCartSuccess() {
+export default function ModalAddCartSuccess(props: any) {
   const timer = useRef<any>()
 
-  const {
-    cart: { dataModalAddSuccess: dataProps }
-  } = useCartStore()
+  const { open: dataProps } = props
   const { push } = useRouterWithQueryParams()
   const { setCartModal } = useCartStore()
   const { setNotificationUI } = useNotificationUI()
@@ -33,14 +30,11 @@ export default function ModalAddCartSuccess() {
   const { editCart, deleteCart, dataDeleteCart } = useCart()
 
   const { sizeOptions, selectedSize, sizeOptionsData, setSelectedSize, handleUpdateSize } = useProductDetail(dataProps?.product)
-  const product = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, dataProps])
+  const product = useMemo(
+    () => sizeOptionsData?.results?.find((prod) => prod?.size === (Number(selectedSize) || dataProps?.product?.size)) || dataProps?.product,
+    [sizeOptionsData, selectedSize, dataProps]
+  )
   const image = useMemo(() => product?.images?.find((item: any) => item.isDefault), [product?.images, dataProps, product])
-
-  // useEffect(() => {
-  //   return () => {
-  //     setCartModal(null)
-  //   }
-  // }, [])
 
   // load list Prod May be Also Like
   useEffect(() => {
@@ -78,19 +72,16 @@ export default function ModalAddCartSuccess() {
     }
   }
 
+  if (!dataProps) return null
   return (
-    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={true} onClose={_onClose}>
+    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps.isFinal} onClose={_onClose}>
       <div className={stylesModal.header}>
         <span className={stylesModal.header__icon} />
         <div className={stylesModal.header__label}>Added to Cart</div>
       </div>
       <div className={stylesModal.body}>
         <div className={stylesModal.product}>
-          {!dataProps?.isFinal ? (
-            <Image src={'/images/icons/loading_blue.svg'} width={20} height={20} alt="loading" />
-          ) : (
-            <ImageComponent src={image?.url} className={stylesModal.product__image} width={100} height={100} />
-          )}
+          <ImageComponent src={image?.url} className={stylesModal.product__image} width={100} height={100} />
           <div className={stylesModal.product__info}>
             <h3 className={'line-clamp-2'}>{product?.name}</h3>
             <h3 className={'pt-4'}>{currencyFormatter.format(product?.price || 0)}</h3>
@@ -142,7 +133,7 @@ export default function ModalAddCartSuccess() {
         <Button variant={'outlined'} className={'!w-[200px]'} onClick={_onClose}>
           Return to Shopping
         </Button>
-        <RelatedProduct products={productList?.results || []} title="You May Also Like" className="mt-5" listClassName="mt-4 lg:mt-10" />
+        {dataProps?.id && productList?.results.length && <RelatedProduct products={productList?.results || []} title="You May Also Like" className="mt-5" listClassName="mt-4 lg:mt-10" />}
       </div>
     </Modal>
   )

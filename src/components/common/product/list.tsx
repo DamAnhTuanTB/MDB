@@ -65,7 +65,6 @@ export default function ProductList({
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-  const [dataModalAddCartSuccess, setDataModalAddCartSuccess] = useState<CartItem>()
   const [sortValue, setSortValue] = useState<string>(() => {
     if (!query.sort) {
       delete query.sort
@@ -74,8 +73,6 @@ export default function ProductList({
     return query.sort as string
   })
 
-  const { profile } = useAccountInformation()
-  const { addCart } = useCart()
   const { cart } = useCartStore()
 
   const { isMobile } = useDevice()
@@ -188,8 +185,8 @@ export default function ProductList({
         )}
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
-      {(quickReviewData && openQuickReview) && <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />}
-      {cart.dataModalAddSuccess && <AddNewCartSuccess/>}
+      <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
+      <AddNewCartSuccess open={cart.dataModalAddSuccess}/>
     </div>
   )
 }
