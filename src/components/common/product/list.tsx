@@ -21,7 +21,6 @@ import { ProductAttributeItem } from '@/types/product/attribute'
 import { ProductCategory } from '@/types/product/category'
 import { debounce } from '@/utils/helper'
 
-import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 import FilterModal from '@/components/products/filter/filter-modal'
@@ -66,7 +65,6 @@ export default function ProductList({
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [openQuickReview, setOpenQuickReview] = useState<boolean>(false)
   const [quickReviewData, setQuickReviewData] = useState<Product>()
-  const [dataModalAddCartSuccess, setDataModalAddCartSuccess] = useState<CartItem>()
   const [sortValue, setSortValue] = useState<string>(() => {
     if (!query.sort) {
       delete query.sort
@@ -75,8 +73,6 @@ export default function ProductList({
     return query.sort as string
   })
 
-  const { profile } = useAccountInformation()
-  const { addCart } = useCart()
   const { cart } = useCartStore()
 
   const { isMobile } = useDevice()
@@ -190,7 +186,7 @@ export default function ProductList({
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
       <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
-      {cart.dataModalAddSuccess && <AddNewCartSuccess/>}
+      <AddNewCartSuccess open={cart.dataModalAddSuccess}/>
     </div>
   )
 }

@@ -28,14 +28,15 @@ type Props = {
 
 export default function QuickReviewModal({ open, data: dataProps, onClose }: Props) {
   const { query } = useRouterWithQueryParams()
-  const { handleUpdateSize, sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(dataProps)
 
-  const data = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)), [sizeOptionsData, selectedSize, dataProps])
+  const { handleUpdateSize, sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(dataProps)
+  const data = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)) || dataProps, [sizeOptionsData, selectedSize, dataProps])
   const image = useMemo(() => data?.images && data?.images?.find((item) => item.isDefault), [data?.images])
   const brands = findObjectByName(data?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.BRAND)?.attributes
   const brandString = useMemo(() => brands?.map((item) => item.value).join(', '), [brands])
 
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
+
   const dataAdd = useMemo(() => {
     return {
       id: data?.id || '',

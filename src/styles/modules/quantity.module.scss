@@ -2,7 +2,7 @@
   @apply w-[80px] flex flex-row flex-nowrap items-center justify-center px-4 bg-grey-50 rounded-lg border border-grey-150;
 
   .button {
-    @apply w-[30px] h-[30px] min-w-[16px] bg-center bg-no-repeat cursor-pointer;
+    @apply w-10 h-10 min-w-[16px] bg-center bg-no-repeat cursor-pointer;
     background-size: 16px 16px;
 
     &.add {

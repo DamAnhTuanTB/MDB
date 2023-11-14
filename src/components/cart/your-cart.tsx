@@ -22,8 +22,6 @@ export default function MyCartComponent() {
   const { cart } = useCartStore()
   const { getProductList, data } = useProduct()
   const { getCart } = useCart()
-  const { profile: profileStage, isLoading } = useAuthStore()
-  const { loginPutBack } = useCustomerLogin()
 
   const stepData: stepType[] = [
     {
@@ -65,7 +63,7 @@ export default function MyCartComponent() {
             </h3>
           ))}
         </div>
-        <div className={styles.body__tbody}>{cart?.listProd?.map((item, idx) => <CartITem data={item} key={`${idx}-${item?.id}`} />)}</div>
+        <div className={styles.body__tbody}>{cart?.listProd?.map((item, idx) => <CartITem data={item} key={`${idx}-${item?.productId}`} />)}</div>
       </div>
       {data?.results?.length && (
         <div className={styles.footer}>
@@ -80,16 +78,17 @@ const CartITem = (props: { data: CartItem }) => {
   const {
     data: { product: productProps, quantity: quantityCart, id }
   } = props || {}
+
   const [quantitySelected, setQuantitySelected] = useState<number>(quantityCart)
   const { deleteCart, editCart, addCart } = useCart()
 
   const { sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(props?.data?.product)
   const product: any = useMemo(
-    () => sizeOptionsData?.results?.find((prod) => prod?.size === (Number(selectedSize) || props?.data?.product?.size)),
+    () => sizeOptionsData?.results?.find((prod) => prod?.size === (Number(selectedSize))) || productProps,
     [sizeOptionsData, selectedSize, props?.data?.product]
   )
-  const { images, name, sizes } = product || {}
-  const img = useMemo(() => images?.find((i: any, idx: any) => i.isDefault)?.url, [product, images])
+  const { images, name } = product || {}
+  const img = useMemo(() => images?.find((i: any, idx: any) => i.isDefault)?.url, [product?.id, images])
 
   if (product?.syncType === 'delete') return null
 

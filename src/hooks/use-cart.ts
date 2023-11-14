@@ -17,11 +17,11 @@ export const useCart = () => {
   const { dataResult: dataAddCart, fetch: _addCart } = useFetch({ fetcher: cartApi.addCart })
   const { dataResult: dataEditCart, fetch: _editCart } = useFetch({ fetcher: cartApi.editCart })
   const { dataResult: dataDeleteCart, fetch: _deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
-  const {dataResult: dataSyncLocalToSever, fetch: _syncLocalToSever} = useFetch({fetcher: cartApi.syncLocalToSever as any})
+  const { dataResult: dataSyncLocalToSever, fetch: _syncLocalToSever } = useFetch({ fetcher: cartApi.syncLocalToSever as any })
   const { isLoggedIn } = useAuthStore()
   const { profile } = useAccountInformation()
   const { setNotificationUI } = useNotificationUI()
-  const { setCartBadge, setCartDetail, toggleModalAddSuccess, cart, setCartStore, setCartModal } = useCartStore()
+  const { cart, setCartStore, setCartModal } = useCartStore()
 
   /*================ Bắt recoil xử lý=================*/
   useEffect(() => {
@@ -31,32 +31,36 @@ export const useCart = () => {
         count: dataCount?.data?.count || 0
       })
     // eslint-disable-next-line
-  }, [dataCount?.data])
+  }, [dataCount?.data?.count])
 
   useEffect(() => {
-    if (dataCart?.data)
+    if (dataCart?.data) {
       setCartStore({
         ...cart,
+        count: dataCart?.data?.results?.length,
         listProd: dataCart?.data?.results || []
       })
+      setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(dataCart?.data?.results || []))
+    }
     // eslint-disable-next-line
   }, [dataCart?.data])
 
   useEffect(() => {
+    if (!dataAddCart?.data) return
+    lsole.log(dataAddCart?.data, cart?.dataModalAddSuccess)
     if (dataAddCart?.data?.quantity === 1) {
       setCartModal({ ...cart?.dataModalAddSuccess, ...dataAddCart?.data, isFinal: true } as any)
-      getCart()
     } else {
       setCartModal()
     }
+    getCart()
     // eslint-disable-next-line
   }, [dataAddCart])
-  // console.log(cart)
+  // esole.log(cart)
 
   useEffect(() => {
     if (dataEditCart?.data) {
       getCart()
-      countCart()
     } else if (dataEditCart?.data) {
       renderNoti('Edit', false)
     }
@@ -67,7 +71,6 @@ export const useCart = () => {
       renderNoti('Delete', false)
     } else if (dataDeleteCart?.data) {
       getCart()
-      countCart()
     }
   }, [dataDeleteCart])
   /*================ Bắt recoil xử lý=================*/
@@ -91,8 +94,9 @@ export const useCart = () => {
   }
 
   const getCart = () => {
-    if (isLoggedIn) _getCart(undefined)
-    else {
+    if (isLoggedIn) {
+      _getCart(undefined)
+    } else {
       const data = getLocalStorageCart().filter((i: any) => i.syncType !== 'delete')
       setCartStore({ ...cart, listProd: data, count: data.reduce((t: number, i: CartItem) => t + i.quantity, 0) })
     }
@@ -121,14 +125,17 @@ export const useCart = () => {
       removeLocalStorage(id)
     }
   }
+
   const addCart = (params: CartItem, cb?: (type: string, openModal?: boolean) => void) => {
     console.log('================actionAddCart================', isLoggedIn, params)
     if (isLoggedIn) {
-      _addCart({
-        productId: params?.productId,
-        quantity: params.quantity || 1
-      })
       setCartModal({ ...params, isFinal: false } as any)
+      setTimeout(() => {
+        _addCart({
+          productId: params?.productId,
+          quantity: params?.quantity || 1
+        })
+      }, 500)
       cb?.('api')
     } else {
       addLocalStorageCart(params, cb)
@@ -177,13 +184,19 @@ export const useCart = () => {
 
   /*======= sync data local & sever ========*/
   useEffect(() => {
-    if (dataSyncLocalToSever?.data)
-      removeLocalStorage('MDB_LIST_PRODUCT_CART')
+    if (dataSyncLocalToSever?.data) removeLocalStorage('MDB_LIST_PRODUCT_CART')
   }, [dataSyncLocalToSever])
 
   const syncCartLocalToSever = (token: string) => {
-    const listProd = getLocalStorageCart()?.map((i: any) => ({productId: i.productId, quantity: i.quantity, syncType: i.syncType}))
-    _syncLocalToSever({ token: token, data: { cartItems:listProd } })
+    const listProd = getLocalStorageCart()?.map((i: any) => {
+      const item = {
+        productId: i.productId,
+        quantity: i.quantity
+      }
+      if (i.syncType !== 'new') item.syncType = i.syncType
+      return item
+    })
+    _syncLocalToSever({ token: token, data: { cartItems: listProd } })
   }
   const syncCartSeverToLocal = () => {
     setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(cart.listProd))
