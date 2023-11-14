@@ -7,7 +7,7 @@ import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
 import styles from '@/styles/modules/product/index.module.scss'
-import { Product, ProductSize } from '@/types/product'
+import { Product } from '@/types/product'
 import { ProductCategory } from '@/types/product/category'
 import { currencyFormatter } from '@/utils/helper'
 
@@ -61,9 +61,9 @@ export default function ProductItem({ product, category, className, page = '', t
       <h3 className={styles.item__name}>{product?.name}</h3>
       <p className={styles.item__price}>{currencyFormatter.format(product?.price || 0)}</p>
       <CustomForm>
-        <div className={'flex justify-between mt-5 gap-2'}>
+        <div className={'flex justify-between mt-5 gap-1'}>
           <SelectField className={`${stylesModal.body__form__select} `} inputClassName="h-10" name="size" options={sizeOptions} onInputChange={handleUpdateSize} />
-          <Quantity className={`${stylesModal.body__form__input} !max-w-[50px] !md:max-w-[60px]`} name="quantity" min={1} max={product?.quantity} defaultValue={1} onChange={setSelectedQuantity} />
+          <Quantity className={`${stylesModal.body__form__input} !max-w-[60px] !md:max-w-[60px]`} name="quantity" min={1} max={product?.quantity} defaultValue={1} onChange={setSelectedQuantity} />
         </div>
       </CustomForm>
       {dataAdd && <ButtonAddToCart className={`${styles.item__button} bg-blue`} data={dataAdd} />}

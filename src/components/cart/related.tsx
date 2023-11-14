@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -33,8 +33,8 @@ export default function RelatedProduct({ title, products, category, className, l
       products?.map((product, index) => {
         if (index % 2 === 1) return null
         return (
-          <>
-            <ProductItem className="swiper-slide" key={index} product={product} onQuickReview={() => handleQuickReview(product)} />
+          <Fragment key={index}>
+            <ProductItem className="swiper-slide" product={product} onQuickReview={() => handleQuickReview(product)} />
             {products[index + 1] && (
               <ProductItem
                 className={classNames(stylesCart['border-line'], 'swiper-slide')}
@@ -43,7 +43,7 @@ export default function RelatedProduct({ title, products, category, className, l
                 onQuickReview={() => handleQuickReview(products[index + 1])}
               />
             )}
-          </>
+          </Fragment>
         )
       }),
     [products]
