@@ -128,7 +128,7 @@ const CartITem = (props: { data: CartItem }) => {
                   editCart({
                     id: props?.data?.id || '',
                     productId: item?.id || '',
-                    // product: item
+                    product: item
                   })
                 }}
               />
