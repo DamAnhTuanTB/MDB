@@ -50,10 +50,11 @@ export default function ModalAddCartSuccess(props: any) {
     setCartModal() //off
   }
 
-  const _editCart = (params: object) => {
+  const _editCart = (params: any) => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => {
-      if (product?.id) editCart({ ...params, id: dataProps?.id, productId: dataProps?.productId })
+      console.log(product)
+      if (product?.id) editCart({ ...params, id: dataProps?.id })
       else renderNotFound()
     }, 500)
   }
@@ -103,7 +104,7 @@ export default function ModalAddCartSuccess(props: any) {
                   const item = sizeOptionsData?.results?.find((i) => i.size === Number(vl))
                   _editCart({
                     productId: item?.id || '',
-                    quantity: Number(selectedSize),
+                    quantity: Number(selectedSize) || 1,
                     product: item
                   })
                 }}

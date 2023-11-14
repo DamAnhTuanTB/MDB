@@ -9,16 +9,15 @@ import routers from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
 import {PRODUCT_ATTRIBUTE} from '@/types/product'
-import {currencyFormatter, findObjectByName, getLocalStorage} from '@/utils/helper'
+import { currencyFormatter, findObjectByName } from '@/utils/helper'
 import classNames from 'classnames'
 
-import Button from '@/components/common/button'
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
 
 export default function Cart() {
   const {isLoggedIn} = useAuthStore()
-  const {cart, setCartStore} = useCartStore()
+  const {cart} = useCartStore()
   const { countCart, getCart, dataCart } = useCart()
   const router = useRouter()
   const anchorRef = useRef<HTMLDivElement | null>()
@@ -79,7 +78,7 @@ export default function Cart() {
             )
           })}
         </div>
-        <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} onClick={goCart}>
+        <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px] mt-4')} onClick={goCart}>
           View Cart
         </button>
       </div>

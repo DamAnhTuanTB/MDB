@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 
 import Image from 'next/image'
 
@@ -13,8 +13,8 @@ type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButt
 }
 
 export default function ImageComponent(props: Props) {
-  const {className, width, height, srcDefault, alt, onClick} = props
-  let {src} = props
+  const { className, width, height, srcDefault, alt, onClick } = props
+  let { src } = props
   if (!src && srcDefault) src = typeof srcDefault === 'string' ? srcDefault : '/images/img-def.png'
   return (
     <Image
@@ -31,7 +31,9 @@ export default function ImageComponent(props: Props) {
       src={src || ''}
       alt={alt || ''}
       onClick={onClick}
-      // onError={(e) => (e.currentTarget.src = '/images/image-error.png')}
+      onError={(e) => {
+        e.currentTarget.src = '/images/image-error.png'
+      }}
     />
   )
 }
