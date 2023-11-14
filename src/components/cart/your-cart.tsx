@@ -11,7 +11,6 @@ import RelatedProduct from '@/components/common/product/related'
 import { useProduct } from '@/hooks/pages/use-product'
 import CustomForm from '@/components/form'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
-import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
 import Button from '@/components/common/button'
 
 type stepType = {

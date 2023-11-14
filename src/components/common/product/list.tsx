@@ -73,7 +73,7 @@ export default function ProductList({
     return query.sort as string
   })
 
-  const { cart } = useCartStore()
+  const { dataModalAddSuccess } = useCartStore()
 
   const { isMobile } = useDevice()
 
@@ -186,7 +186,7 @@ export default function ProductList({
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
       <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
-      <AddNewCartSuccess open={cart.dataModalAddSuccess}/>
+      <AddNewCartSuccess open={dataModalAddSuccess}/>
     </div>
   )
 }
