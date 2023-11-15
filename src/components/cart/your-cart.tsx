@@ -9,6 +9,7 @@ import { CartItem } from '@/types/cart'
 import { Product, ProductImage } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
+import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import Button from '@/components/common/button'
 import Image from '@/components/common/image'
 import RelatedProduct from '@/components/common/product/related'
@@ -24,6 +25,7 @@ export default function MyCartComponent() {
   const { cart } = useCartStore()
   const { getProductList, data, isLoading: isLoadingRelated } = useProduct()
   const { getCart, dataCart } = useCart()
+  const { dataModalAddSuccess } = useCartStore()
 
   const stepData: stepType[] = [
     {
@@ -81,6 +83,7 @@ export default function MyCartComponent() {
           <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
         </div>
       )}
+      <ModalAddCartSuccess open={dataModalAddSuccess} />
     </div>
   )
 }
