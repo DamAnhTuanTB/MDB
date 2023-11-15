@@ -31,7 +31,6 @@ export default function Layout({ children, footerContent }: Props) {
   const pageNeedToken = ['/account/information', '/account/favorite']
 
   useEffect(() => {
-    console.log(profile)
     if (accessToken && !profile) {
       getProfile(undefined)
     }

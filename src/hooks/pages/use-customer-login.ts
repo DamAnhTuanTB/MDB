@@ -35,7 +35,6 @@ export const useCustomerLogin = () => {
   }, [dataSyncLocalToSever])
 
   useEffect(() => {
-    console.log(dataResult)
     if (dataResult?.data) {
       setIsLoggedIn(true)
       setLocalStorage(authenticationConfig.accessToken, dataResult?.data?.accessToken)
