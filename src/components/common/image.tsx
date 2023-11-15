@@ -31,7 +31,9 @@ export default function ImageComponent(props: Props) {
       src={src || ''}
       alt={alt || ''}
       onClick={onClick}
-      // onError={(e) => (e.currentTarget.src = '/images/image-error.png')}
+      onError={(e) => {
+        e.currentTarget.src = '/images/image-error.png'
+      }}
     />
   )
 }

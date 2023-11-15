@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 import { cartApi } from '@/services/api/cart'
 
-import { useAccountInformation } from '@/hooks/pages/use-account-information'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
@@ -19,9 +18,8 @@ export const useCart = () => {
   const { dataResult: dataDeleteCart, fetch: _deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
   const { dataResult: dataSyncLocalToSever, fetch: _syncLocalToSever } = useFetch({ fetcher: cartApi.syncLocalToSever as any })
   const { isLoggedIn } = useAuthStore()
-  const { profile } = useAccountInformation()
   const { setNotificationUI } = useNotificationUI()
-  const { cart, setCartStore, setCartModal } = useCartStore()
+  const { cart, dataModalAddSuccess, setCartStore, setCartModal } = useCartStore()
 
   /*================ Bắt recoil xử lý=================*/
   useEffect(() => {
@@ -48,14 +46,13 @@ export const useCart = () => {
   useEffect(() => {
     if (!dataAddCart?.data) return
     if (dataAddCart?.data?.quantity === 1) {
-      setCartModal({ ...cart?.dataModalAddSuccess, ...dataAddCart?.data, isFinal: true } as any)
+      setCartModal({ ...dataModalAddSuccess, ...dataAddCart?.data, isFinal: true } as any)
     } else {
       setCartModal()
     }
     getCart()
     // eslint-disable-next-line
   }, [dataAddCart])
-  // esole.log(cart)
 
   useEffect(() => {
     if (dataEditCart?.data) {
@@ -88,7 +85,7 @@ export const useCart = () => {
     if (isLoggedIn) _countCart(undefined)
     else {
       const data = getLocalStorageCart()
-      setCartStore({ ...cart, count: data?.length || 0, listProd: data || [] })
+      setCartStore({ ...cart, count: data.reduce((t: number, i: CartItem) => t + i.quantity, 0), listProd: data || [] })
     }
   }
 
@@ -129,12 +126,10 @@ export const useCart = () => {
     // console.log('================actionAddCart================', isLoggedIn, params)
     setCartModal({ ...params, isFinal: false } as any)
     if (isLoggedIn) {
-      setTimeout(() => {
-        _addCart({
-          productId: params?.productId,
-          quantity: params?.quantity || 1
-        })
-      }, 500)
+      _addCart({
+        productId: params?.productId,
+        quantity: params?.quantity || 1
+      })
       cb?.('api')
     } else {
       addLocalStorageCart(params, cb)
@@ -152,8 +147,14 @@ export const useCart = () => {
     const listProd = getLocalStorageCart()
     const itemExits = listProd.findIndex((i: CartItem) => i.productId === params?.productId)
     if (itemExits > -1) {
-      listProd[itemExits].quantity += params.quantity
-      listProd[itemExits].syncType = 'update'
+      if (listProd[itemExits].syncType === 'delete') {
+        listProd[itemExits].quantity = params.quantity
+        listProd[itemExits].syncType = 'new'
+        setCartModal({ ...params, isFinal: true } as any)
+      } else {
+        listProd[itemExits].quantity += params.quantity
+        listProd[itemExits].syncType = 'update'
+      }
       setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
       cb?.('local')
     } else {
@@ -162,9 +163,7 @@ export const useCart = () => {
       setCartModal({ ...params, isFinal: true } as any)
       cb?.('local', true)
     }
-    setTimeout(() => {
-      window.dispatchEvent(new Event('storage'))
-    }, 1000)
+    window.dispatchEvent(new Event('storage'))
   }
 
   const updateLocalStorage = (params: EditCart) => {

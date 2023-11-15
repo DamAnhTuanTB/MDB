@@ -79,7 +79,7 @@ export default function MyCartComponent() {
           <p className={styles.cart__empty__text}>There are currently no items in your cart</p>
         )}
       </div>
-      {data?.results?.length && (
+      {!!data?.results?.length && (
         <div className={styles.footer}>
           <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
         </div>
