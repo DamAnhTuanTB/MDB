@@ -9,25 +9,22 @@ import { z } from 'zod'
 import initCarousel, { Options } from '@/services/carousel'
 
 import { sortOptions } from '@/constants/product'
-import { useAccountInformation } from '@/hooks/pages/use-account-information'
-import { useCart } from '@/hooks/use-cart'
 import useDevice from '@/hooks/use-device'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/product/index.module.scss'
-import { CartItem } from '@/types/cart'
 import { DefaultFilterData, Product } from '@/types/product'
 import { ProductAttributeItem } from '@/types/product/attribute'
 import { ProductCategory } from '@/types/product/category'
 import { debounce } from '@/utils/helper'
 
+import AddNewCartSuccess from '@/components/cart/modal-add-cart-success'
 import CustomForm from '@/components/form'
 import SelectField from '@/components/form/select-field'
 import FilterModal from '@/components/products/filter/filter-modal'
 
 import ProductItem from './item'
 import QuickReviewModal from './quick-review-modal'
-import AddNewCartSuccess from '@/components/cart/modal-add-cart-success'
 
 const sortSchema = z.object({
   sort: z.string().optional()
@@ -186,7 +183,7 @@ export default function ProductList({
       </div>
       <FilterModal open={openModal} attributes={attributes || []} defaultFilterData={defaultFilterData} onClose={() => setOpenModal(false)} onClearFilter={onClearFilter} />
       <QuickReviewModal open={openQuickReview} data={quickReviewData} onClose={() => setOpenQuickReview(false)} />
-      <AddNewCartSuccess open={cart.dataModalAddSuccess}/>
+      <AddNewCartSuccess open={cart.dataModalAddSuccess} />
     </div>
   )
 }

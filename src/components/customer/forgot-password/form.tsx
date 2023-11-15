@@ -5,10 +5,12 @@ import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
 import { useCustomerForgotPassword } from '@/hooks/pages/use-customer-forgot-password'
+import routes from '@/routes'
 import styles from '@/styles/modules/customer/form.module.scss'
 import { ForgotPasswordBody } from '@/types/authentication'
 
 import Button from '@/components/common/button'
+import Link from '@/components/common/custom-link'
 import CustomForm from '@/components/form'
 import TextField from '@/components/form/text-field'
 
@@ -43,6 +45,11 @@ export default function ForgotPasswordForm() {
             <Button type="submit" className={styles.form__button} isLoading={isLoading}>
               Send
             </Button>
+            <p className={styles.form__redirect}>
+              <Link href={routes.loginPage()} className="underline">
+                Back to Login
+              </Link>
+            </p>
           </div>
         </CustomForm>
       )}
