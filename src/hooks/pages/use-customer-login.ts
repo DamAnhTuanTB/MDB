@@ -16,7 +16,7 @@ import { useFetch } from '../use-fetch'
 export const useCustomerLogin = () => {
   const { setFavorites } = useFavoriteStore()
   const { fetch, dataResult } = useFetch<LoginResponse, LoginBody>({ fetcher: customerApi.login })
-  const { setIsLoggedIn, setProfile, isLoading, profile: profileStage, setIsLoading } = useAuthStore()
+  const { setIsLoggedIn, setProfile, profile: profileStage } = useAuthStore()
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
   const { push } = useRouterWithQueryParams()
@@ -35,35 +35,26 @@ export const useCustomerLogin = () => {
   }, [dataSyncLocalToSever])
 
   useEffect(() => {
+    console.log(dataResult)
     if (dataResult?.data) {
       setIsLoggedIn(true)
       setLocalStorage(authenticationConfig.accessToken, dataResult?.data?.accessToken)
       setLocalStorage(authenticationConfig.refreshToken, dataResult?.data?.refreshToken)
-      getProfile(dataResult?.data?.accessToken)
-      syncCartLocalToSever(dataResult?.data?.accessToken)
+      getProfile(undefined)
+      syncCartLocalToSever()
     } else if (dataResult?.error) {
       setErrorMessage(dataResult?.error?.response?.data.message)
-      setIsLoading(false)
     }
   }, [dataResult])
 
   useEffect(() => {
-    if (profile?.data) {
+    if (!profile?.isLoading && profile?.data) {
       setIsLoggedIn(true)
       setProfile(profile.data)
-    } else if (profile?.error) {
-      setIsLoading(false)
     }
-  }, [profile])
-
-  useEffect(() => {
-    if (profileStage) {
-      setIsLoading(false)
-    }
-  }, [profileStage])
+  }, [profile, setIsLoggedIn, setProfile])
 
   const login = async (data: LoginBody) => {
-    setIsLoading(true)
     await fetch(data)
   }
 

@@ -18,12 +18,7 @@ const instance = axios.create({
 })
 
 const apiBase = {
-  get: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => {
-    if (config?.headers) {
-      config.headers.Authorization = instance.defaults.headers.common['Authorization']
-    }
-    return instance.get(url, config)
-  },
+  get: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => instance.get(url, config),
 
   post: <B, T>(url: string, data?: B, config?: AxiosRequestConfig): AxiosPromise<T> => instance.post(url, data, config),
 

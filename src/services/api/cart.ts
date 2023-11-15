@@ -1,7 +1,7 @@
 import qs from 'qs'
 
 import { authenticationConfig } from '@/configs/authentication'
-import { AddCart, CartItem, Count, EditCart, GetCartResponse } from '@/types/cart'
+import { AddCart, CartItem, Count, EditCart, GetCartResponse, syncCart } from '@/types/cart'
 import { getLocalStorage } from '@/utils/helper'
 
 import { apiBase } from '../../services/api'
@@ -26,8 +26,8 @@ export const cartApi = {
     return apiBase.post<AddCart, CartItem>('/carts', body, config)
   },
 
-  syncLocalToSever: (params: any) => {
-    return apiBase.post<AddCart[], CartItem>('/carts/sync', params.data, { ...config, headers: { ...config.headers, Authorization: `Bearer ${params.token}` } })
+  syncLocalToSever: (params: syncCart) => {
+    return apiBase.post<syncCart, CartItem>('/carts/sync', params, config)
   },
 
   editCart: (body: EditCart) => {

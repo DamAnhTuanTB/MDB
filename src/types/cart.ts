@@ -21,6 +21,10 @@ export type AddCart = {
   quantity: number
   product?: Product | undefined
 }
+
+export type syncCart = {
+  cartItems?: CartItem[]
+}
 export type EditCart = {
   id?: string
   cartItemId?: string
