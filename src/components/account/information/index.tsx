@@ -86,7 +86,9 @@ export default function AccountInformation({ profile, onReset }: Props) {
               </div>
               <div className={styles.infor__item}>
                 <h4 className={styles.infor__item__title}>Email</h4>
-                <p className={styles.infor__item__text}>{profile?.email}</p>
+                <p className={styles.infor__item__text}>
+                  {profile?.email} ({isEmailVerified ? 'Verified' : 'Unverified'})
+                </p>
                 <div className={styles.infor__item__edit} onClick={() => handleEditInformation('email', 'Email', profile?.email)}>
                   Edit
                 </div>
@@ -116,20 +118,6 @@ export default function AccountInformation({ profile, onReset }: Props) {
                   value={allowPromotions ? '1' : '0'}
                 />
                 <div className={styles.infor__item__edit} onClick={() => handleEditInformation('allowPromotions', 'Allow MyDermbox Email Promotions', profile?.allowPromotions)}>
-                  Edit
-                </div>
-              </div>
-              <div className={styles.infor__item}>
-                <h4 className={styles.infor__item__title}>Is email verified</h4>
-                <SelectField
-                  disabled
-                  className={styles.infor__item__select}
-                  inputClassName={styles.infor__item__select__input}
-                  name="isEmailVerified"
-                  options={promotionEmailOptions}
-                  defaultValue={isEmailVerified ? '1' : '0'}
-                />
-                <div className={styles.infor__item__edit} onClick={() => handleEditInformation('isEmailVerified', 'Email Is Verified', profile?.isEmailVerified)}>
                   Edit
                 </div>
               </div>
