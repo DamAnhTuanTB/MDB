@@ -1,5 +1,10 @@
 .wrapper {
   @apply md:p-10;
+
+  .cart__empty__text {
+    @apply py-4;
+    @apply md:px-4;
+  }
 }
 
 .header {
@@ -43,7 +48,7 @@
 
   &__tr {
     @apply w-full;
-    @apply border-b border-grey-150 py-4
+    @apply border-b border-grey-150 py-4;
   }
 
   &__tr,

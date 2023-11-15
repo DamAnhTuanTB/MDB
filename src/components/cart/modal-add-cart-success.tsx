@@ -3,8 +3,10 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useProduct } from '@/hooks/pages/use-product'
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import { useCart } from '@/hooks/use-cart'
+import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
+import routes from '@/routes'
 import stylesModal from '@/styles/modules/cart/modal-add-cart-success.module.scss'
 import { currencyFormatter } from '@/utils/helper'
 
@@ -16,8 +18,6 @@ import SelectField from '@/components/form/select-field'
 import Button from '../common/button'
 import Modal from '../common/modal'
 import Quantity from '../common/quantity'
-import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
-import routes from '@/routes'
 
 export default function ModalAddCartSuccess(props: any) {
   const timer = useRef<any>()
@@ -74,7 +74,7 @@ export default function ModalAddCartSuccess(props: any) {
 
   if (!dataProps) return null
   return (
-    <Modal bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps.isFinal} onClose={_onClose}>
+    <Modal className={stylesModal.modal} bodyClassName={stylesModal.wrapper} contentClassName={stylesModal.wrapper__content} open={!!dataProps.isFinal} onClose={_onClose}>
       <div className={stylesModal.header}>
         <span className={stylesModal.header__icon} />
         <div className={stylesModal.header__label}>Added to Cart</div>

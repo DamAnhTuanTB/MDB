@@ -1,18 +1,19 @@
-import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
+
+import { useProduct } from '@/hooks/pages/use-product'
+import { useProductDetail } from '@/hooks/pages/use-product-detail'
+import { useCart } from '@/hooks/use-cart'
 import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/cart/your-cart.module.scss'
-import Image from '@/components/common/image'
-import { currencyFormatter } from '@/utils/helper'
-import SelectField from '@/components/form/select-field'
 import { CartItem } from '@/types/cart'
-import Quantity from '@/components/common/quantity'
-import { useCart } from '@/hooks/use-cart'
-import RelatedProduct from '@/components/common/product/related'
-import { useProduct } from '@/hooks/pages/use-product'
-import CustomForm from '@/components/form'
-import { useProductDetail } from '@/hooks/pages/use-product-detail'
-import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
+import { currencyFormatter } from '@/utils/helper'
+
 import Button from '@/components/common/button'
+import Image from '@/components/common/image'
+import RelatedProduct from '@/components/common/product/related'
+import Quantity from '@/components/common/quantity'
+import CustomForm from '@/components/form'
+import SelectField from '@/components/form/select-field'
 
 type stepType = {
   label: string
@@ -63,12 +64,20 @@ export default function MyCartComponent() {
             </h3>
           ))}
         </div>
-        <div className={styles.body__tbody}>{cart?.listProd?.map((item, idx) => <CartITem data={item} key={`${idx}-${item?.productId}`} />)}</div>
-        <div className="w-full flex justify-end my-8 sm:my-10">
-        <Button className="sm:!w-full md:!w-[200px]">
-          Checkout
-        </Button>
-        </div>
+        {cart?.listProd.length > 0 ? (
+          <>
+            <div className={styles.body__tbody}>
+              {cart.listProd.map((item, idx) => (
+                <CartITem data={item} key={`${idx}-${item?.productId}`} />
+              ))}
+            </div>
+            <div className="w-full flex justify-end my-8 sm:my-10">
+              <Button className="sm:!w-full md:!w-[200px]">Checkout</Button>
+            </div>
+          </>
+        ) : (
+          <p className={styles.cart__empty__text}>There are currently no items in your cart</p>
+        )}
       </div>
       {data?.results?.length && (
         <div className={styles.footer}>

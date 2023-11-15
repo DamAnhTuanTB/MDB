@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef } from 'react'
 
 import { useRouter } from 'next/router'
 
+import classNames from 'classnames'
+
 import { useCart } from '@/hooks/use-cart'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
@@ -9,8 +11,7 @@ import routers from '@/routes'
 import styles from '@/styles/layout/header.module.scss'
 import stylesPopoverCart from '@/styles/modules/cart/popover-cart-info.module.scss'
 import { PRODUCT_ATTRIBUTE } from '@/types/product'
-import { currencyFormatter, findObjectByName, getLocalStorage } from '@/utils/helper'
-import classNames from 'classnames'
+import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
@@ -54,33 +55,41 @@ export default function Cart() {
           </button>
         </div>
         {/*popover content*/}
-        <div className={stylesPopoverCart.popover__grid}>
-          {dataCart?.isLoading && <div className={'flex mx-auto my-10 justify-center'}>Loading...</div>}
-          {cart?.listProd?.map((item, idx) => {
-            const { images, name, sizes, price, attributeGroups, size } = item.product || {}
-            const { quantity } = item
-            const unit = findObjectByName(attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || ''
+        {cart?.listProd.length > 0 ? (
+          <>
+            <div className={stylesPopoverCart.popover__grid}>
+              {dataCart?.isLoading && <div className={'flex mx-auto my-10 justify-center'}>Loading...</div>}
+              {cart?.listProd?.map((item, idx) => {
+                const { images, name, sizes, price, attributeGroups, size } = item.product || {}
+                const { quantity } = item
+                const unit = findObjectByName(attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || ''
 
-            const img = images?.find((i, idx) => i.isDefault)?.url
-            return (
-              <div key={idx} className={stylesPopoverCart.popover__row}>
-                <Image src={img} className={'!w-50 !sm:w-100'} />
-                <div className={stylesPopoverCart.popover__item__decription}>
-                  <div className={'line-clamp-2'}>{name}</div>
-                  {'\n'}Qty:{quantity || 0}
-                  {'\n'}Size:{item?.product?.size || 0} {unit}
-                </div>
-                <span className={stylesPopoverCart.popover__item__price}>
-                  {currencyFormatter.format(price || 0)}
-                  {'\n '}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-        <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} onClick={goCart}>
-          View Cart
-        </button>
+                const img = images?.find((i, idx) => i.isDefault)?.url
+                return (
+                  <div key={idx} className={stylesPopoverCart.popover__row}>
+                    <Image src={img} className={'!w-50 !sm:w-100'} alt="" />
+                    <div className={stylesPopoverCart.popover__item__decription}>
+                      <div className={'line-clamp-2'}>{name}</div>
+                      {'\n'}Qty:{quantity || 0}
+                      {'\n'}Size:{item?.product?.size || 0} {unit}
+                    </div>
+                    <span className={stylesPopoverCart.popover__item__price}>
+                      {currencyFormatter.format(price || 0)}
+                      {'\n '}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+            <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} onClick={goCart}>
+              View Cart
+            </button>
+          </>
+        ) : (
+          <div className={stylesPopoverCart.text}>
+            <p className={stylesPopoverCart.text__empty}>There are currently no items in your cart</p>
+          </div>
+        )}
       </div>
     )
   }, [cart.listProd])
