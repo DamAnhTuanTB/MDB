@@ -67,8 +67,8 @@
       }
 
       &__input {
-        @apply max-w-[102px] h-[40px];
-        @apply lg:max-w-[117px];
+        @apply max-w-[102px] h-10;
+        @apply lg:max-w-[117px] lg:h-11;
       }
 
       &__button {
