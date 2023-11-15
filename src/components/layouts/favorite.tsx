@@ -32,6 +32,7 @@ export default function FavoriteProducts() {
           <Link href={routes.productDetailPage(currentCategory?.slug, item?.slug, query.affiliate as string)}>
             <div className={styles.product__image}>
               <Image width={100} height={100} src={getDefaultImage(item)} alt="" />
+              <div className={styles.item__image} style={{ backgroundImage: `url(${getDefaultImage(item)})` }} />
             </div>
             <div className={styles.product__content}>
               <p className={styles.product__name}>{item.name}</p>

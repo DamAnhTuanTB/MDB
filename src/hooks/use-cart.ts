@@ -3,13 +3,13 @@ import { useEffect } from 'react'
 import { cartApi } from '@/services/api/cart'
 
 import { useAccountInformation } from '@/hooks/pages/use-account-information'
+import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
-
-import { useFetch } from './use-fetch'
-import { useAuthStore } from '@/recoil/auth'
 import { CartItem, EditCart } from '@/types/cart'
 import { getLocalStorage, setLocalStorage } from '@/utils/helper'
+
+import { useFetch } from './use-fetch'
 
 export const useCart = () => {
   const { dataResult: dataCart, fetch: _getCart } = useFetch({ fetcher: cartApi.getCart })
@@ -162,9 +162,9 @@ export const useCart = () => {
       setCartModal({ ...params, isFinal: true } as any)
       cb?.('local', true)
     }
-    setTimeout(()=>{
+    setTimeout(() => {
       window.dispatchEvent(new Event('storage'))
-    },1000)
+    }, 1000)
   }
 
   const updateLocalStorage = (params: EditCart) => {
