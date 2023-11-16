@@ -6,8 +6,10 @@ import { useCart } from '@/hooks/use-cart'
 import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/cart/your-cart.module.scss'
 import { CartItem } from '@/types/cart'
+import { Product, ProductImage } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
+import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import Button from '@/components/common/button'
 import Image from '@/components/common/image'
 import RelatedProduct from '@/components/common/product/related'
@@ -21,8 +23,9 @@ type stepType = {
 }
 export default function MyCartComponent() {
   const { cart } = useCartStore()
-  const { getProductList, data } = useProduct()
-  const { getCart } = useCart()
+  const { getProductList, data, isLoading: isLoadingRelated } = useProduct()
+  const { getCart, dataCart } = useCart()
+  const { dataModalAddSuccess } = useCartStore()
 
   const stepData: stepType[] = [
     {
@@ -36,12 +39,8 @@ export default function MyCartComponent() {
   ]
 
   useEffect(() => {
-    getCart()
-  }, [])
-
-  useEffect(() => {
-    if (!data?.results) getProductList({ where: { relatedProductIds: cart?.listProd?.map((i) => i.productId) } })
-  }, [data?.results])
+    if (cart?.listProd.length) getProductList({ where: { relatedProductIds: cart?.listProd?.map((i) => i.productId) } })
+  }, [cart?.listProd, getProductList])
 
   const titles = ['Product', 'Quantity', 'Price', 'Total']
   return (
@@ -51,7 +50,7 @@ export default function MyCartComponent() {
           return (
             <Fragment key={idx}>
               <span key={idx}>{item?.label}</span>
-              {idx < stepData.length && <Image width={16} height={16} src={'images/icons/arrow_black.svg'} />}
+              {idx < stepData.length && <Image width={16} height={16} src={'images/icons/arrow_black.svg'} alt="" />}
             </Fragment>
           )
         })}
@@ -79,11 +78,12 @@ export default function MyCartComponent() {
           <p className={styles.cart__empty__text}>There are currently no items in your cart</p>
         )}
       </div>
-      {!!data?.results?.length && (
+      {!!data?.results?.length && !!cart?.listProd.length && (
         <div className={styles.footer}>
           <RelatedProduct products={data?.results || []} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
         </div>
       )}
+      <ModalAddCartSuccess open={dataModalAddSuccess} />
     </div>
   )
 }
@@ -97,22 +97,23 @@ const CartITem = (props: { data: CartItem }) => {
   const { deleteCart, editCart, addCart } = useCart()
 
   const { sizeOptions, selectedSize, sizeOptionsData } = useProductDetail(props?.data?.product)
-  const product: any = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)) || productProps, [sizeOptionsData, selectedSize, props?.data?.product])
+  const product: Product | undefined = useMemo(() => sizeOptionsData?.results?.find((prod) => prod?.size === Number(selectedSize)) || productProps, [sizeOptionsData, selectedSize, productProps])
   const { images, name } = product || {}
-  const img = useMemo(() => images?.find((i: any, idx: any) => i.isDefault)?.url, [product?.id, images])
+  const img = useMemo(() => images?.find((i: ProductImage, idx: number) => i.isDefault)?.url, [images])
 
   if (props.data?.syncType === 'delete') return null
 
   return (
     <div className={styles.body__tr}>
       <div className={styles.body__tr__info}>
-        <Image width={125} height={125} className={styles.body__tr__image} src={img} />
+        <Image width={125} height={125} className={styles.body__tr__image} src={img} alt="" />
         <Image
           className={`${styles.btn__delete} invisible md:visible`}
           src={'/images/icons/close.svg'}
           onClick={() => {
             deleteCart(id)
           }}
+          alt=""
         />
         <button
           className={styles.span__remove}

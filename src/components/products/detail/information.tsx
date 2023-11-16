@@ -1,13 +1,15 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
 import { useProductDetail } from '@/hooks/pages/use-product-detail'
+import { useCartStore } from '@/recoil/cart'
 import styles from '@/styles/modules/product/detail.module.scss'
 import { Product } from '@/types/product'
 import { currencyFormatter } from '@/utils/helper'
 
 import ButtonAddToCart from '@/components/cart/button-add-to-cart'
+import ModalAddCartSuccess from '@/components/cart/modal-add-cart-success'
 import HtmlRender from '@/components/common/html-render'
 import Quantity from '@/components/common/quantity'
 import RatingCommon from '@/components/common/rating'
@@ -23,6 +25,7 @@ type Props = {
 export default function Information({ data }: Props) {
   const { selectedSize, handleUpdateSize, sizeOptions, unit } = useProductDetail(data)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
+  const { dataModalAddSuccess } = useCartStore()
   const dataAdd = useMemo(() => {
     return {
       id: data?.id || '',
@@ -70,6 +73,7 @@ export default function Information({ data }: Props) {
                 </div>
               </div>
               {dataAdd && <ButtonAddToCart className={classNames(styles.detail__form__button, styles['sp'])} data={dataAdd} />}
+              <ModalAddCartSuccess open={dataModalAddSuccess} />
             </div>
           </CustomForm>
         </div>
