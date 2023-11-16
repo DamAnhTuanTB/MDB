@@ -93,6 +93,8 @@ export default function ProductPage({ productAttributes, defaultFilterData, cate
     setIsInitialRender(false)
   }, [query])
 
+  console.log(displayProducts)
+
   return (
     <>
       <Meta title={`${category?.name} Products`} />
