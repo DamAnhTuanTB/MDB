@@ -7,16 +7,15 @@ import { useAuthStore } from '@/recoil/auth'
 import Account from '@/components/account'
 import AccountInformation from '@/components/account/information'
 import Meta from '@/components/common/meta'
-import Loading from '@/components/loading'
 
 export default function AccountPage() {
-  const { getProfile } = useAccountInformation()
+  const { getProfile, profile } = useAccountInformation()
   const { loginPutBack } = useCustomerLogin()
-  const { profile: profileStage, isLoading, isLoggedIn } = useAuthStore()
+  const { profile: profileStage, isLoggedIn } = useAuthStore()
 
   useEffect(() => {
     if (!isLoggedIn) loginPutBack('/account/information')
-  }, [isLoading, profileStage])
+  }, [isLoggedIn])
 
   const resetData = () => {
     getProfile(undefined)
@@ -26,8 +25,7 @@ export default function AccountPage() {
     <>
       <Meta title="Account information" />
       <Account>
-        {isLoading && <Loading />}
-        {!isLoading && <AccountInformation profile={profileStage} onReset={resetData} />}
+        <AccountInformation profile={profileStage} onReset={resetData} />
       </Account>
     </>
   )

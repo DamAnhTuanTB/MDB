@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import classNames from 'classnames'
 
 import { PROFILE_ID } from '@/constants/profile'
+import { useCustomerLogin } from '@/hooks/pages/use-customer-login'
+import { useAuthStore } from '@/recoil/auth'
 import styles from '@/styles/modules/account/favorite.module.scss'
 import { StringOrNull } from '@/types'
 import { Product } from '@/types/product'
@@ -25,6 +27,13 @@ type Props = {
 
 export default function Favorite({ favoriteProducts, relatedProducts }: Props) {
   const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  const { isLoggedIn } = useAuthStore()
+  const { loginPutBack } = useCustomerLogin()
+
+  useEffect(() => {
+    if (!isLoggedIn) loginPutBack('/account/favorite')
+  }, [isLoggedIn])
 
   const handleToggleCollapse = (value: boolean) => {
     setShowMenu(!value)

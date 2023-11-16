@@ -9,7 +9,7 @@ export const isLoggedInStage = atom<boolean>({
   key: 'isLoggedInStage',
   default: false
 })
-export const isLoadingStage = atom<boolean | string>({
+export const isLoadingStage = atom<boolean>({
   key: 'isLoading',
   default: true
 })

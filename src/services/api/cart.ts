@@ -6,39 +6,41 @@ import { getLocalStorage } from '@/utils/helper'
 
 import { apiBase } from '../../services/api'
 
-const accessToken = getLocalStorage(authenticationConfig.accessToken)
-const config = {
+const config = () => ({
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${accessToken()}`
   }
-}
+})
+
+const accessToken = () => getLocalStorage(authenticationConfig.accessToken)
+
 export const cartApi = {
   getCart: () => {
     const queryString = qs.stringify({
       sort: { createdAt: 'desc' },
       noPagination: true
     })
-    return apiBase.get<GetCartResponse>(`/carts?${queryString}`, config)
+    return apiBase.get<GetCartResponse>(`/carts?${queryString}`, config())
   },
 
   addCart: (body: AddCart) => {
-    return apiBase.post<AddCart, CartItem>('/carts', body, config)
+    return apiBase.post<AddCart, CartItem>('/carts', body, config())
   },
 
   syncLocalToSever: (params: syncCart) => {
-    return apiBase.post<syncCart, CartItem>('/carts/sync', params, config)
+    return apiBase.post<syncCart, CartItem>('/carts/sync', params, config())
   },
 
   editCart: (body: EditCart) => {
-    return apiBase.put<EditCart, CartItem>(`/carts/${body.cartItemId}`, body, config)
+    return apiBase.put<EditCart, CartItem>(`/carts/${body.cartItemId}`, body, config())
   },
 
   deleteCart: (cartItemId: string) => {
-    return apiBase.delete<CartItem>(`/carts/${cartItemId}`, config)
+    return apiBase.delete<CartItem>(`/carts/${cartItemId}`, config())
   },
 
   count: () => {
-    return apiBase.get<Count>('/carts/count', config)
+    return apiBase.get<Count>('/carts/count', config())
   }
 }

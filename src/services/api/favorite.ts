@@ -8,7 +8,7 @@ import { ListProductResponse, ProductParams } from '../../types/product'
 
 import { apiBase } from '.'
 
-const accessToken = getLocalStorage(authenticationConfig.accessToken)
+const accessToken = () => getLocalStorage(authenticationConfig.accessToken)
 
 export const favoriteApi = {
   getFavoriteList(params: ProductParams) {
@@ -16,7 +16,7 @@ export const favoriteApi = {
     return apiBase.get<ListProductResponse>(`/favorites?${queryString}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -24,7 +24,7 @@ export const favoriteApi = {
     return apiBase.post<FavoriteParams, FavoriteResponse>('/favorites', body, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -32,7 +32,7 @@ export const favoriteApi = {
     return apiBase.put<FavoriteParams, FavoriteResponse>('/favorites', body, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   }

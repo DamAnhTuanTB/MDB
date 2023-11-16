@@ -17,14 +17,14 @@ import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
 
 export default function Cart() {
-  const { isLoggedIn } = useAuthStore()
-  const { cart, setCartStore } = useCartStore()
+  const { isLoading } = useAuthStore()
+  const { cart } = useCartStore()
   const { countCart, getCart, dataCart } = useCart()
   const router = useRouter()
   const anchorRef = useRef<HTMLDivElement | null>()
 
   useEffect(() => {
-    if (!isLoggedIn) getCart()
+    if (!isLoading) getCart()
 
     // listener localStorage change
     window.addEventListener('storage', () => listenerLocalStorage())
@@ -32,8 +32,11 @@ export default function Cart() {
   }, [])
 
   useEffect(() => {
-    if (isLoggedIn) countCart()
-  }, [isLoggedIn])
+    if (!isLoading) {
+      countCart()
+      getCart()
+    }
+  }, [isLoading])
 
   /** Func update Badge number when localStorage change */
   const listenerLocalStorage = () => {
@@ -105,7 +108,7 @@ export default function Cart() {
       className={`${styles.content__nav__item}`}
       anchor={
         <div ref={(ref) => (anchorRef.current = ref)}>
-          <Image src={'/images/icons/cart.svg'} width={24} height={24} />
+          <Image src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
         </div>

@@ -6,14 +6,13 @@ import { getLocalStorage } from '@/utils/helper'
 
 import { apiBase } from '.'
 
-const accessToken = getLocalStorage(authenticationConfig.accessToken)
-
+const accessToken = () => getLocalStorage(authenticationConfig.accessToken)
 export const accountApi = {
   getProfile() {
     return apiBase.get<AccountInformation>('/users/me', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -21,7 +20,7 @@ export const accountApi = {
     return apiBase.put<Partial<AccountInformation>, AccountInformation>('/users/me', body, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -29,7 +28,7 @@ export const accountApi = {
     return apiBase.get<ListAddressResponse>('/addresses', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -37,7 +36,7 @@ export const accountApi = {
     return apiBase.post<Partial<AddressBody>, AddressType>('/addresses', body, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -45,7 +44,7 @@ export const accountApi = {
     return apiBase.put<Partial<AddressBody>, AddressType>(`/addresses/${id}`, body, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -53,7 +52,7 @@ export const accountApi = {
     return apiBase.delete<AddressType>(`/addresses/${id}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   },
@@ -61,7 +60,7 @@ export const accountApi = {
     return apiBase.get<AestheticProviderResponse>('/aesthetics', {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken()}`
       }
     })
   }
