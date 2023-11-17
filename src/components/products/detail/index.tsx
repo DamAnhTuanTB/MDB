@@ -22,9 +22,11 @@ export default function ProductDetailComponent({ data, relatedProducts }: Props)
         <Description data={data} />
       </div>
       <hr className={classNames(styles.hr, 'hidden lg:block')} />
-      <div className={styles.related}>
-        <RelatedProduct products={relatedProducts} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
-      </div>
+      {relatedProducts.length > 0 ? (
+        <div className={styles.related}>
+          <RelatedProduct products={relatedProducts} title="You May Also Like" className="xl:px-[70px]" listClassName="mt-4 lg:mt-10" />
+        </div>
+      ) : null}
       <Reviews />
     </>
   )

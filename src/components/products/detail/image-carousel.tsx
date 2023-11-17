@@ -57,7 +57,7 @@ export default function ImageCarousel({ images }: Props) {
           <Image loading="eager" src={img.url} width={600} height={600} alt={img.key} />
         </div>
       )),
-    []
+    [images]
   )
 
   return (

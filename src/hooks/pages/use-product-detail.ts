@@ -5,7 +5,7 @@ import { Product, PRODUCT_ATTRIBUTE } from '@/types/product'
 import { findObjectByName } from '@/utils/helper'
 
 export const useProductDetail = (data?: Product) => {
-  const [selectedSize, setSelectedSize] = useState<string>('')
+  const [selectedSize, setSelectedSize] = useState<string | number>('')
   const [unit, setUnit] = useState<string>('')
 
   const { data: sizeOptionsData, getProductList } = useProduct()
@@ -20,6 +20,7 @@ export const useProductDetail = (data?: Product) => {
 
   useEffect(() => {
     getSizes()
+    setSelectedSize(data?.size || '')
   }, [data])
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export const useProductDetail = (data?: Product) => {
       const productSize = sizeOptionsData?.results?.find((item) => item.size == Number(value))
       setUnit(findObjectByName(productSize?.attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || '')
     },
-    [sizeOptionsData?.results]
+    [selectedSize, sizeOptionsData?.results]
   )
 
   return {
