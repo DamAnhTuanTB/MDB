@@ -101,23 +101,18 @@ export default function Cart() {
     )
   }, [cart.listProd])
 
-  const loadDataCart = () => {
-    getCart()
-  }
-
   return (
     <Popover
       anchorEl={{ vertical: 'bottom', horizontal: 'right' }}
       anchorPosition={{ vertical: 'top', horizontal: 'right' }}
-      className={`${styles.content__nav__item}`}
+      className={stylesPopoverCart.content__nav__item}
       anchor={
         <div ref={(ref) => (anchorRef.current = ref)}>
-          <Image src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
+          <Image className='!w-4 lg:!w-6' src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
         </div>
       }
-      onOpen={loadDataCart}
     >
       {listProd}
     </Popover>

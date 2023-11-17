@@ -55,6 +55,14 @@
       @apply bg-red-500 rounded-full;
       min-width: 16px;
     }
+
+    &__icon {
+      @apply hidden;
+    }
+
+    img {
+      @apply w-[16px] hidden;
+    }
   }
 }
 

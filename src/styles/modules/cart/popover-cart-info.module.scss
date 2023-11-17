@@ -1,5 +1,6 @@
 .popover {
   @apply flex flex-col items-center;
+
   &__header {
     @apply flex justify-between w-full px-6;
     @apply font-semibold text-base;
