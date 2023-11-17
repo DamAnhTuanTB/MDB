@@ -44,13 +44,13 @@ export default function ProductItem({ product, category, className, page = '', t
     if (addData) {
       addToFavorites(product)
     }
-  }, [addData])
+  }, [addData, addToFavorites, product])
 
   useEffect(() => {
     if (removeData?.data?.productId == product.id) {
       removeFromFavorites(product)
     }
-  }, [removeData])
+  }, [removeData, removeFromFavorites, product])
 
   const handleChangeFavorite = () => {
     if (!isLoggedIn) {
@@ -85,6 +85,8 @@ export default function ProductItem({ product, category, className, page = '', t
     }
   }, [product])
 
+  const discountedPrice = (product?.price || 0) * (1 - (product?.discount ?? 0) / 100)
+
   return (
     <div className={classNames(styles.item, [styles[page]], className)} data-id={product?.id}>
       <div onClick={handleChangeFavorite} className={classNames(styles.item__favorite, { [styles['active']]: isFavorite })} />
@@ -98,8 +100,21 @@ export default function ProductItem({ product, category, className, page = '', t
         </Link>
       </div>
       <h3 className={styles.item__name}>{product?.name}</h3>
-      <div className={styles.item__rating}>{ratingElements}</div>
-      <p className={styles.item__price}>{currencyFormatter.format(product?.price)}</p>
+      {product?.discount != 0 ? (
+        <>
+          <div className={styles.item__discount}>
+            <span>Sale {product?.discount}%</span>
+          </div>
+          <p className={styles.item__wholesale}>
+            {currencyFormatter.format(discountedPrice)} <span>{currencyFormatter.format(product?.price || 0)}</span>
+          </p>
+        </>
+      ) : (
+        <>
+          <div className={styles.item__rating}>{ratingElements}</div>
+          <p className={styles.item__price}>{currencyFormatter.format(discountedPrice)}</p>
+        </>
+      )}
       {dataAdd && <ButtonAddToCart className={styles.item__button} data={dataAdd} />}
     </div>
   )

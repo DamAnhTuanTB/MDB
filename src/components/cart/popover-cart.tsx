@@ -17,14 +17,14 @@ import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
 
 export default function Cart() {
-  const { isLoggedIn } = useAuthStore()
-  const { cart, setCartStore } = useCartStore()
+  const { isLoading } = useAuthStore()
+  const { cart } = useCartStore()
   const { countCart, getCart, dataCart } = useCart()
   const router = useRouter()
   const anchorRef = useRef<HTMLDivElement | null>()
 
   useEffect(() => {
-    if (!isLoggedIn) getCart()
+    if (!isLoading) getCart()
 
     // listener localStorage change
     window.addEventListener('storage', () => listenerLocalStorage())
@@ -32,8 +32,11 @@ export default function Cart() {
   }, [])
 
   useEffect(() => {
-    if (isLoggedIn) countCart()
-  }, [isLoggedIn])
+    if (!isLoading) {
+      countCart()
+      getCart()
+    }
+  }, [isLoading])
 
   /** Func update Badge number when localStorage change */
   const listenerLocalStorage = () => {
@@ -60,21 +63,25 @@ export default function Cart() {
             <div className={stylesPopoverCart.popover__grid}>
               {dataCart?.isLoading && <div className={'flex mx-auto my-10 justify-center'}>Loading...</div>}
               {cart?.listProd?.map((item, idx) => {
-                const { images, name, sizes, price, attributeGroups, size } = item.product || {}
+                const { images, name, price, attributeGroups, discount } = item.product || {}
                 const { quantity } = item
                 const unit = findObjectByName(attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || ''
-
                 const img = images?.find((i, idx) => i.isDefault)?.url
+                const discountedPrice = (price || 0) * (1 - (discount ?? 0) / 100)
+
                 return (
                   <div key={idx} className={stylesPopoverCart.popover__row}>
                     <Image src={img} className={'!w-50 !sm:w-100'} alt="" />
                     <div className={stylesPopoverCart.popover__item__decription}>
-                      <div className={'line-clamp-2'}>{name}</div>
+                      <div className={'line-clamp-2'}>
+                        {name}
+                        {discount != 0 ? <span> (Worth {currencyFormatter.format(price || 0)})</span> : null}
+                      </div>
                       {'\n'}Qty:{quantity || 0}
                       {'\n'}Size:{item?.product?.size || 0} {unit}
                     </div>
                     <span className={stylesPopoverCart.popover__item__price}>
-                      {currencyFormatter.format(price || 0)}
+                      {currencyFormatter.format(discountedPrice)}
                       {'\n '}
                     </span>
                   </div>
@@ -94,23 +101,18 @@ export default function Cart() {
     )
   }, [cart.listProd])
 
-  const loadDataCart = () => {
-    getCart()
-  }
-
   return (
     <Popover
       anchorEl={{ vertical: 'bottom', horizontal: 'right' }}
       anchorPosition={{ vertical: 'top', horizontal: 'right' }}
-      className={`${styles.content__nav__item}`}
+      className={stylesPopoverCart.content__nav__item}
       anchor={
         <div ref={(ref) => (anchorRef.current = ref)}>
-          <Image src={'/images/icons/cart.svg'} width={24} height={24} />
+          <Image className='!w-4 lg:!w-6' src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
         </div>
       }
-      onOpen={loadDataCart}
     >
       {listProd}
     </Popover>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { ZodType, z } from 'zod'
 
@@ -48,7 +48,7 @@ export type Props = {
 export default function AddressModal({ open, onClose, onReload, address: dataEdit, onSuccess }: Props) {
   const { profile, phoneNumber } = useAuthStore()
   const { addAddress, addData, updateAddress, updateData } = useAccountAddress()
-  const { firstName, lastName, company, city, state, country, address, zip } = dataEdit || {}
+  const { firstName, lastName, company, city, state, country, address, zip, isDefault } = dataEdit || {}
   const [isDefaultAddress, setIsDefaultAddress] = useState<boolean>(false)
   const [phoneState, setPhoneState] = useState<string | undefined>('')
 
@@ -153,7 +153,7 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
                 />
               )}
             </div>
-            <Checkbox label="Make this my default address" onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0'} labelClassName={'!text-xs -ml-2'} />
+            <Checkbox label="Make this my default address" checked={isDefault} onChange={(checked) => setIsDefaultAddress(checked)} className={'ml-0'} labelClassName={'!text-xs -ml-2'} />
             {errMess?.response?.data?.errors?.map((err: any, idx: number) => (
               <p key={idx} className="text-sm text-red mt-2">
                 {err?.message}

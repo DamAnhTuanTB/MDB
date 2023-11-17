@@ -5,7 +5,7 @@ import { cartApi } from '@/services/api/cart'
 import { useAuthStore } from '@/recoil/auth'
 import { useCartStore } from '@/recoil/cart'
 import { useNotificationUI } from '@/recoil/common-ui'
-import { CartItem, EditCart } from '@/types/cart'
+import { CartItem, EditCart, syncCart } from '@/types/cart'
 import { getLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { useFetch } from './use-fetch'
@@ -16,7 +16,7 @@ export const useCart = () => {
   const { dataResult: dataAddCart, fetch: _addCart } = useFetch({ fetcher: cartApi.addCart })
   const { dataResult: dataEditCart, fetch: _editCart } = useFetch({ fetcher: cartApi.editCart })
   const { dataResult: dataDeleteCart, fetch: _deleteCart } = useFetch({ fetcher: cartApi.deleteCart })
-  const { dataResult: dataSyncLocalToSever, fetch: _syncLocalToSever } = useFetch({ fetcher: cartApi.syncLocalToSever as any })
+  const { dataResult: dataSyncLocalToSever, fetch: _syncLocalToSever } = useFetch({ fetcher: cartApi.syncLocalToSever })
   const { isLoggedIn } = useAuthStore()
   const { setNotificationUI } = useNotificationUI()
   const { cart, dataModalAddSuccess, setCartStore, setCartModal } = useCartStore()
@@ -46,7 +46,7 @@ export const useCart = () => {
   useEffect(() => {
     if (!dataAddCart?.data) return
     if (dataAddCart?.data?.quantity === 1) {
-      setCartModal({ ...dataModalAddSuccess, ...dataAddCart?.data, isFinal: true } as any)
+      setCartModal({ ...dataModalAddSuccess, ...dataAddCart?.data, isFinal: true })
     } else {
       setCartModal()
     }
@@ -93,7 +93,7 @@ export const useCart = () => {
     if (isLoggedIn) {
       _getCart(undefined)
     } else {
-      const data = getLocalStorageCart().filter((i: any) => i.syncType !== 'delete')
+      const data = getLocalStorageCart().filter((i: CartItem) => i.syncType !== 'delete')
       setCartStore({ ...cart, listProd: data, count: data.reduce((t: number, i: CartItem) => t + i.quantity, 0) })
     }
   }
@@ -124,7 +124,7 @@ export const useCart = () => {
 
   const addCart = (params: CartItem, cb?: (type: string, openModal?: boolean) => void) => {
     // console.log('================actionAddCart================', isLoggedIn, params)
-    setCartModal({ ...params, isFinal: false } as any)
+    setCartModal({ ...params, isFinal: false })
     if (isLoggedIn) {
       _addCart({
         productId: params?.productId,
@@ -187,7 +187,7 @@ export const useCart = () => {
     if (dataSyncLocalToSever?.data) removeLocalStorage('MDB_LIST_PRODUCT_CART')
   }, [dataSyncLocalToSever])
 
-  const syncCartLocalToSever = (token: string) => {
+  const syncCartLocalToSever = () => {
     const listProd = getLocalStorageCart()?.map((i: any) => {
       const item: any = {
         productId: i.productId,
@@ -196,7 +196,7 @@ export const useCart = () => {
       if (i.syncType !== 'new') item.syncType = i.syncType
       return item
     })
-    _syncLocalToSever({ token: token, data: { cartItems: listProd } })
+    _syncLocalToSever({ cartItems: listProd } as syncCart)
   }
   const syncCartSeverToLocal = () => {
     setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(cart.listProd))

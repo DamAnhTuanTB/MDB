@@ -35,6 +35,10 @@
       @apply relative flex-1;
     }
 
+    &__save {
+      @apply mt-2 text-base font-semibold;
+    }
+
     &__rating {
       @apply mt-1 text-sm;
       @apply lg:text-base;

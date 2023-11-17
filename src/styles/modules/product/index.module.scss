@@ -106,7 +106,7 @@
   }
 
   &__rating {
-    @apply mt-4 flex flex-row gap-1 justify-center;
+    @apply mt-5 mb-[33px] flex flex-row gap-1 justify-center;
 
     &__star {
       @apply w-[25px] h-[25px] bg-[url(/images/icons/star_empty.svg)] bg-contain bg-no-repeat;
@@ -123,12 +123,24 @@
     }
   }
 
-  &__price {
-    @apply text-base font-semibold text-center mt-4;
+  &__discount {
+    @apply mt-4 text-base font-semibold text-blue flex justify-center items-center;
+
+    span {
+      @apply border-[1px] rounded-lg border-blue px-[25px] py-3;
+    }
   }
 
-  &__button {
-    @apply mt-4;
+  &__wholesale {
+    @apply text-base font-semibold text-center mt-4 mb-[26px];
+
+    span {
+      @apply text-grey line-through;
+    }
+  }
+
+  &__price {
+    @apply text-base font-semibold text-center mb-[26px];
   }
 
   &__detail {

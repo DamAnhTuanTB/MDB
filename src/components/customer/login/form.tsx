@@ -23,24 +23,15 @@ const schema = z.object({
 
 export default function LoginForm() {
   const { isLoggedIn, isLoading: isLoadingStage } = useAuthStore()
-  const { login, isLoading, errorMessage, data: loginData } = useCustomerLogin()
-  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false)
+  const { login, isLoading, errorMessage, data } = useCustomerLogin()
   const { query, push } = useRouterWithQueryParams()
 
   useEffect(() => {
-    if (isLoading) setIsLoadingPage(true)
-  }, [isLoading])
-
-  useEffect(() => {
-    if (errorMessage) setIsLoadingPage(false)
-  }, [errorMessage])
-
-  useEffect(() => {
-    if (isLoggedIn && !isLoadingStage) {
+    if (isLoggedIn) {
       if (query?.url) push({ pathname: query?.url.toString() })
       else push(routes.homePage())
     }
-  }, [isLoggedIn, isLoadingStage])
+  }, [isLoggedIn])
 
   return (
     <div className={styles.wrapper}>
@@ -54,7 +45,7 @@ export default function LoginForm() {
             <TextField showErrorMessage required label="Password" name="password" placeholder="Password" type="password" isLoading={isLoading} isError={!!errorMessage} />
           </div>
           {errorMessage && <p className={classNames(styles.description, 'text-red')}>{errorMessage}</p>}
-          <Button type="submit" className={styles.form__button} isLoading={isLoadingPage}>
+          <Button type="submit" className={styles.form__button} isLoading={isLoading}>
             Login
           </Button>
           <div className={classNames(styles.form__redirect, 'flex flex-col items-start md:items-center md:flex-row md:justify-between')}>

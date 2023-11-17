@@ -1,8 +1,5 @@
-import { useEffect } from 'react'
-
 import { accountApi } from '@/services/api/account'
 
-import { useAuthStore } from '@/recoil/auth'
 import { AccountInformation } from '@/types/account/information'
 
 import { useFetch } from '../use-fetch'

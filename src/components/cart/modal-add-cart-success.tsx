@@ -30,10 +30,12 @@ export default function ModalAddCartSuccess(props: any) {
   const { editCart, deleteCart, dataDeleteCart } = useCart()
 
   const { sizeOptions, selectedSize, sizeOptionsData, setSelectedSize, handleUpdateSize } = useProductDetail(dataProps?.product)
+
   const product = useMemo(
     () => sizeOptionsData?.results?.find((prod) => prod?.size === (Number(selectedSize) || dataProps?.product?.size)) || dataProps?.product,
     [sizeOptionsData, selectedSize, dataProps]
   )
+
   const image = useMemo(() => product?.images?.find((item: any) => item.isDefault), [product?.images, dataProps, product])
 
   // load list Prod May be Also Like
@@ -53,7 +55,6 @@ export default function ModalAddCartSuccess(props: any) {
   const _editCart = (params: any) => {
     if (timer.current) clearTimeout(timer.current)
     timer.current = setTimeout(() => {
-      console.log(product)
       if (product?.id) editCart({ ...params, id: dataProps?.id })
       else renderNotFound()
     }, 500)

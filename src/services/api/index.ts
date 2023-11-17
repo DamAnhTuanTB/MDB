@@ -2,7 +2,7 @@ import type { AxiosPromise, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 
 import { authenticationConfig } from '@/configs/authentication'
-import { getLocalStorage, setLocalStorage } from '@/utils/helper'
+import { getLocalStorage } from '@/utils/helper'
 
 import { customerApi } from './authentication'
 
@@ -18,12 +18,7 @@ const instance = axios.create({
 })
 
 const apiBase = {
-  get: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => {
-    if (config?.headers) {
-      config.headers.Authorization = instance.defaults.headers.common['Authorization']
-    }
-    return instance.get(url, config)
-  },
+  get: <T>(url: string, config?: AxiosRequestConfig): AxiosPromise<T> => instance.get(url, config),
 
   post: <B, T>(url: string, data?: B, config?: AxiosRequestConfig): AxiosPromise<T> => instance.post(url, data, config),
 
@@ -36,9 +31,7 @@ let isRefreshed: boolean = false
 let isRefreshing: boolean = false
 
 instance.interceptors.response.use(
-  (response) => {
-    return response
-  },
+  (response) => response,
   async (error) => {
     if (error.response && error.response.status === 401) {
       if (!isRefreshed) {
@@ -52,7 +45,7 @@ instance.interceptors.response.use(
             instance.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
 
             // Save new token to localStorage
-            setLocalStorage(authenticationConfig.accessToken, response.data.accessToken)
+            // setLocalStorage(authenticationConfig.accessToken, response.data.accessToken)
 
             // Token has expired or is invalid
             // Perform actions to refresh the token
