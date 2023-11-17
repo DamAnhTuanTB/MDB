@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import classNames from 'classnames'
 
+import useDevice from '@/hooks/use-device'
 import styles from '@/styles/modules/popover.module.scss'
 
 type Anchor = {
@@ -26,7 +27,8 @@ export default function Popover(props: Props) {
 
   const popover = useRef<HTMLDivElement>(null)
   const openRef = useRef<boolean>(open)
-
+  const timeoutRef = useRef<number | null>(null)
+  const { isPc } = useDevice()
   const { vertical: elVertical = 'top', horizontal: elHorizontal = 'center' }: Anchor = anchorEl
   const { vertical: posVertical = 'top', horizontal: posHorizontal = 'center' }: Anchor = anchorPosition
 
@@ -61,11 +63,30 @@ export default function Popover(props: Props) {
 
   /** Func on/off popover */
   const togglePopover = useCallback(() => {
-    setOpen(!openRef.current)
+    if (!isPc) {
+      setOpen(!openRef.current)
+    }
   }, [openRef.current])
 
+  const handleMouseEnter = () => {
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+    setOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current)
+    }
+    timeoutRef.current = window.setTimeout(() => {
+      setOpen(false)
+    }, 150)
+  }
+
   return (
-    <div ref={popover} className={classNames('relative', className)}>
+    <div ref={popover} className={classNames('relative', className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div onClick={togglePopover} className={'cursor-pointer'}>
         {renderAnchor()}
       </div>
@@ -76,7 +97,10 @@ export default function Popover(props: Props) {
             styles[`wrapper__el__${elVertical}`],
             styles[`wrapper__el__${elHorizontal}`],
             styles[`wrapper__pos__${posVertical}`],
-            styles[`wrapper__pos__${posHorizontal}`]
+            styles[`wrapper__pos__${posHorizontal}`],
+            {
+              [styles.active]: open
+            }
           )}
         >
           {children}
