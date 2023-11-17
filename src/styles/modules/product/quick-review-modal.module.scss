@@ -25,6 +25,10 @@
     }
   }
 
+  &__save {
+    @apply text-sm mt-2 font-semibold;
+  }
+
   h4 {
     @apply font-semibold;
   }
