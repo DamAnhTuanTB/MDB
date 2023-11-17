@@ -18,6 +18,7 @@ import SelectField from '@/components/form/select-field'
 import Button from '../common/button'
 import Modal from '../common/modal'
 import Quantity from '../common/quantity'
+import Link from '@/components/common/custom-link'
 
 export default function ModalAddCartSuccess(props: any) {
   const timer = useRef<any>()
@@ -62,9 +63,6 @@ export default function ModalAddCartSuccess(props: any) {
 
   const renderNotFound = () => {
     return setNotificationUI({ open: true, message: 'Not found id', type: 'success' })
-  }
-  const goCart = () => {
-    push(routes.cartPage())
   }
 
   const _onDelete = () => {
@@ -129,9 +127,9 @@ export default function ModalAddCartSuccess(props: any) {
             </div>
           </div>
         </CustomForm>
-        <Button className={'!w-[200px] mt-6'} onClick={goCart}>
+        <Link className={'!w-[200px] mt-6'} href={routes.cartPage()}>
           Checkout
-        </Button>
+        </Link>
         <Button variant={'outlined'} className={'!w-[200px]'} onClick={_onClose}>
           Return to Shopping
         </Button>

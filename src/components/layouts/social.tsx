@@ -7,6 +7,8 @@ import classNames from 'classnames'
 import styles from '@/styles/layout/social.module.scss'
 import { MediaIcon } from '@/types/footer'
 
+import Link from '../common/custom-link'
+
 type Props = {
   icons: MediaIcon[]
   className?: string
@@ -18,9 +20,9 @@ function Social({ icons, className }: Props) {
       icons &&
       icons.map((item) => (
         <li key={item.id}>
-          <a href={item.urlLink} target="_blank">
+          <Link href={item.urlLink} isExternal={true}>
             <Image src={item.imageUrl} width={32} height={32} alt={item.name} />
-          </a>
+          </Link>
         </li>
       )),
     [icons]

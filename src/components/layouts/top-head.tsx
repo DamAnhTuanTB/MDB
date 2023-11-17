@@ -5,6 +5,7 @@ import styles from '@/styles/layout/top-head.module.scss'
 import Link from '@/components/common/custom-link'
 
 import Promotion from './promotion'
+import routes from '@/routes'
 
 export default function TopHead() {
   return (
@@ -17,7 +18,7 @@ export default function TopHead() {
       <div className={styles.promotion}>
         <Promotion />
       </div>
-      <Link className={styles.link} href={'/'}>
+      <Link className={styles.link} href={routes.homePage()}>
         <span className={styles.link__sp}>Affiliate? Click Here!</span>
         <span className={styles.link__pc}>Click here to become an affiliate</span>
       </Link>
