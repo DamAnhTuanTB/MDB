@@ -24,7 +24,6 @@ type stepType = {
 export default function MyCartComponent() {
   const { cart } = useCartStore()
   const { getProductList, data, isLoading: isLoadingRelated } = useProduct()
-  const { getCart, dataCart } = useCart()
   const { dataModalAddSuccess } = useCartStore()
 
   const stepData: stepType[] = [
@@ -102,6 +101,7 @@ const CartITem = (props: { data: CartItem }) => {
   const img = useMemo(() => images?.find((i: ProductImage, idx: number) => i.isDefault)?.url, [images])
 
   if (props.data?.syncType === 'delete') return null
+  const discountedPrice = (product?.price || 0) * (1 - (product?.discount ?? 0) / 100)
 
   return (
     <div className={styles.body__tr}>
@@ -171,8 +171,10 @@ const CartITem = (props: { data: CartItem }) => {
           editCart({ productId: id, id, quantity: vl })
         }}
       />
-      <div className={`${styles.body__item__price} invisible md:visible`}>{currencyFormatter.format(product?.price || 0)}</div>
-      <div className={styles.body__item__price}>{currencyFormatter.format((product?.price || 0) * quantitySelected || 0)}</div>
+      <div className={`${styles.body__item__price} invisible md:visible`}>
+        {currencyFormatter.format(discountedPrice)} <span>{currencyFormatter.format(product?.price || 0)}</span>
+      </div>
+      <div className={styles.body__item__price}>{currencyFormatter.format(discountedPrice * quantitySelected || 0)}</div>
     </div>
   )
 }

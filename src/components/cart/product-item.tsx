@@ -34,7 +34,7 @@ export default function ProductItem({ product, category, className, page = '', t
 
   const featuredImage = useMemo(() => product?.images && product.images.find((img) => img.isDefault), [product?.images])
   const currentCategory = category || product?.categories?.length > 0 ? product?.categories[0] : ({} as ProductCategory)
-  const { handleUpdateSize, selectedSize, sizeOptions, unit } = useProductDetail(product)
+  const { handleUpdateSize, sizeOptions } = useProductDetail(product)
   const [selectedQuantity, setSelectedQuantity] = useState<number>(1)
   const dataAdd = useMemo(() => {
     return {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import classNames from 'classnames'
 
@@ -6,7 +6,6 @@ import { useProductDetail } from '@/hooks/pages/use-product-detail'
 import { useRouterWithQueryParams } from '@/hooks/use-router-with-query-params'
 import routes from '@/routes'
 import styles from '@/styles/modules/product/quick-review-modal.module.scss'
-import { CartItem } from '@/types/cart'
 import { PRODUCT_ATTRIBUTE, Product } from '@/types/product'
 import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
@@ -46,6 +45,10 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
     }
   }, [sizeOptions.length, data, selectedSize, sizeOptionsData, selectedQuantity])
 
+  const originalPrice = useMemo(() => data?.price || 0, [data?.price])
+  const discountedPrice = useMemo(() => data?.wholesale || originalPrice, [data?.wholesale, originalPrice])
+  const discountAmount = useMemo(() => originalPrice - discountedPrice, [originalPrice, discountedPrice])
+
   return (
     <Modal open={open} onClose={onClose}>
       <div className={styles.body}>
@@ -59,7 +62,10 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
         </div>
         <div className={styles.content}>
           <div className={styles.image__sp} style={{ backgroundImage: `url(${image?.url})` }} />
-          <h3 className={styles.content__name}>{data?.name}</h3>
+          <h3 className={styles.content__name}>
+            {data?.name}
+            {data?.discount != 0 ? <span> (Worth {currencyFormatter.format(data?.price || 0)})</span> : null}
+          </h3>
           <p className={styles.content__brand}>{brandString}</p>
           <div className={styles.content__group}>
             <RatingCommon score={data?.averageRating || 0} />
@@ -67,10 +73,11 @@ export default function QuickReviewModal({ open, data: dataProps, onClose }: Pro
           </div>
           <div className={styles.content__group}>
             <h4>
-              {currencyFormatter.format(data?.price || 0)}
+              {currencyFormatter.format(data?.wholesale || 0)}
               <span> | </span> {data?.inStock ? ' In Stock' : ' Out of stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
+          {data?.discount != 0 && <div className={styles.content__save}>Save: {currencyFormatter.format(discountAmount)}</div>}
           <h4 className={styles.content__description__title}>Product Description</h4>
           <div className={styles.content__description}>
             <HtmlRender htmlString={data?.description || ''} />

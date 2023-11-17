@@ -98,6 +98,10 @@
     &__price {
       @apply font-normal text-black text-base line-clamp-2;
       @apply whitespace-nowrap;
+
+      span {
+        @apply text-grey line-through;
+      }
     }
 
     &__decription {

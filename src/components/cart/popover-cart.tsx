@@ -63,21 +63,25 @@ export default function Cart() {
             <div className={stylesPopoverCart.popover__grid}>
               {dataCart?.isLoading && <div className={'flex mx-auto my-10 justify-center'}>Loading...</div>}
               {cart?.listProd?.map((item, idx) => {
-                const { images, name, sizes, price, attributeGroups, size } = item.product || {}
+                const { images, name, price, attributeGroups, discount } = item.product || {}
                 const { quantity } = item
                 const unit = findObjectByName(attributeGroups || [], 'key', PRODUCT_ATTRIBUTE.UNIT)?.attributes[0]?.value || ''
-
                 const img = images?.find((i, idx) => i.isDefault)?.url
+                const discountedPrice = (price || 0) * (1 - (discount ?? 0) / 100)
+
                 return (
                   <div key={idx} className={stylesPopoverCart.popover__row}>
                     <Image src={img} className={'!w-50 !sm:w-100'} alt="" />
                     <div className={stylesPopoverCart.popover__item__decription}>
-                      <div className={'line-clamp-2'}>{name}</div>
+                      <div className={'line-clamp-2'}>
+                        {name}
+                        {discount != 0 ? <span> (Worth {currencyFormatter.format(price || 0)})</span> : null}
+                      </div>
                       {'\n'}Qty:{quantity || 0}
                       {'\n'}Size:{item?.product?.size || 0} {unit}
                     </div>
                     <span className={stylesPopoverCart.popover__item__price}>
-                      {currencyFormatter.format(price || 0)}
+                      {currencyFormatter.format(discountedPrice)}
                       {'\n '}
                     </span>
                   </div>

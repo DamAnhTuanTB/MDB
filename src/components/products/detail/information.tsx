@@ -35,15 +35,24 @@ export default function Information({ data }: Props) {
     }
   }, [data, selectedQuantity])
 
+  const originalPrice = useMemo(() => data?.price || 0, [data?.price])
+  const discountedPrice = useMemo(() => data?.wholesale || originalPrice, [data?.wholesale, originalPrice])
+  const discountAmount = useMemo(() => originalPrice - discountedPrice, [originalPrice, discountedPrice])
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.content__title}>{data?.name}</h1>
+      <h1 className={styles.content__title}>{data?.name}
+      {data?.discount != 0 ? <span> (Worth {currencyFormatter.format(data?.price || 0)})</span> : null}
+      </h1>
       <div className={styles.detail}>
         <div className={styles.detail__images}>
           <ImageCarousel images={data.images} />
         </div>
         <div className={styles.detail__information}>
-          <h1 className={classNames(styles.content__title, styles['pc'])}>{data?.name}</h1>
+          <h1 className={classNames(styles.content__title, styles['pc'])}>
+            {data?.name}
+            {data?.discount != 0 ? <span> (Worth {currencyFormatter.format(data?.price || 0)})</span> : null}
+          </h1>
           <div className={styles.detail__group}>
             <RatingCommon score={data?.averageRating} />{' '}
             <span className={styles.detail__rating}>
@@ -52,9 +61,10 @@ export default function Information({ data }: Props) {
           </div>
           <div className={styles.detail__group}>
             <h4 className={styles.detail__stock}>
-              {currencyFormatter.format(data?.price || 0)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
+              {currencyFormatter.format(discountedPrice)} <span> | </span> {data?.inStock ? 'In Stock' : 'Out Of Stock'} <span> | </span> SKU: {data?.sku}
             </h4>
           </div>
+          {data?.discount != 0 && <div className={styles.detail__save}>Save: {currencyFormatter.format(discountAmount)}</div>}
           <div className={styles.detail__description}>
             <h4 className={styles.detail__description__title}>Product Description</h4>
             <HtmlRender htmlString={data?.description} />
