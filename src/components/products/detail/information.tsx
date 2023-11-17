@@ -41,8 +41,9 @@ export default function Information({ data }: Props) {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.content__title}>{data?.name}
-      {data?.discount != 0 ? <span> (Worth {currencyFormatter.format(data?.price || 0)})</span> : null}
+      <h1 className={styles.content__title}>
+        {data?.name}
+        {data?.discount != 0 ? <span> (Worth {currencyFormatter.format(data?.price || 0)})</span> : null}
       </h1>
       <div className={styles.detail}>
         <div className={styles.detail__images}>
