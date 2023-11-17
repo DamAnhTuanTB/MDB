@@ -54,8 +54,6 @@ export default function AddressList({ addresses, onReloadList }: Props) {
     setOpenModalAdd(!openModalAdd)
   }, [openModalAdd])
 
-  console.log(addresses)
-
   const addressElements = useMemo(
     () =>
       addresses?.map((address, index) => {
