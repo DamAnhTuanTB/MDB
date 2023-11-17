@@ -20,7 +20,7 @@ import Menu from './menu'
 import Search from './search'
 import TopHead from './top-head'
 
-const accountOptionsMockData: AccountOption[] = [
+const getAccountOptionsMockData = () => [
   {
     label: 'Personal Information',
     href: routes.accountInformationPage()
@@ -67,6 +67,7 @@ export default function Header() {
   }, [])
 
   const accountOptions = useMemo(() => {
+    const accountOptionsMockData: AccountOption[] = getAccountOptionsMockData() || []
     return (
       <>
         {accountOptionsMockData?.map((item, index) => {
@@ -76,6 +77,7 @@ export default function Header() {
               className={styles.option__item}
               onClick={() => {
                 if (!profileStage) loginPutBack(item.href)
+                else if (query.affiliate) push(`${query.affiliate}${item.href}`)
                 else push(item.href)
               }}
             >
@@ -90,7 +92,7 @@ export default function Header() {
         )}
       </>
     )
-  }, [accountOptionsMockData, isLoggedIn])
+  }, [isLoggedIn])
 
   return (
     <header className={styles.wrapper}>

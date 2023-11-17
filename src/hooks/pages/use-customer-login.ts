@@ -19,7 +19,7 @@ export const useCustomerLogin = () => {
   const { setIsLoggedIn, isLoading, setProfile, profile: profileStage, setIsLoading } = useAuthStore()
   const [errorMessage, setErrorMessage] = useState<string>()
   const { getProfile, profile } = useAccountInformation()
-  const { push } = useRouterWithQueryParams()
+  const { push, query } = useRouterWithQueryParams()
   const { syncCartLocalToSever, dataSyncLocalToSever, getCart } = useCart()
 
   useEffect(() => {
@@ -68,7 +68,8 @@ export const useCustomerLogin = () => {
     push({
       pathname: '/customer/login',
       query: {
-        url: urlBack
+        url: urlBack,
+        affiliate: query.affiliate ? (query.affiliate as string) : ''
       }
     })
   }

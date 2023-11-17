@@ -15,6 +15,7 @@ import { currencyFormatter, findObjectByName } from '@/utils/helper'
 
 import Image from '@/components/common/image'
 import Popover from '@/components/common/popover'
+import Link from '@/components/common/custom-link'
 
 export default function Cart() {
   const { isLoading } = useAuthStore()
@@ -45,7 +46,7 @@ export default function Cart() {
 
   const goCart = () => {
     anchorRef.current?.click()
-    router.push(routers.cartPage())
+    // router.push(routers.cartPage())
   }
 
   const listProd = useMemo(() => {
@@ -53,9 +54,9 @@ export default function Cart() {
       <div className={stylesPopoverCart.popover}>
         <div className={stylesPopoverCart.popover__header}>
           My Cart
-          <button className={stylesPopoverCart.popover__edit} onClick={goCart}>
+          <Link className={stylesPopoverCart.popover__edit} href={routers.cartPage()} onClick={goCart}>
             Edit
-          </button>
+          </Link>
         </div>
         {/*popover content*/}
         {cart?.listProd.length > 0 ? (
@@ -88,9 +89,9 @@ export default function Cart() {
                 )
               })}
             </div>
-            <button className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} onClick={goCart}>
+            <Link className={classNames(stylesPopoverCart.btn_view_cart, 'w-[100px]')} href={routers.cartPage()} onClick={goCart}>
               View Cart
-            </button>
+            </Link>
           </>
         ) : (
           <div className={stylesPopoverCart.text}>
@@ -108,7 +109,7 @@ export default function Cart() {
       className={stylesPopoverCart.content__nav__item}
       anchor={
         <div ref={(ref) => (anchorRef.current = ref)}>
-          <Image className='!w-4 lg:!w-6' src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
+          <Image className="!w-4 lg:!w-6" src={'/images/icons/cart.svg'} width={24} height={24} alt="" />
           {/*cart badge number*/}
           {!!cart.count && <span className={styles.content__cart__badge}>{cart.count > 99 ? '99+' : cart.count}</span>}
         </div>
