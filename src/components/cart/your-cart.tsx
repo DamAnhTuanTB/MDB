@@ -125,7 +125,10 @@ const CartITem = (props: { data: CartItem }) => {
         </button>
         <CustomForm>
           <div className={styles.body__item__decription}>
-            <div className={'line-clamp-2'}>{name}</div>
+            <div className={'line-clamp-2'}>
+              {name}
+              {product?.discount != 0 && <span> (Worth {currencyFormatter.format(product?.price || 0)})</span>}
+            </div>
             <div className={'flex gap-2'}>
               <SelectField
                 className={' max-w-[100px] !md:max-w-[120px] mt-2'}
@@ -171,9 +174,7 @@ const CartITem = (props: { data: CartItem }) => {
           editCart({ productId: id, id, quantity: vl })
         }}
       />
-      <div className={`${styles.body__item__price} invisible md:visible`}>
-        {currencyFormatter.format(discountedPrice)} <span>{currencyFormatter.format(product?.price || 0)}</span>
-      </div>
+      <div className={`${styles.body__item__price} invisible md:visible`}>{currencyFormatter.format(discountedPrice)}</div>
       <div className={styles.body__item__price}>{currencyFormatter.format(discountedPrice * quantitySelected || 0)}</div>
     </div>
   )
