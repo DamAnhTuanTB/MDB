@@ -2,7 +2,7 @@ import type { AxiosPromise, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
 
 import { authenticationConfig } from '@/configs/authentication'
-import { getLocalStorage } from '@/utils/helper'
+import { getLocalStorage, setLocalStorage } from '@/utils/helper'
 
 import { customerApi } from './authentication'
 
@@ -30,19 +30,33 @@ const apiBase = {
 let isRefreshed: boolean = false
 let isRefreshing: boolean = false
 
+instance.interceptors.request.use(
+  (config) => {
+    // eslint-disable-next-line no-param-reassign
+    const currentAccessToken = getLocalStorage(authenticationConfig.accessToken) || ''
+    config.headers.Authorization = `Bearer ${currentAccessToken}`
+    return config
+  },
+  (error) => Promise.reject(error)
+)
+
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    const originalConfig = error.config
     if (error.response && error.response.status === 401) {
       if (!isRefreshed) {
         if (!isRefreshing) {
           isRefreshing = true
-          const currentToken = getLocalStorage(authenticationConfig.accessToken) || ''
-          const response = await customerApi.refreshToken({ refreshToken: currentToken })
+          const currentRefreshToken = getLocalStorage(authenticationConfig.refreshToken) || ''
 
+          const response = await customerApi.refreshToken({ refreshToken: currentRefreshToken })
           if (response.data) {
+            setLocalStorage(authenticationConfig.accessToken, response?.data?.accessToken)
+            setLocalStorage(authenticationConfig.refreshToken, response?.data?.refreshToken)
+
             // reset headers
-            instance.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`
+            originalConfig.headers.Authorization = `Bearer ${response.data.accessToken}`
 
             // Save new token to localStorage
             // setLocalStorage(authenticationConfig.accessToken, response.data.accessToken)
@@ -53,7 +67,7 @@ instance.interceptors.response.use(
             // Once the new access token is obtained, update the authorization header of the instance
             // and retry the failed request
             isRefreshed = true
-            return instance(error.config)
+            return axios(originalConfig)
           }
 
           setTimeout(() => {
