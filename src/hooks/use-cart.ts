@@ -158,7 +158,7 @@ export const useCart = () => {
       setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
       cb?.('local')
     } else {
-      listProd.push({ ...params, syncType: 'new' })
+      listProd.push({ ...params, syncType: 'update' })
       setLocalStorage('MDB_LIST_PRODUCT_CART', JSON.stringify(listProd))
       setCartModal({ ...params, isFinal: true } as any)
       cb?.('local', true)
