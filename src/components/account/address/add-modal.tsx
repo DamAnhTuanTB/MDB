@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { usePlacesWidget } from 'react-google-autocomplete'
 import { ZodType, z } from 'zod'
 
 import { validates } from '@/configs/validate'
+import { GOOGLE_MAPS_API_KEY } from '@/constants/place'
 import { useAccountAddress } from '@/hooks/pages/use-account-address'
 import { useAuthStore } from '@/recoil/auth'
 import styles from '@/styles/modules/account/modal.module.scss'
@@ -17,7 +19,6 @@ import TextField from '@/components/form/text-field'
 import Checkbox from '../../common/checkbox'
 
 // import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
-// import { GOOGLE_MAPS_API_KEY } from '@/constants/place'
 
 export const schema = z.object({
   firstName: z.string(),
@@ -51,6 +52,8 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
   const { firstName, lastName, company, city, state, country, address, zip, isDefault } = dataEdit || {}
   const [isDefaultAddress, setIsDefaultAddress] = useState<boolean>(false)
   const [phoneState, setPhoneState] = useState<string | undefined>('')
+  // const [places, setPlaces] = useState({ state: '', city: '' })
+  const inputCity = useRef(null)
 
   const timer = useRef<any>(null)
 
@@ -84,6 +87,30 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
 
   const errMess = useMemo(() => addData?.error || updateData?.error, [addData?.error, updateData?.error])
 
+  const { ref } = usePlacesWidget({
+    apiKey: GOOGLE_MAPS_API_KEY,
+    onPlaceSelected: (place) => {
+      const addressComponents = place?.address_components || []
+      let city, state, county
+
+      console.log({ addressComponents })
+
+      addressComponents.forEach((component: any) => {
+        if (component.types.includes('locality')) {
+          city = component.long_name
+        } else if (component.types.includes('administrative_area_level_1')) {
+          state = component.long_name
+        } else if (component.types.includes('administrative_area_level_2')) {
+          county = component.long_name
+        }
+      })
+
+      console.log({ city, state })
+    }
+  })
+
+  console.log('inputCity', inputCity)
+
   return (
     <Modal className={styles.modal} bodyClassName={styles.modal__body} open={open} onClose={onClose}>
       <h4 className={styles.modal__label}>{`${dataEdit ? 'Update' : 'Add New'} Address`}</h4>
@@ -105,10 +132,10 @@ export default function AddressModal({ open, onClose, onReload, address: dataEdi
               <TextField showErrorMessage inputClassName={styles.form__input} defaultValue={company || ''} name="company" placeholder="Company (optional)" />
             </div>
             <div className={styles.form__field}>
-              <TextField showErrorMessage required inputClassName={styles.form__input} defaultValue={address || ''} name="address" placeholder="Address" />
+              <TextField inputRef={ref} showErrorMessage required inputClassName={styles.form__input} defaultValue={address || ''} name="address" placeholder="Address" />
             </div>
             <div className={`${styles.form__field} ${styles.form__field__city}`}>
-              <TextField showErrorMessage required inputClassName={styles.form__input} width={'100%'} defaultValue={city || ''} name="city" placeholder="City" />
+              <TextField inputRef={inputCity} showErrorMessage required inputClassName={styles.form__input} width={'100%'} defaultValue={city || ''} name="city" placeholder="City" />
             </div>
             <div className={styles.form__group__lg}>
               <div className={styles.form__field}>
