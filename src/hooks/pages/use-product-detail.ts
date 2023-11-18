@@ -19,9 +19,11 @@ export const useProductDetail = (data?: Product) => {
   }
 
   useEffect(() => {
-    getSizes()
-    setSelectedSize(data?.size || '')
-  }, [data])
+    if (!selectedSize) {
+      getSizes()
+      setSelectedSize(data?.size || '')
+    }
+  }, [data, selectedSize])
 
   useEffect(() => {
     if (data && sizeOptionsData?.results) {
